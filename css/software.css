@@ -114,10 +114,6 @@ footer.footer .social-link:active {
     position: relative;
 }
 
-.software-logo {
-    width: 2rem;
-}
-
 .header-number {
     --size: 3rem;
     position: absolute;
@@ -137,4 +133,16 @@ footer.footer .social-link:active {
 .header-desc {
     font-size: 16px;
     font-style: italic
+}
+
+.header-title {
+    font-weight: bold;
+}
+
+.software-item {
+    padding: 0.5rem;
+}
+
+.software-logo {
+    height: 2rem;
 }
