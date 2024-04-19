@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="Making citing software easy" />
+        <meta name="author" content="Tom Wagg" />
+
+        <title>The Software Cite</title>
+        <link href="../img/icon.png" rel="icon" />
+
+        <!-- Bootstrap -->
+        <link href="bootstrap-5.3.3-dist/css/bootstrap.min.css" rel="stylesheet" />
+
+        <!-- Bootstrap core JavaScript -->
+        <script src="bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- icons and fonts -->
+        <script src="https://kit.fontawesome.com/328d20ce71.js" crossorigin="anonymous"></script>
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;700;900&display=swap" rel="stylesheet" />
+
+        <!-- random css -->
+        <link href="../css/animate.css" rel="stylesheet" />
+        <link href="../css/dark_mode.css" rel="stylesheet" />
+        <link href="../css/software.css" rel="stylesheet" />
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+                       MathJax.Hub.Config({
+                           "HTML-CSS": { linebreaks: { automatic: true } },
+                                   SVG: { linebreaks: { automatic: true } }
+                           });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML" async></script>
+    </head>
+
+    <body>
+        <label for="dark-mode-checkbox" class="dark-mode-label">
+            <input type="checkbox" id="dark-mode-checkbox" />
+            <span class="dark-mode-ball"></span>
+            <svg viewBox="0 0 512 512" class="sun-svg">
+                <path
+                    id="sun-svg"
+                    d="M256 160c-52.9 0-96 43.1-96 96s43.1 96 96 96 96-43.1 96-96-43.1-96-96-96zm246.4 80.5l-94.7-47.3 33.5-100.4c4.5-13.6-8.4-26.5-21.9-21.9l-100.4 33.5-47.4-94.8c-6.4-12.8-24.6-12.8-31 0l-47.3 94.7L92.7 70.8c-13.6-4.5-26.5 8.4-21.9 21.9l33.5 100.4-94.7 47.4c-12.8 6.4-12.8 24.6 0 31l94.7 47.3-33.5 100.5c-4.5 13.6 8.4 26.5 21.9 21.9l100.4-33.5 47.3 94.7c6.4 12.8 24.6 12.8 31 0l47.3-94.7 100.4 33.5c13.6 4.5 26.5-8.4 21.9-21.9l-33.5-100.4 94.7-47.3c13-6.5 13-24.7.2-31.1zm-155.9 106c-49.9 49.9-131.1 49.9-181 0-49.9-49.9-49.9-131.1 0-181 49.9-49.9 131.1-49.9 181 0 49.9 49.9 49.9 131.1 0 181z"
+                ></path>
+            </svg>
+            <svg viewBox="0 0 512 512" class="moon-svg">
+                <path id="moon-svg" d="M283.211 512c78.962 0 151.079-35.925 198.857-94.792 7.068-8.708-.639-21.43-11.562-19.35-124.203 23.654-238.262-71.576-238.262-196.954 0-72.222 38.662-138.635 101.498-174.394 9.686-5.512 7.25-20.197-3.756-22.23A258.156 258.156 0 0 0 283.211 0c-141.309 0-256 114.511-256 256 0 141.309 114.511 256 256 256z"></path>
+            </svg>
+        </label>
+
+        <div class="container-fluid mt-4 mb-5">
+            <div class="row align-items-center">
+                <div class="col-12 col-md-12 text-center">
+                    <div class="display-2 fw-bold">The Software Cite</div>
+                    <div class="fs-3">The one-stop shop for citing software used in your research</div>
+                </div>
+            </div>
+
+            <div class="row mt-5 mb-3">
+                <div class="col-12 col-lg-6 mb-2 mb-lg-0">
+                    <div id="software-selection" class="rounded-box">
+                        <div class="header-number">1</div>
+                        <h3>Select the software</h3>
+                        <p class="header-desc">Use the buttons below to select the software that you used in your research</p>
+                        <div id="software-list">
+                            <button class="btn btn-primary" data-tag="software-tag" class="software-item"><img class="software-logo" src="img/python.png" /><span class="software-name">Software name</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="row">
+                        <div class="col-6 col-lg-12 mb-0 mb-lg-2">
+                            <div id="acknowledgement-box" class="rounded-box">
+                                <div class="header-number">2</div>
+                                <h3>Copy the acknowledgement</h3>
+                                <p class="header-desc">Copy the acknowledgement that is created here into your LaTeX manuscript</p>
+                                <div id="acknowledgement"></div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-12">
+                            <div id="bibtex-box" class="rounded-box">
+                                <div class="header-number">3</div>
+                                <h3>Save the bibtex</h3>
+                                <p class="header-desc">Save this bibtex file and import it in your manuscript</p>
+                                <div id="bibtex"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row mb-3 mt-5">
+                <div class="col">
+                    <h2 class="text-center">Why is it important?</h2>
+                    <p>Here's a lot of words about why we need to be citing software Here's a lot of words about why we need to be citing software Here's a lot of words about why we need to be citing software Here's a lot of words about why we need to be citing software Here's a lot of words about why we need to be citing software Here's a lot of words about why we need to be citing software</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="javascriptbox">
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+            <script src="../js/dark_mode.js"></script>
+            <script src="../js/gerald.js"></script>
+        </div>
+    </body>
+</html>
