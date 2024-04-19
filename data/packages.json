@@ -1,0 +1,5 @@
+{
+    "python": ["python"],
+    "numpy": ["numpy"],
+    "gyre": ["Townsend+2013", "Townsend+2018", "Goldstein+2020", "Sun+2023"]
+}
