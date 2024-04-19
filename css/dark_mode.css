@@ -1,0 +1,86 @@
+/* Dark mode: I copied/modified this from https://animate.style/ */
+.dark-mode-label #dark-mode-checkbox {
+    position: absolute;
+    visibility: hidden;
+}
+
+.dark-mode-label {
+    display: block;
+    height: 31px;
+    width: 60px;
+    border: 2px solid var(--primary);
+    border-radius: 30px;
+    position: fixed;
+    left: 5px;
+    top: 5px;
+    cursor: pointer;
+    z-index: 100;
+}
+
+.dark-mode-label.top-right {
+    position: absolute;
+    right: 5px;
+    left: unset;
+}
+
+.dark-mode-label .dark-mode-ball {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    top: 1px;
+    left: 1px;
+    border-radius: 50%;
+    background: var(--primary);
+    z-index: 99;
+    transition: 300ms;
+}
+
+.dark-mode-label #dark-mode-checkbox:checked + .dark-mode-ball {
+    transform: translateX(28px);
+}
+
+.moon-svg,
+.sun-svg {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.moon-svg {
+    right: 5px;
+}
+
+.sun-svg {
+    left: 5px;
+}
+
+.dark .dark-mode-label svg {
+    filter: invert(100%);
+}
+
+.dark .dark-mode-label {
+    background: none;
+}
+
+body.dark {
+    background-color: #333;
+    color: white;
+}
+
+.dark .img-overlay,
+.dark .list-group-item,
+.dark .list-group-item .form-check-input,
+.dark .card,
+.dark .dropdown-menu {
+    background-color: #333;
+}
+
+.dark .progress-container {
+    background-color: #4a4a4a;
+}
+
+.dark .list-group-item {
+    color: white;
+}
