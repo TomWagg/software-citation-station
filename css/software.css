@@ -81,7 +81,7 @@ footer.footer .social-link:active {
     background-color: var(--primary-dark);
 }
 
-.btn.btn-primary:active {
+.btn.btn-primary:active, .btn.btn-primary.active {
     background-color: var(--primary-dark);
 }
 
@@ -145,4 +145,25 @@ footer.footer .social-link:active {
 
 .software-logo {
     height: 2rem;
+}
+
+#acknowledgement,
+#bibtex {
+    background-color: #333;
+    color: white;
+    font-size: 16px;
+}
+
+body.dark #acknowledgement,
+body.dark #bibtex {
+    background-color: #333;
+    color: white;
+    font-size: 16px;
+}
+
+#acknowledgement,
+#bibtex {
+    background-color: white;
+    color: black;
+    font-size: 16px;
 }
