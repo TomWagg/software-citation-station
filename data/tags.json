@@ -1,0 +1,14 @@
+{
+    "python": {
+        "tags": ["python"],
+        "logo": "img/python.png"
+    },
+    "numpy": {
+        "tags": ["numpy"],
+        "logo": "img/numpy.svg"
+    },
+    "gyre": {
+        "tags": ["Townsend+2013", "Townsend+2018", "Goldstein+2020", "Sun+2023"],
+        "logo": "img/gyre.webp"
+    }
+}
