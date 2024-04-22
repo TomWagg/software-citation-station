@@ -60,6 +60,17 @@ Promise.all([
 
             // add the bibtex entries
             bibtex_box.innerHTML = bibs_to_add.join("\n\n");
+
+            // create a button that copies the contents of each
+            for (let to_be_copied of [ack, bibtex_box]) {
+                let copy_btn = document.getElementById("copy-template").cloneNode(true);
+                copy_btn.className = "btn btn-dark copy-button"
+                copy_btn.id = ""
+                copy_btn.addEventListener('click', function() {
+                    navigator.clipboard.writeText(to_be_copied.innerText);
+                });
+                to_be_copied.appendChild(copy_btn)
+            }
         });
 
         // unhide the button and add it to the list

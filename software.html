@@ -16,7 +16,7 @@
         <script src="bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
 
         <!-- icons and fonts -->
-        <!-- <script src="https://kit.fontawesome.com/328d20ce71.js" crossorigin="anonymous"></script> -->
+        <script src="https://kit.fontawesome.com/328d20ce71.js" crossorigin="anonymous"></script>
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;700;900&display=swap" rel="stylesheet" />
 
@@ -27,6 +27,7 @@
     </head>
 
     <body>
+        <button class="btn btn-dark copy-button hide" id="copy-template"><i class="fa fa-copy"></i></button>
         <label for="dark-mode-checkbox" class="dark-mode-label">
             <input type="checkbox" id="dark-mode-checkbox" />
             <span class="dark-mode-ball"></span>
@@ -67,7 +68,9 @@
                                 <div class="header-number">2</div>
                                 <h3 class="header-title">Copy the acknowledgement</h3>
                                 <p class="header-desc">Copy the acknowledgement that is created here into your LaTeX manuscript</p>
-                                <pre id="acknowledgement" class="rounded-box"><i>Acknowledgement will go here</i></pre>
+                                <pre id="acknowledgement" class="rounded-box">
+                                    <i>Acknowledgement will go here</i>
+                                </pre>
                             </div>
                         </div>
                         <div class="col-6 col-lg-12">

@@ -147,13 +147,6 @@ footer.footer .social-link:active {
     height: 2rem;
 }
 
-#acknowledgement,
-#bibtex {
-    background-color: #333;
-    color: white;
-    font-size: 16px;
-}
-
 body.dark #acknowledgement,
 body.dark #bibtex {
     background-color: #333;
@@ -168,8 +161,18 @@ body.dark #bibtex {
     font-size: 16px;
 }
 
+.copy-button {
+    position: absolute;
+    right: -1px;
+    top: -1px;
+    border-radius: 0;
+    font-size: 14px;
+    border-bottom-left-radius: 18px;
+}
+
 #acknowledgement {
     white-space: wrap;
+    overflow-x: clip;
 }
 
 #bibtex {
