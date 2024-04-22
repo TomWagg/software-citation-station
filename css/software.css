@@ -161,13 +161,24 @@ body.dark #bibtex {
     font-size: 16px;
 }
 
-.copy-button {
+.corner-button {
     position: absolute;
     right: -1px;
     top: -1px;
     border-radius: 0;
-    font-size: 14px;
+    font-size: 14px!important;
     border-bottom-left-radius: 18px;
+    border-top-right-radius: 20px;
+    z-index: 100;
+}
+
+#bibtex-wrapper {
+    position: relative;
+}
+
+#bibtex-wrapper .corner-button {
+    top: 0;
+    right: 0;
 }
 
 #acknowledgement {

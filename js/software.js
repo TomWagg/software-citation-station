@@ -77,30 +77,14 @@ Promise.all([
             bibtex_box.innerHTML = bibs_to_add.join("\n\n");
 
             // create a button that copies the contents of each
-            for (let to_be_copied of [ack, bibtex_box]) {
-                let copy_btn = document.getElementById("copy-template").cloneNode(true);
-                copy_btn.className = "btn btn-dark copy-button"
-                copy_btn.id = ""
-                copy_btn.addEventListener('click', function() {
-                    navigator.clipboard.writeText(to_be_copied.innerText);
-                });
-                to_be_copied.appendChild(copy_btn)
-            }
+            ack.appendChild(copy_button(ack.innerText));
 
-            // create button for downloading bibtex as a .bib file
-            let download_btn = download_template.cloneNode(true);
-            download_btn.classList.remove("hide");
-            download_btn.addEventListener('click', function() {
-                let blob = new Blob([bibtex_box.innerText], {type: "text/plain"});
-                let url = URL.createObjectURL(blob);
-                let a = document.createElement('a');
-                a.href = url;
-                a.download = "software.bib";
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-            });
-            download_template.parentElement.appendChild(download_btn);
+            // create a button group with a copy and download button for the bibtex
+            let btn_group = document.createElement("div");
+            btn_group.className = "btn-group corner-button";
+            btn_group.appendChild(copy_button(bibtex_box.innerText));
+            btn_group.appendChild(download_button(bibtex_box.innerText));
+            bibtex_box.parentElement.appendChild(btn_group);
         });
 
         // unhide the button and add it to the list
@@ -141,4 +125,31 @@ function highlight_bibtex(s) {
     let key = s.split("{")[1].split(",")[0];
     rest_starts_at = at_thing.length + key.length + 1;
     return "<span class='bibtex-format'>" + at_thing + "</span>{<span class='bibtex-key'>" + key + "</span>" + s.slice(rest_starts_at);
+}
+
+function copy_button(text) {
+    let copy_btn = document.getElementById("copy-template").cloneNode(true);
+    copy_btn.classList.remove("hide");
+    copy_btn.addEventListener('click', function() {
+        navigator.clipboard.writeText(text);
+    });
+    return copy_btn 
+}
+
+function download_button(text) {
+    let download_btn = document.getElementById("copy-template").cloneNode(true);
+    download_btn.classList.remove("hide");
+    download_btn.querySelector("i").classList.remove("fa-copy");
+    download_btn.querySelector("i").classList.add("fa-download");
+    download_btn.addEventListener('click', function() {
+        let blob = new Blob([text], {type: "text/plain"});
+        let url = URL.createObjectURL(blob);
+        let a = document.createElement('a');
+        a.href = url;
+        a.download = "software.bib";
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+    });
+    return download_btn
 }

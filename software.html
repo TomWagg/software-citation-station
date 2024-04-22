@@ -27,7 +27,7 @@
     </head>
 
     <body>
-        <button class="btn btn-dark copy-button hide" id="copy-template"><i class="fa fa-copy"></i></button>
+        <button class="btn btn-dark corner-button hide" id="copy-template"><i class="fa fa-copy"></i></button>
         <label for="dark-mode-checkbox" class="dark-mode-label">
             <input type="checkbox" id="dark-mode-checkbox" />
             <span class="dark-mode-ball"></span>
@@ -78,7 +78,9 @@
                                 <div class="header-number">3</div>
                                 <h3 class="header-title">Save the bibtex</h3>
                                 <p class="header-desc">Save this bibtex file and import it in your manuscript</p>
-                                <pre id="bibtex" class="rounded-box"><code><i>Bibtex will go here</i></code></pre>
+                                <div id="bibtex-wrapper">
+                                    <pre id="bibtex" class="rounded-box"><code><i>Bibtex will go here</i></code></pre>
+                                </div>
                                 <div class="text-center">
                                     <button class="btn btn-primary hide download-button" id="download-template"><i class="fa fa-download"></i> Download</button>
                                 </div>
