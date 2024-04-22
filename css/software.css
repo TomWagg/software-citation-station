@@ -192,15 +192,15 @@ body.dark #bibtex {
 }
 
 .bibtex-format {
-    color: red;
+    color: #c7265f;
 }
 
 .bibtex-key {
-    color: green;
+    color: #85b12a;
 }
 
 .latex-command {
-    color: #b05279;
+    color: #c7265f;
 }
 
 .latex-refs {
