@@ -17,6 +17,7 @@ Promise.all([
     const software_list = document.getElementById('software-list');
     const ack = document.getElementById("acknowledgement");
     const bibtex_box = document.getElementById("bibtex");
+    const download_template = document.getElementById("download-template")
 
     // setup each button
     for (var key in packages) {
@@ -35,8 +36,22 @@ Promise.all([
             let ack_to_add = [];
             let bibs_to_add = [];
 
+            // remove old download buttons
+            document.querySelectorAll(".download-button:not(.hide)").forEach(function(btn) {
+                btn.remove();
+            });
+
+            let active_buttons = document.querySelectorAll(".software-item.active")
+
+            // if no software is selected then reset the acknowledgement and bibtex
+            if (active_buttons.length == 0) {
+                ack.innerHTML = "<i>Acknowledgement will go here</i>";
+                bibtex_box.innerHTML = "<i>Bibtex will go here</i>";
+                return;
+            }
+
             // loop through all active buttons and add the relevant information
-            document.querySelectorAll(".software-item.active").forEach(function(btn) {
+            active_buttons.forEach(function(btn) {
                 // get the tags for the current button
                 let btn_tags = packages[btn.getAttribute("data-key")]["tags"];
 
@@ -71,6 +86,21 @@ Promise.all([
                 });
                 to_be_copied.appendChild(copy_btn)
             }
+
+            // create button for downloading bibtex as a .bib file
+            let download_btn = download_template.cloneNode(true);
+            download_btn.classList.remove("hide");
+            download_btn.addEventListener('click', function() {
+                let blob = new Blob([bibtex_box.innerText], {type: "text/plain"});
+                let url = URL.createObjectURL(blob);
+                let a = document.createElement('a');
+                a.href = url;
+                a.download = "software.bib";
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+            });
+            download_template.parentElement.appendChild(download_btn);
         });
 
         // unhide the button and add it to the list
