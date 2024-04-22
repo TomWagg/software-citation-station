@@ -167,3 +167,28 @@ body.dark #bibtex {
     color: black;
     font-size: 16px;
 }
+
+#acknowledgement {
+    white-space: wrap;
+}
+
+#bibtex {
+    max-height: 150px;
+    overflow-y: scroll;
+}
+
+.bibtex-format {
+    color: red;
+}
+
+.bibtex-key {
+    color: green;
+}
+
+.latex-command {
+    color: #b05279;
+}
+
+.latex-refs {
+    color: #9e86c8;
+}
