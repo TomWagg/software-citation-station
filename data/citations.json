@@ -19,5 +19,12 @@
         "category": "stars",
         "keywords": ["asteroseismology", "stellar oscillations", "stellar pulsations"],
         "link": "https://gyre.readthedocs.io/en/stable/"
+    },
+    "legwork": {
+        "tags": ["LEGWORK_apjs", "LEGWORK_joss"],
+        "logo": "img/legwork.png",
+        "category": "gravitational waves",
+        "keywords": ["LISA", "double compact objects", "inspiral"],
+        "link": "https://legwork.readthedocs.io/en/stable/"
     }
 }
