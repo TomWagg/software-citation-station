@@ -1,0 +1,20 @@
+{
+    "python": {
+        "tags": ["python"],
+        "logo": "img/python.png",
+        "category": "general",
+        "keywords": []
+    },
+    "numpy": {
+        "tags": ["numpy"],
+        "logo": "img/numpy.svg",
+        "category": "general",
+        "keywords": []
+    },
+    "gyre": {
+        "tags": ["Townsend+2013", "Townsend+2018", "Goldstein+2020", "Sun+2023"],
+        "logo": "img/gyre.webp",
+        "category": "stars",
+        "keywords": ["asteroseismology", "stellar oscillations", "stellar pulsations"]
+    }
+}

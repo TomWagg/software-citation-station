@@ -6,9 +6,9 @@ const latex_re = /(?<command>\\[^\\{]*)\{(?<refs>[^\}]*)\}/gmi;
 
 // Fetch the data and populate the software list
 Promise.all([
-    fetch('data/tags.json').then(x => x.json()),
+    fetch('data/citations.json').then(x => x.json()),
     fetch('data/bibtex.bib').then(x => x.text())
-]).then(([packages, bibtex_text]) => {
+]).then(([citations, bibtex_text]) => {
     // parse the bibtex file
     let bibtex_table = parse_bibtex(bibtex_text);
 
@@ -20,12 +20,12 @@ Promise.all([
     const download_template = document.getElementById("download-template")
 
     // setup each button
-    for (var key in packages) {
+    for (var key in citations) {
         // clone the template button and populate it with the relevant data
         const btn = template_btn.cloneNode(true);
         btn.setAttribute("data-key", key)
         btn.querySelector(".software-name").innerText = key;
-        btn.querySelector(".software-logo").src = packages[key]["logo"];
+        btn.querySelector(".software-logo").src = citations[key]["logo"];
         
         // add a click event to the button
         btn.addEventListener('click', function() {
@@ -53,7 +53,7 @@ Promise.all([
             // loop through all active buttons and add the relevant information
             active_buttons.forEach(function(btn) {
                 // get the tags for the current button
-                let btn_tags = packages[btn.getAttribute("data-key")]["tags"];
+                let btn_tags = citations[btn.getAttribute("data-key")]["tags"];
 
                 // add the acknowledgement and do some simple latex syntax highlighting
                 let new_ack = "\\texttt{" + btn.querySelector(".software-name").innerText + "} \\citep{" + btn_tags.join(", ") + "}"
