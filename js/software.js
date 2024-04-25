@@ -94,29 +94,59 @@ Promise.all([
         btn.classList.remove("hide");
         software_list.appendChild(btn);
     }
+
+    document.getElementById("software-loading").classList.add("hide");
 });
 
 window.addEventListener('DOMContentLoaded', () => {
     let typingTimer;
     let doneTypingInterval = 200;
 
+    document.getElementById("software-search-clear").addEventListener('click', function() {
+        document.getElementById("software-search").value = "";
+        handle_search();
+    });
+
     document.getElementById("software-search").addEventListener('input', function() {
         clearTimeout(typingTimer);
-        typingTimer = setTimeout(handle_search.bind(this), doneTypingInterval);
+        typingTimer = setTimeout(handle_search, doneTypingInterval);
     });
 
     function handle_search() {
-        let search = this.value.toLowerCase();
-        document.querySelectorAll(".software-button:not(#software-btn-template)").forEach(function(btn) {
+        let search = document.getElementById("software-search").value.toLowerCase();
+        const btns = document.querySelectorAll(".software-button:not(#software-btn-template)")
+
+        let all_hidden = true;
+        for (let btn of btns) {
             const btn_key = btn.getAttribute("data-key").toLowerCase();
             const btn_keywords = btn.getAttribute("data-keywords").toLowerCase();
             const matches_search = btn_key.includes(search) || btn_keywords.includes(search);
+            if (matches_search) {
+                all_hidden = false;
+            }
             if (btn.classList.contains("hide") && matches_search) {
                 btn.classList.remove("hide");
+                animateCSS(btn, "bounceIn");
             } else if (!btn.classList.contains("hide") && !matches_search) {
-                btn.classList.add("hide");
+                // btn.classList.add("hide");
+                animateCSS(btn, "bounceOut").then(() => {
+                    btn.classList.add("hide");
+                });
             }
-        });
+        }
+
+        // if all buttons are hidden then show a message instead
+        const empty_msg = document.getElementById("software-search-empty");
+        const msg_hidden = empty_msg.classList.contains("hide");
+        if (all_hidden && msg_hidden) {
+            setTimeout(() => {
+                empty_msg.classList.remove("hide");
+                animateCSS(empty_msg, "flipInX");
+            }, 500);
+            // animateCSS(empty_msg, "bounceIn");
+        } else if (!all_hidden && !msg_hidden) {
+            empty_msg.classList.add("hide");
+        }
     }
 });
 
@@ -181,24 +211,19 @@ function download_button(text) {
     return download_btn
 }
 
-/**
- * Add a CSS animation
- * @param {*} element element to animate
- * @param {*} animationName which animation
- * @param {*} callback what to do on completion
- */
-function animateCSS(element, animationName, callback) {
-    let nodes = null
-    if (typeof element == 'string') {
-        nodes = document.querySelectorAll(element)
-    } else {
-        nodes = [element]
+const animateCSS = (node, animation, prefix = 'animate__') =>
+  // We create a Promise and return it
+  new Promise((resolve, reject) => {
+    const animationName = `${prefix}${animation}`;
+
+    node.classList.add(`${prefix}animated`, animationName);
+
+    // When the animation ends, we clean the classes and resolve the Promise
+    function handleAnimationEnd(event) {
+      event.stopPropagation();
+      node.classList.remove(`${prefix}animated`, animationName);
+      resolve('Animation ended');
     }
-    nodes.forEach(function (node) {
-        node.classList.add('animated', animationName)
-        node.addEventListener('animationend', function () {
-            node.classList.remove('animated', animationName)
-            if (typeof callback === 'function') callback()
-        }, {once: true})
-    })
-}
+
+    node.addEventListener('animationend', handleAnimationEnd, {once: true});
+  });

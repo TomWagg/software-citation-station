@@ -7,8 +7,6 @@
         <meta name="author" content="Tom Wagg" />
 
         <title>The Software Cite</title>
-        <link href="../img/icon.png" rel="icon" />
-
         <!-- Bootstrap -->
         <link href="bootstrap-5.3.3-dist/css/bootstrap.min.css" rel="stylesheet" />
 
@@ -21,7 +19,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;700;900&display=swap" rel="stylesheet" />
 
         <!-- random css -->
-        <link href="../css/animate.css" rel="stylesheet" />
+        <link href="../css/animate.min.css" rel="stylesheet" />
         <link href="../css/dark_mode.css" rel="stylesheet" />
         <link href="../css/software.css" rel="stylesheet" />
     </head>
@@ -59,11 +57,14 @@
                         <p class="header-desc">Use the buttons below to select the software that you used in your research</p>
                         <div class="input-group mb-3">
                             <input id="software-search" type="text" class="form-control" placeholder="Search for software" />
-                            <button class="btn btn-primary" id="software-search-btn"><i class="fa fa-search"></i></button>
+                            <button class="btn btn-primary" id="software-search-go"><i class="fa fa-search"></i></button>
+                            <button class="btn btn-primary" id="software-search-clear"><i class="fa fa-times"></i></button>
                         </div>
                         <div id="software-list">
                             <button id="software-btn-template" class="btn btn-primary hide me-2 software-button mb-2"><img class="software-logo me-1" src="img/python.png" /><span class="software-name">Software name</span></button>
+                            <p id="software-loading">Loading software list <i class="fa fa-spinner fa-spin"></i></p>
                         </div>
+                        <p id="software-search-empty" class="hide">Your search doesn't match any of the software in our list - perhaps this is an opportunity for you to <a class="link-warning text-decoration-underline" style="font-weight: bold" href="https://github.com/TomWagg/software-cite/issues/new?assignees=&labels=new-citation&projects=&template=01-citation.md&title=">contribute a new software package to our list</a>?</p>
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">

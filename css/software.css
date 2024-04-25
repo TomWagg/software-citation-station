@@ -210,3 +210,7 @@ body.dark #bibtex {
 pre {
     margin: 0;
 }
+
+.animate__animated.animate__bounceOut {
+    --animate-duration: 0.8s;
+}
