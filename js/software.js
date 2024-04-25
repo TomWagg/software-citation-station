@@ -50,6 +50,7 @@ Promise.all([
             if (active_buttons.length == 0) {
                 ack.innerHTML = "<i>Acknowledgement will go here</i>";
                 bibtex_box.innerHTML = "<i>Bibtex will go here</i>";
+                bibtex_box.parentElement.querySelector(".btn-group").remove();
                 return;
             }
 
