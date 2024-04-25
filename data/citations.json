@@ -34,6 +34,13 @@
         "keywords": [],
         "link": "https://docs.scipy.org/doc/scipy/reference/"
     },
+    "pandas": {
+        "tags": ["mckinney-proc-scipy-2010"],
+        "logo": "img/pandas.svg",
+        "category": "general",
+        "keywords": ["dataframes", "data manipulation"],
+        "link": "https://pandas.pydata.org/docs/"
+    },
     "legwork": {
         "tags": ["LEGWORK_apjs", "LEGWORK_joss"],
         "logo": "img/legwork.png",
