@@ -97,19 +97,27 @@ Promise.all([
 });
 
 window.addEventListener('DOMContentLoaded', () => {
+    let typingTimer;
+    let doneTypingInterval = 200;
+
     document.getElementById("software-search").addEventListener('input', function() {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(handle_search.bind(this), doneTypingInterval);
+    });
+
+    function handle_search() {
         let search = this.value.toLowerCase();
-        console.log(search);
         document.querySelectorAll(".software-button:not(#software-btn-template)").forEach(function(btn) {
             const btn_key = btn.getAttribute("data-key").toLowerCase();
             const btn_keywords = btn.getAttribute("data-keywords").toLowerCase();
-            if (btn_key.includes(search) || btn_keywords.includes(search)) {
+            const matches_search = btn_key.includes(search) || btn_keywords.includes(search);
+            if (btn.classList.contains("hide") && matches_search) {
                 btn.classList.remove("hide");
-            } else {
+            } else if (!btn.classList.contains("hide") && !matches_search) {
                 btn.classList.add("hide");
             }
         });
-    });
+    }
 });
 
 function parse_bibtex(bibtex_text) {
@@ -171,4 +179,26 @@ function download_button(text) {
         window.URL.revokeObjectURL(url);
     });
     return download_btn
+}
+
+/**
+ * Add a CSS animation
+ * @param {*} element element to animate
+ * @param {*} animationName which animation
+ * @param {*} callback what to do on completion
+ */
+function animateCSS(element, animationName, callback) {
+    let nodes = null
+    if (typeof element == 'string') {
+        nodes = document.querySelectorAll(element)
+    } else {
+        nodes = [element]
+    }
+    nodes.forEach(function (node) {
+        node.classList.add('animated', animationName)
+        node.addEventListener('animationend', function () {
+            node.classList.remove('animated', animationName)
+            if (typeof callback === 'function') callback()
+        }, {once: true})
+    })
 }
