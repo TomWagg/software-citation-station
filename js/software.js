@@ -61,8 +61,21 @@ Promise.all([
 
                 // add the acknowledgement and do some simple latex syntax highlighting
                 let new_ack = "\\texttt{" + btn.querySelector(".software-name").innerText + "} \\citep{" + btn_tags.join(", ") + "}"
+
+                const version_cite_link = citations[btn.getAttribute("data-key")]["version_cite_link"];
+                if (version_cite_link != "") {
+                    new_ack += ("\\footnote{{TODO}: \\texttt{" + btn.querySelector(".software-name").innerText
+                                + "} requests that you cite the specific version that you use. Use this link "
+                                + "to find the correct citation: \\url{" + version_cite_link + "}}")
+                }
+
                 ack_to_add.push(new_ack.replace(latex_re, function(match, command, refs) {
-                    return '<span class="latex-command">' + command + '</span>{<span class="latex-refs">' + refs + "</span>}";
+                    console.log(command, refs)
+                    if (command == "\\footnote") {
+                        return '<span class="latex-command">' + command + '</span>{' + refs + "}";
+                    } else {
+                        return '<span class="latex-command">' + command + '</span>{<span class="latex-refs">' + refs + "</span>}";
+                    }
                 }));
 
                 // same for the bibtex
