@@ -7,11 +7,11 @@ assignees: ''
 
 ---
 
-**Description**
-Briefly describe the software and what it's used for.
+# Description
+[Briefly describe the software and what it's used for.]
 
-**Citation data**
-Please fill out the data with the information about your citation
+# Citation data
+[Please fill out the data with the information about your citation]
 ```
 "YOUR_PACKAGE_NAME_HERE": {
     "tags": [""],               # bibtex tags for citations
@@ -19,18 +19,15 @@ Please fill out the data with the information about your citation
     "keywords": [""]            # list any keywords for searching
 }
 ```
-If you're unsure what to put here's an example
-```
-"legwork": {
-    "tags": ["Wagg2022_ApJ", "Wagg2022_JOSS"],
-    "category": "gravitational waves",
-    "keywords": ["LISA", "double compact objects", "inspiral"]
-}
-```
+(See other examples [here](https://github.com/TomWagg/software-cite/blob/main/data/citations.json))
 
 
-**Bibtex entry**
-Insert your bibtex entry/entries below (ensuring the tags match those your put in the data above)
+# Bibtex
+[Insert your bibtex entry/entries below - ensure tags match those listed above]
 ```
 Your bibtex here
 ```
+(See other examples [here](https://github.com/TomWagg/software-cite/blob/main/data/bibtex.bib))
+
+# Logo (optional)
+Either attach or link a file for a logo for the package. **Please ensure this image is free to use**. Square logos are preferred if available.
