@@ -3,18 +3,21 @@
         "tags": ["python"],
         "logo": "img/python.png",
         "category": "general",
-        "keywords": []
+        "keywords": [],
+        "link": "https://docs.python.org/3/"
     },
     "numpy": {
         "tags": ["numpy"],
         "logo": "img/numpy.svg",
         "category": "general",
-        "keywords": []
+        "keywords": [],
+        "link": "https://numpy.org/doc/stable/"
     },
     "gyre": {
         "tags": ["Townsend+2013", "Townsend+2018", "Goldstein+2020", "Sun+2023"],
         "logo": "img/gyre.webp",
         "category": "stars",
-        "keywords": ["asteroseismology", "stellar oscillations", "stellar pulsations"]
+        "keywords": ["asteroseismology", "stellar oscillations", "stellar pulsations"],
+        "link": "https://gyre.readthedocs.io/en/stable/"
     }
 }
