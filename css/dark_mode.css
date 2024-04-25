@@ -10,9 +10,9 @@
     width: 60px;
     border: 2px solid var(--primary);
     border-radius: 30px;
-    position: fixed;
-    left: 5px;
-    top: 5px;
+    position: absolute;
+    left: 10px;
+    top: 10px;
     cursor: pointer;
     z-index: 100;
 }
