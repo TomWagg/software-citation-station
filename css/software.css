@@ -206,3 +206,7 @@ body.dark #bibtex {
 .latex-refs {
     color: #9e86c8;
 }
+
+pre {
+    margin: 0;
+}

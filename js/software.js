@@ -17,14 +17,13 @@ Promise.all([
     const software_list = document.getElementById('software-list');
     const ack = document.getElementById("acknowledgement");
     const bibtex_box = document.getElementById("bibtex");
-    const download_template = document.getElementById("download-template")
 
     // setup each button
     for (var key in citations) {
         // clone the template button and populate it with the relevant data
         const btn = template_btn.cloneNode(true);
         btn.setAttribute("data-key", key)
-        btn.querySelector(".software-name").innerText = key;
+        btn.querySelector(".software-name").innerHTML = "<pre>" + key + "</pre>";
         btn.querySelector(".software-logo").src = citations[key]["logo"];
         
         // add a click event to the button
