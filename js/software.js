@@ -23,8 +23,12 @@ Promise.all([
         // clone the template button and populate it with the relevant data
         const btn = template_btn.cloneNode(true);
         btn.setAttribute("data-key", key)
+        btn.setAttribute("data-tags", citations[key]["tags"].join(","))
+        btn.setAttribute("data-keywords", citations[key]["keywords"].join(","))
+        btn.setAttribute("data-category", citations[key]["category"])
         btn.querySelector(".software-name").innerHTML = "<pre>" + key + "</pre>";
         btn.querySelector(".software-logo").src = citations[key]["logo"];
+        btn.id = "";
         
         // add a click event to the button
         btn.addEventListener('click', function() {
@@ -40,7 +44,7 @@ Promise.all([
                 btn.remove();
             });
 
-            let active_buttons = document.querySelectorAll(".software-item.active")
+            let active_buttons = document.querySelectorAll(".software-button.active")
 
             // if no software is selected then reset the acknowledgement and bibtex
             if (active_buttons.length == 0) {
@@ -52,7 +56,7 @@ Promise.all([
             // loop through all active buttons and add the relevant information
             active_buttons.forEach(function(btn) {
                 // get the tags for the current button
-                let btn_tags = citations[btn.getAttribute("data-key")]["tags"];
+                let btn_tags = btn.getAttribute("data-tags").split(",");
 
                 // add the acknowledgement and do some simple latex syntax highlighting
                 let new_ack = "\\texttt{" + btn.querySelector(".software-name").innerText + "} \\citep{" + btn_tags.join(", ") + "}"
@@ -90,6 +94,22 @@ Promise.all([
         btn.classList.remove("hide");
         software_list.appendChild(btn);
     }
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById("software-search").addEventListener('input', function() {
+        let search = this.value.toLowerCase();
+        console.log(search);
+        document.querySelectorAll(".software-button:not(#software-btn-template)").forEach(function(btn) {
+            const btn_key = btn.getAttribute("data-key").toLowerCase();
+            const btn_keywords = btn.getAttribute("data-keywords").toLowerCase();
+            if (btn_key.includes(search) || btn_keywords.includes(search)) {
+                btn.classList.remove("hide");
+            } else {
+                btn.classList.add("hide");
+            }
+        });
+    });
 });
 
 function parse_bibtex(bibtex_text) {
