@@ -62,5 +62,13 @@
         "keywords": ["asteroseismology", "stellar oscillations", "stellar pulsations"],
         "link": "https://gyre.readthedocs.io/en/stable/",
         "version_cite_link": ""
+    },
+    "showyourwork": {
+        "tags": ["Luger2021"],
+        "logo": "img/showyourwork.png",
+        "category": "latex",
+        "keywords": ["latex", "paper with code", "workflow management"],
+        "link": "https://show-your.work/en/latest/",
+        "version_cite_link": ""
     }
 }
