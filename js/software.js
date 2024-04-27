@@ -2,7 +2,7 @@
 const bibtex_re = /@\w*{(?<tag>.*)(?=\,)/gmi;
 
 // latex regular expression to extract each command and arguments
-const latex_re = /(?<command>\\[^\\{]*)\{(?<refs>[^\}]*)\}/gmi;
+const latex_re = /(?<command>\\[^\\{]*)\{(?<args>[^\}]*)\}/gmi;
 
 // Fetch the data and populate the software list
 Promise.all([
@@ -37,6 +37,7 @@ Promise.all([
 
             // keep track of the acknowledgements and bibtex entries to add
             let ack_to_add = [];
+            let custom_acks_to_add = [];
             let bibs_to_add = [];
 
             // remove old download buttons
@@ -69,14 +70,7 @@ Promise.all([
                                 + "to find the correct citation: \\url{" + version_cite_link + "}}")
                 }
 
-                ack_to_add.push(new_ack.replace(latex_re, function(match, command, refs) {
-                    console.log(command, refs)
-                    if (command == "\\footnote") {
-                        return '<span class="latex-command">' + command + '</span>{' + refs + "}";
-                    } else {
-                        return '<span class="latex-command">' + command + '</span>{<span class="latex-refs">' + refs + "</span>}";
-                    }
-                }));
+                ack_to_add.push(highlight_latex(new_ack));
 
                 // same for the bibtex
                 for (let tag of btn_tags) {
@@ -89,6 +83,10 @@ Promise.all([
 
             // add add acknowledgements, joining them with commas and adding an "and" before the last one
             ack.innerHTML += ack_to_add.slice(0, -1).join(', ') + (ack_to_add.length > 1 ? ' and ' : '') + ack_to_add.slice(-1) + '.';
+
+            for (let custom_ack of custom_acks_to_add) {
+                ack.innerHTML += "\n\n" + custom_ack;
+            }
 
             // add the bibtex entries
             bibtex_box.innerHTML = bibs_to_add.join("\n\n");
@@ -188,6 +186,17 @@ function isolate_bibtex_entry(s, start) {
         cursor += 1
     }
     return s.slice(start, cursor)
+}
+
+function highlight_latex(s) {
+    // highlight the latex command and arguments with some simple syntax highlighting
+    return s.replace(latex_re, function(match, command, args) {
+        if (command == "\\footnote") {
+            return '<span class="latex-command">' + command + '</span>{' + args + "}";
+        } else {
+            return '<span class="latex-command">' + command + '</span>{<span class="latex-refs">' + args + "</span>}";
+        }
+    });
 }
 
 function highlight_bibtex(s) {
