@@ -2,73 +2,91 @@
     "python": {
         "tags": ["python"],
         "logo": "img/python.png",
+        "language": "python",
         "category": "general",
         "keywords": [],
         "link": "https://docs.python.org/3/",
-        "version_cite_link": ""
+        "version_cite_link": "",
+        "attribution_link": "http://citebay.com/how-to-cite/python/"
     },
     "numpy": {
         "tags": ["numpy"],
         "logo": "img/numpy.svg",
+        "language": "python",
         "category": "general",
         "keywords": [],
         "link": "https://numpy.org/doc/stable/",
-        "version_cite_link": ""
+        "version_cite_link": "",
+        "attribution_link": "https://numpy.org/citing-numpy/"
     },
     "matplotlib": {
         "tags": ["Hunter:2007"],
         "logo": "img/matplotlib.webp",
+        "language": "python",
         "category": "visualisation",
         "keywords": ["plotting", "figures", "graphs"],
         "link": "https://matplotlib.org/",
-        "version_cite_link": ""
+        "version_cite_link": "",
+        "attribution_link": "https://matplotlib.org/stable/users/project/citing.html"
     },
     "astropy": {
         "tags": ["astropy:2013", "astropy:2018", "astropy:2022"],
         "logo": "img/astropy.png",
+        "language": "python",
         "category": "general",
         "keywords": ["astronomy", "astrophysics"],
         "link": "https://docs.astropy.org/en/stable/",
-        "version_cite_link": ""
+        "version_cite_link": "",
+        "attribution_link": "https://www.astropy.org/acknowledging.html"
     },
     "scipy": {
         "tags": ["2020SciPy-NMeth"],
         "logo": "img/scipy.svg",
+        "language": "python",
         "category": "general",
         "keywords": [],
         "link": "https://docs.scipy.org/doc/scipy/reference/",
-        "version_cite_link": ""
+        "version_cite_link": "",
+        "attribution_link": "https://scipy.org/citing-scipy/"
     },
     "pandas": {
         "tags": ["mckinney-proc-scipy-2010"],
         "logo": "img/pandas.svg",
+        "language": "python",
         "category": "general",
         "keywords": ["dataframes", "data manipulation"],
         "link": "https://pandas.pydata.org/docs/",
-        "version_cite_link": "https://zenodo.org/records/10957263"
+        "version_cite_link": "https://zenodo.org/records/10957263",
+        "attribution_link": "https://pandas.pydata.org/about/citing.html"
     },
     "legwork": {
         "tags": ["LEGWORK_apjs", "LEGWORK_joss"],
         "logo": "img/legwork.png",
+        "language": "python",
         "category": "gravitational waves",
         "keywords": ["LISA", "double compact objects", "inspiral"],
         "link": "https://legwork.readthedocs.io/en/stable/",
-        "version_cite_link": ""
+        "version_cite_link": "",
+        "attribution_link": "https://legwork.readthedocs.io/en/stable/cite.html"
     },
     "gyre": {
         "tags": ["Townsend+2013", "Townsend+2018", "Goldstein+2020", "Sun+2023"],
         "logo": "img/gyre.webp",
+        "language": "python",
         "category": "stars",
         "keywords": ["asteroseismology", "stellar oscillations", "stellar pulsations"],
         "link": "https://gyre.readthedocs.io/en/stable/",
-        "version_cite_link": ""
+        "version_cite_link": "",
+        "attribution_link": "https://gyre.readthedocs.io/en/stable/user-guide/preliminaries.html#citing-gyre"
     },
     "showyourwork": {
         "tags": ["Luger2021"],
         "logo": "img/showyourwork.png",
+        "language": "latex",
         "category": "latex",
         "keywords": ["latex", "paper with code", "workflow management"],
         "link": "https://show-your.work/en/latest/",
-        "version_cite_link": ""
+        "version_cite_link": "",
+        "attribution_link": "https://show-your.work/en/latest/attribution/"
     }
 }
