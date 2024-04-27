@@ -113,6 +113,12 @@ Promise.all([
             // create a button that copies the contents of each
             ack.appendChild(copy_button(ack.innerText));
 
+            // delete old buttons
+            const old_buttons = bibtex_box.parentElement.querySelector(".btn-group")
+            if (old_buttons !== null) {
+                old_buttons.remove();
+            }
+
             // create a button group with a copy and download button for the bibtex
             let btn_group = document.createElement("div");
             btn_group.className = "btn-group corner-button";
