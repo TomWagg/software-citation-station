@@ -182,7 +182,7 @@ body.dark #bibtex {
 }
 
 #acknowledgement {
-    white-space: wrap;
+    white-space: preserve-breaks;
     overflow-x: clip;
 }
 
