@@ -4,7 +4,7 @@
 </div>
 
 <p align="center">
-  <a href="">Visit the software cite</a>
+  <a href="https://www.tomwagg.com/software-cite/">Visit the software cite</a>
   • 
   <a href="https://github.com/TomWagg/software-cite/issues/new?assignees=&labels=new-citation&projects=&template=01-citation.md&title=">Submit a new citation</a>
 </p>
