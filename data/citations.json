@@ -114,6 +114,17 @@
         "custom_citation": "Simulations in this paper made use of the COMPAS rapid binary population synthesis code (version X.Y.Z\\footnote{TODO: Update version number}), which is freely available at \\url{http://github.com/TeamCOMPAS/COMPAS} \\citep{COMPAS}. Model of gravitational wave selection effects based on \\citet{Barrett2018}. The STROOPWAFEL adaptive importance sampling algorithm is from \\citet{Broekgaarden2019}. Integration over cosmic star formation history outlined in \\citep{Neijssel2019}. COMPAS' model of (pulsational) pair instability supernova is from \\citet{Stevenson2019}. Pulsar spin and magnetic field evolution is from \\citet{Chattopadhyay2020}. Model of chemically homogeneous evolution is from \\citet{Riley2021}.",
         "extra_bibtex": "@PREAMBLE{{\\providecommand{\\noopsort}[1]{}}}"
     },
+    "COSMIC": {
+        "tags": ["Breivik2020"],
+        "logo": "img/cosmic.png",
+        "language": "python",
+        "category": "population synthesis",
+        "keywords": ["population synthesis", "binary stars", "double compact objects", "gravitational waves"],
+        "link": "https://cosmic-popsynth.github.io/docs/",
+        "version_cite_link": "",
+        "attribution_link": "https://github.com/COSMIC-PopSynth/COSMIC/blob/develop/README.md",
+        "custom_citation": ""
+    },
     "showyourwork": {
         "tags": ["Luger2021"],
         "logo": "img/showyourwork.png",
