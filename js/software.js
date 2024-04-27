@@ -81,6 +81,11 @@ Promise.all([
                 for (let tag of btn_tags) {
                     bibs_to_add.push(highlight_bibtex(bibtex_table[tag]));
                 }
+
+                const extra_bibtex = citations[btn.getAttribute("data-key")]["extra_bibtex"];
+                if (extra_bibtex !== undefined) {
+                    bibs_to_add.push(highlight_bibtex(extra_bibtex));
+                }
             });
 
             // clear the acknowledgement
