@@ -69,6 +69,21 @@
         "version_cite_link": "",
         "attribution_link": "https://legwork.readthedocs.io/en/stable/cite.html"
     },
+    "MESA": {
+        "tags": ["Paxton2011", "Paxton2013", "Paxton2015", "Paxton2018", "Paxton2019", "Jermyn2023",
+                 "Rogers2002", "Saumon1995", "Irwin2004", "Timmes2000", "Potekhin2010", "Jermyn2021",
+                 "Iglesias1993", "Iglesias1996", "Ferguson2005", "Poutanen2017", "Cassisi2007", "Blouin2020",
+                 "Cyburt2010", "Angulo1999", "Fuller1985", "Oda1994", "Langanke2000", "Chugunov2007",
+                 "Itoh1996", "Eggleton1983", "Ritter1988"],
+        "logo": "img/mesa.png",
+        "language": "fortran",
+        "category": "stars",
+        "keywords": ["stellar evolution", "stellar structure", "stellar astrophysics"],
+        "link": "http://mesa.sourceforge.net/",
+        "version_cite_link": "",
+        "attribution_link": "http://mesa.sourceforge.net/citing.html",
+        "custom_citation": "This work uses Modules for Experiments in Stellar Astrophysics \\citep[MESA][]{Paxton2011, Paxton2013, Paxton2015, Paxton2018, Paxton2019, Jermyn2023}. The MESA EOS is a blend of the OPAL \\citep{Rogers2002}, SCVH \\citep{Saumon1995}, FreeEOS \\citep{Irwin2004}, HELM \\citep{Timmes2000}, PC \\citep{Potekhin2010}, and Skye \\citep{Jermyn2021} EOSes. Radiative opacities are primarily from OPAL \\citep{Iglesias1993, Iglesias1996}, with low-temperature data from \\citet{Ferguson2005} and the high-temperature, Compton-scattering dominated regime by \\citet{Poutanen2017}.  Electron conduction opacities are from \\citet{Cassisi2007} and \\citet{Blouin2020}. Nuclear reaction rates are from JINA REACLIB \\citep{Cyburt2010}, NACRE \\citep{Angulo1999} and additional tabulated weak reaction rates \\citet{Fuller1985, Oda1994, Langanke2000}.  Screening is included via the prescription of \\citet{Chugunov2007}. Thermal neutrino loss rates are from \\citet{Itoh1996}. Roche lobe radii in binary systems are computed using the fit of \\citet{Eggleton1983}.  Mass transfer rates in Roche lobe overflowing binary systems are determined following the prescription of \\citet{Ritter1988}."
+    },
     "gyre": {
         "tags": ["Townsend+2013", "Townsend+2018", "Goldstein+2020", "Sun+2023"],
         "logo": "img/gyre.webp",
