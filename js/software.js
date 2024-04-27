@@ -70,7 +70,12 @@ Promise.all([
                                 + "to find the correct citation: \\url{" + version_cite_link + "}}")
                 }
 
-                ack_to_add.push(highlight_latex(new_ack));
+                const custom_ack = citations[btn.getAttribute("data-key")]["custom_citation"];
+                if (custom_ack != "") {
+                    custom_acks_to_add.push(highlight_latex(custom_ack));
+                } else {
+                    ack_to_add.push(highlight_latex(new_ack))
+                }
 
                 // same for the bibtex
                 for (let tag of btn_tags) {
@@ -78,15 +83,24 @@ Promise.all([
                 }
             });
 
-            // add a preamble to the acknowledgement
-            ack.innerHTML = "This work made use of the following software packages: "
+            // clear the acknowledgement
+            ack.innerHTML = "";
 
-            // add add acknowledgements, joining them with commas and adding an "and" before the last one
-            ack.innerHTML += ack_to_add.slice(0, -1).join(', ') + (ack_to_add.length > 1 ? ' and ' : '') + ack_to_add.slice(-1) + '.';
+            // add the acknowledgements
+            if (ack_to_add.length != 0) {
 
-            for (let custom_ack of custom_acks_to_add) {
-                ack.innerHTML += "\n\n" + custom_ack;
+                // add a preamble to the acknowledgement
+                ack.innerHTML = "This work made use of the following software packages: "
+
+                // add add acknowledgements, joining them with commas and adding an "and" before the last one
+                ack.innerHTML += ack_to_add.slice(0, -1).join(', ') + (ack_to_add.length > 1 ? ' and ' : '') + ack_to_add.slice(-1) + '.';
             }
+
+            // add the custom acknowledgements (with extra space between them and the main acknowledgements)
+            if (custom_acks_to_add.length != 0 && ack_to_add.length != 0) {
+                ack.innerHTML += "\n\n";
+            }
+            ack.innerHTML += custom_acks_to_add.join("\n\n");
 
             // add the bibtex entries
             bibtex_box.innerHTML = bibs_to_add.join("\n\n");
