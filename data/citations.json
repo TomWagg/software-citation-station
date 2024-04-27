@@ -7,7 +7,8 @@
         "keywords": [],
         "link": "https://docs.python.org/3/",
         "version_cite_link": "",
-        "attribution_link": "http://citebay.com/how-to-cite/python/"
+        "attribution_link": "http://citebay.com/how-to-cite/python/",
+        "custom_citation": ""
     },
     "numpy": {
         "tags": ["numpy"],
@@ -17,7 +18,8 @@
         "keywords": [],
         "link": "https://numpy.org/doc/stable/",
         "version_cite_link": "",
-        "attribution_link": "https://numpy.org/citing-numpy/"
+        "attribution_link": "https://numpy.org/citing-numpy/",
+        "custom_citation": ""
     },
     "matplotlib": {
         "tags": ["Hunter:2007"],
@@ -27,7 +29,8 @@
         "keywords": ["plotting", "figures", "graphs"],
         "link": "https://matplotlib.org/",
         "version_cite_link": "",
-        "attribution_link": "https://matplotlib.org/stable/users/project/citing.html"
+        "attribution_link": "https://matplotlib.org/stable/users/project/citing.html",
+        "custom_citation": ""
     },
     "astropy": {
         "tags": ["astropy:2013", "astropy:2018", "astropy:2022"],
@@ -37,7 +40,8 @@
         "keywords": ["astronomy", "astrophysics"],
         "link": "https://docs.astropy.org/en/stable/",
         "version_cite_link": "",
-        "attribution_link": "https://www.astropy.org/acknowledging.html"
+        "attribution_link": "https://www.astropy.org/acknowledging.html",
+        "custom_citation": ""
     },
     "scipy": {
         "tags": ["2020SciPy-NMeth"],
@@ -47,7 +51,8 @@
         "keywords": [],
         "link": "https://docs.scipy.org/doc/scipy/reference/",
         "version_cite_link": "",
-        "attribution_link": "https://scipy.org/citing-scipy/"
+        "attribution_link": "https://scipy.org/citing-scipy/",
+        "custom_citation": ""
     },
     "pandas": {
         "tags": ["mckinney-proc-scipy-2010"],
@@ -57,7 +62,8 @@
         "keywords": ["dataframes", "data manipulation"],
         "link": "https://pandas.pydata.org/docs/",
         "version_cite_link": "https://zenodo.org/records/10957263",
-        "attribution_link": "https://pandas.pydata.org/about/citing.html"
+        "attribution_link": "https://pandas.pydata.org/about/citing.html",
+        "custom_citation": ""
     },
     "legwork": {
         "tags": ["LEGWORK_apjs", "LEGWORK_joss"],
@@ -67,7 +73,8 @@
         "keywords": ["LISA", "double compact objects", "inspiral"],
         "link": "https://legwork.readthedocs.io/en/stable/",
         "version_cite_link": "",
-        "attribution_link": "https://legwork.readthedocs.io/en/stable/cite.html"
+        "attribution_link": "https://legwork.readthedocs.io/en/stable/cite.html",
+        "custom_citation": ""
     },
     "MESA": {
         "tags": ["Paxton2011", "Paxton2013", "Paxton2015", "Paxton2018", "Paxton2019", "Jermyn2023",
@@ -82,7 +89,7 @@
         "link": "http://mesa.sourceforge.net/",
         "version_cite_link": "",
         "attribution_link": "http://mesa.sourceforge.net/citing.html",
-        "custom_citation": "This work uses Modules for Experiments in Stellar Astrophysics \\citep[MESA][]{Paxton2011, Paxton2013, Paxton2015, Paxton2018, Paxton2019, Jermyn2023}. The MESA EOS is a blend of the OPAL \\citep{Rogers2002}, SCVH \\citep{Saumon1995}, FreeEOS \\citep{Irwin2004}, HELM \\citep{Timmes2000}, PC \\citep{Potekhin2010}, and Skye \\citep{Jermyn2021} EOSes. Radiative opacities are primarily from OPAL \\citep{Iglesias1993, Iglesias1996}, with low-temperature data from \\citet{Ferguson2005} and the high-temperature, Compton-scattering dominated regime by \\citet{Poutanen2017}.  Electron conduction opacities are from \\citet{Cassisi2007} and \\citet{Blouin2020}. Nuclear reaction rates are from JINA REACLIB \\citep{Cyburt2010}, NACRE \\citep{Angulo1999} and additional tabulated weak reaction rates \\citet{Fuller1985, Oda1994, Langanke2000}.  Screening is included via the prescription of \\citet{Chugunov2007}. Thermal neutrino loss rates are from \\citet{Itoh1996}. Roche lobe radii in binary systems are computed using the fit of \\citet{Eggleton1983}.  Mass transfer rates in Roche lobe overflowing binary systems are determined following the prescription of \\citet{Ritter1988}."
+        "custom_citation": "This work uses Modules for Experiments in Stellar Astrophysics \\citep[MESA][]{Paxton2011, Paxton2013, Paxton2015, Paxton2018, Paxton2019, Jermyn2023}. The MESA EOS is a blend of the OPAL \\citep{Rogers2002}, SCVH \\citep{Saumon1995}, FreeEOS \\citep{Irwin2004}, HELM \\citep{Timmes2000}, PC \\citep{Potekhin2010}, and Skye \\citep{Jermyn2021} EOSes. Radiative opacities are primarily from OPAL \\citep{Iglesias1993, Iglesias1996}, with low-temperature data from \\citet{Ferguson2005} and the high-temperature, Compton-scattering dominated regime by \\citet{Poutanen2017}.  Electron conduction opacities are from \\citet{Cassisi2007} and \\citet{Blouin2020}. Nuclear reaction rates are from JINA REACLIB \\citep{Cyburt2010}, NACRE \\citep{Angulo1999} and additional tabulated weak reaction rates \\citet{Fuller1985, Oda1994, Langanke2000}.  Screening is included via the prescription of \\citet{Chugunov2007}. Thermal neutrino loss rates are from \\citet{Itoh1996}. Roche lobe radii in binary systems are computed using the fit of \\citet{Eggleton1983}.  Mass transfer rates in Roche lobe overflowing binary systems are determined following the prescription of \\citet{Ritter1988}.\\footnote{Note this is only valid for the default settings of MESA, adjust as necessary for custom settings used.}"
     },
     "gyre": {
         "tags": ["Townsend+2013", "Townsend+2018", "Goldstein+2020", "Sun+2023"],
@@ -92,7 +99,8 @@
         "keywords": ["asteroseismology", "stellar oscillations", "stellar pulsations"],
         "link": "https://gyre.readthedocs.io/en/stable/",
         "version_cite_link": "",
-        "attribution_link": "https://gyre.readthedocs.io/en/stable/user-guide/preliminaries.html#citing-gyre"
+        "attribution_link": "https://gyre.readthedocs.io/en/stable/user-guide/preliminaries.html#citing-gyre",
+        "custom_citation": ""
     },
     "showyourwork": {
         "tags": ["Luger2021"],
@@ -102,6 +110,7 @@
         "keywords": ["latex", "paper with code", "workflow management"],
         "link": "https://show-your.work/en/latest/",
         "version_cite_link": "",
-        "attribution_link": "https://show-your.work/en/latest/attribution/"
+        "attribution_link": "https://show-your.work/en/latest/attribution/",
+        "custom_citation": ""
     }
 }
