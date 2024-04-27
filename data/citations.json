@@ -102,6 +102,18 @@
         "attribution_link": "https://gyre.readthedocs.io/en/stable/user-guide/preliminaries.html#citing-gyre",
         "custom_citation": ""
     },
+    "COMPAS": {
+        "tags": ["COMPAS", "Barrett2018", "Broekgaarden2019", "Neijssel2019", "Stevenson2019", "Chattopadhyay2020", "Riley2021"],
+        "logo": "img/COMPAS.png",
+        "language": "c++",
+        "category": "population synthesis",
+        "keywords": ["population synthesis", "binary stars", "double compact objects", "gravitational waves"],
+        "link": "https://compas.science/docs",
+        "version_cite_link": "",
+        "attribution_link": "https://compas.readthedocs.io/en/latest/pages/how-to-cite.html",
+        "custom_citation": "Simulations in this paper made use of the COMPAS rapid binary population synthesis code (version X.Y.Z\\footnote{TODO: Update version number}), which is freely available at \\url{http://github.com/TeamCOMPAS/COMPAS} \\citep{COMPAS}. Model of gravitational wave selection effects based on \\citet{Barrett2018}. The STROOPWAFEL adaptive importance sampling algorithm is from \\citet{Broekgaarden2019}. Integration over cosmic star formation history outlined in \\citep{Neijssel2019}. COMPAS' model of (pulsational) pair instability supernova is from \\citet{Stevenson2019}. Pulsar spin and magnetic field evolution is from \\citet{Chattopadhyay2020}. Model of chemically homogeneous evolution is from \\citet{Riley2021}.",
+        "extra_bibtex": "@PREAMBLE{{\\providecommand{\\noopsort}[1]{}}}"
+    },
     "showyourwork": {
         "tags": ["Luger2021"],
         "logo": "img/showyourwork.png",
