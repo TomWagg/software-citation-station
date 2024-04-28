@@ -139,6 +139,7 @@
     "emcee": {
         "tags": ["emcee-Foreman-Mackey-2013"],
         "logo": "img/emcee.png",
+        "language": "python",
         "category": "statistics",
         "keywords": ["MCMC", "statistics", "sampling", "markov chain"],
         "link": "https://github.com/dfm/emcee",
