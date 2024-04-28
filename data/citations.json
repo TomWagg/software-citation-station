@@ -142,6 +142,8 @@
         "category": "statistics",
         "keywords": ["MCMC", "statistics", "sampling", "markov chain"],
         "link": "https://github.com/dfm/emcee",
-        "version_cite_link": ""
+        "version_cite_link": "",
+        "attribution_link": "https://github.com/dfm/emcee",
+        "custom_citation": ""
     }
 }
