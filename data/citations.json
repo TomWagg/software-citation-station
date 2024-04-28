@@ -135,5 +135,13 @@
         "version_cite_link": "",
         "attribution_link": "https://show-your.work/en/latest/attribution/",
         "custom_citation": ""
+    },
+    "emcee": {
+        "tags": ["emcee-Foreman-Mackey-2013"],
+        "logo": "img/emcee.png",
+        "category": "statistics",
+        "keywords": ["MCMC", "statistics", "sampling", "markov chain"],
+        "link": "https://github.com/dfm/emcee",
+        "version_cite_link": ""
     }
 }
