@@ -146,5 +146,16 @@
         "version_cite_link": "",
         "attribution_link": "https://github.com/dfm/emcee",
         "custom_citation": ""
+    },
+    "corner.py": {
+        "tags": ["corner-Foreman-Mackey-2016"],
+        "logo": "img/corner.png",
+        "language": "python",
+        "category": "statistics",
+        "keywords": ["corner", "statistics", "plotting", "histogram"],
+        "link": "https://github.com/dfm/corner.py",
+        "version_cite_link": "",
+        "attribution_link": "https://corner.readthedocs.io/en/latest/",
+        "custom_citation": ""
     }
 }
