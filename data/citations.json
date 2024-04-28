@@ -157,5 +157,16 @@
         "version_cite_link": "",
         "attribution_link": "https://corner.readthedocs.io/en/latest/",
         "custom_citation": ""
+    },
+    "astroBlend": {
+        "tags": ["AstroBlend:2016"],
+        "logo": "img/AstroBlend.png",
+        "language": "python",
+        "category": "visualisation",
+        "keywords": ["blender", "visualization", "plotting", "yt"],
+        "link": "https://www.astroblend.com/getstarted.html",
+        "version_cite_link": "",
+        "attribution_link": "",
+        "custom_citation": ""
     }
 }
