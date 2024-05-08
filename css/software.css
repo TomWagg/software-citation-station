@@ -147,6 +147,11 @@ footer.footer .social-link:active {
     height: 2rem;
 }
 
+.software-no-logo-text {
+    line-height: 2rem;
+    font-weight: bold;
+}
+
 body.dark #acknowledgement,
 body.dark #bibtex {
     background-color: #333;

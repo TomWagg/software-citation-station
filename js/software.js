@@ -27,7 +27,17 @@ Promise.all([
         btn.setAttribute("data-keywords", citations[key]["keywords"].join(","))
         btn.setAttribute("data-category", citations[key]["category"])
         btn.querySelector(".software-name").innerHTML = "<pre>" + key + "</pre>";
-        btn.querySelector(".software-logo").src = citations[key]["logo"];
+
+        if (citations[key]["logo"] === "") {
+            btn.querySelector(".software-logo").remove();
+            let el = document.createElement("span");
+            el.className = "software-no-logo-text";
+            el.innerText = key;
+            btn.insertBefore(el, btn.querySelector(".software-name"));
+        } else {
+            btn.querySelector(".software-logo").src = citations[key]["logo"];
+
+        }
         btn.id = "";
         
         // add a click event to the button
