@@ -212,5 +212,16 @@
         "version_cite_link": "",
         "attribution_link": "https://github.com/N-BodyShop/changa",
         "custom_citation": ""
+    },
+    "FIRE-2": {
+        "tags": ["Wetzel2023", "Hopkins2015", "Hopkins2018a"],
+        "logo": "img/FIRE.png",
+        "language": "c",
+        "category": "n-body",
+        "keywords": ["n-body", "galaxy formation", "galaxy evolution", "feedback"],
+        "link": "http://flathub.flatironinstitute.org/fire",
+        "version_cite_link": "",
+        "attribution_link": "http://flathub.flatironinstitute.org/fire",
+        "custom_citation": "We use simulations from the FIRE-2 public data release \\citep{Wetzel2023}. The FIRE-2 cosmological zoom-in simulations of galaxy formation are part of the Feedback In Realistic Environments (FIRE) project, generated using the Gizmo code \\citep{Hopkins2015} and the FIRE-2 physics model \\citep{Hopkins2018a}."
     }
 }
