@@ -125,6 +125,17 @@
         "attribution_link": "https://github.com/COSMIC-PopSynth/COSMIC/blob/develop/README.md",
         "custom_citation": ""
     },
+    "gala": {
+        "tags": ["gala_JOSS"],
+        "logo": "img/gala.png",
+        "language": "python",
+        "category": "galactic dynamics",
+        "keywords": ["dynamics", "galaxy", "potential"],
+        "link": "http://gala.adrian.pw/",
+        "version_cite_link": "https://zenodo.org/records/10449846",
+        "attribution_link": "http://gala.adrian.pw/en/latest/index.html",
+        "custom_citation": ""
+    },
     "showyourwork": {
         "tags": ["Luger2021"],
         "logo": "img/showyourwork.png",
@@ -182,7 +193,7 @@
     },
     "h5py": {
         "tags": ["collette_python_hdf5_2014"],
-        "logo": "img/hdf5.png",
+        "logo": "img/HDF5.png",
         "language": "python",
         "category": "python",
         "keywords": ["data handling", "data analysis", "plotting", "coding"],
