@@ -201,5 +201,16 @@
         "version_cite_link": "",
         "attribution_link": "https://docs.h5py.org/en/stable/licenses.html",
         "custom_citation": ""
+    },
+    "ChaNGa": {
+        "tags": ["Jetley2008", "Jetley2010", "Menon2015"],
+        "logo": "",
+        "language": "c++",
+        "category": "n-body",
+        "keywords": ["n-body", "galaxy formation", "galaxy evolution"],
+        "link": "https://github.com/N-BodyShop/changa/wiki",
+        "version_cite_link": "",
+        "attribution_link": "https://github.com/N-BodyShop/changa",
+        "custom_citation": ""
     }
 }
