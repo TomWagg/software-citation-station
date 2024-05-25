@@ -61,9 +61,17 @@
                             Select the software <button class="btn" id="expand" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Expand"><i class="fa fa-arrow-right"></i></button>
                         </h3>
                         <p class="header-desc">Use the buttons below to select the software that you used in your research</p>
-                        <div class="input-group mb-3">
+                        <div class="input-group mb-1">
                             <input id="software-search" type="text" class="form-control" placeholder="Search for software" />
                             <button class="btn btn-primary" id="software-search-clear" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Clear search"><i class="fa fa-times"></i></button>
+                        </div>
+                        <div class="input-group mb-3">
+                            <select class="form-select" id="software-category">
+                                <option value="all">All categories</option>
+                            </select>
+                            <select class="form-select" id="software-language">
+                                <option value="all">All languages</option>
+                            </select>
                         </div>
                         <div id="software-list" class="text-center">
                             <button id="software-btn-template" class="btn btn-primary hide me-2 software-button mb-2"><img class="software-logo me-1" src="img/python.png" /><span class="software-name">Software name</span></button>

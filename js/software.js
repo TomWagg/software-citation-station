@@ -18,6 +18,12 @@ Promise.all([
     const ack = document.getElementById("acknowledgement");
     const bibtex_box = document.getElementById("bibtex");
 
+    const category_select = document.getElementById("software-category");
+    const language_select = document.getElementById("software-language");
+
+    let categories = new Set();
+    let languages = new Set();
+
     // setup each button
     for (var key in citations) {
         // clone the template button and populate it with the relevant data
@@ -27,6 +33,14 @@ Promise.all([
         btn.setAttribute("data-keywords", citations[key]["keywords"].join(","))
         btn.setAttribute("data-category", citations[key]["category"])
         btn.querySelector(".software-name").innerHTML = "<pre>" + key + "</pre>";
+
+        if (!categories.has(citations[key]["category"])) {
+            categories.add(citations[key]["category"]);
+        }
+
+        if (!languages.has(citations[key]["language"])) {
+            languages.add(citations[key]["language"]);
+        }
 
         if (citations[key]["logo"] === "") {
             btn.querySelector(".software-logo").remove();
@@ -142,6 +156,22 @@ Promise.all([
         // unhide the button and add it to the list
         btn.classList.remove("hide");
         software_list.appendChild(btn);
+    }
+
+    for (let cat of [...categories].sort()) {
+        let cat_caps = cat.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
+        const cat_opt = document.createElement("option");
+        cat_opt.value = cat_caps;
+        cat_opt.innerText = cat_caps;
+        category_select.appendChild(cat_opt);
+    }
+
+    for (let lang of [...languages].sort()) {
+        let lang_caps = lang.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
+        const lang_opt = document.createElement("option");
+        lang_opt.value = lang_caps;
+        lang_opt.innerText = lang_caps;
+        language_select.appendChild(lang_opt);
     }
 
     document.getElementById("software-loading").classList.add("hide");
