@@ -1,4 +1,5 @@
 <div align="center">
+  <img width='200px' src='img/software-citation-station.png'>
   <h1>The Software Citation Station</h1>
   <p>A website for making citing software used in your research quick and easy</p>
 </div>

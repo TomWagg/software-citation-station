@@ -116,9 +116,10 @@ Promise.all([
                 ack.innerHTML += "\n\n";
             }
             ack.innerHTML += custom_acks_to_add.join("\n\n");
-            ack.innerHTML += "\n\n" + highlight_latex("Software citation information aggregated using The Software Citation Station.\\footnote{\\url{https://www.tomwagg.com/software-citation-station/}}")
+            ack.innerHTML += "\n\n" + highlight_latex("Software citation information aggregated using \\textit{The Software Citation Station} \\citep{software_citation_station}.");
 
             // add the bibtex entries
+            bibs_to_add.push(highlight_bibtex(bibtex_table['software_citation_station']))
             bibtex_box.innerHTML = bibs_to_add.join("\n\n");
 
             // create a button that copies the contents of each
