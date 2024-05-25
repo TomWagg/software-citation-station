@@ -256,5 +256,16 @@
         "version_cite_link": "",
         "attribution_link": "https://github.com/janosch314/GWFish",
         "custom_citation": ""
+    },
+    "CAMELS": {
+        "tags": [ "CAMELS_presentation", "CAMELS_DR1", "CAMELS_DR2"],
+        "logo": "img/CAMELS.png",
+        "language": "python",
+        "category": "population synthesis",
+        "keywords": ["CAMELS", "cosmology simulations", "galaxies"],
+        "link": "https://camels.readthedocs.io/en/latest/",
+        "version_cite_link": "",
+        "attribution_link": "https://camels.readthedocs.io/en/latest/citation.html",
+        "custom_citation": "\\footnote{TODO: If you use data from CAMELS-SAM please consider citing the CMD paper  \\citet{CMD} If you use data from CAMELS-SAM please consider citing the CAMELS-SAM paper \\citet{CAMELS-SAM}}"
     }
 }
