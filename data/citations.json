@@ -223,5 +223,16 @@
         "version_cite_link": "",
         "attribution_link": "http://flathub.flatironinstitute.org/fire",
         "custom_citation": "We use simulations from the FIRE-2 public data release \\citep{Wetzel2023}. The FIRE-2 cosmological zoom-in simulations of galaxy formation are part of the Feedback In Realistic Environments (FIRE) project, generated using the Gizmo code \\citep{Hopkins2015} and the FIRE-2 physics model \\citep{Hopkins2018a}."
+    },
+    "stella": {
+        "tags": ["Feinstein2020"],
+        "logo": "img/stella.png",
+        "language": "python",
+        "category": "stellar evolution",
+        "keywords": ["flares", "stellar activity", "machine learning", "neural networks"],
+        "link": "https://github.com/afeinstein20/stella",
+        "version_cite_link": "",
+        "attribution_link": "https://github.com/afeinstein20/stella",
+        "custom_citation": ""
     }
 }
