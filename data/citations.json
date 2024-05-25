@@ -245,5 +245,16 @@
         "version_cite_link": "",
         "attribution_link": "https://github.com/afeinstein20/stella",
         "custom_citation": ""
+    },
+    "GWFish": {
+        "tags": ["DupletsaHarms2023"],
+        "logo": "img/gwfish-1.png",
+        "language": "python",
+        "category": "gravitational waves",
+        "keywords": ["gravitational waves", "fisher", "black holes"],
+        "link": "https://github.com/janosch314/GWFish",
+        "version_cite_link": "",
+        "attribution_link": "https://github.com/janosch314/GWFish",
+        "custom_citation": ""
     }
 }
