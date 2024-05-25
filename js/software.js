@@ -116,6 +116,7 @@ Promise.all([
                 ack.innerHTML += "\n\n";
             }
             ack.innerHTML += custom_acks_to_add.join("\n\n");
+            ack.innerHTML += "\n\n" + highlight_latex("Software citation information aggregated using The Software Citation Station.\\footnote{\\url{https://www.tomwagg.com/software-citation-station/}}")
 
             // add the bibtex entries
             bibtex_box.innerHTML = bibs_to_add.join("\n\n");
