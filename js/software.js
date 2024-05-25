@@ -32,6 +32,7 @@ Promise.all([
         btn.setAttribute("data-tags", citations[key]["tags"].join(","))
         btn.setAttribute("data-keywords", citations[key]["keywords"].join(","))
         btn.setAttribute("data-category", citations[key]["category"])
+        btn.setAttribute("data-language", citations[key]["language"])
         btn.querySelector(".software-name").innerHTML = "<pre>" + key + "</pre>";
 
         if (!categories.has(citations[key]["category"])) {
@@ -191,15 +192,23 @@ window.addEventListener('DOMContentLoaded', () => {
         typingTimer = setTimeout(handle_search, doneTypingInterval);
     });
 
+    document.getElementById("software-category").addEventListener('change', handle_search);
+    document.getElementById("software-language").addEventListener('change', handle_search); 
+
     function handle_search() {
         let search = document.getElementById("software-search").value.toLowerCase();
         const btns = document.querySelectorAll(".software-button:not(#software-btn-template)")
+
+        const category = document.getElementById("software-category").value.toLowerCase();
+        const language = document.getElementById("software-language").value.toLowerCase();
 
         let all_hidden = true;
         for (let btn of btns) {
             const btn_key = btn.getAttribute("data-key").toLowerCase();
             const btn_keywords = btn.getAttribute("data-keywords").toLowerCase();
-            const matches_search = btn_key.includes(search) || btn_keywords.includes(search);
+            const matches_search = ((btn_key.includes(search) || btn_keywords.includes(search))
+                                    && (category === "all" || btn.getAttribute("data-category").toLowerCase() === category)
+                                    && (language === "all" || btn.getAttribute("data-language").toLowerCase() === language));
             if (matches_search) {
                 all_hidden = false;
             }
