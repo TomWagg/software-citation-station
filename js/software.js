@@ -197,6 +197,25 @@ window.addEventListener('DOMContentLoaded', () => {
             empty_msg.classList.add("hide");
         }
     }
+
+    document.getElementById("expand").addEventListener('click', function() {
+        const left_col = document.getElementById("left-col");
+        const right_col = document.getElementById("right-col");
+        if (left_col.classList.contains("col-lg-6")) {
+            left_col.classList.remove("col-lg-6");
+            left_col.classList.remove("mb-lg-0");
+            right_col.classList.remove("col-lg-6");
+            this.querySelector("i").className = "fa fa-arrow-left";
+        } else {
+            left_col.classList.add("col-lg-6");
+            left_col.classList.add("mb-lg-0");
+            right_col.classList.add("col-lg-6");
+            this.querySelector("i").className = "fa fa-arrow-right";
+        }
+    });
+
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 });
 
 function parse_bibtex(bibtex_text) {
@@ -250,6 +269,7 @@ function copy_button(text) {
     copy_btn.addEventListener('click', function() {
         navigator.clipboard.writeText(text);
     });
+    new bootstrap.Tooltip(copy_btn)
     return copy_btn 
 }
 
@@ -258,6 +278,7 @@ function download_button(text) {
     download_btn.classList.remove("hide");
     download_btn.querySelector("i").classList.remove("fa-copy");
     download_btn.querySelector("i").classList.add("fa-download");
+    download_btn.setAttribute("data-bs-title", "Download to file");
     download_btn.addEventListener('click', function() {
         let blob = new Blob([text], {type: "text/plain"});
         let url = URL.createObjectURL(blob);
@@ -268,6 +289,7 @@ function download_button(text) {
         a.click();
         window.URL.revokeObjectURL(url);
     });
+    new bootstrap.Tooltip(download_btn)
     return download_btn
 }
 

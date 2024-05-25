@@ -139,6 +139,19 @@ footer.footer .social-link:active {
     font-weight: bold;
 }
 
+#left-col, #right-col {
+    transition: 800ms;
+}
+
+#expand {
+    border-radius: 100%;
+}
+
+.software-list {
+    overflow: scroll;
+    max-height: 500px;
+}
+
 .software-item {
     padding: 0.5rem;
 }
