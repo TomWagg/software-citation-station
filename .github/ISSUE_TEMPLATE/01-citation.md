@@ -29,7 +29,7 @@ Fill out the sections below with the information about the software package, her
     "link": ""                  # URL to documentation
 }
 ```
-(See other examples [here](https://github.com/TomWagg/software-cite/blob/main/data/citations.json))
+(See other examples [here](https://github.com/TomWagg/software-citation-station/blob/main/data/citations.json))
 
 
 # Bibtex
@@ -37,7 +37,7 @@ Fill out the sections below with the information about the software package, her
 ```
 Your bibtex here
 ```
-(See other examples [here](https://github.com/TomWagg/software-cite/blob/main/data/bibtex.bib))
+(See other examples [here](https://github.com/TomWagg/software-citation-station/blob/main/data/bibtex.bib))
 
 # Logo (optional)
 Either attach or link a file for a logo for the package. **Please ensure this image is free to use**. Square logos are preferred if available.

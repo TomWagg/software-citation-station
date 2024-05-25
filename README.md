@@ -4,9 +4,9 @@
 </div>
 
 <p align="center">
-  <a href="https://www.tomwagg.com/software-cite/">Visit the software citation station</a>
+  <a href="https://www.tomwagg.com/software-citation-station/">Visit the software citation station</a>
   • 
-  <a href="https://github.com/TomWagg/software-cite/issues/new?assignees=&labels=new-citation&projects=&template=01-citation.md&title=">Submit a new citation</a>
+  <a href="https://github.com/TomWagg/software-citation-station/issues/new?assignees=&labels=new-citation&projects=&template=01-citation.md&title=">Submit a new citation</a>
 </p>
 
 **Why is it important to cite software?**
