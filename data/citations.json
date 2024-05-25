@@ -65,6 +65,17 @@
         "attribution_link": "https://pandas.pydata.org/about/citing.html",
         "custom_citation": ""
     },
+    "seaborn": {
+        "tags": ["Waskom2021"],
+        "logo": "img/seaborn.svg",
+        "language": "python",
+        "category": "visualisation",
+        "keywords": ["plotting", "figures", "graphs"],
+        "link": "https://seaborn.pydata.org/",
+        "version_cite_link": "",
+        "attribution_link": "https://seaborn.pydata.org/citing.html",
+        "custom_citation": ""
+    },
     "legwork": {
         "tags": ["LEGWORK_apjs", "LEGWORK_joss"],
         "logo": "img/legwork.png",
