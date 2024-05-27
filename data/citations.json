@@ -302,5 +302,16 @@
         "link": "https://github.com/google/jax?tab=readme-ov-file",
         "version_cite_link": "",
         "attribution_link": "https://github.com/google/jax?tab=readme-ov-file#citing-jax",
+    },
+    "Cython": {
+        "tags": [ "cython:2011"],
+        "logo": "img/cython.png",
+        "language": "python",
+        "category": "computing",
+        "keywords": ["C++", "computing", "python"],
+        "description": "Cython is a Python language extension that allows explicit type declarations and is compiled directly to C. As such, it addresses Python's large overhead for numerical loops and the difficulty of efficiently using existing C and Fortran code, which Cython can interact with natively.",
+        "link": "https://github.com/cython/cython?tab=readme-ov-file",
+        "version_cite_link": "",
+        "attribution_link": "https://cython.org/",
     }
 }
