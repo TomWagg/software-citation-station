@@ -351,5 +351,17 @@
         "version_cite_link": "",
         "attribution_link": "https://numba.readthedocs.io/en/stable/user/faq.html#how-do-i-reference-cite-acknowledge-numba-in-other-work",
         "custom_citation": ""
+    },
+    "ADS":{
+        "tags": [],
+        "logo": "img/ads.png",
+        "language": "java",
+        "category": "library",
+        "keywords": ["library", "references", "papers"],
+        "description": "The SAO/NASA Astrophysics Data System (ADS) is a digital library portal for researchers in astronomy and physics, operated by the Smithsonian Astrophysical Observatory (SAO) under a NASA grant.",
+        "link": "https://ui.adsabs.harvard.edu/about/",
+        "version_cite_link": "",
+        "attribution_link": "https://ui.adsabs.harvard.edu/about/",
+        "custom_citation": "This research has made use of NASA’s Astrophysics Data System."
     }
 }
