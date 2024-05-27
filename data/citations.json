@@ -291,5 +291,16 @@
         "version_cite_link": "",
         "attribution_link": "https://camels.readthedocs.io/en/latest/citation.html",
         "custom_citation": "\\footnote{TODO: If you use data from CAMELS-SAM please consider citing the CMD paper  \\citet{CMD} If you use data from CAMELS-SAM please consider citing the CAMELS-SAM paper \\citet{CAMELS-SAM}}"
+    },
+    "JAX": {
+        "tags": [ "jax2018github"],
+        "logo": "img/jax.png",
+        "language": "python",
+        "category": "computing",
+        "keywords": ["jax", "computing", "AI"],
+        "description": "JAX is a Python library for accelerator-oriented array computation and program transformation, designed for high-performance numerical computing and large-scale machine learning.",
+        "link": "https://github.com/google/jax?tab=readme-ov-file",
+        "version_cite_link": "",
+        "attribution_link": "https://github.com/google/jax?tab=readme-ov-file#citing-jax",
     }
 }
