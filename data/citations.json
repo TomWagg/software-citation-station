@@ -335,5 +335,16 @@
         "link": "https://scikit-learn.org/stable/",
         "version_cite_link": "",
         "attribution_link": "https://github.com/scikit-learn/scikit-learn?tab=readme-ov-file",
+    },
+    "Numba": {
+        "tags": [ "numba:2015"],
+        "logo": "img/numba.png",
+        "language": "python",
+        "category": "computing",
+        "keywords": ["machine learning", "computing", "python"],
+        "description": "Numba is an open source JIT compiler that translates a subset of Python and NumPy code into fast machine code.",
+        "link": "https://numba.pydata.org/",
+        "version_cite_link": "",
+        "attribution_link": "https://numba.readthedocs.io/en/stable/user/faq.html#how-do-i-reference-cite-acknowledge-numba-in-other-work",
     }
 }
