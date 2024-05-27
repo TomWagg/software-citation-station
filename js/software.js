@@ -61,13 +61,18 @@ Promise.all([
 
         let tooltip = new bootstrap.Tooltip(btn, {
             title: function() {
-                const details = document.getElementById("details");
+                const details = document.getElementById("details").cloneNode(true);
                 details.querySelector(".details-name").innerText = btn.getAttribute("data-key");
                 details.querySelector(".details-category").innerText = capitalise(btn.getAttribute("data-category"));
                 details.querySelector(".details-language").innerText = capitalise(btn.getAttribute("data-language"));
-                // details.querySelector(".details-description").innerText = citations[key]["description"];
-                details.querySelector(".details-logo").src = btn.querySelector(".software-logo").src
-                console.log(details.outerHTML)
+                details.querySelector(".details-desc").innerText = citations[btn.getAttribute("data-key")]["description"];
+                if (btn.querySelector(".software-logo") !== null) {
+                    details.querySelector(".details-logo").src = btn.querySelector(".software-logo").src
+                } else {
+                    details.querySelector(".details-logo").remove();
+                }
+                details.querySelector(".details-docs").href = citations[btn.getAttribute("data-key")]["link"];
+                details.querySelector(".details-cite").href = citations[btn.getAttribute("data-key")]["attribution_link"];
                 return details.innerHTML;
             },
             html: true,
