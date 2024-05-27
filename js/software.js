@@ -216,6 +216,17 @@ window.addEventListener('DOMContentLoaded', () => {
     let typingTimer;
     let doneTypingInterval = 200;
 
+    window.addEventListener('click', function(e) {
+        if (!e.target.classList.contains("software-button")
+            && !e.target.className.includes("details")
+            && !e.target.classList.contains("tooltip")
+            && !e.target.classList.contains("tooltip-inner")) {
+            document.querySelectorAll(".software-button").forEach(function(btn) {
+                bootstrap.Tooltip.getOrCreateInstance(btn).hide();
+            });
+        }
+    });
+
     document.getElementById("software-search-clear").addEventListener('click', function() {
         document.getElementById("software-search").value = "";
         handle_search();
