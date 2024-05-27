@@ -24,9 +24,14 @@ Fill out the sections below with the information about the software package, her
 ```
 "YOUR_PACKAGE_NAME_HERE": {
     "tags": [""],               # bibtex tags for citations
+    "language": "",             # programming language
     "category": "",             # choose a general category (check the site for current list)
     "keywords": [""],           # list any keywords for searching
+    "description": "",          # short description of the software
     "link": ""                  # URL to documentation
+    "version_cite_link": "",    # (optional) if this software requests a specific version be cited, include a link to a page describing how to do this
+    "attribution_link": "",     # link confirming this is how the software should be cited
+    "custom_citation": ""       # (optional) custom citation string to overwrite the default
 }
 ```
 (See other examples [here](https://github.com/TomWagg/software-citation-station/blob/main/data/citations.json))
