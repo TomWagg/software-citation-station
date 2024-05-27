@@ -313,5 +313,27 @@
         "link": "https://github.com/cython/cython?tab=readme-ov-file",
         "version_cite_link": "",
         "attribution_link": "https://cython.org/",
+    },
+    "scikit-image": {
+        "tags": [ "scikit-image"],
+        "logo": "img/scikit-image.png",
+        "language": "python",
+        "category": "visualisation",
+        "keywords": ["python", "computing", "visualization"],
+        "description": "scikit-image is a collection of algorithms for image processing. ",
+        "link": "https://scikit-image.org/",
+        "version_cite_link": "",
+        "attribution_link": "https://scikit-image.org/",
+    },
+    "scikit-learn": {
+        "tags": [ "scikit-learn", "sklearn_api"],
+        "logo": "img/scikit-learn.png",
+        "language": "python",
+        "category": "machine learning",
+        "keywords": ["python", "computing", "machine learning"],
+        "description": "scikit-learn is a Python module for machine learning built on top of SciPy and is distributed under the 3-Clause BSD license. ",
+        "link": "https://scikit-learn.org/stable/",
+        "version_cite_link": "",
+        "attribution_link": "https://github.com/scikit-learn/scikit-learn?tab=readme-ov-file",
     }
 }
