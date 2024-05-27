@@ -232,3 +232,12 @@ pre {
 .animate__animated.animate__bounceOut {
     --animate-duration: 0.8s;
 }
+
+.details-logo {
+    max-height: 100px;
+    max-width: calc(18rem - 2 * var(--bs-tooltip-padding-x));
+}
+
+.tooltip {
+    --bs-tooltip-max-width: 18rem;
+}

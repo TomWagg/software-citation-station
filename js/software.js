@@ -54,11 +54,44 @@ Promise.all([
 
         }
         btn.id = "";
+
+        // unhide the button and add it to the list
+        btn.classList.remove("hide");
+        software_list.appendChild(btn);
+
+        let tooltip = new bootstrap.Tooltip(btn, {
+            title: function() {
+                const details = document.getElementById("details");
+                details.querySelector(".details-name").innerText = btn.getAttribute("data-key");
+                details.querySelector(".details-category").innerText = capitalise(btn.getAttribute("data-category"));
+                details.querySelector(".details-language").innerText = capitalise(btn.getAttribute("data-language"));
+                // details.querySelector(".details-description").innerText = citations[key]["description"];
+                details.querySelector(".details-logo").src = btn.querySelector(".software-logo").src
+                console.log(details.outerHTML)
+                return details.innerHTML;
+            },
+            html: true,
+            trigger: 'manual'
+        });
+
+        btn.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            tooltip.toggle();
+
+            document.querySelectorAll(".software-button").forEach(function(btn) {
+                if (btn !== e.target) {
+                    bootstrap.Tooltip.getOrCreateInstance(btn).hide();
+                }
+            });
+        });
         
         // add a click event to the button
         btn.addEventListener('click', function() {
             // toggle the active class
             this.classList.toggle("active");
+
+            tooltip.hide();
 
             // keep track of the acknowledgements and bibtex entries to add
             let ack_to_add = [];
@@ -153,14 +186,10 @@ Promise.all([
             btn_group.appendChild(download_button(bibtex_box.innerText));
             bibtex_box.parentElement.appendChild(btn_group);
         });
-
-        // unhide the button and add it to the list
-        btn.classList.remove("hide");
-        software_list.appendChild(btn);
     }
 
     for (let cat of [...categories].sort()) {
-        let cat_caps = cat.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
+        let cat_caps = capitalise(cat);
         const cat_opt = document.createElement("option");
         cat_opt.value = cat_caps;
         cat_opt.innerText = cat_caps;
@@ -168,7 +197,7 @@ Promise.all([
     }
 
     for (let lang of [...languages].sort()) {
-        let lang_caps = lang.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
+        let lang_caps = capitalise(lang);
         const lang_opt = document.createElement("option");
         lang_opt.value = lang_caps;
         lang_opt.innerText = lang_caps;
@@ -256,6 +285,10 @@ window.addEventListener('DOMContentLoaded', () => {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 });
+
+function capitalise(string) {
+    return string.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
+}
 
 function parse_bibtex(bibtex_text) {
     // parse the bibtex file into a dictionary of tags and entries
@@ -348,3 +381,8 @@ const animateCSS = (node, animation, prefix = 'animate__') =>
 
     node.addEventListener('animationend', handleAnimationEnd, {once: true});
   });
+
+
+function convertRemToPixels(rem) {    
+    return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+}
