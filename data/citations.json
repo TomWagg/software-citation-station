@@ -363,5 +363,17 @@
         "version_cite_link": "",
         "attribution_link": "https://ui.adsabs.harvard.edu/about/",
         "custom_citation": "This research has made use of NASA’s Astrophysics Data System."
+    },
+    "IRAF":{
+        "tags": ["1993ASPC...52..173T", "1986SPIE..627..733T"],
+        "logo": "img/IRAF.png",
+        "language": "C",
+        "category": "imaging",
+        "keywords": ["imaging", "data reduction", "observations", "images"],
+        "description": "IRAF is the Image Reduction and Analysis Facility, a general purpose software system for the reduction and analysis of astronomical data.",
+        "link": "https://iraf-community.github.io/",
+        "version_cite_link": "",
+        "attribution_link": "https://iraf-community.github.io/",
+        "custom_citation": ""
     }
 }
