@@ -147,7 +147,7 @@ footer.footer .social-link:active {
     border-radius: 100%;
 }
 
-.software-list {
+#software-list {
     overflow: scroll;
     max-height: 500px;
 }
