@@ -51,7 +51,9 @@ Promise.all([
             btn.insertBefore(el, btn.querySelector(".software-name"));
         } else {
             btn.querySelector(".software-logo").src = citations[key]["logo"];
-
+            if (citations[key]["logo_background"]) {
+                btn.querySelector(".software-logo").classList.add("bg-white", "p-1");
+            }
         }
         btn.id = "";
 
@@ -141,8 +143,10 @@ Promise.all([
                 }
 
                 // same for the bibtex
-                for (let tag of btn_tags) {
-                    bibs_to_add.push(highlight_bibtex(bibtex_table[tag]));
+                if (btn_tags[0] != "") {
+                    for (let tag of btn_tags) {
+                        bibs_to_add.push(highlight_bibtex(bibtex_table[tag]));
+                    }
                 }
 
                 const extra_bibtex = citations[btn.getAttribute("data-key")]["extra_bibtex"];

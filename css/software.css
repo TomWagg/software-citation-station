@@ -158,6 +158,7 @@ footer.footer .social-link:active {
 
 .software-logo {
     height: 2rem;
+    border-radius: 0.25rem;
 }
 
 .software-no-logo-text {
