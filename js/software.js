@@ -302,6 +302,30 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    document.getElementById("software-clear").addEventListener('click', function() {
+        let buttons = document.querySelectorAll(".software-button.active")
+        for (let i = 0; i < buttons.length - 1; i++) {
+            buttons[i].classList.remove("active");
+        }
+        buttons[buttons.length - 1].click();
+    });
+
+    document.querySelectorAll("#version-selector button").forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const active_btn = this.parentElement.querySelector(".active");
+            console.log(this, active_btn)
+            if (active_btn !== this) {
+                active_btn.classList.remove("active");
+                this.classList.add("active");
+            }
+        });
+    });
+
+    document.getElementById("test").addEventListener('click', function() {
+        fetchZenodoRecords("10.5281/zenodo.593786");
+    });
+
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 });
@@ -406,3 +430,68 @@ const animateCSS = (node, animation, prefix = 'animate__') =>
 function convertRemToPixels(rem) {    
     return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
 }
+
+// Function to fetch records from Zenodo API
+async function fetchZenodoRecords(concept_doi) {
+    // Build the complete URL with the query parameter for concept DOI
+    const url = `https://zenodo.org/api/records?q=conceptdoi:"${concept_doi}"&all_versions=true`;
+    try {
+        // Make the API request with the Accept header for BibTeX format
+        const response = await fetch(url);
+        
+        // Check if the response is OK (status code 200-299)
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+
+        // Log the data to the console
+        console.log(data);
+        console.log(data.hits.hits)
+
+        version_to_id = {}
+        for (let hit of data.hits.hits) {
+            version_to_id[hit.metadata.version] = hit.id;
+        }
+        console.log(version_to_id)
+        
+        
+        // Process the data as needed
+        // Since it's BibTeX format, you might just log it or parse it as per your need
+    } catch (error) {
+        // Handle errors
+        console.error('Error fetching records:', error);
+    }
+}
+
+// // Function to fetch records from Zenodo API
+// async function fetchZenodoRecords(concept_doi) {
+//     // Build the complete URL with the query parameter for concept DOI
+//     const url = `https://zenodo.org/api/records?q=conceptdoi:"${concept_doi}"&all_versions=false`;
+//     try {
+//         // Make the API request with the Accept header for BibTeX format
+//         const response = await fetch(url, {
+//             headers: {
+//                 'Accept': 'application/x-bibtex'
+//             }
+//         });
+        
+//         // Check if the response is OK (status code 200-299)
+//         if (!response.ok) {
+//             throw new Error(`HTTP error! Status: ${response.status}`);
+//         }
+        
+//         // Get the text response (BibTeX format)
+//         const data = await response.text();
+        
+//         // Log the data to the console
+//         console.log(data);
+        
+//         // Process the data as needed
+//         // Since it's BibTeX format, you might just log it or parse it as per your need
+//     } catch (error) {
+//         // Handle errors
+//         console.error('Error fetching records:', error);
+//     }
+// }

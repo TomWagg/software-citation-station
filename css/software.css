@@ -242,3 +242,8 @@ pre {
 .tooltip {
     --bs-tooltip-max-width: 18rem;
 }
+
+.version-button {
+    font-size: 0.8rem;
+    font-weight: bold;
+}

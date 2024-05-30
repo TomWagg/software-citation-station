@@ -26,6 +26,7 @@
     </head>
 
     <body>
+        <button class="btn btn-lg btn-dark" id="test">TEST</button>
         <button class="btn btn-dark corner-button hide" id="copy-template" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Copy to clipboard"><i class="fa fa-copy"></i></button>
         <label for="dark-mode-checkbox" class="dark-mode-label">
             <input type="checkbox" id="dark-mode-checkbox" />
@@ -65,13 +66,18 @@
                             <input id="software-search" type="text" class="form-control" placeholder="Search for software" />
                             <button class="btn btn-primary" id="software-search-clear" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Clear search"><i class="fa fa-times"></i></button>
                         </div>
-                        <div class="input-group mb-3">
+                        <div class="input-group mb-1">
                             <select class="form-select" id="software-category">
                                 <option value="all">All categories</option>
                             </select>
                             <select class="form-select" id="software-language">
                                 <option value="all">All languages</option>
                             </select>
+                        </div>
+                        <div class="btn-toolbar justify-content-center" role="toolbar">
+                            <div class="btn-group me-2 mb-3" role="group">
+                                <button class="btn btn-primary" id="software-clear">Clear selections</button>
+                            </div>
                         </div>
                         <div id="software-list" class="text-center">
                             <button id="software-btn-template" class="btn btn-primary hide me-2 software-button mb-2"><img class="software-logo me-1" src="img/python.png" /><span class="software-name">Software name</span></button>
@@ -83,20 +89,49 @@
                 <div id="right-col" class="col-12 col-lg-6">
                     <div class="row">
                         <div class="col-6 col-lg-12 mb-0 mb-lg-2">
-                            <div id="acknowledgement-box" class="rounded-box">
+                            <div id="version-box" class="rounded-box">
                                 <div class="header-number">2</div>
-                                <h3 class="header-title">Copy the acknowledgement</h3>
-                                <p class="header-desc">Copy the acknowledgement that is created here into your LaTeX manuscript</p>
-                                <pre id="acknowledgement" class="rounded-box">
-                                    <i>Acknowledgement will go here</i>
-                                </pre>
+                                <h3 class="header-title">Choose your versions</h3>
+                                <p class="header-desc mb-1">Choose the versions of the software that you've used</p>
+                                <div class="justify-content-center text-center">
+                                    <div class="btn-group mb-2">
+                                        <div class="btn-group" role="group" id="version-selector">
+                                            <button class="btn btn-primary active" id="latest_version">Use latest versions</button>
+                                            <button class="btn btn-primary" id="choose_version">Choose versions</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="version-list" class="row">
+                                    <div class="col-3 col-lg-6 mb-2">
+                                        <div class="card text-center version-card">
+                                            <div class="card-body">
+                                                <img class="software-logo" src="img/python.png" />
+                                                <pre class="card-title">python</pre>
+                                                <p class="card-text">Getting versions <i class="fa fa-spinner fa-spin"></i></p>
+                                                <select class="form-select version-select">
+                                                    <option value="-">Select version</option>
+                                                    <option value="v1.0">v1.0</option>
+                                                    <option value="v2.0">v2.0</option>
+                                                    <option value="v3.0">v3.0</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-6 col-lg-12">
-                            <div id="bibtex-box" class="rounded-box">
+                    </div>
+                </div>
+                <div id="bottom-col" class="col-12 mt-2">
+                    <div class="row">
+                        <div class="col-12 mb-2">
+                            <div id="acknowledgement-box" class="rounded-box">
                                 <div class="header-number">3</div>
-                                <h3 class="header-title">Save the bibtex</h3>
-                                <p class="header-desc">Save this bibtex file and import it in your manuscript</p>
+                                <h3 class="header-title">Copy acknowledgement and bibtex</h3>
+                                <p class="header-desc">Copy the acknowledgement that is created here into your LaTeX manuscript, and save the BibTeX.</p>
+                                <pre id="acknowledgement" class="rounded-box mb-2">
+                                    <i>Acknowledgement will go here</i>
+                                </pre>
                                 <div id="bibtex-wrapper">
                                     <pre id="bibtex" class="rounded-box"><code><i>Bibtex will go here</i></code></pre>
                                 </div>

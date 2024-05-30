@@ -7,7 +7,7 @@
         "keywords": [],
         "description": "A high-level, general-purpose interpreted programming language.",
         "link": "https://docs.python.org/3/",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "http://citebay.com/how-to-cite/python/",
         "custom_citation": ""
     },
@@ -20,7 +20,7 @@
         "keywords": [],
         "description": "The fundamental package for scientific computing with Python",
         "link": "https://numpy.org/doc/stable/",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "https://numpy.org/citing-numpy/",
         "custom_citation": ""
     },
@@ -32,7 +32,7 @@
         "keywords": ["plotting", "figures", "graphs"],
         "description": "Matplotlib is a comprehensive library for creating static, animated, and interactive visualizations in Python. Matplotlib makes easy things easy and hard things possible.",
         "link": "https://matplotlib.org/",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "https://matplotlib.org/stable/users/project/citing.html",
         "custom_citation": ""
     },
@@ -44,7 +44,7 @@
         "keywords": ["astronomy", "astrophysics"],
         "description": "The astropy package contains key functionality and common tools needed for performing astronomy and astrophysics with Python.",
         "link": "https://docs.astropy.org/en/stable/",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "https://www.astropy.org/acknowledging.html",
         "custom_citation": ""
     },
@@ -56,7 +56,7 @@
         "keywords": [],
         "description": "Fundamental algorithms for scientific computing in Python",
         "link": "https://docs.scipy.org/doc/scipy/reference/",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "https://scipy.org/citing-scipy/",
         "custom_citation": ""
     },
@@ -68,7 +68,7 @@
         "keywords": ["dataframes", "data manipulation"],
         "description": "pandas is an open source, BSD-licensed library providing high-performance, easy-to-use data structures and data analysis tools for the Python programming language.",
         "link": "https://pandas.pydata.org/docs/",
-        "version_cite_link": "https://zenodo.org/records/10957263",
+        "zenodo_doi": "10.5281/zenodo.3509134",
         "attribution_link": "https://pandas.pydata.org/about/citing.html",
         "custom_citation": ""
     },
@@ -80,7 +80,7 @@
         "keywords": ["plotting", "figures", "graphs"],
         "description": "Seaborn is a Python data visualization library based on matplotlib. It provides a high-level interface for drawing attractive and informative statistical graphics.",
         "link": "https://seaborn.pydata.org/",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "https://seaborn.pydata.org/citing.html",
         "custom_citation": ""
     },
@@ -92,7 +92,7 @@
         "keywords": ["library", "references", "papers"],
         "description": "The SAO/NASA Astrophysics Data System (ADS) is a digital library portal for researchers in astronomy and physics, operated by the Smithsonian Astrophysical Observatory (SAO) under a NASA grant.",
         "link": "https://ui.adsabs.harvard.edu/about/",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "https://ui.adsabs.harvard.edu/about/",
         "custom_citation": "This research has made use of NASA's Astrophysics Data System."
     },
@@ -104,7 +104,7 @@
         "keywords": ["LISA", "double compact objects", "inspiral"],
         "description": "LEGWORK (LISA Evolution and Gravitational Wave ORbit Kit) is a python package designed to calculate signal-to-noise ratios for GWs emitted from inspiraling binary systems that are potentially observable by LISA.",
         "link": "https://legwork.readthedocs.io/en/stable/",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "https://legwork.readthedocs.io/en/stable/cite.html",
         "custom_citation": ""
     },
@@ -120,7 +120,7 @@
         "keywords": ["stellar evolution", "stellar structure", "stellar astrophysics"],
         "description": "Modules for Experiments in Stellar Astrophysics (MESA) is an open-source 1D stellar evolution code.",
         "link": "http://mesa.sourceforge.net/",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "http://mesa.sourceforge.net/citing.html",
         "custom_citation": "This work uses Modules for Experiments in Stellar Astrophysics \\citep[MESA][]{Paxton2011, Paxton2013, Paxton2015, Paxton2018, Paxton2019, Jermyn2023}. The MESA EOS is a blend of the OPAL \\citep{Rogers2002}, SCVH \\citep{Saumon1995}, FreeEOS \\citep{Irwin2004}, HELM \\citep{Timmes2000}, PC \\citep{Potekhin2010}, and Skye \\citep{Jermyn2021} EOSes. Radiative opacities are primarily from OPAL \\citep{Iglesias1993, Iglesias1996}, with low-temperature data from \\citet{Ferguson2005} and the high-temperature, Compton-scattering dominated regime by \\citet{Poutanen2017}.  Electron conduction opacities are from \\citet{Cassisi2007} and \\citet{Blouin2020}. Nuclear reaction rates are from JINA REACLIB \\citep{Cyburt2010}, NACRE \\citep{Angulo1999} and additional tabulated weak reaction rates \\citet{Fuller1985, Oda1994, Langanke2000}.  Screening is included via the prescription of \\citet{Chugunov2007}. Thermal neutrino loss rates are from \\citet{Itoh1996}. Roche lobe radii in binary systems are computed using the fit of \\citet{Eggleton1983}.  Mass transfer rates in Roche lobe overflowing binary systems are determined following the prescription of \\citet{Ritter1988}.\\footnote{Note this is only valid for the default settings of MESA, adjust as necessary for custom settings used.}"
     },
@@ -132,7 +132,7 @@
         "keywords": ["asteroseismology", "stellar oscillations", "stellar pulsations"],
         "description": "GYRE is a stellar oscillation code. Given an input stellar model, GYRE calculates the eigenfrequencies and eigenfunctions for the normal oscillation modes of the model.",
         "link": "https://gyre.readthedocs.io/en/stable/",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "https://gyre.readthedocs.io/en/stable/user-guide/preliminaries.html#citing-gyre",
         "custom_citation": ""
     },
@@ -144,7 +144,7 @@
         "keywords": ["population synthesis", "binary stars", "double compact objects", "gravitational waves"],
         "description": "Compact Object Mergers: Population Astrophysics and Statistics (COMPAS) combines tools for statistical analysis and model selection with rapid population synthesis, allowing inferences to be made about the details of stellar and binary evolution.",
         "link": "https://compas.science/docs",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "https://compas.readthedocs.io/en/latest/pages/how-to-cite.html",
         "custom_citation": "Simulations in this paper made use of the COMPAS rapid binary population synthesis code (version X.Y.Z\\footnote{TODO: Update version number}), which is freely available at \\url{http://github.com/TeamCOMPAS/COMPAS} \\citep{COMPAS}. Model of gravitational wave selection effects based on \\citet{Barrett2018}. The STROOPWAFEL adaptive importance sampling algorithm is from \\citet{Broekgaarden2019}. Integration over cosmic star formation history outlined in \\citep{Neijssel2019}. COMPAS' model of (pulsational) pair instability supernova is from \\citet{Stevenson2019}. Pulsar spin and magnetic field evolution is from \\citet{Chattopadhyay2020}. Model of chemically homogeneous evolution is from \\citet{Riley2021}.",
         "extra_bibtex": "@PREAMBLE{{\\providecommand{\\noopsort}[1]{}}}"
@@ -157,7 +157,7 @@
         "keywords": ["population synthesis", "binary stars", "double compact objects", "gravitational waves"],
         "description": "COSMIC (Compact Object Synthesis and Monte Carlo Investigation Code) is a rapid binary population synthesis suite with a special focus of generating compact binary populations.",
         "link": "https://cosmic-popsynth.github.io/docs/",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "https://github.com/COSMIC-PopSynth/COSMIC/blob/develop/README.md",
         "custom_citation": ""
     },
@@ -169,7 +169,7 @@
         "keywords": ["dynamics", "galaxy", "potential"],
         "description": "gala is an Astropy-affiliated Python package that aims to provide efficient tools for performing common tasks needed in Galactic Dynamics research.",
         "link": "http://gala.adrian.pw/",
-        "version_cite_link": "https://zenodo.org/records/10449846",
+        "zenodo_doi": "10.5281/zenodo.593786",
         "attribution_link": "http://gala.adrian.pw/en/latest/index.html",
         "custom_citation": ""
     },
@@ -181,7 +181,7 @@
         "keywords": ["latex", "paper with code", "workflow management"],
         "description": "Showyourwork! is a workflow management tool for open source scientific articles.",
         "link": "https://show-your.work/en/latest/",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "https://show-your.work/en/latest/attribution/",
         "custom_citation": ""
     },
@@ -193,7 +193,7 @@
         "keywords": ["MCMC", "statistics", "sampling", "markov chain"],
         "description": "emcee is a stable, well tested Python implementation of the affine-invariant ensemble sampler for Markov chain Monte Carlo (MCMC) proposed by Goodman & Weare (2010).",
         "link": "https://emcee.readthedocs.io/",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "https://github.com/dfm/emcee",
         "custom_citation": ""
     },
@@ -205,7 +205,7 @@
         "keywords": ["corner", "statistics", "plotting", "histogram"],
         "description": "corner.py is a Python module that uses matplotlib to visualize multidimensional samples using a scatterplot matrix.",
         "link": "https://corner.readthedocs.io/en/latest/",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "https://corner.readthedocs.io/en/latest/#attribution",
         "custom_citation": ""
     },
@@ -217,7 +217,7 @@
         "keywords": ["blender", "visualization", "plotting", "yt"],
         "description": " Combine artistic 3D models with computational astrophysics datasets and win the internet.",
         "link": "https://www.astroblend.com/getstarted.html",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "",
         "custom_citation": ""
     },
@@ -229,7 +229,7 @@
         "keywords": ["jupyter", "notebook", "plotting", "coding"],
         "description": "Free software, open standards, and web services for interactive computing across all programming languages",
         "link": "https://jupyter.org/",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "",
         "custom_citation": ""
     },
@@ -241,7 +241,7 @@
         "keywords": ["data handling", "data analysis", "plotting", "coding"],
         "description": "The h5py package is a Pythonic interface to the HDF5 binary data format.",
         "link": "https://docs.h5py.org/en/stable/",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "https://docs.h5py.org/en/stable/licenses.html",
         "custom_citation": ""
     },
@@ -253,7 +253,7 @@
         "keywords": ["n-body", "galaxy formation", "galaxy evolution"],
         "description": "ChaNGa (Charm N-body GrAvity solver) is a code to perform collisionless N-body simulations.",
         "link": "https://github.com/N-BodyShop/changa/wiki",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "https://github.com/N-BodyShop/changa",
         "custom_citation": ""
     },
@@ -265,7 +265,7 @@
         "keywords": ["n-body", "galaxy formation", "galaxy evolution", "feedback"],
         "description": "The FIRE: Feedback In Realistic Environments project seeks to develop and explore cosmological simulations of galaxy formation that directly resolve the interstellar medium of individual galaxies while capturing their cosmological environment.",
         "link": "http://flathub.flatironinstitute.org/fire",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "http://flathub.flatironinstitute.org/fire",
         "custom_citation": "We use simulations from the FIRE-2 public data release \\citep{Wetzel2023}. The FIRE-2 cosmological zoom-in simulations of galaxy formation are part of the Feedback In Realistic Environments (FIRE) project, generated using the Gizmo code \\citep{Hopkins2015} and the FIRE-2 physics model \\citep{Hopkins2018a}."
     },
@@ -277,7 +277,7 @@
         "keywords": ["flares", "stellar activity", "machine learning", "neural networks"],
         "description": "stella is a Python package to create and train a neural network to identify stellar flares.",
         "link": "https://github.com/afeinstein20/stella",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "https://github.com/afeinstein20/stella",
         "custom_citation": ""
     },
@@ -289,7 +289,7 @@
         "keywords": ["gravitational waves", "fisher", "black holes"],
         "description": "Simulation of gravitational-wave detector networks with Fisher-matrix PE",
         "link": "https://github.com/janosch314/GWFish",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "https://github.com/janosch314/GWFish",
         "custom_citation": ""
     },
@@ -301,7 +301,7 @@
         "keywords": ["CAMELS", "cosmology simulations", "galaxies"],
         "description": "CAMELS stands for Cosmology and Astrophysics with MachinE Learning Simulations, and it is a project that aims at building bridges between cosmology and astrophysics through numerical simulations and machine learning.",
         "link": "https://camels.readthedocs.io/en/latest/",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "https://camels.readthedocs.io/en/latest/citation.html",
         "custom_citation": "\\footnote{TODO: If you use data from CAMELS-SAM please consider citing the CMD paper  \\citet{CMD} If you use data from CAMELS-SAM please consider citing the CAMELS-SAM paper \\citet{CAMELS-SAM}}"
     },
@@ -313,7 +313,7 @@
         "keywords": ["jax", "computing", "AI"],
         "description": "JAX is a Python library for accelerator-oriented array computation and program transformation, designed for high-performance numerical computing and large-scale machine learning.",
         "link": "https://github.com/google/jax?tab=readme-ov-file",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "https://github.com/google/jax?tab=readme-ov-file#citing-jax",
         "custom_citation": ""
     },
@@ -325,7 +325,7 @@
         "keywords": ["C++", "computing", "python"],
         "description": "Cython is a Python language extension that allows explicit type declarations and is compiled directly to C. As such, it addresses Python's large overhead for numerical loops and the difficulty of efficiently using existing C and Fortran code, which Cython can interact with natively.",
         "link": "https://github.com/cython/cython?tab=readme-ov-file",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "https://cython.org/",
         "custom_citation": ""
     },
@@ -337,7 +337,7 @@
         "keywords": ["python", "computing", "visualization"],
         "description": "scikit-image is a collection of algorithms for image processing. ",
         "link": "https://scikit-image.org/",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "https://scikit-image.org/",
         "custom_citation": ""
     },
@@ -349,7 +349,7 @@
         "keywords": ["python", "computing", "machine learning"],
         "description": "scikit-learn is a Python module for machine learning built on top of SciPy and is distributed under the 3-Clause BSD license. ",
         "link": "https://scikit-learn.org/stable/",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "https://github.com/scikit-learn/scikit-learn?tab=readme-ov-file",
         "custom_citation": ""
     },
@@ -362,7 +362,7 @@
         "keywords": ["machine learning", "computing", "python"],
         "description": "Numba is an open source JIT compiler that translates a subset of Python and NumPy code into fast machine code.",
         "link": "https://numba.pydata.org/",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "https://numba.readthedocs.io/en/stable/user/faq.html#how-do-i-reference-cite-acknowledge-numba-in-other-work",
         "custom_citation": ""
     },
@@ -374,7 +374,7 @@
         "keywords": ["imaging", "data reduction", "observations", "images"],
         "description": "IRAF is the Image Reduction and Analysis Facility, a general purpose software system for the reduction and analysis of astronomical data.",
         "link": "https://iraf-community.github.io/",
-        "version_cite_link": "",
+        "zenodo_doi": "",
         "attribution_link": "https://iraf-community.github.io/",
         "custom_citation": ""
     }
