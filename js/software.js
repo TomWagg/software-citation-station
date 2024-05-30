@@ -128,11 +128,44 @@ Promise.all([
                 // add the acknowledgement and do some simple latex syntax highlighting
                 let new_ack = "\\texttt{" + btn.querySelector(".software-name").innerText + "} \\citep{" + btn_tags.join(", ") + "}"
 
-                const version_cite_link = citations[btn.getAttribute("data-key")]["version_cite_link"];
-                if (version_cite_link != "") {
-                    new_ack += ("\\footnote{{TODO}: \\texttt{" + btn.querySelector(".software-name").innerText
-                                + "} requests that you cite the specific version that you use. Use this link "
-                                + "to find the correct citation: \\url{" + version_cite_link + "}}")
+                const zenodo_doi = citations[btn.getAttribute("data-key")]["zenodo_doi"];
+                if (zenodo_doi != "") {
+                    const version_picker = document.getElementById(`${btn.getAttribute("data-key")}-version-picker`);
+                    console.log(`${btn.getAttribute("data-key")}-version-picker`)
+                    if (version_picker == null) {
+                        let vp = document.getElementById("version-picker-template").cloneNode(true);
+                        vp.id = `${btn.getAttribute("data-key")}-version-picker`;
+                        vp.classList.remove("hide");
+                        vp.querySelector(".card-title").innerText = btn.getAttribute("data-key");
+                        
+                        if (citations[btn.getAttribute("data-key")]["logo"] === "") {
+                            vp.querySelector(".software-logo").remove();
+                            let el = document.createElement("span");
+                            el.className = "software-no-logo-text";
+                            el.innerText = key;
+                            vp.insertBefore(el, vp.querySelector(".card-title"));
+                        } else {
+                            vp.querySelector(".software-logo").src = citations[btn.getAttribute("data-key")]["logo"];
+                        }
+
+                        vp.querySelector(".version-select").addEventListener('change', function() {
+                            btn.click();
+                            btn.click();
+                        });
+
+                        document.getElementById("version-list").appendChild(vp);
+
+                        // create a version picker cloned from the template
+                        new_ack += "\\footnote{{TODO}: Need to choose a version to cite!!}"
+                    } else {
+                        const chosen_version = version_picker.querySelector(".version-select").value;
+                        console.log(chosen_version)
+                        if (chosen_version != "-") {
+                            new_ack = new_ack.slice(0, -1) + ", " + btn.getAttribute("data-key") + "_" + chosen_version + "}";
+                        } else {
+                            new_ack += "\\footnote{{TODO}: Need to choose a version to cite!!}"
+                        }
+                    }
                 }
 
                 const custom_ack = citations[btn.getAttribute("data-key")]["custom_citation"];
@@ -432,7 +465,7 @@ function convertRemToPixels(rem) {
 }
 
 // Function to fetch records from Zenodo API
-async function fetchZenodoRecords(concept_doi) {
+async function get_zenodo_version_info(concept_doi) {
     // Build the complete URL with the query parameter for concept DOI
     const url = `https://zenodo.org/api/records?q=conceptdoi:"${concept_doi}"&all_versions=true`;
     try {
@@ -455,6 +488,8 @@ async function fetchZenodoRecords(concept_doi) {
             version_to_id[hit.metadata.version] = hit.id;
         }
         console.log(version_to_id)
+
+
         
         
         // Process the data as needed
