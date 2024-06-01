@@ -56,7 +56,7 @@
         "keywords": [],
         "description": "Fundamental algorithms for scientific computing in Python",
         "link": "https://docs.scipy.org/doc/scipy/reference/",
-        "zenodo_doi": "",
+        "zenodo_doi": "10.5281/zenodo.595738",
         "attribution_link": "https://scipy.org/citing-scipy/",
         "custom_citation": ""
     },
@@ -104,7 +104,7 @@
         "keywords": ["LISA", "double compact objects", "inspiral"],
         "description": "LEGWORK (LISA Evolution and Gravitational Wave ORbit Kit) is a python package designed to calculate signal-to-noise ratios for GWs emitted from inspiraling binary systems that are potentially observable by LISA.",
         "link": "https://legwork.readthedocs.io/en/stable/",
-        "zenodo_doi": "",
+        "zenodo_doi": "10.5281/zenodo.5821187",
         "attribution_link": "https://legwork.readthedocs.io/en/stable/cite.html",
         "custom_citation": ""
     },
@@ -157,7 +157,7 @@
         "keywords": ["population synthesis", "binary stars", "double compact objects", "gravitational waves"],
         "description": "COSMIC (Compact Object Synthesis and Monte Carlo Investigation Code) is a rapid binary population synthesis suite with a special focus of generating compact binary populations.",
         "link": "https://cosmic-popsynth.github.io/docs/",
-        "zenodo_doi": "",
+        "zenodo_doi": "10.5281/zenodo.3382152",
         "attribution_link": "https://github.com/COSMIC-PopSynth/COSMIC/blob/develop/README.md",
         "custom_citation": ""
     },
@@ -193,7 +193,7 @@
         "keywords": ["MCMC", "statistics", "sampling", "markov chain"],
         "description": "emcee is a stable, well tested Python implementation of the affine-invariant ensemble sampler for Markov chain Monte Carlo (MCMC) proposed by Goodman & Weare (2010).",
         "link": "https://emcee.readthedocs.io/",
-        "zenodo_doi": "",
+        "zenodo_doi": "10.5281/zenodo.1297476",
         "attribution_link": "https://github.com/dfm/emcee",
         "custom_citation": ""
     },
@@ -205,7 +205,7 @@
         "keywords": ["corner", "statistics", "plotting", "histogram"],
         "description": "corner.py is a Python module that uses matplotlib to visualize multidimensional samples using a scatterplot matrix.",
         "link": "https://corner.readthedocs.io/en/latest/",
-        "zenodo_doi": "",
+        "zenodo_doi": "10.5281/zenodo.591491",
         "attribution_link": "https://corner.readthedocs.io/en/latest/#attribution",
         "custom_citation": ""
     },
@@ -241,7 +241,7 @@
         "keywords": ["data handling", "data analysis", "plotting", "coding"],
         "description": "The h5py package is a Pythonic interface to the HDF5 binary data format.",
         "link": "https://docs.h5py.org/en/stable/",
-        "zenodo_doi": "",
+        "zenodo_doi": "10.5281/zenodo.594310",
         "attribution_link": "https://docs.h5py.org/en/stable/licenses.html",
         "custom_citation": ""
     },
@@ -349,7 +349,7 @@
         "keywords": ["python", "computing", "machine learning"],
         "description": "scikit-learn is a Python module for machine learning built on top of SciPy and is distributed under the 3-Clause BSD license. ",
         "link": "https://scikit-learn.org/stable/",
-        "zenodo_doi": "",
+        "zenodo_doi": "10.5281/zenodo.591564",
         "attribution_link": "https://github.com/scikit-learn/scikit-learn?tab=readme-ov-file",
         "custom_citation": ""
     },
@@ -362,7 +362,7 @@
         "keywords": ["machine learning", "computing", "python"],
         "description": "Numba is an open source JIT compiler that translates a subset of Python and NumPy code into fast machine code.",
         "link": "https://numba.pydata.org/",
-        "zenodo_doi": "",
+        "zenodo_doi": "10.5281/zenodo.4343230",
         "attribution_link": "https://numba.readthedocs.io/en/stable/user/faq.html#how-do-i-reference-cite-acknowledge-numba-in-other-work",
         "custom_citation": ""
     },
