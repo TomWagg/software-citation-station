@@ -26,7 +26,6 @@
     </head>
 
     <body>
-        <button class="btn btn-lg btn-dark" id="test">TEST</button>
         <button class="btn btn-dark corner-button hide" id="copy-template" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Copy to clipboard"><i class="fa fa-copy"></i></button>
         <label for="dark-mode-checkbox" class="dark-mode-label">
             <input type="checkbox" id="dark-mode-checkbox" />
@@ -87,32 +86,28 @@
                     </div>
                 </div>
                 <div id="right-col" class="col-12 col-lg-6">
-                    <div class="row">
-                        <div class="col-6 col-lg-12 mb-0 mb-lg-2">
-                            <div id="version-box" class="rounded-box">
-                                <div class="header-number">2</div>
-                                <h3 class="header-title">Choose your versions</h3>
-                                <p class="header-desc mb-1">Choose the versions of the software that you've used</p>
-                                <div class="justify-content-center text-center">
-                                    <div class="btn-group mb-2">
-                                        <div class="btn-group" role="group" id="version-selector">
-                                            <button class="btn btn-primary active" id="latest_version">Use latest versions</button>
-                                            <button class="btn btn-primary" id="choose_version">Choose versions</button>
-                                        </div>
-                                    </div>
+                    <div id="version-box" class="rounded-box">
+                        <div class="header-number">2</div>
+                        <h3 class="header-title">Choose your versions</h3>
+                        <p class="header-desc mb-1">Choose the versions of the software that you've used</p>
+                        <div class="justify-content-center text-center">
+                            <div class="btn-group mb-2">
+                                <div class="btn-group" role="group" id="version-selector">
+                                    <button class="btn btn-primary active" id="choose_version">Choose versions</button>
+                                    <button class="btn btn-primary" id="latest_version">Use latest versions</button>
                                 </div>
-                                <div id="version-list" class="row">
-                                    <div id="version-picker-template" class="col-3 col-lg-6 mb-2 hide">
-                                        <div class="card text-center version-card">
-                                            <div class="card-body">
-                                                <img class="software-logo" src="" />
-                                                <pre class="card-title">NAME HERE</pre>
-                                                <div class="card-text waiter">Getting versions <i class="fa fa-spinner fa-spin"></i></div>
-                                                <select class="form-select version-select hide">
-                                                    <option value="-">Select version</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                            </div>
+                        </div>
+                        <div id="version-list" class="row">
+                            <div id="version-picker-template" class="version-picker col-sm-6 col-lg-4 mb-2 hide">
+                                <div class="card text-center version-card">
+                                    <div class="card-body">
+                                        <img class="software-logo" src="" />
+                                        <pre class="card-title">NAME HERE</pre>
+                                        <div class="card-text waiter">Getting versions <i class="fa fa-spinner fa-spin"></i></div>
+                                        <select class="form-select form-select-sm version-select hide">
+                                            <option value="-">Select version</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>

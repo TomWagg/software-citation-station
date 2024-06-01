@@ -149,7 +149,7 @@ footer.footer .social-link:active {
 
 #software-list {
     overflow: scroll;
-    max-height: 500px;
+    max-height: 300px;
 }
 
 .software-item {
@@ -246,4 +246,8 @@ pre {
 .version-button {
     font-size: 0.8rem;
     font-weight: bold;
+}
+
+.version-select {
+    font-size: 0.7rem;
 }
