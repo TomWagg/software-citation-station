@@ -98,6 +98,13 @@ Promise.all([
             // toggle the active class
             this.classList.toggle("active");
 
+            if (!this.classList.contains("active")) {
+                const vp = document.getElementById(`${this.getAttribute("data-key")}-version-picker`);
+                if (vp !== null) {
+                    vp.classList.add("hide");
+                }
+            }
+
             tooltip.hide();
 
             // keep track of the acknowledgements and bibtex entries to add
@@ -166,6 +173,7 @@ Promise.all([
                         // create a version picker cloned from the template
                         new_ack += "\\footnote{{TODO}: Need to choose a version to cite!!}"
                     } else {
+                        version_picker.classList.remove("hide");
                         if (version_picker.hasAttribute("data-bibtex")) {
                             const chosen_version = version_picker.querySelector(".version-select").value;
                             new_ack = new_ack.slice(0, -1) + ", " + btn.getAttribute("data-key") + "_" + chosen_version + "}";
@@ -347,6 +355,10 @@ window.addEventListener('DOMContentLoaded', () => {
         let buttons = document.querySelectorAll(".software-button.active")
         for (let i = 0; i < buttons.length - 1; i++) {
             buttons[i].classList.remove("active");
+            const vp = document.getElementById(`${buttons[i].getAttribute("data-key")}-version-picker`);
+            if (vp !== null) {
+                vp.classList.add("hide");
+            }
         }
         buttons[buttons.length - 1].click();
     });
@@ -355,16 +367,18 @@ window.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
             const active_btn = this.parentElement.querySelector(".active");
-            console.log(this, active_btn)
             if (active_btn !== this) {
                 active_btn.classList.remove("active");
                 this.classList.add("active");
+                if (this.id === "latest_version") {
+                    // auto select the latest version for each version picker that isn't hidden
+                    document.querySelectorAll(".version-picker:not(.hide) .version-select").forEach(function(select) {
+                        select.value = select.children[1].value;
+                        select.dispatchEvent(new Event('change'));
+                    });
+                }
             }
         });
-    });
-
-    document.getElementById("test").addEventListener('click', function() {
-        fetchZenodoRecords("10.5281/zenodo.593786");
     });
 
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
@@ -486,7 +500,6 @@ function compare_versions(a, b) {
     let splitB = b.split('.');
     const length = Math.max(splitA.length, splitB.length);
     for (let i = 0; i < length; i++) {
-        //FLIP
         if (parseInt(splitA[i]) > parseInt(splitB[i]) || ((splitA[i] === splitB[i]) && isNaN(splitB[i + 1]))) {
             return 1;
         }
@@ -510,10 +523,6 @@ async function get_zenodo_version_info(concept_doi, vp) {
         }
         
         const data = await response.json();
-
-        // Log the data to the console
-        console.log(data);
-        console.log(data.hits.hits)
 
         let version_and_doi = []
         let versions_so_far = new Set()
@@ -540,8 +549,11 @@ async function get_zenodo_version_info(concept_doi, vp) {
         vp.querySelector(".waiter").classList.add("hide");
         vp.querySelector(".version-select").classList.remove("hide");
 
-        // Process the data as needed
-        // Since it's BibTeX format, you might just log it or parse it as per your need
+        // if user just wants to select the latest version then do it
+        if (document.getElementById("latest_version").classList.contains("active")) {
+            select.value = version_and_doi[0].doi;
+            select.dispatchEvent(new Event('change'));
+        }
     } catch (error) {
         // Handle errors
         console.error('Error fetching records:', error);
@@ -567,16 +579,8 @@ async function fetch_zenodo_bibtex(doi) {
         
         // Get the text response (BibTeX format)
         const data = await response.text();
-        
-        // Log the data to the console
-        console.log(data);
-
         return data;
-        
-        // Process the data as needed
-        // Since it's BibTeX format, you might just log it or parse it as per your need
     } catch (error) {
-        // Handle errors
         console.error('Error fetching records:', error);
     }
 }
