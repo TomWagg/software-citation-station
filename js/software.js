@@ -343,11 +343,25 @@ window.addEventListener('DOMContentLoaded', () => {
             left_col.classList.remove("mb-lg-0");
             right_col.classList.remove("col-lg-6");
             this.querySelector("i").className = "fa fa-arrow-left";
+            right_col.querySelectorAll(".version-picker").forEach((vp) => {
+                const hide_me = vp.classList.contains("hide");
+                vp.className = "version-picker col-sm-4 col-lg-2";
+                if (hide_me) {
+                    vp.classList.add("hide");
+                }
+            });
         } else {
             left_col.classList.add("col-lg-6");
             left_col.classList.add("mb-lg-0");
             right_col.classList.add("col-lg-6");
             this.querySelector("i").className = "fa fa-arrow-right";
+            right_col.querySelectorAll(".version-picker").forEach((vp) => {
+                const hide_me = vp.classList.contains("hide");
+                vp.className = "version-picker col-sm-6 col-lg-4";
+                if (hide_me) {
+                    vp.classList.add("hide");
+                }
+            });
         }
     });
 
