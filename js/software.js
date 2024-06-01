@@ -131,7 +131,6 @@ Promise.all([
                 const zenodo_doi = citations[btn.getAttribute("data-key")]["zenodo_doi"];
                 if (zenodo_doi != "") {
                     const version_picker = document.getElementById(`${btn.getAttribute("data-key")}-version-picker`);
-                    console.log(`${btn.getAttribute("data-key")}-version-picker`)
                     if (version_picker == null) {
                         let vp = document.getElementById("version-picker-template").cloneNode(true);
                         vp.id = `${btn.getAttribute("data-key")}-version-picker`;
@@ -149,19 +148,28 @@ Promise.all([
                         }
 
                         vp.querySelector(".version-select").addEventListener('change', function() {
-                            btn.click();
-                            btn.click();
+                            if (this.value !== "-") {
+                                fetch_zenodo_bibtex(this.value).then((bibtex) => {
+                                    // replace bibtex tag using regular expression
+                                    bibtex = bibtex.replace(bibtex_re, "@software{" + btn.getAttribute("data-key") + "_" + this.value);
+                                    vp.setAttribute("data-bibtex", bibtex);
+                                    btn.click();
+                                    btn.click();
+                                })
+                            }
                         });
+
+                        get_zenodo_version_info(zenodo_doi, vp);
 
                         document.getElementById("version-list").appendChild(vp);
 
                         // create a version picker cloned from the template
                         new_ack += "\\footnote{{TODO}: Need to choose a version to cite!!}"
                     } else {
-                        const chosen_version = version_picker.querySelector(".version-select").value;
-                        console.log(chosen_version)
-                        if (chosen_version != "-") {
+                        if (version_picker.hasAttribute("data-bibtex")) {
+                            const chosen_version = version_picker.querySelector(".version-select").value;
                             new_ack = new_ack.slice(0, -1) + ", " + btn.getAttribute("data-key") + "_" + chosen_version + "}";
+                            bibs_to_add.push(highlight_bibtex(version_picker.getAttribute("data-bibtex")));
                         } else {
                             new_ack += "\\footnote{{TODO}: Need to choose a version to cite!!}"
                         }
@@ -464,8 +472,32 @@ function convertRemToPixels(rem) {
     return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
 }
 
+function compare_versions(a, b) {
+    if (a === b) {
+        return 0;
+    }
+    if (a[0] == "v") {
+        a = a.slice(1);
+    }
+    if (b[0] == "v") {
+        b = b.slice(1);
+    }
+    let splitA = a.split('.');
+    let splitB = b.split('.');
+    const length = Math.max(splitA.length, splitB.length);
+    for (let i = 0; i < length; i++) {
+        //FLIP
+        if (parseInt(splitA[i]) > parseInt(splitB[i]) || ((splitA[i] === splitB[i]) && isNaN(splitB[i + 1]))) {
+            return 1;
+        }
+        if (parseInt(splitA[i]) < parseInt(splitB[i]) || ((splitA[i] === splitB[i]) && isNaN(splitA[i + 1]))) {
+            return -1;
+        }
+    }
+}
+
 // Function to fetch records from Zenodo API
-async function get_zenodo_version_info(concept_doi) {
+async function get_zenodo_version_info(concept_doi, vp) {
     // Build the complete URL with the query parameter for concept DOI
     const url = `https://zenodo.org/api/records?q=conceptdoi:"${concept_doi}"&all_versions=true`;
     try {
@@ -483,15 +515,31 @@ async function get_zenodo_version_info(concept_doi) {
         console.log(data);
         console.log(data.hits.hits)
 
-        version_to_id = {}
+        let version_and_doi = []
+        let versions_so_far = new Set()
+
+        const select = vp.querySelector(".version-select")
         for (let hit of data.hits.hits) {
-            version_to_id[hit.metadata.version] = hit.id;
+            if (!versions_so_far.has(hit.metadata.version)) {
+                version_and_doi.push({"version": hit.metadata.version, "doi": hit.id})
+                versions_so_far.add(hit.metadata.version)
+            }
         }
-        console.log(version_to_id)
 
+        version_and_doi.sort(function(a, b) {
+            return compare_versions(a.version, b.version);
+        }).reverse();
+        
+        for (let i = 0; i < version_and_doi.length; i++) {
+            let opt = document.createElement("option")
+            opt.value = version_and_doi[i].doi;
+            opt.innerText = version_and_doi[i].version;
+            select.appendChild(opt);
+        }
 
-        
-        
+        vp.querySelector(".waiter").classList.add("hide");
+        vp.querySelector(".version-select").classList.remove("hide");
+
         // Process the data as needed
         // Since it's BibTeX format, you might just log it or parse it as per your need
     } catch (error) {
@@ -500,33 +548,35 @@ async function get_zenodo_version_info(concept_doi) {
     }
 }
 
-// // Function to fetch records from Zenodo API
-// async function fetchZenodoRecords(concept_doi) {
-//     // Build the complete URL with the query parameter for concept DOI
-//     const url = `https://zenodo.org/api/records?q=conceptdoi:"${concept_doi}"&all_versions=false`;
-//     try {
-//         // Make the API request with the Accept header for BibTeX format
-//         const response = await fetch(url, {
-//             headers: {
-//                 'Accept': 'application/x-bibtex'
-//             }
-//         });
+// Function to fetch records from Zenodo API
+async function fetch_zenodo_bibtex(doi) {
+    // Build the complete URL with the query parameter for concept DOI
+    const url = `https://zenodo.org/api/records/${doi}`;
+    try {
+        // Make the API request with the Accept header for BibTeX format
+        const response = await fetch(url, {
+            headers: {
+                'Accept': 'application/x-bibtex'
+            }
+        });
         
-//         // Check if the response is OK (status code 200-299)
-//         if (!response.ok) {
-//             throw new Error(`HTTP error! Status: ${response.status}`);
-//         }
+        // Check if the response is OK (status code 200-299)
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
         
-//         // Get the text response (BibTeX format)
-//         const data = await response.text();
+        // Get the text response (BibTeX format)
+        const data = await response.text();
         
-//         // Log the data to the console
-//         console.log(data);
+        // Log the data to the console
+        console.log(data);
+
+        return data;
         
-//         // Process the data as needed
-//         // Since it's BibTeX format, you might just log it or parse it as per your need
-//     } catch (error) {
-//         // Handle errors
-//         console.error('Error fetching records:', error);
-//     }
-// }
+        // Process the data as needed
+        // Since it's BibTeX format, you might just log it or parse it as per your need
+    } catch (error) {
+        // Handle errors
+        console.error('Error fetching records:', error);
+    }
+}
