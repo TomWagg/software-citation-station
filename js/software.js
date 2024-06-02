@@ -410,6 +410,24 @@ window.addEventListener('DOMContentLoaded', () => {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
+    document.querySelectorAll("textarea[data-counted]").forEach(function(textarea) {
+        console.log(textarea);
+        textarea.addEventListener('input', function() {
+            const count = this.value.length;
+            const max = parseInt(this.getAttribute("maxlength"));
+            const remaining = max - count;
+            const counter = this.parentElement.querySelector(".character-count");
+            counter.innerText = `${count}/${max}`;
+            if (remaining == 0) {
+                counter.className = "character-count full";
+            } else if (remaining < 25) {
+                counter.className = "character-count nearly-full";
+            } else {
+                counter.className = "character-count";
+            }
+        });
+    });
+
     document.querySelectorAll(".headshot-box").forEach(function(box) {
         box.addEventListener('click', function() {
             window.open(this.getAttribute("data-href"), "_blank");

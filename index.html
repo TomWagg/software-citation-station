@@ -151,9 +151,10 @@
                             <label for="new-software-name" class="form-label">Software name</label>
                             <input type="text" class="form-control" id="new-software-name" />
                         </div>
-                        <div class="form-control-box required mb-3">
+                        <div class="form-control-box required mb-3 position-relative">
                             <label for="new-software-description" class="form-label">Short description</label>
-                            <textarea class="form-control" id="new-software-description"></textarea>
+                            <textarea class="form-control" id="new-software-description" data-counted="true" maxlength="200"></textarea>
+                            <label class="character-count">0/200</label>
                         </div>
                         <div class="form-control-box required mb-3">
                             <label for="new-software-docs" class="form-label">Documentation link</label>

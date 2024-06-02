@@ -318,3 +318,25 @@ pre {
 .form-label {
     margin-bottom: 0.25rem;
 }
+
+.character-count {
+    position: absolute;
+    background-color: rgba(128, 128, 128, 0.75);
+    color:white;
+    bottom: 0;
+    right: 0.1rem;
+    font-size: 0.5rem;
+    padding: 0.2rem;
+    border-radius: 0.5rem;
+    margin: 0.2rem;
+}
+
+.character-count.nearly-full {
+    background-color: #ffcc00;
+    color: black
+}
+
+.character-count.full {
+    background-color: red;
+    color: white;
+}
