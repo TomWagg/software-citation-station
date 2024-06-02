@@ -145,70 +145,97 @@
                     <h2>How can I add software to the list?</h2>
                     <p class="mb-4">Fill out a GitHub issue with <a class="text-decoration-underline" style="font-weight: bold" href="https://github.com/TomWagg/software-citation-station/issues/new?assignees=&labels=new-citation&projects=&template=01-citation.md&title=">this template</a> and we'll add it to our list as soon as possible!</p>
 
-                    <div class="form new-software-form m-auto needs-validation text-start" style="max-width: 300px; font-size: 0.7rem" novalidate>
-                        <h3>Basic package information</h3>
-                        <div class="form-control-box required mb-3">
-                            <label for="new-software-name" class="form-label">Software name</label>
-                            <input type="text" class="form-control" id="new-software-name" />
-                        </div>
-                        <div class="form-control-box required mb-3 position-relative">
-                            <label for="new-software-description" class="form-label">Short description</label>
-                            <textarea class="form-control" id="new-software-description" data-counted="true" maxlength="200"></textarea>
-                            <label class="character-count">0/200</label>
-                        </div>
-                        <div class="form-control-box required mb-3">
-                            <label for="new-software-docs" class="form-label">Documentation link</label>
-                            <input type="text" class="form-control" id="new-software-docs" />
-                        </div>
-                        <h3>Citation details</h3>
-                        <div class="form-control-box mb-3">
-                            <label for="new-software-bibtex" class="form-label">BibTeX</label>
-                            <textarea class="form-control" id="new-software-bibtex"></textarea>
-                        </div>
-                        <!-- attribution link -->
-                        <div class="form-control-box required mb-3">
-                            <label for="new-software-attribution" class="form-label">Link to page stating preferred citation method</label>
-                            <input type="text" class="form-control" id="new-software-attribution" />
-                        </div>
-                        <div class="form-control-box mb-3">
-                            <label for="new-software-doi" class="form-label">Zenodo DOI (instructions)</label>
-                            <div class="input-group">
-                                <input class="form-control" id="new-software-doi" />
-                                <button class="btn btn-primary" id="test-zenodo-doi">Test DOI</button>
+                    <button id="launch-new-software" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new-software-modal">New software form</button>
+
+                    <div class="modal fade" id="new-software-modal" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header d-flex align-items-center">
+                                    <h5 class="modal-title">
+                                        <img src="img/software-citation-station-no-circle-blue.png" class="me-2" style="max-width: 50px" />
+                                        <span class="fw-bold">Add a new software package</span>
+                                        <button class="btn btn-primary" id="submit-new-software">Submit</button>
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="form new-software-form m-auto text-start needs-validation" style="font-size: 0.7rem" novalidate>
+                                        <h6 class="fw-bold">Basic package information</h6>
+                                        <div class="row mb-2">
+                                            <div class="col">
+                                                <div class="form-control-box required">
+                                                    <label for="new-software-name" class="form-label">Software name</label>
+                                                    <input type="text" class="form-control" id="new-software-name" placeholder="Name (e.g. 'Python')" required />
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-control-box required">
+                                                    <label for="new-software-docs" class="form-label">Documentation link</label>
+                                                    <input type="url" class="form-control" id="new-software-docs" placeholder="URL (e.g. 'https://docs.python.org/3/')" required />
+                                                    <div class="valid-feedback">That's definitely a link, click <a href="" target="_blank" class="link-success fw-bold">here</a> to test it!</div>
+                                                    <div class="invalid-feedback">That doesn't seem to be a valid URL.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-control-box required mb-3 position-relative">
+                                            <label for="new-software-description" class="form-label">Short description</label>
+                                            <textarea class="form-control" id="new-software-description" data-counted="true" maxlength="200" placeholder="e.g. 'A high-level, general-purpose interpreted programming language.'" required></textarea>
+                                            <label class="character-count">0/200</label>
+                                        </div>
+                                        <h6 class="fw-bold">Citation details</h6>
+                                        <div class="form-control-box mb-3">
+                                            <label for="new-software-bibtex" class="form-label">BibTeX</label>
+                                            <textarea class="form-control" id="new-software-bibtex" placeholder="Paste all BibTeX to be cited"></textarea>
+                                            <div class="valid-feedback"></div>
+                                            <div class="invalid-feedback">That doesn't seem to be valid BibTeX.</div>
+                                        </div>
+                                        <!-- attribution link -->
+                                        <div class="form-control-box required mb-3">
+                                            <label for="new-software-attribution" class="form-label">Link to page stating preferred citation method</label>
+                                            <input type="text" class="form-control" id="new-software-attribution" />
+                                        </div>
+                                        <div class="form-control-box mb-3">
+                                            <label for="new-software-doi" class="form-label">Zenodo DOI (instructions)</label>
+                                            <div class="input-group">
+                                                <input class="form-control" id="new-software-doi" />
+                                                <button class="btn btn-primary" id="test-zenodo-doi">Test DOI</button>
+                                            </div>
+                                        </div>
+                                        <div class="form-control-box mb-3">
+                                            <label for="new-software-custom-acknowledgement" class="form-label">Custom acknowledgement</label>
+                                            <textarea class="form-control" id="new-software-custom-acknowledgement"></textarea>
+                                        </div>
+                                        <h6 class="fw-bold">Additional metadata</h6>
+                                        <div class="form-control-box required mb-3">
+                                            <label for="new-software-language" class="form-label">Language</label>
+                                            <div class="input-group">
+                                                <select class="form-select form-select-sm" id="new-software-language">
+                                                    <option value="-">Select language</option>
+                                                    <option value="new">New language</option>
+                                                </select>
+                                                <input type="text" class="form-control hide" id="new-software-language-new" />
+                                            </div>
+                                        </div>
+                                        <div class="form-control-box required mb-3">
+                                            <label for="new-software-category" class="form-label">Category</label>
+                                            <div class="input-group">
+                                                <select class="form-select form-select-sm" id="new-software-category">
+                                                    <option value="-">Select category</option>
+                                                    <option value="new">New category</option>
+                                                </select>
+                                                <input type="text" class="form-control hide" id="new-software-category-new" />
+                                            </div>
+                                        </div>
+                                        <div class="form-control-box mb-3">
+                                            <label for="new-software-keywords" class="form-label">Keywords (comma-separated)</label>
+                                            <input type="text" class="form-control" id="new-software-keywords" />
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <!-- <button class="btn btn-primary" id="submit-new-software">Submit</button> -->
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-control-box mb-3">
-                            <label for="new-software-custom-acknowledgement" class="form-label">Custom acknowledgement</label>
-                            <textarea class="form-control" id="new-software-custom-acknowledgement"></textarea>
-                        </div>
-                        <h3>Additional metadata</h3>
-                        <div class="form-control-box required mb-3">
-                            <label for="new-software-logo" class="form-label">Logo filename</label>
-                            <input type="text" class="form-control" id="new-software-logo" />
-                        </div>
-                        <div class="form-control-box required mb-3">
-                            <label for="new-software-language" class="form-label">Language</label>
-                            <div class="input-group">
-                                <select class="form-select form-select-sm" id="new-software-language">
-                                    <option value="-">Select language</option>
-                                    <option value="new">New language</option>
-                                </select>
-                                <input type="text" class="form-control hide" id="new-software-language-new" />
-                            </div>
-                        </div>
-                        <div class="form-control-box required mb-3">
-                            <label for="new-software-category" class="form-label">Category</label>
-                            <div class="input-group">
-                                <select class="form-select form-select-sm" id="new-software-category">
-                                    <option value="-">Select category</option>
-                                    <option value="new">New category</option>
-                                </select>
-                                <input type="text" class="form-control hide" id="new-software-category-new" />
-                            </div>
-                        </div>
-                        <div class="form-control-box mb-3">
-                            <label for="new-software-keywords" class="form-label">Keywords (comma-separated)</label>
-                            <input type="text" class="form-control" id="new-software-keywords" />
                         </div>
                     </div>
 

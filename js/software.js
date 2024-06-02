@@ -434,6 +434,16 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    document.getElementById("launch-new-software").click();
+
+    document.getElementById("submit-new-software").addEventListener('click', function(e) {
+        const valid = validate_new_software_form();
+        if (!valid) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    });
+
 });
 
 function capitalise(string) {
@@ -634,4 +644,45 @@ async function fetch_zenodo_bibtex(doi) {
     } catch (error) {
         console.error('Error fetching records:', error);
     }
+}
+
+function validate_new_software_form() {
+    let form = document.querySelector(".new-software-form");
+
+    for (let input of form.querySelectorAll("input[type='url']")) {
+        let url = input.value.trim();
+
+        if (url.startsWith('www.') && !url.startsWith('http://') && !url.startsWith('https://')) {
+            input.value = 'https://' + url;
+        }
+        input.parentElement.querySelector(".valid-feedback a").href = input.value;
+    }
+
+    const bibtex_field = form.querySelector("#new-software-bibtex");
+    const bibtex = parse_bibtex(bibtex_field.value.trim());
+    console.log(bibtex)
+    console.log(Object.keys(bibtex))
+    if (Object.keys(bibtex).length === 0) {
+        bibtex_field.setCustomValidity("Invalid field.");
+    } else {
+        bibtex_field.setCustomValidity("")
+        let tags = []
+        for (let key in bibtex) {
+            tags.push(`<span class='badge text-bg-success'>${key}</span>`);
+        }
+        bibtex_field.parentElement.querySelector(".valid-feedback").innerHTML = "Valid BibTeX! Tags detected: " + tags.join(" ");
+    }
+
+
+    let valid = form.checkValidity();
+    if (valid) {
+        let data = new FormData(form);
+        let json = {};
+        for (let [key, value] of data.entries()) {
+            json[key] = value;
+        }
+        console.log(json);
+    }
+    form.classList.add('was-validated');
+    return valid;
 }
