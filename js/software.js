@@ -75,6 +75,12 @@ Promise.all([
                 }
                 details.querySelector(".details-docs").href = citations[btn.getAttribute("data-key")]["link"];
                 details.querySelector(".details-cite").href = citations[btn.getAttribute("data-key")]["attribution_link"];
+
+                if (citations[btn.getAttribute("data-key")]["zenodo_doi"] === "") {
+                    details.querySelector(".details-doi").remove();
+                } else {
+                    details.querySelector(".details-doi").href = `https://zenodo.org/doi/${citations[btn.getAttribute("data-key")]["zenodo_doi"]}`;
+                }
                 return details.innerHTML;
             },
             html: true,
@@ -282,6 +288,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById("software-search-clear").addEventListener('click', function() {
         document.getElementById("software-search").value = "";
+        handle_search();
+    });
+
+    document.getElementById("software-filter-clear").addEventListener('click', function() {
+        document.getElementById("software-category").value = "all";
+        document.getElementById("software-language").value = "all";
         handle_search();
     });
 
