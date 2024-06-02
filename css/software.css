@@ -303,3 +303,18 @@ pre {
 .headshot-box:hover {
     transform: scale(1.05);
 }
+
+.new-software-form,
+.new-software-form .btn,
+.new-software-form .form-control {
+    font-size: 0.7rem;
+}
+
+.form-control-box.required .form-label:after {
+    content:"*";
+    color:red;
+}
+
+.form-label {
+    margin-bottom: 0.25rem;
+}
