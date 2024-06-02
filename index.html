@@ -90,13 +90,14 @@
                     <div id="version-box" class="rounded-box">
                         <div class="header-number">2</div>
                         <h3 class="header-title">Choose your versions</h3>
-                        <p class="header-desc mb-1">Choose the versions of the software that you've used</p>
+                        <p class="header-desc mb-1">
+                            Choose the versions of the software that you've used
+                            <i class="fa fa-question-circle ms-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="<b>Why do I need to select a specific version?</b><br>Citing the exact version increases the <i>reproducibility of your work</i> and ensures you <i>credit all authors who contributed</i> to the code, even if they contributed after the release of the original citation." data-bs-html="true"></i>
+                        </p>
                         <div class="justify-content-center text-center">
-                            <div class="btn-group mb-2">
-                                <div class="btn-group" role="group" id="version-selector">
-                                    <button class="btn btn-primary active" id="choose_version">Choose versions</button>
-                                    <button class="btn btn-primary" id="latest_version">Use latest versions</button>
-                                </div>
+                            <div class="btn-group mb-2" role="group" id="version-selector">
+                                <button class="btn btn-primary active" id="choose_version">Choose versions</button>
+                                <button class="btn btn-primary" id="latest_version">Use latest versions</button>
                             </div>
                         </div>
                         <div id="version-list" class="row g-2">
@@ -137,14 +138,25 @@
                 </div>
             </div>
             <hr />
-            <div class="row mb-3 mt-5">
+            <div class="row mt-5">
                 <div class="col text-center">
                     <h2>Why is it important to cite software?</h2>
                     <p class="mb-4">TODO: add details from the Overleaf</p>
                     <h2>How can I add software to the list?</h2>
                     <p class="mb-4">Fill out a GitHub issue with <a class="text-decoration-underline" style="font-weight: bold" href="https://github.com/TomWagg/software-citation-station/issues/new?assignees=&labels=new-citation&projects=&template=01-citation.md&title=">this template</a> and we'll add it to our list as soon as possible!</p>
                     <h2>Who made this?</h2>
-                    <p><a class="text-decoration-underline" style="font-weight: bold" href="https://www.tomwagg.com/">Tom Wagg</a> and <a class="text-decoration-underline" style="font-weight: bold" href="https://www.broekgaarden.nl/floor/wordpress/">Floor Broekgaarden</a></p>
+
+                    <div class="d-flex justify-content-center mt-3">
+                        <div class="headshot-box me-3" data-href="https://www.tomwagg.com/">
+                            <img src="img/tom.png" class="rounded-circle m-auto headshot" />
+                            <p class="fs-5">Tom Wagg</p>
+                        </div>
+
+                        <div class="headshot-box" data-href="https://www.broekgaarden.nl/floor/wordpress/">
+                            <img src="img/floor.jpeg" class="rounded-circle m-auto headshot" />
+                            <p class="fs-5">Floor Broekgaarden</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

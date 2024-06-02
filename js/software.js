@@ -409,6 +409,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+    document.querySelectorAll(".headshot-box").forEach(function(box) {
+        box.addEventListener('click', function() {
+            window.open(this.getAttribute("data-href"), "_blank");
+        });
+    });
+
 });
 
 function capitalise(string) {
