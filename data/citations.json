@@ -377,5 +377,29 @@
         "zenodo_doi": "",
         "attribution_link": "https://iraf-community.github.io/",
         "custom_citation": ""
-    }
+    },
+    "astropy": {
+        "tags": ["astropy:2013", "astropy:2018", "astropy:2022"],
+        "logo": "img/astropy.png",
+        "language": "python",
+        "category": "general",
+        "keywords": ["astronomy", "astrophysics"],
+        "description": "The astropy package contains key functionality and common tools needed for performing astronomy and astrophysics with Python.",
+        "link": "https://docs.astropy.org/en/stable/",
+        "zenodo_doi": "",
+        "attribution_link": "https://www.astropy.org/acknowledging.html",
+        "custom_citation": ""
+    },
+    "julia": {
+        "tags": ["bezanson2017julia"],
+        "logo": "img/julia.png",
+        "language": "julia",
+        "category": "general",
+        "keywords": ["programming", "computing"],
+        "description": ". The Julia programming language is a flexible dynamic language, appropriate for scientific and numerical computing, with performance comparable to traditional statically-typed languages.",
+        "link": "https://docs.julialang.org/en/v1/",
+        "zenodo_doi": "",
+        "attribution_link": "https://epubs.siam.org/doi/10.1137/141000671",
+        "custom_citation": ""
+    },
 }
