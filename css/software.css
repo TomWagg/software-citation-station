@@ -152,6 +152,18 @@ footer.footer .social-link:active {
     max-height: 300px;
 }
 
+#software-list:after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+    background-image: linear-gradient(to bottom, rgba(255,255,255,0), var(--primary) 90%);
+    width: 100%;
+    height: 5em;
+}
+
 .software-item {
     padding: 0.5rem;
 }
@@ -250,4 +262,20 @@ pre {
 
 .version-select {
     font-size: 0.7rem;
+}
+
+.headshot {
+    border-radius: 100%;
+    max-width: 200px;
+    max-height: 200px;
+    border: 10px solid var(--primary);
+}
+
+.headshot-box {
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.headshot-box:hover {
+    transform: scale(1.05);
 }
