@@ -160,15 +160,15 @@
                                 <div class="modal-body">
                                     <form class="form new-software-form m-auto text-start needs-validation" style="font-size: 0.7rem" novalidate>
                                         <h6 class="fw-bold">Basic package information</h6>
-                                        <div class="row mb-2">
-                                            <div class="col">
-                                                <div class="form-control-box required">
+                                        <div class="row">
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-control-box required mb-2">
                                                     <label for="new-software-name" class="form-label">Software name</label>
                                                     <input type="text" class="form-control" id="new-software-name" placeholder="Name (e.g. 'Python')" required />
                                                 </div>
                                             </div>
-                                            <div class="col">
-                                                <div class="form-control-box required">
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-control-box required mb-2">
                                                     <label for="new-software-docs" class="form-label">
                                                         Documentation link
                                                         <i class="fa fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="If no documentation exists then at least link the code repository or website." data-bs-html="true"></i>
@@ -186,7 +186,7 @@
                                         </div>
                                         <h6 class="fw-bold">Citation details</h6>
                                         <div class="row">
-                                            <div class="col">
+                                            <div class="col-12 col-md-6">
                                                 <div class="form-control-box mb-2">
                                                     <label for="new-software-bibtex" class="form-label">BibTeX</label>
                                                     <textarea class="form-control" id="new-software-bibtex" placeholder="Paste all BibTeX to be cited"></textarea>
@@ -194,7 +194,7 @@
                                                     <div class="invalid-feedback">That doesn't seem to be valid BibTeX.</div>
                                                 </div>
                                             </div>
-                                            <div class="col">
+                                            <div class="col-12 col-md-6">
                                                 <div class="form-control-box mb-2">
                                                     <label for="new-software-custom-acknowledgement" class="form-label">
                                                         Custom acknowledgement (in LaTeX)
@@ -204,9 +204,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row mb-2">
-                                            <div class="col">
-                                                <div class="form-control-box required">
+                                        <div class="row">
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-control-box required mb-2">
                                                     <label for="new-software-attribution" class="form-label">
                                                         Preferred citation method reference
                                                         <i class="fa fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Include a link to a page that states the preferred citation method for the software (to ensure your input matches their wishes)" data-bs-html="true"></i>
@@ -216,8 +216,8 @@
                                                     <div class="invalid-feedback">That doesn't seem to be a valid URL.</div>
                                                 </div>
                                             </div>
-                                            <div class="col">
-                                                <div class="form-control-box">
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-control-box mb-2">
                                                     <label for="new-software-doi" class="form-label"> Zenodo DOI <i>for all versions</i> <i class="fa fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Enter the DOI <b>associated with all versions</b> of your software package. This can be found on the Zenodo page for your just after it says <span class='text-warning'>'Cite all versions?'</span>." data-bs-html="true"></i></label>
                                                     <div class="input-group">
                                                         <input class="form-control" id="new-software-doi" placeholder="DOI (e.g. 10.5281/zenodo.595738)" />
@@ -233,9 +233,9 @@
                                             </div>
                                         </div>
                                         <h6 class="fw-bold">Additional metadata</h6>
-                                        <div class="row mb-2">
-                                            <div class="col">
-                                                <div class="form-control-box required">
+                                        <div class="row">
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-control-box required mb-2">
                                                     <label for="new-software-language" class="form-label">Language</label>
                                                     <div class="input-group">
                                                         <select class="form-select form-select-sm" id="new-software-language"></select>
@@ -244,7 +244,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col">
+                                            <div class="col-12 col-md-6">
                                                 <div class="form-control-box required mb-2">
                                                     <label for="new-software-category" class="form-label">Category</label>
                                                     <div class="input-group">
@@ -267,6 +267,18 @@
                                         </div>
                                         <p class="fs-3">Validating data...</p>
                                     </div>
+                                    <div id="new-software-results" class="mt-5 text-start">
+                                        <h6 class="fw-bold">Generated citation data</h6>
+                                        <p>Here's the generated citation data for your software package. If you're happy with it then
+                                            <ol>
+                                                <li>Copy the block below</li>
+                                                <li>Click the button to create a new issue</li>
+                                                <li>Paste the information and submit the issue</li>
+                                            </ol>
+                                            We'll review your submission soon.
+                                        </p>
+                                        <pre id="new-software-citation" class="rounded-box"><code><i>Citation data will go here</i></code></pre>
+                                    </div>
                                 </div>
                                 <div class="modal-footer justify-content-center p-0">
                                     <button class="btn btn-primary w-100 rounded-0 rounded-bottom m-0" id="submit-new-software">Generate data</button>
@@ -277,12 +289,11 @@
 
                     <h2>Who made this?</h2>
 
-                    <div class="d-flex justify-content-center mt-3">
-                        <div class="headshot-box me-3" data-href="https://www.tomwagg.com/">
+                    <div class="d-md-flex justify-content-center mt-3">
+                        <div class="headshot-box me-md-3" data-href="https://www.tomwagg.com/">
                             <img src="img/tom.png" class="rounded-circle m-auto headshot" />
                             <p class="fs-5">Tom Wagg</p>
                         </div>
-
                         <div class="headshot-box" data-href="https://www.broekgaarden.nl/floor/wordpress/">
                             <img src="img/floor.jpeg" class="rounded-circle m-auto headshot" />
                             <p class="fs-5">Floor Broekgaarden</p>
