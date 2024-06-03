@@ -148,7 +148,7 @@
                     <button id="launch-new-software" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new-software-modal">New software form</button>
 
                     <div class="modal fade" id="new-software-modal" tabindex="-1">
-                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-dialog modal-dialog-centered modal-xl">
                             <div class="modal-content">
                                 <div class="modal-header d-flex align-items-center">
                                     <h5 class="modal-title">
@@ -228,7 +228,7 @@
                                                         <div class="valid-feedback">That DOI looks good, there are <span id="new-software-n-version"></span> versions associated with it.</div>
                                                         <div class="invalid-feedback">That DOI doesn't seem to exist.</div>
                                                     </div>
-                                                    <div>Click <a id="new-zenodo-search" href="https://zenodo.org/search?q=" target="_blank">here</a> to search Zenodo for your package.</div>
+                                                    <div>Click <a id="new-zenodo-search" class="fw-bold" href="https://zenodo.org/search?q=" target="_blank">here</a> to search Zenodo for your package.</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -258,6 +258,7 @@
                                         <div class="form-control-box mb-2">
                                             <label for="new-software-keywords" class="form-label">Keywords (comma-separated)</label>
                                             <input type="text" class="form-control" id="new-software-keywords" />
+                                            <div class="valid-feedback"></div>
                                         </div>
                                     </form>
                                     <div class="loading-overlay hide">
@@ -268,7 +269,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer justify-content-center p-0">
-                                    <button class="btn btn-primary w-100 rounded-0 rounded-bottom m-0" id="submit-new-software">Submit</button>
+                                    <button class="btn btn-primary w-100 rounded-0 rounded-bottom m-0" id="submit-new-software">Generate data</button>
                                 </div>
                             </div>
                         </div>

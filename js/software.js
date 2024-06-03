@@ -756,6 +756,10 @@ function validate_new_software_form() {
         }
     }
 
+    const keywords = document.getElementById("new-software-keywords").value.trim().split(",");
+    const keyword_spans = keywords.map((kw) => `<span class='badge text-bg-success'>${kw.trim()}</span>`);
+    document.getElementById("new-software-keywords").parentElement.querySelector(".valid-feedback").innerHTML = "Keywords detected: " + keyword_spans.join(" ");
+
 
     validate_zenodo_doi(document.querySelector("#new-software-doi").value).then((n_versions) => {
         console.log(n_versions);
