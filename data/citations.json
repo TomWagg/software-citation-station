@@ -260,7 +260,7 @@
     "FIRE-2": {
         "tags": ["Wetzel2023", "Hopkins2015", "Hopkins2018a"],
         "logo": "img/FIRE.png",
-        "language": "c",
+        "language": "C",
         "category": "n-body",
         "keywords": ["n-body", "galaxy formation", "galaxy evolution", "feedback"],
         "description": "The FIRE: Feedback In Realistic Environments project seeks to develop and explore cosmological simulations of galaxy formation that directly resolve the interstellar medium of individual galaxies while capturing their cosmological environment.",
