@@ -186,57 +186,78 @@
                                             <label class="character-count">0/200</label>
                                         </div>
                                         <h6 class="fw-bold">Citation details</h6>
-                                        <div class="form-control-box mb-2">
-                                            <label for="new-software-bibtex" class="form-label">BibTeX</label>
-                                            <textarea class="form-control" id="new-software-bibtex" placeholder="Paste all BibTeX to be cited"></textarea>
-                                            <div class="valid-feedback"></div>
-                                            <div class="invalid-feedback">That doesn't seem to be valid BibTeX.</div>
-                                        </div>
-                                        <div class="form-control-box required mb-2">
-                                            <label for="new-software-attribution" class="form-label">
-                                                Preferred citation method reference
-                                                <i class="fa fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Include a link to a page that states the preferred citation method for the software (to ensure your input matches their wishes)" data-bs-html="true"></i>
-                                            </label>
-                                            <input type="url" class="form-control" id="new-software-attribution" placeholder="URL (e.g. https://numpy.org/citing-numpy/)" required />
-                                            <div class="valid-feedback">That's definitely a link, click <a href="" target="_blank" class="link-success fw-bold">here</a> to test it!</div>
-                                            <div class="invalid-feedback">That doesn't seem to be a valid URL.</div>
-                                        </div>
-                                        <div class="form-control-box mb-2">
-                                            <label for="new-software-doi" class="form-label"> Zenodo DOI <i>for all versions</i> <i class="fa fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Enter the DOI <b>associated with all versions</b> of your software package. This can be found on the Zenodo page for your just after it says 'Cite all versions?'." data-bs-html="true"></i></label>
-                                            <div class="input-group">
-                                                <input class="form-control" id="new-software-doi" placeholder="DOI (e.g. 10.5281/zenodo.595738)" />
-                                                <div id="new-software-single-version" class="input-group-text hide" style="font-size: 0.7rem">
-                                                    Allow single version
-                                                    <input class="form-check-input ms-1" type="checkbox" value="" aria-label="Checkbox for following text input" />
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-control-box mb-2">
+                                                    <label for="new-software-bibtex" class="form-label">BibTeX</label>
+                                                    <textarea class="form-control" id="new-software-bibtex" placeholder="Paste all BibTeX to be cited"></textarea>
+                                                    <div class="valid-feedback"></div>
+                                                    <div class="invalid-feedback">That doesn't seem to be valid BibTeX.</div>
                                                 </div>
-                                                <div class="valid-feedback">That DOI looks good, there are <span id="new-software-n-version"></span> versions associated with it.</div>
-                                                <div class="invalid-feedback">That DOI doesn't seem to exist.</div>
                                             </div>
-                                            <div>Click <a id="new-zenodo-search" href="https://zenodo.org/search?q=" target="_blank">here</a> to search Zenodo for your package.</div>
+                                            <div class="col">
+                                                <div class="form-control-box mb-2">
+                                                    <label for="new-software-custom-acknowledgement" class="form-label">
+                                                        Custom acknowledgement (in LaTeX)
+                                                        <i class="fa fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="If your software package has specific text required for its citation then enter it here as LaTeX. See <code>COMPAS</code> or <code>MESA</code> for examples." data-bs-html="true"></i>
+                                                    </label>
+                                                    <textarea class="form-control" id="new-software-custom-acknowledgement" placeholder="LaTeX (e.g. 'This software wants to specifically cite \citet{thispackage} in this way.')"></textarea>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="form-control-box mb-2">
-                                            <label for="new-software-custom-acknowledgement" class="form-label">Custom acknowledgement</label>
-                                            <textarea class="form-control" id="new-software-custom-acknowledgement"></textarea>
+                                        <div class="row mb-2">
+                                            <div class="col">
+                                                <div class="form-control-box required">
+                                                    <label for="new-software-attribution" class="form-label">
+                                                        Preferred citation method reference
+                                                        <i class="fa fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Include a link to a page that states the preferred citation method for the software (to ensure your input matches their wishes)" data-bs-html="true"></i>
+                                                    </label>
+                                                    <input type="url" class="form-control" id="new-software-attribution" placeholder="URL (e.g. https://numpy.org/citing-numpy/)" required />
+                                                    <div class="valid-feedback">That's definitely a link, click <a href="" target="_blank" class="link-success fw-bold">here</a> to test it!</div>
+                                                    <div class="invalid-feedback">That doesn't seem to be a valid URL.</div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-control-box">
+                                                    <label for="new-software-doi" class="form-label"> Zenodo DOI <i>for all versions</i> <i class="fa fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Enter the DOI <b>associated with all versions</b> of your software package. This can be found on the Zenodo page for your just after it says <span class='text-warning'>'Cite all versions?'</span>." data-bs-html="true"></i></label>
+                                                    <div class="input-group">
+                                                        <input class="form-control" id="new-software-doi" placeholder="DOI (e.g. 10.5281/zenodo.595738)" />
+                                                        <div id="new-software-single-version" class="input-group-text hide" style="font-size: 0.7rem">
+                                                            Allow single version
+                                                            <input class="form-check-input ms-1" type="checkbox" value="" aria-label="Checkbox for following text input" />
+                                                        </div>
+                                                        <div class="valid-feedback">That DOI looks good, there are <span id="new-software-n-version"></span> versions associated with it.</div>
+                                                        <div class="invalid-feedback">That DOI doesn't seem to exist.</div>
+                                                    </div>
+                                                    <div>Click <a id="new-zenodo-search" href="https://zenodo.org/search?q=" target="_blank">here</a> to search Zenodo for your package.</div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <h6 class="fw-bold">Additional metadata</h6>
-                                        <div class="form-control-box required mb-2">
-                                            <label for="new-software-language" class="form-label">Language</label>
-                                            <div class="input-group">
-                                                <select class="form-select form-select-sm" id="new-software-language">
-                                                    <option value="-">Select language</option>
-                                                    <option value="new">New language</option>
-                                                </select>
-                                                <input type="text" class="form-control hide" id="new-software-language-new" />
+                                        <div class="row mb-2">
+                                            <div class="col">
+                                                <div class="form-control-box required">
+                                                    <label for="new-software-language" class="form-label">Language</label>
+                                                    <div class="input-group">
+                                                        <select class="form-select form-select-sm" id="new-software-language">
+                                                            <option value="-">Select language</option>
+                                                            <option value="new">New language</option>
+                                                        </select>
+                                                        <input type="text" class="form-control hide" id="new-software-language-new" />
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-control-box required mb-2">
-                                            <label for="new-software-category" class="form-label">Category</label>
-                                            <div class="input-group">
-                                                <select class="form-select form-select-sm" id="new-software-category">
-                                                    <option value="-">Select category</option>
-                                                    <option value="new">New category</option>
-                                                </select>
-                                                <input type="text" class="form-control hide" id="new-software-category-new" />
+                                            <div class="col">
+                                                <div class="form-control-box required mb-2">
+                                                    <label for="new-software-category" class="form-label">Category</label>
+                                                    <div class="input-group">
+                                                        <select class="form-select form-select-sm" id="new-software-category">
+                                                            <option value="-">Select category</option>
+                                                            <option value="new">New category</option>
+                                                        </select>
+                                                        <input type="text" class="form-control hide" id="new-software-category-new" />
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="form-control-box mb-2">
