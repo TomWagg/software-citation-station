@@ -695,6 +695,10 @@ function validate_new_software_form() {
         bibtex_field.parentElement.querySelector(".valid-feedback").innerHTML = "Valid BibTeX! Tags detected: " + tags.join(" ");
     }
 
+    // escape backslashes in the custom acknowledgement
+    const custom = form.querySelector("#new-software-custom-acknowledgement");
+    custom.value = custom.value.trim().replace(/(?<!\\)\\(?!\\)/gm, '\\\\');
+
     validate_zenodo_doi(document.querySelector("#new-software-doi").value).then((n_versions) => {
         console.log(n_versions);
         const allow_single_version = form.querySelector("#new-software-single-version");
@@ -711,10 +715,6 @@ function validate_new_software_form() {
             allow_single_version.classList.add("hide");
             allow_single_version.parentElement.parentElement.querySelector(".valid-feedback").innerHTML = "DOI found on Zenodo with " + n_versions + " versions.";
         }
-
-        // escape backslashes in the custom acknowledgement
-        const custom = form.querySelector("#new-software-custom-acknowledgement");
-        custom.value = custom.value.trim().replace(/\\/g, '\\\\')
 
         // perform the rest of the validation
         let valid = form.checkValidity();
