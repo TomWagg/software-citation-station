@@ -253,19 +253,41 @@ Promise.all([
     }
 
     for (let cat of [...categories].sort()) {
-        let cat_caps = capitalise(cat);
-        const cat_opt = document.createElement("option");
-        cat_opt.value = cat_caps;
-        cat_opt.innerText = cat_caps;
-        category_select.appendChild(cat_opt);
+        const cat_caps = capitalise(cat);
+        category_select.appendChild(create_option(cat_caps, cat_caps));
     }
 
     for (let lang of [...languages].sort()) {
-        let lang_caps = capitalise(lang);
-        const lang_opt = document.createElement("option");
-        lang_opt.value = lang_caps;
-        lang_opt.innerText = lang_caps;
-        language_select.appendChild(lang_opt);
+        const lang_caps = capitalise(lang);
+        language_select.appendChild(create_option(lang_caps, lang_caps));
+    }
+
+    // populate the language and category selects based on the ones on the main page
+    const new_software_category = document.getElementById("new-software-category");
+    const new_software_language = document.getElementById("new-software-language");
+
+    if (new_software_category.children.length == 0) {
+        new_software_category.appendChild(create_option("-", "Select category"));
+        for (let i = 0; i < category_select.options.length; i++) {
+            if (category_select.options[i].value === "all") {
+                continue;
+            }
+            new_software_category.appendChild(create_option(category_select.options[i].value,
+                category_select.options[i].innerText));
+        }
+        new_software_category.appendChild(create_option("new", "New category"));
+    }
+
+    if (new_software_language.children.length == 0) {
+        new_software_language.appendChild(create_option("-", "Select language"));
+        for (let i = 0; i < language_select.options.length; i++) {
+            if (language_select.options[i].value === "all") {
+                continue;
+            }
+            new_software_language.appendChild(create_option(language_select.options[i].value,
+                language_select.options[i].innerText));
+        }
+        new_software_language.appendChild(create_option("new", "New language"));
     }
 
     document.getElementById("software-loading").classList.add("hide");
@@ -434,7 +456,16 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    document.getElementById("launch-new-software").click();
+    document.querySelectorAll("#new-software-category, #new-software-language").forEach(el => {
+        el.addEventListener('change', function() {
+            if (this.value === "new") {
+                this.nextElementSibling.classList.remove("hide");
+                this.nextElementSibling.focus();
+            } else {
+                this.nextElementSibling.classList.add("hide");
+            }
+        })
+    });
 
     document.getElementById("submit-new-software").addEventListener('click', function(e) {
         const valid = validate_new_software_form();
@@ -446,6 +477,15 @@ window.addEventListener('DOMContentLoaded', () => {
         document.getElementById("new-zenodo-search").href = `https://zenodo.org/search?q=${this.value}`;
     });
 });
+
+
+function create_option(value, label) {
+    let opt = document.createElement("option");
+    opt.value = value;
+    opt.innerText = label;
+    return opt;
+}
+
 
 function capitalise(string) {
     return string.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
