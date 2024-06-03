@@ -438,12 +438,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById("submit-new-software").addEventListener('click', function(e) {
         const valid = validate_new_software_form();
-        if (!valid) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
+        e.preventDefault();
+        e.stopPropagation();
     });
 
+    document.getElementById("new-software-name").addEventListener('input', function() {
+        document.getElementById("new-zenodo-search").href = `https://zenodo.org/search?q=${this.value}`;
+    });
 });
 
 function capitalise(string) {
@@ -587,8 +588,6 @@ async function get_zenodo_version_info(concept_doi, vp) {
 
         let version_and_doi = []
         let versions_so_far = new Set()
-
-        const select = vp.querySelector(".version-select")
         for (let hit of data.hits.hits) {
             if (!versions_so_far.has(hit.metadata.version)) {
                 version_and_doi.push({"version": hit.metadata.version, "doi": hit.id})
@@ -599,7 +598,8 @@ async function get_zenodo_version_info(concept_doi, vp) {
         version_and_doi.sort(function(a, b) {
             return compare_versions(a.version, b.version);
         }).reverse();
-        
+
+        const select = vp.querySelector(".version-select")
         for (let i = 0; i < version_and_doi.length; i++) {
             let opt = document.createElement("option")
             opt.value = version_and_doi[i].doi;
@@ -619,6 +619,24 @@ async function get_zenodo_version_info(concept_doi, vp) {
         // Handle errors
         console.error('Error fetching records:', error);
     }
+}
+
+// Function to fetch records from Zenodo API
+async function validate_zenodo_doi(concept_doi) {
+    if (concept_doi === "") {
+        return 0;
+    }
+    // Build the complete URL with the query parameter for concept DOI
+    const url = `https://zenodo.org/api/records?q=conceptdoi:"${concept_doi}"&all_versions=true`;
+    // Make the API request with the Accept header for BibTeX format
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    return data.hits.hits.length;
 }
 
 // Function to fetch records from Zenodo API
@@ -647,8 +665,13 @@ async function fetch_zenodo_bibtex(doi) {
 }
 
 function validate_new_software_form() {
+    /* validate the input fields in the new software form */
     let form = document.querySelector(".new-software-form");
+    const loader = form.parentElement.querySelector(".loading-overlay");
+    loader.classList.remove("hide");
+    animateCSS(loader, "fadeIn");
 
+    // check the URL fields and add the https:// if it's missing
     for (let input of form.querySelectorAll("input[type='url']")) {
         let url = input.value.trim();
 
@@ -658,10 +681,9 @@ function validate_new_software_form() {
         input.parentElement.querySelector(".valid-feedback a").href = input.value;
     }
 
+    // attempt to parse the BibTeX field
     const bibtex_field = form.querySelector("#new-software-bibtex");
     const bibtex = parse_bibtex(bibtex_field.value.trim());
-    console.log(bibtex)
-    console.log(Object.keys(bibtex))
     if (Object.keys(bibtex).length === 0) {
         bibtex_field.setCustomValidity("Invalid field.");
     } else {
@@ -673,16 +695,36 @@ function validate_new_software_form() {
         bibtex_field.parentElement.querySelector(".valid-feedback").innerHTML = "Valid BibTeX! Tags detected: " + tags.join(" ");
     }
 
-
-    let valid = form.checkValidity();
-    if (valid) {
-        let data = new FormData(form);
-        let json = {};
-        for (let [key, value] of data.entries()) {
-            json[key] = value;
+    validate_zenodo_doi(document.querySelector("#new-software-doi").value).then((n_versions) => {
+        console.log(n_versions);
+        const allow_single_version = form.querySelector("#new-software-single-version");
+        if (n_versions === 0) {
+            form.querySelector("#new-software-doi").setCustomValidity("DOI not found on Zenodo.");
+            console.log(allow_single_version.parentElement.parentElement.querySelector(".invalid-feedback"))
+            allow_single_version.parentElement.parentElement.querySelector(".invalid-feedback").innerHTML = "Invalid DOI. Please ensure you have the correct DOI for <b>all</b> versions of the software (hover over the question mark above for instructions).";
+        } else if (n_versions === 1 && !allow_single_version.querySelector("input").checked) {
+            form.querySelector("#new-software-doi").setCustomValidity("DOI only has one version");
+            allow_single_version.classList.remove("hide");
+            allow_single_version.parentElement.parentElement.querySelector(".invalid-feedback").innerHTML = "This DOI only has one version - did you ensure to choose the DOI that matches <b>all</b> versions of the software (hover over the question mark above for instructions)?. If only one version is released so far, please check the box above and resubmit.";
+        } else {
+            form.querySelector("#new-software-doi").setCustomValidity("");
+            allow_single_version.classList.add("hide");
+            allow_single_version.parentElement.parentElement.querySelector(".valid-feedback").innerHTML = "DOI found on Zenodo with " + n_versions + " versions.";
         }
-        console.log(json);
-    }
-    form.classList.add('was-validated');
-    return valid;
+
+        // perform the rest of the validation
+        let valid = form.checkValidity();
+        if (valid) {
+            let data = new FormData(form);
+            let json = {};
+            for (let [key, value] of data.entries()) {
+                json[key] = value;
+            }
+            console.log(json);
+        }
+        form.classList.add('was-validated');
+        loader.classList.add("hide");
+    });
+
+    return false;
 }

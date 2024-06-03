@@ -340,3 +340,13 @@ pre {
     background-color: red;
     color: white;
 }
+
+.loading-overlay {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 100;
+}
