@@ -739,6 +739,24 @@ function validate_new_software_form() {
     const custom = form.querySelector("#new-software-custom-acknowledgement");
     custom.value = custom.value.trim().replace(/(?<!\\)\\(?!\\)/gm, '\\\\');
 
+    // check the category and language selects. Both should not have value of "-", and if they have a value of "new" then the next input should not be empty
+    for (let select of form.querySelectorAll("#new-software-category, #new-software-language")) {
+        const select_new_input = select.nextElementSibling;
+        if (select.value === "-") {
+            select.setCustomValidity("Please select a category/language.");
+            select_new_input.setCustomValidity("Please select a category/language.");
+            select.parentElement.querySelector(".invalid-feedback").innerHTML = "No value selected.";
+        } else if (select.value === "new" && select.nextElementSibling.value.trim() === "") {
+            select.setCustomValidity("Please enter a new category/language.");
+            select_new_input.setCustomValidity("Please enter a new category/language.");
+            select.parentElement.querySelector(".invalid-feedback").innerHTML = "New value not entered.";
+        } else {
+            select.setCustomValidity("");
+            select.nextElementSibling.setCustomValidity("");
+        }
+    }
+
+
     validate_zenodo_doi(document.querySelector("#new-software-doi").value).then((n_versions) => {
         console.log(n_versions);
         const allow_single_version = form.querySelector("#new-software-single-version");
