@@ -306,7 +306,8 @@ pre {
 
 .new-software-form,
 .new-software-form .btn,
-.new-software-form .form-control {
+.new-software-form .form-control,
+.new-software-form .form-select.form-select-sm {
     font-size: 0.7rem;
 }
 
