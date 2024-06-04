@@ -384,7 +384,7 @@
         "language": "julia",
         "category": "general",
         "keywords": ["programming", "computing"],
-        "description": ". The Julia programming language is a flexible dynamic language, appropriate for scientific and numerical computing, with performance comparable to traditional statically-typed languages.",
+        "description": "The Julia programming language is a flexible dynamic language, appropriate for scientific and numerical computing, with performance comparable to traditional statically-typed languages.",
         "link": "https://docs.julialang.org/en/v1/",
         "zenodo_doi": "",
         "attribution_link": "https://epubs.siam.org/doi/10.1137/141000671",
