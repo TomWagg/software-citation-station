@@ -16,4 +16,4 @@ Software is crucial for the advancement of astronomy and science especially in t
 software has not always been consistently cited, despite its importance to strengthen support for software development  (Howison & Bullard 2016; Niemeyer et al. 2016; Li et al. 2017; Bouquin et al. 2020; Alsudais 2021; Bouquin et al. 2023). 
 To encourage, streamline, and standardize the process of citing software in academic work such as publications and presentations we introduce The software citation station: a publicly available website and tool to quickly find or add software citations.
 
-You can read our paper about the importance of software (citations), resources for software citation, and description of our tool at  <a href="[https://www.tomwagg.com/software-citation-station/](https://github.com/TomWagg/software-citation-station/blob/main/Software_Citations_in_Astronomy.pdf)">this link</a>    <br>
+You can read our paper about the importance of software (citations), resources for software citation, and description of our tool at  href="https://github.com/TomWagg/software-citation-station/blob/main/Software_Citations_in_Astronomy.pdf&title=">this link    <br>
