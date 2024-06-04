@@ -484,7 +484,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById("submit-new-software").addEventListener('click', function(e) {
-        const valid = validate_new_software_form();
+        validate_new_software_form();
         e.preventDefault();
         e.stopPropagation();
     });
@@ -492,6 +492,11 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById("new-software-name").addEventListener('input', function() {
         document.getElementById("new-zenodo-search").href = `https://zenodo.org/search?q=${this.value}`;
     });
+
+    let params = new URLSearchParams(document.location.search);
+    if (params.has("new-software") && params.get("new-software") === "true") {
+        document.getElementById("launch-new-software").click();
+    }
 });
 
 
