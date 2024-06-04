@@ -4,6 +4,15 @@ const bibtex_re = /@\w*{(?<tag>.*)(?=\,)/gmi;
 // latex regular expression to extract each command and arguments
 const latex_re = /(?<command>\\[^\\{]*)\{(?<args>[^\}]*)\}/gmi;
 
+const base_issue_text = `# Submitter TODO List
+
+- [ ] Attach or link a logo (preferably square, no background)
+- [ ] Update the logo file extension in the data below (change ".png" to the correct extension)
+
+**Delete this list before submitting the issue!**
+
+# Citation information\n`
+
 // Fetch the data and populate the software list
 Promise.all([
     fetch('data/citations.json').then(x => x.json()),
@@ -253,19 +262,41 @@ Promise.all([
     }
 
     for (let cat of [...categories].sort()) {
-        let cat_caps = capitalise(cat);
-        const cat_opt = document.createElement("option");
-        cat_opt.value = cat_caps;
-        cat_opt.innerText = cat_caps;
-        category_select.appendChild(cat_opt);
+        const cat_caps = capitalise(cat);
+        category_select.appendChild(create_option(cat_caps, cat_caps));
     }
 
     for (let lang of [...languages].sort()) {
-        let lang_caps = capitalise(lang);
-        const lang_opt = document.createElement("option");
-        lang_opt.value = lang_caps;
-        lang_opt.innerText = lang_caps;
-        language_select.appendChild(lang_opt);
+        const lang_caps = capitalise(lang);
+        language_select.appendChild(create_option(lang_caps, lang_caps));
+    }
+
+    // populate the language and category selects based on the ones on the main page
+    const new_software_category = document.getElementById("new-software-category");
+    const new_software_language = document.getElementById("new-software-language");
+
+    if (new_software_category.children.length == 0) {
+        new_software_category.appendChild(create_option("-", "Select category"));
+        for (let i = 0; i < category_select.options.length; i++) {
+            if (category_select.options[i].value === "all") {
+                continue;
+            }
+            new_software_category.appendChild(create_option(category_select.options[i].value,
+                category_select.options[i].innerText));
+        }
+        new_software_category.appendChild(create_option("new", "New category"));
+    }
+
+    if (new_software_language.children.length == 0) {
+        new_software_language.appendChild(create_option("-", "Select language"));
+        for (let i = 0; i < language_select.options.length; i++) {
+            if (language_select.options[i].value === "all") {
+                continue;
+            }
+            new_software_language.appendChild(create_option(language_select.options[i].value,
+                language_select.options[i].innerText));
+        }
+        new_software_language.appendChild(create_option("new", "New language"));
     }
 
     document.getElementById("software-loading").classList.add("hide");
@@ -410,13 +441,72 @@ window.addEventListener('DOMContentLoaded', () => {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
+    document.querySelectorAll("textarea[data-counted]").forEach(function(textarea) {
+        console.log(textarea);
+        textarea.addEventListener('input', function() {
+            const count = this.value.length;
+            const max = parseInt(this.getAttribute("maxlength"));
+            const remaining = max - count;
+            const counter = this.parentElement.querySelector(".character-count");
+            counter.innerText = `${count}/${max}`;
+            if (remaining == 0) {
+                counter.className = "character-count full";
+            } else if (remaining < 25) {
+                counter.className = "character-count nearly-full";
+            } else {
+                counter.className = "character-count";
+            }
+        });
+    });
+
     document.querySelectorAll(".headshot-box").forEach(function(box) {
         box.addEventListener('click', function() {
             window.open(this.getAttribute("data-href"), "_blank");
         });
     });
 
+    document.querySelectorAll("#new-software-category, #new-software-language").forEach(el => {
+        el.addEventListener('change', function() {
+            if (this.value === "new") {
+                this.nextElementSibling.classList.remove("hide");
+                this.nextElementSibling.focus();
+            } else {
+                this.nextElementSibling.classList.add("hide");
+            }
+        })
+    });
+
+    document.getElementById("back-new-software").addEventListener('click', function() {
+        document.querySelector(".modal-title").scrollIntoView({behavior: "smooth"});
+        setTimeout(() => {
+            document.getElementById("new-software-results").classList.add("hide");
+        }, 1000);
+    });
+
+    document.getElementById("submit-new-software").addEventListener('click', function(e) {
+        validate_new_software_form();
+        e.preventDefault();
+        e.stopPropagation();
+    });
+
+    document.getElementById("new-software-name").addEventListener('input', function() {
+        document.getElementById("new-zenodo-search").href = `https://zenodo.org/search?q=${this.value}`;
+    });
+
+    let params = new URLSearchParams(document.location.search);
+    if (params.has("new-software") && params.get("new-software") === "true") {
+        document.getElementById("launch-new-software").click();
+    }
 });
+
+
+function create_option(value, label) {
+    let opt = document.createElement("option");
+    opt.value = value;
+    opt.innerText = label;
+    return opt;
+}
+
 
 function capitalise(string) {
     return string.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
@@ -559,8 +649,6 @@ async function get_zenodo_version_info(concept_doi, vp) {
 
         let version_and_doi = []
         let versions_so_far = new Set()
-
-        const select = vp.querySelector(".version-select")
         for (let hit of data.hits.hits) {
             if (!versions_so_far.has(hit.metadata.version)) {
                 version_and_doi.push({"version": hit.metadata.version, "doi": hit.id})
@@ -571,7 +659,8 @@ async function get_zenodo_version_info(concept_doi, vp) {
         version_and_doi.sort(function(a, b) {
             return compare_versions(a.version, b.version);
         }).reverse();
-        
+
+        const select = vp.querySelector(".version-select")
         for (let i = 0; i < version_and_doi.length; i++) {
             let opt = document.createElement("option")
             opt.value = version_and_doi[i].doi;
@@ -591,6 +680,24 @@ async function get_zenodo_version_info(concept_doi, vp) {
         // Handle errors
         console.error('Error fetching records:', error);
     }
+}
+
+// Function to fetch records from Zenodo API
+async function validate_zenodo_doi(concept_doi) {
+    if (concept_doi === "") {
+        return 0;
+    }
+    // Build the complete URL with the query parameter for concept DOI
+    const url = `https://zenodo.org/api/records?q=conceptdoi:"${concept_doi}"&all_versions=true`;
+    // Make the API request with the Accept header for BibTeX format
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    return data.hits.hits.length;
 }
 
 // Function to fetch records from Zenodo API
@@ -616,4 +723,137 @@ async function fetch_zenodo_bibtex(doi) {
     } catch (error) {
         console.error('Error fetching records:', error);
     }
+}
+
+function validate_new_software_form() {
+    /* validate the input fields in the new software form */
+    let form = document.querySelector(".new-software-form");
+
+    const loader = form.parentElement.querySelector(".loading-overlay");
+    loader.classList.remove("hide");
+    animateCSS(loader, "fadeIn");
+
+    // check the URL fields and add the https:// if it's missing
+    for (let input of form.querySelectorAll("input[type='url']")) {
+        let url = input.value.trim();
+
+        if (url.startsWith('www.') && !url.startsWith('http://') && !url.startsWith('https://')) {
+            input.value = 'https://' + url;
+        }
+        input.parentElement.querySelector(".valid-feedback a").href = input.value;
+    }
+
+    // attempt to parse the BibTeX field
+    const bibtex_field = form.querySelector("#new-software-bibtex");
+    const bibtex = parse_bibtex(bibtex_field.value.trim());
+    if (Object.keys(bibtex).length === 0) {
+        bibtex_field.setCustomValidity("Invalid field.");
+    } else {
+        bibtex_field.setCustomValidity("")
+        let tags = []
+        for (let key in bibtex) {
+            tags.push(`<span class='badge text-bg-success'>${key}</span>`);
+        }
+        bibtex_field.parentElement.querySelector(".valid-feedback").innerHTML = "Valid BibTeX! Tags detected: " + tags.join(" ");
+    }
+
+    // escape backslashes in the custom acknowledgement
+    const custom = form.querySelector("#new-software-custom-acknowledgement");
+    custom.value = custom.value.trim().replace(/(?<!\\)\\(?!\\)/gm, '\\\\');
+
+    // check the category and language selects. Both should not have value of "-", and if they have a value of "new" then the next input should not be empty
+    for (let select of form.querySelectorAll("#new-software-category, #new-software-language")) {
+        const select_new_input = select.nextElementSibling;
+        if (select.value === "-") {
+            select.setCustomValidity("Please select a category/language.");
+            select_new_input.setCustomValidity("Please select a category/language.");
+            select.parentElement.querySelector(".invalid-feedback").innerHTML = "No value selected.";
+        } else if (select.value === "new" && select.nextElementSibling.value.trim() === "") {
+            select.setCustomValidity("Please enter a new category/language.");
+            select_new_input.setCustomValidity("Please enter a new category/language.");
+            select.parentElement.querySelector(".invalid-feedback").innerHTML = "New value not entered.";
+        } else {
+            select.setCustomValidity("");
+            select.nextElementSibling.setCustomValidity("");
+        }
+    }
+
+    const keywords = document.getElementById("new-software-keywords").value.trim().split(",");
+    const keyword_spans = keywords.map((kw) => `<span class='badge text-bg-success'>${kw.trim()}</span>`);
+    document.getElementById("new-software-keywords").parentElement.querySelector(".valid-feedback").innerHTML = "Keywords detected: " + keyword_spans.join(" ");
+
+
+    validate_zenodo_doi(document.querySelector("#new-software-doi").value).then((n_versions) => {
+        console.log(n_versions);
+        const allow_single_version = form.querySelector("#new-software-single-version");
+        if (n_versions === 0) {
+            form.querySelector("#new-software-doi").setCustomValidity("DOI not found on Zenodo.");
+            console.log(allow_single_version.parentElement.parentElement.querySelector(".invalid-feedback"))
+            allow_single_version.parentElement.parentElement.querySelector(".invalid-feedback").innerHTML = "Invalid DOI. Please ensure you have the correct DOI for <b>all</b> versions of the software (hover over the question mark above for instructions).";
+        } else if (n_versions === 1 && !allow_single_version.querySelector("input").checked) {
+            form.querySelector("#new-software-doi").setCustomValidity("DOI only has one version");
+            allow_single_version.classList.remove("hide");
+            allow_single_version.parentElement.parentElement.querySelector(".invalid-feedback").innerHTML = "This DOI only has one version - did you ensure to choose the DOI that matches <b>all</b> versions of the software (hover over the question mark above for instructions)?. If only one version is released so far, please check the box above and resubmit.";
+        } else {
+            form.querySelector("#new-software-doi").setCustomValidity("");
+            allow_single_version.classList.add("hide");
+            allow_single_version.parentElement.parentElement.querySelector(".valid-feedback").innerHTML = "DOI found on Zenodo with " + n_versions + " versions.";
+        }
+
+        // perform the rest of the validation
+        let valid = form.checkValidity();
+        if (valid) {
+            let json = {}
+
+            let language = form.querySelector("#new-software-language").value.trim();
+            if (language === "new") {
+                language = form.querySelector("#new-software-language-new").value.trim();
+            }
+            let category = form.querySelector("#new-software-category").value.trim();
+            if (category === "new") {
+                category = form.querySelector("#new-software-category-new").value.trim();
+            }
+            
+            const name = form.querySelector("#new-software-name").value.trim();
+            json[name] = {
+                "tags": Object.keys(bibtex),
+                "logo": `img/${name}.png`,
+                "language": language,
+                "category": category,
+                "keywords": keywords[0] == "" ? [] : keywords,
+                "description": form.querySelector("#new-software-description").value.trim(),
+                "link": form.querySelector("#new-software-docs").value.trim(),
+                "attribution_link": form.querySelector("#new-software-attribution").value.trim(),
+                "zenodo_doi": form.querySelector("#new-software-doi").value.trim(),
+                "custom_citation": form.querySelector("#new-software-custom-acknowledgement").value.trim(),
+            }
+
+            const cite_string = JSON.stringify(json, null, 4).split('\n').slice(1, -1).map((line) => line.slice(4)).join('\n');
+
+            const results = document.getElementById("new-software-results");
+            results.classList.remove("hide");
+            animateCSS(results, "fadeIn").then(() => {
+                results.scrollIntoView({behavior: "smooth"});
+            });
+
+            const to_copy = document.getElementById("new-software-citation");
+            to_copy.innerText = cite_string;
+
+            let copy_text = base_issue_text;
+
+            copy_text += "```\n" + cite_string + "\n```";
+            copy_text += "\n\n";
+            copy_text += "# BibTeX\n```\n" + bibtex_field.value.trim() + "\n```";
+
+            document.getElementById("copy-new-software").addEventListener('click', function() {
+                navigator.clipboard.writeText(copy_text);
+                const url = `https://github.com/TomWagg/software-citation-station/issues/new?assignees=&labels=new-citation&projects=&template=01-citation.md&title=[NEW SUBMISSION] ${name}`
+                window.open(url, "_blank");
+            });
+        }
+        form.classList.add('was-validated');
+        loader.classList.add("hide");
+    });
+
+    return false;
 }

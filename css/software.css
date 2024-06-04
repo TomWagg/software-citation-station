@@ -303,3 +303,55 @@ pre {
 .headshot-box:hover {
     transform: scale(1.05);
 }
+
+.new-software-form,
+.new-software-form .btn,
+.new-software-form .form-control,
+.new-software-form .form-select.form-select-sm {
+    font-size: 0.7rem;
+}
+
+.form-control-box.required .form-label:after {
+    content:"*";
+    color:red;
+}
+
+.form-label {
+    margin-bottom: 0.25rem;
+}
+
+.character-count {
+    position: absolute;
+    background-color: rgba(128, 128, 128, 0.75);
+    color:white;
+    bottom: 0;
+    right: 0.1rem;
+    font-size: 0.5rem;
+    padding: 0.2rem;
+    border-radius: 0.5rem;
+    margin: 0.2rem;
+}
+
+.character-count.nearly-full {
+    background-color: #ffcc00;
+    color: black
+}
+
+.character-count.full {
+    background-color: red;
+    color: white;
+}
+
+.loading-overlay {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 100;
+}
+
+.animate__animated.animate__fadeIn {
+    --animate-duration: 0.3s;
+}
