@@ -143,9 +143,8 @@
                     <h2>Why is it important to cite software?</h2>
                     <p class="mb-4">TODO: add details from the Overleaf</p>
                     <h2>How can I add software to the list?</h2>
-                    <p class="mb-4">Fill out a GitHub issue with <a class="text-decoration-underline" style="font-weight: bold" href="https://github.com/TomWagg/software-citation-station/issues/new?assignees=&labels=new-citation&projects=&template=01-citation.md&title=">this template</a> and we'll add it to our list as soon as possible!</p>
-
-                    <button id="launch-new-software" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new-software-modal">New software form</button>
+                    <p class="mb-1">Use the button below to fill out a form to submit a new issue to the Software Citation Station!</p>
+                    <button id="launch-new-software" type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#new-software-modal">Submit new software</button>
 
                     <div class="modal fade" id="new-software-modal" tabindex="-1">
                         <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -164,7 +163,7 @@
                                             <div class="col-12 col-md-6">
                                                 <div class="form-control-box required mb-2">
                                                     <label for="new-software-name" class="form-label">Software name</label>
-                                                    <input type="text" class="form-control" id="new-software-name" placeholder="Name (e.g. 'Python')" required />
+                                                    <input type="text" class="form-control" id="new-software-name" placeholder="Name (e.g. 'Python')" value="python" required />
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-6">
@@ -173,7 +172,7 @@
                                                         Documentation link
                                                         <i class="fa fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="If no documentation exists then at least link the code repository or website." data-bs-html="true"></i>
                                                     </label>
-                                                    <input type="url" class="form-control" id="new-software-docs" placeholder="URL (e.g. 'https://docs.python.org/3/')" required />
+                                                    <input type="url" class="form-control" id="new-software-docs" placeholder="URL (e.g. 'https://docs.python.org/3/')" required value="www.tomwagg.com" />
                                                     <div class="valid-feedback">That's definitely a link, click <a href="" target="_blank" class="link-success fw-bold">here</a> to test it!</div>
                                                     <div class="invalid-feedback">That doesn't seem to be a valid URL.</div>
                                                 </div>
@@ -181,7 +180,7 @@
                                         </div>
                                         <div class="form-control-box required mb-2 position-relative">
                                             <label for="new-software-description" class="form-label">Short description</label>
-                                            <textarea class="form-control" id="new-software-description" data-counted="true" maxlength="200" placeholder="e.g. 'A high-level, general-purpose interpreted programming language.'" required></textarea>
+                                            <textarea class="form-control" id="new-software-description" data-counted="true" maxlength="200" placeholder="e.g. 'A high-level, general-purpose interpreted programming language.'" required>words words words</textarea>
                                             <label class="character-count">0/200</label>
                                         </div>
                                         <h6 class="fw-bold">Citation details</h6>
@@ -189,7 +188,17 @@
                                             <div class="col-12 col-md-6">
                                                 <div class="form-control-box mb-2">
                                                     <label for="new-software-bibtex" class="form-label">BibTeX</label>
-                                                    <textarea class="form-control" id="new-software-bibtex" placeholder="Paste all BibTeX to be cited"></textarea>
+                                                    <textarea class="form-control" id="new-software-bibtex" placeholder="Paste all BibTeX to be cited">
+@book{python,
+author    = {Van Rossum, Guido and Drake, Fred L.},
+title     = {Python 3 Reference Manual},
+year      = {2009},
+isbn      = {1441412697},
+publisher = {CreateSpace},
+address   = {Scotts Valley, CA}
+}
+                                                      </textarea
+                                                    >
                                                     <div class="valid-feedback"></div>
                                                     <div class="invalid-feedback">That doesn't seem to be valid BibTeX.</div>
                                                 </div>
@@ -211,7 +220,7 @@
                                                         Preferred citation method reference
                                                         <i class="fa fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Include a link to a page that states the preferred citation method for the software (to ensure your input matches their wishes)" data-bs-html="true"></i>
                                                     </label>
-                                                    <input type="url" class="form-control" id="new-software-attribution" placeholder="URL (e.g. https://numpy.org/citing-numpy/)" required />
+                                                    <input type="url" class="form-control" id="new-software-attribution" placeholder="URL (e.g. https://numpy.org/citing-numpy/)" required value="https://numpy.org/citing-numpy/" />
                                                     <div class="valid-feedback">That's definitely a link, click <a href="" target="_blank" class="link-success fw-bold">here</a> to test it!</div>
                                                     <div class="invalid-feedback">That doesn't seem to be a valid URL.</div>
                                                 </div>
@@ -220,7 +229,7 @@
                                                 <div class="form-control-box mb-2">
                                                     <label for="new-software-doi" class="form-label"> Zenodo DOI <i>for all versions</i> <i class="fa fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Enter the DOI <b>associated with all versions</b> of your software package. This can be found on the Zenodo page for your just after it says <span class='text-warning'>'Cite all versions?'</span>." data-bs-html="true"></i></label>
                                                     <div class="input-group">
-                                                        <input class="form-control" id="new-software-doi" placeholder="DOI (e.g. 10.5281/zenodo.595738)" />
+                                                        <input class="form-control" id="new-software-doi" placeholder="DOI (e.g. 10.5281/zenodo.595738)" value="10.5281/zenodo.595738" />
                                                         <div id="new-software-single-version" class="input-group-text hide" style="font-size: 0.7rem">
                                                             Allow single version
                                                             <input class="form-check-input ms-1" type="checkbox" value="" aria-label="Checkbox for following text input" />
@@ -267,16 +276,24 @@
                                         </div>
                                         <p class="fs-3">Validating data...</p>
                                     </div>
-                                    <div id="new-software-results" class="mt-5 text-start">
+                                    <div id="new-software-results" class="mt-5 text-start hide">
                                         <h6 class="fw-bold">Generated citation data</h6>
-                                        <p>Here's the generated citation data for your software package. If you're happy with it then
-                                            <ol>
-                                                <li>Copy the block below</li>
-                                                <li>Click the button to create a new issue</li>
-                                                <li>Paste the information and submit the issue</li>
-                                            </ol>
-                                            We'll review your submission soon.
-                                        </p>
+                                        <p class="mb-0">Here's the generated citation data for your software package. If you're happy with it then</p>
+                                        <ol>
+                                            <li>Click "Copy data and create issue"</li>
+                                            <li>Paste the information in the issue description</li>
+                                            <li>Upload a logo file and submit the issue</li>
+                                        </ol>
+                                        <div class="text-center mb-2">
+                                            <button class="btn btn-primary" id="copy-new-software">
+                                                <i class="fa fa-copy"></i>
+                                                Copy data and create issue
+                                            </button>
+                                            <button class="btn btn-primary ms-5" id="back-new-software">
+                                                <i class="fa fa-pen"></i>
+                                                Back to editing
+                                            </button>
+                                        </div>
                                         <pre id="new-software-citation" class="rounded-box"><code><i>Citation data will go here</i></code></pre>
                                     </div>
                                 </div>

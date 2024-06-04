@@ -4,6 +4,15 @@ const bibtex_re = /@\w*{(?<tag>.*)(?=\,)/gmi;
 // latex regular expression to extract each command and arguments
 const latex_re = /(?<command>\\[^\\{]*)\{(?<args>[^\}]*)\}/gmi;
 
+const base_issue_text = `# Submitter TODO List
+
+- [ ] Attach or link a logo (preferably square, no background)
+- [ ] Update the logo file extension in the data below (change ".png" to the correct extension)
+
+**Delete this list before submitting the issue!**
+
+# Citation information\n`
+
 // Fetch the data and populate the software list
 Promise.all([
     fetch('data/citations.json').then(x => x.json()),
@@ -467,6 +476,13 @@ window.addEventListener('DOMContentLoaded', () => {
         })
     });
 
+    document.getElementById("back-new-software").addEventListener('click', function() {
+        document.querySelector(".modal-title").scrollIntoView({behavior: "smooth"});
+        setTimeout(() => {
+            document.getElementById("new-software-results").classList.add("hide");
+        }, 1000);
+    });
+
     document.getElementById("submit-new-software").addEventListener('click', function(e) {
         const valid = validate_new_software_form();
         e.preventDefault();
@@ -707,6 +723,7 @@ async function fetch_zenodo_bibtex(doi) {
 function validate_new_software_form() {
     /* validate the input fields in the new software form */
     let form = document.querySelector(".new-software-form");
+
     const loader = form.parentElement.querySelector(".loading-overlay");
     loader.classList.remove("hide");
     animateCSS(loader, "fadeIn");
@@ -781,12 +798,53 @@ function validate_new_software_form() {
         // perform the rest of the validation
         let valid = form.checkValidity();
         if (valid) {
-            let data = new FormData(form);
-            let json = {};
-            for (let [key, value] of data.entries()) {
-                json[key] = value;
+            let json = {}
+
+            let language = form.querySelector("#new-software-language").value.trim();
+            if (language === "new") {
+                language = form.querySelector("#new-software-language-new").value.trim();
             }
-            console.log(json);
+            let category = form.querySelector("#new-software-category").value.trim();
+            if (category === "new") {
+                category = form.querySelector("#new-software-category-new").value.trim();
+            }
+            
+            const name = form.querySelector("#new-software-name").value.trim();
+            json[name] = {
+                "tags": Object.keys(bibtex),
+                "logo": `img/${name}.png`,
+                "language": language,
+                "category": category,
+                "keywords": keywords[0] == "" ? [] : keywords,
+                "description": form.querySelector("#new-software-description").value.trim(),
+                "link": form.querySelector("#new-software-docs").value.trim(),
+                "attribution_link": form.querySelector("#new-software-attribution").value.trim(),
+                "zenodo_doi": form.querySelector("#new-software-doi").value.trim(),
+                "custom_citation": form.querySelector("#new-software-custom-acknowledgement").value.trim(),
+            }
+
+            const cite_string = JSON.stringify(json, null, 4).split('\n').slice(1, -1).map((line) => line.slice(4)).join('\n');
+
+            const results = document.getElementById("new-software-results");
+            results.classList.remove("hide");
+            animateCSS(results, "fadeIn").then(() => {
+                results.scrollIntoView({behavior: "smooth"});
+            });
+
+            const to_copy = document.getElementById("new-software-citation");
+            to_copy.innerText = cite_string;
+
+            let copy_text = base_issue_text;
+
+            copy_text += "```\n" + cite_string + "\n```";
+            copy_text += "\n\n";
+            copy_text += "# BibTeX\n```\n" + bibtex_field.value.trim() + "\n```";
+
+            document.getElementById("copy-new-software").addEventListener('click', function() {
+                navigator.clipboard.writeText(copy_text);
+                const url = `https://github.com/TomWagg/software-citation-station/issues/new?assignees=&labels=new-citation&projects=&template=01-citation.md&title=[NEW SUBMISSION] ${name}`
+                window.open(url, "_blank");
+            });
         }
         form.classList.add('was-validated');
         loader.classList.add("hide");
