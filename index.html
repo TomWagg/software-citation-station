@@ -163,7 +163,7 @@
                                             <div class="col-12 col-md-6">
                                                 <div class="form-control-box required mb-2">
                                                     <label for="new-software-name" class="form-label">Software name</label>
-                                                    <input type="text" class="form-control" id="new-software-name" placeholder="Name (e.g. 'Python')" value="python" required />
+                                                    <input type="text" class="form-control" id="new-software-name" placeholder="Name (e.g. 'Python')" required />
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-6">
@@ -172,7 +172,7 @@
                                                         Documentation link
                                                         <i class="fa fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="If no documentation exists then at least link the code repository or website." data-bs-html="true"></i>
                                                     </label>
-                                                    <input type="url" class="form-control" id="new-software-docs" placeholder="URL (e.g. 'https://docs.python.org/3/')" required value="www.tomwagg.com" />
+                                                    <input type="url" class="form-control" id="new-software-docs" placeholder="URL (e.g. 'https://docs.python.org/3/')" required />
                                                     <div class="valid-feedback">That's definitely a link, click <a href="" target="_blank" class="link-success fw-bold">here</a> to test it!</div>
                                                     <div class="invalid-feedback">That doesn't seem to be a valid URL.</div>
                                                 </div>
@@ -180,7 +180,7 @@
                                         </div>
                                         <div class="form-control-box required mb-2 position-relative">
                                             <label for="new-software-description" class="form-label">Short description</label>
-                                            <textarea class="form-control" id="new-software-description" data-counted="true" maxlength="200" placeholder="e.g. 'A high-level, general-purpose interpreted programming language.'" required>words words words</textarea>
+                                            <textarea class="form-control" id="new-software-description" data-counted="true" maxlength="200" placeholder="e.g. 'A high-level, general-purpose interpreted programming language.'" required></textarea>
                                             <label class="character-count">0/200</label>
                                         </div>
                                         <h6 class="fw-bold">Citation details</h6>
@@ -188,17 +188,7 @@
                                             <div class="col-12 col-md-6">
                                                 <div class="form-control-box mb-2">
                                                     <label for="new-software-bibtex" class="form-label">BibTeX</label>
-                                                    <textarea class="form-control" id="new-software-bibtex" placeholder="Paste all BibTeX to be cited">
-@book{python,
-author    = {Van Rossum, Guido and Drake, Fred L.},
-title     = {Python 3 Reference Manual},
-year      = {2009},
-isbn      = {1441412697},
-publisher = {CreateSpace},
-address   = {Scotts Valley, CA}
-}
-                                                      </textarea
-                                                    >
+                                                    <textarea class="form-control" id="new-software-bibtex" placeholder="Paste all BibTeX to be cited"></textarea>
                                                     <div class="valid-feedback"></div>
                                                     <div class="invalid-feedback">That doesn't seem to be valid BibTeX.</div>
                                                 </div>
@@ -220,7 +210,7 @@ address   = {Scotts Valley, CA}
                                                         Preferred citation method reference
                                                         <i class="fa fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Include a link to a page that states the preferred citation method for the software (to ensure your input matches their wishes)" data-bs-html="true"></i>
                                                     </label>
-                                                    <input type="url" class="form-control" id="new-software-attribution" placeholder="URL (e.g. https://numpy.org/citing-numpy/)" required value="https://numpy.org/citing-numpy/" />
+                                                    <input type="url" class="form-control" id="new-software-attribution" placeholder="URL (e.g. https://numpy.org/citing-numpy/)" required />
                                                     <div class="valid-feedback">That's definitely a link, click <a href="" target="_blank" class="link-success fw-bold">here</a> to test it!</div>
                                                     <div class="invalid-feedback">That doesn't seem to be a valid URL.</div>
                                                 </div>
@@ -229,7 +219,7 @@ address   = {Scotts Valley, CA}
                                                 <div class="form-control-box mb-2">
                                                     <label for="new-software-doi" class="form-label"> Zenodo DOI <i>for all versions</i> <i class="fa fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Enter the DOI <b>associated with all versions</b> of your software package. This can be found on the Zenodo page for your just after it says <span class='text-warning'>'Cite all versions?'</span>." data-bs-html="true"></i></label>
                                                     <div class="input-group">
-                                                        <input class="form-control" id="new-software-doi" placeholder="DOI (e.g. 10.5281/zenodo.595738)" value="10.5281/zenodo.595738" />
+                                                        <input class="form-control" id="new-software-doi" placeholder="DOI (e.g. 10.5281/zenodo.595738)" />
                                                         <div id="new-software-single-version" class="input-group-text hide" style="font-size: 0.7rem">
                                                             Allow single version
                                                             <input class="form-check-input ms-1" type="checkbox" value="" aria-label="Checkbox for following text input" />
