@@ -12,4 +12,8 @@
 
 **Why is it important to cite software?**
 
-TODO: Add text explaining why it is important that we acknowledge the efforts of people building software infrastructure
+Software is crucial for the advancement of astronomy especially in the context of rapidly growing datasets that increasingly require algorithm and pipeline development to process the data and produce results (National Academies of Sciences, Engineering, and Medicine 2021). However,
+software has not always been consistently cited, despite its importance to strengthen support for software development  (Howison & Bullard 2016; Niemeyer et al. 2016; Li et al. 2017; Bouquin et al. 2020; Alsudais 2021; Bouquin et al. 2023). 
+To encourage, streamline, and standardize the process of citing software in academic work such as publications and presentations we introduce <a href="https://www.tomwagg.com/software-citation-station/">The software citation station</a>: a publicly available website and tool to quickly find or add software citations in astronomy.
+
+You can read our paper about the importance of software (citations), resources for software citation, and description of our tool at (link will be added after we upload the paper on ArXiv)<br>
