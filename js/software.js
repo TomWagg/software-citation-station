@@ -494,6 +494,12 @@ window.addEventListener('DOMContentLoaded', () => {
         document.getElementById("new-zenodo-search").href = `https://zenodo.org/search?q=${this.value}`;
     });
 
+    document.getElementById("new-software-citation").addEventListener('click', function() {
+        animateCSS(this, "rubberBand").then(() => {
+            document.getElementById("copy-new-software").click();
+        });
+    });
+
     let params = new URLSearchParams(document.location.search);
     if (params.has("new-software") && params.get("new-software") === "true") {
         document.getElementById("launch-new-software").click();
@@ -837,7 +843,7 @@ function validate_new_software_form() {
                 results.scrollIntoView({behavior: "smooth"});
             });
 
-            const to_copy = document.getElementById("new-software-citation");
+            const to_copy = document.getElementById("new-software-citation").querySelector("code");
             to_copy.innerText = cite_string;
 
             let copy_text = base_issue_text;

@@ -260,7 +260,7 @@
                                             <div class="valid-feedback"></div>
                                         </div>
                                     </form>
-                                    <div class="loading-overlay hide">
+                                    <div class="loading-overlay overlay hide">
                                         <div class="spinner-border mt-5" role="status">
                                             <span class="visually-hidden">Loading...</span>
                                         </div>
@@ -275,7 +275,7 @@
                                             <li>Upload a logo file and submit the issue</li>
                                         </ol>
                                         <div class="text-center mb-2">
-                                            <button class="btn btn-primary mb-lg-0 mb-md-2" id="copy-new-software">
+                                            <button class="btn btn-primary" id="copy-new-software">
                                                 <i class="fa fa-copy"></i>
                                                 Copy data and create issue
                                             </button>
@@ -284,7 +284,12 @@
                                                 Back to editing
                                             </button>
                                         </div>
-                                        <pre id="new-software-citation" class="rounded-box"><code><i>Citation data will go here</i></code></pre>
+                                        <pre id="new-software-citation" class="rounded-box">
+                                            <code></code>
+                                            <div class="overlay">
+                                                <p class="p-5 fs-3">Click to copy data and create issue</p>
+                                            </div>
+                                        </pre>
                                     </div>
                                 </div>
                                 <div class="modal-footer justify-content-center p-0">
