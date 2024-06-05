@@ -4,7 +4,7 @@ const bibtex_re = /@\w*{(?<tag>.*)(?=\,)/gmi;
 // latex regular expression to extract each command and arguments
 const latex_re = /(?<command>\\[^\\{]*)\{(?<args>[^\}]*)\}/gmi;
 
-const base_issue_text = `# Submitter TODO List
+const base_issue_text = `# TODO before submitting
 
 - [ ] Attach or link a logo (preferably square, no background)
 - [ ] Update the logo file extension in the data below (change ".png" to the correct extension)
