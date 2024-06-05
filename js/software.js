@@ -785,8 +785,8 @@ function validate_new_software_form() {
         }
     }
 
-    const keywords = document.getElementById("new-software-keywords").value.trim().split(",");
-    const keyword_spans = keywords.map((kw) => `<span class='badge text-bg-success'>${kw.trim()}</span>`);
+    const keywords = document.getElementById("new-software-keywords").value.trim().split(",").map((kw) => kw.trim());
+    const keyword_spans = keywords.map((kw) => `<span class='badge text-bg-success'>${kw}</span>`);
     document.getElementById("new-software-keywords").parentElement.querySelector(".valid-feedback").innerHTML = "Keywords detected: " + keyword_spans.join(" ");
 
 
