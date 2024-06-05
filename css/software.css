@@ -1,7 +1,11 @@
 /* General stuff for everywhere */
 :root {
     --primary: #50a3c4;
+    --primary-rgb: 80, 163, 196;
     --primary-light: #6cc7eaa3;
+    --primary-light-rgb: 161, 219, 241;
+    --primary-light-dm: #5791a7;
+    --primary-light-dm-rgb: 87, 145, 167;
     --primary-dark: #186280;
 }
 
@@ -149,21 +153,51 @@ footer.footer .social-link:active {
     border-radius: 100%;
 }
 
+.shadow-scroll {
+    --bg: rgb(var(--primary-light-rgb));
+    --bgTrans: rgba(var(--primary-light-rgb), 0);
+    
+    --shadow: rgba(0, 0, 0, 0.5);
+
+    background:
+    /* Shadow Cover TOP */
+    linear-gradient(
+      var(--bg) 30%,
+      var(--bgTrans)
+    ) center top,
+    
+    /* Shadow Cover BOTTOM */
+    linear-gradient(
+      var(--bgTrans), 
+      var(--bg) 70%
+    ) center bottom,
+    
+    /* Shadow TOP */
+    radial-gradient(
+      farthest-side at 50% 0,
+      var(--shadow),
+      rgba(0, 0, 0, 0)
+    ) center top,
+    
+    /* Shadow BOTTOM */
+    radial-gradient(
+      farthest-side at 50% 100%,
+      var(--shadow),
+      rgba(0, 0, 0, 0)
+    ) center bottom;
+  
+    background-repeat: no-repeat;
+    background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+    background-attachment: local, local, scroll, scroll;
+}
+
 #software-list {
     overflow: scroll;
     max-height: 300px;
 }
 
-#software-list:after {
-    content: '';
-    position: absolute;
-    z-index: 1;
-    bottom: 0;
-    left: 0;
-    pointer-events: none;
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), var(--primary) 90%);
-    width: 100%;
-    height: 5em;
+body.dark #software-list {
+    --bg: rgb(var(--primary-light-dm-rgb));
 }
 
 .software-item {
@@ -183,8 +217,9 @@ footer.footer .social-link:active {
 body.dark #acknowledgement,
 body.dark #bibtex {
     background-color: #333;
-    color: white;
-    font-size: 16px;
+    color:white;
+    --bg: rgb(#333);
+    --bgTrans: rgba(51, 51, 51, 0);
 }
 
 #acknowledgement,
@@ -192,6 +227,9 @@ body.dark #bibtex {
     background-color: white;
     color: black;
     font-size: 16px;
+
+    --bg: rgb(255, 255, 255);
+    --bgTrans: rgba(255, 255, 255, 0);
 }
 
 .corner-button {
@@ -224,7 +262,7 @@ body.dark #bibtex {
     overflow-y: scroll;
 }
 
-#bibtex-wrapper:after {
+/* #bibtex-wrapper:after {
     content: '';
     position: absolute;
     z-index: 1;
@@ -246,7 +284,7 @@ body.dark #bibtex-wrapper:after {
     background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #333 90%);
     width: 100%;
     height: 5em;
-}
+} */
 
 .bibtex-format {
     color: #c7265f;
