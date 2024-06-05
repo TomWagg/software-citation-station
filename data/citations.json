@@ -389,5 +389,23 @@
         "zenodo_doi": "",
         "attribution_link": "https://epubs.siam.org/doi/10.1137/141000671",
         "custom_citation": ""
+    },
+    "Lightkurve": {
+        "tags": [
+            "2018ascl.soft12013L"
+        ],
+        "logo": "",
+        "language": "Python",
+        "category": "Data Handling",
+        "keywords": [
+            "photometry",
+            " Kepler",
+            " TESS"
+        ],
+        "description": "Lightkurve offers a user-friendly way to analyze time series data on the brightness of planets, stars, and galaxies. The package is focused on supporting science with NASA’s Kepler and TESS.",
+        "link": "https://docs.lightkurve.org/",
+        "attribution_link": "https://docs.lightkurve.org/about/citing.html",
+        "zenodo_doi": "10.5281/zenodo.1181928",
+        "custom_citation": ""
     }
 }
