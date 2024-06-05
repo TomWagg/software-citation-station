@@ -445,5 +445,24 @@
         "attribution_link": "https://tardis-sn.github.io/credits/",
         "zenodo_doi": "10.5281/zenodo.592480",
         "custom_citation": "This research made use of \\textsc{Tardis}, a community-developed software package for spectral synthesis in supernovae \\citep{2014MNRAS.440..387K, kerzendorf_wolfgang_2019_2590539}. The development of \\textsc{Tardis} received support from the Google Summer of Code initiative and from ESA’s Summer of Code in Space program. \\textsc{Tardis} makes extensive use of Astropy \\citep{astropy:2013, astropy:2018, astropy:2022} and PyNE \\url{https://pyne.io/}. The Spectral modeling of type II supernovae is from \\citet{2019A&A...621A..29V}.\\footnote{TODO: remove astropy if already cited, remove 'The Spectral modeling of type II supernovae' if not used}"
+    },
+"CMasher": {
+    "tags": [
+        "2020JOSS....5.2004V"
+    ],
+    "logo": "img/CMasher.png",
+    "language": "Python",
+    "category": "Visualisation",
+    "keywords": [
+        "colormap",
+        "python",
+        "data visualization",
+        "plotting"
+    ],
+    "description": "The CMasher package is a collection of scientific colormaps and utility functions for making accessible, informative and cmashing plots in Python.",
+    "link": "https://cmasher.readthedocs.io/index.html",
+    "attribution_link": "https://cmasher.readthedocs.io/community_guidelines.html",
+    "zenodo_doi": "10.5281/zenodo.3637632",
+    "custom_citation": "Parts of the results in this work make use of the colormaps in the CMasher package \\\\citep{2020JOSS....5.2004V}"
     }
 }
