@@ -42,6 +42,12 @@ Promise.all([
         btn.setAttribute("data-key", key)
         btn.setAttribute("data-tags", citations[key]["tags"].join(","))
         btn.setAttribute("data-keywords", citations[key]["keywords"].join(","))
+
+        if (citations[key].hasOwnProperty("dependencies")) {
+            btn.setAttribute("data-dependencies", citations[key]["dependencies"].join(","))
+        } else {
+            btn.setAttribute("data-dependencies", "")
+        }
         btn.querySelector(".software-name").innerHTML = "<pre>" + key + "</pre>";
         btn.id = "";
 
@@ -126,6 +132,33 @@ Promise.all([
                 if (vp !== null) {
                     vp.classList.add("hide");
                 }
+            } else {
+                // if the package has dependencies, find all of them and select them
+                const deps = collect_dependencies(new Set(), this.getAttribute("data-key"));
+                let previously_unselected = [];
+                for (let dep of deps) {
+                    const dep_btn = document.querySelector(`.software-button[data-key="${dep}"]`);
+                    if (!dep_btn.classList.contains("active")) {
+                        previously_unselected.push(dep);
+                        dep_btn.classList.add("active");
+                    }
+                }
+
+                // if we've selected any new dependencies then post a toast
+                if (previously_unselected.length > 0) {
+                    // post a toast letting the user know we've selected them
+                    let toast = document.getElementById("toast-template").cloneNode(true);
+                    toast.querySelector(".toast-body .main-package").innerText = this.getAttribute("data-key");
+                    toast.querySelector(".toast-body .dependencies").innerText = previously_unselected.join(", ");
+                    document.getElementById("toaster").appendChild(toast);
+
+                    bootstrap.Toast.getOrCreateInstance(toast).show();
+
+                    // remove the toast once it's hidden
+                    toast.addEventListener('hidden.bs.toast', () => {
+                        toast.remove();
+                    })                      
+                }
             }
 
             // hide the tooltip if it's open
@@ -158,7 +191,10 @@ Promise.all([
                 let btn_tags = btn.getAttribute("data-tags").split(",");
 
                 // add the acknowledgement and do some simple latex syntax highlighting
-                let new_ack = "\\texttt{" + btn.querySelector(".software-name").innerText + "} \\citep{" + btn_tags.join(", ") + "}"
+                let new_ack = "\\texttt{" + btn.querySelector(".software-name").innerText + "}";
+                if (btn_tags.length > 0 && btn_tags[0] !== "") {
+                    new_ack += "\\citep{" + btn_tags.join(", ") + "}"
+                }
 
                 // check if the software has a zenodo DOI
                 const zenodo_doi = citations[btn.getAttribute("data-key")]["zenodo_doi"];
@@ -177,7 +213,7 @@ Promise.all([
                             vp.querySelector(".software-logo").remove();
                             let el = document.createElement("span");
                             el.className = "software-no-logo-text";
-                            el.innerText = key;
+                            el.innerText = btn.getAttribute("data-key");
                             const card_body = vp.querySelector(".card-body");
                             card_body.insertBefore(el, card_body.querySelector(".card-title"));
                         } else {
@@ -211,7 +247,11 @@ Promise.all([
                         // if you've selected a version then update the citation
                         if (version_picker.hasAttribute("data-bibtex")) {
                             const chosen_version = version_picker.querySelector(".version-select").value;
-                            new_ack = new_ack.slice(0, -1) + ", " + btn.getAttribute("data-key") + "_" + chosen_version + "}";
+                            if (new_ack.includes("citep")) {
+                                new_ack = new_ack.slice(0, -1) + ", " + btn.getAttribute("data-key") + "_" + chosen_version + "}";
+                            } else {
+                                new_ack += "\\citep{" + btn.getAttribute("data-key") + "_" + chosen_version + "}";
+                            }
                             bibs_to_add.push(highlight_bibtex(version_picker.getAttribute("data-bibtex")));
                         } else {
                             new_ack += "\\footnote{{TODO}: Need to choose a version to cite!!}"
@@ -369,6 +409,9 @@ window.addEventListener('DOMContentLoaded', () => {
     // clear all selected software on the button click and hide version pickers if they exist
     document.getElementById("software-clear").addEventListener('click', function() {
         let buttons = document.querySelectorAll(".software-button.active")
+        if (buttons.length == 0) {
+            return;
+        }
         for (let i = 0; i < buttons.length - 1; i++) {
             buttons[i].classList.remove("active");
             const vp = document.getElementById(`${buttons[i].getAttribute("data-key")}-version-picker`);
@@ -938,4 +981,20 @@ function validate_new_software_form() {
     });
 
     return false;
+}
+
+function collect_dependencies(dep_set, id) {
+    // recursively gather dependencies for a given software package
+    const software_btn = document.querySelector(`.software-button[data-key='${id}']`)
+    const new_deps = software_btn.getAttribute("data-dependencies");
+
+    if (new_deps !== "") {
+        for (let dep of new_deps.split(",")) {
+            if (!dep_set.has(dep)) {
+                dep_set.add(dep);
+                dep_set.add(...collect_dependencies(dep_set, dep));
+            }
+        }
+    }
+    return dep_set;
 }
