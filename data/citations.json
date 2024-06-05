@@ -426,24 +426,24 @@
         "zenodo_doi": "10.5281/zenodo.4455879",
         "custom_citation": ""
     },
-"tardis": {
-    "tags": [
-        "2014MNRAS.440..387K",
-        "2019A&A...621A..29V",
-        "kerzendorf_wolfgang_2019_2590539"
-    ],
-    "logo": "img/tardis.png",
-    "language": "Python",
-    "category": "Transients",
-    "keywords": [
-        "supernova",
-        "spectral modelling",
-        "radiative transfer. supernovae"
-    ],
-    "description": "An open-science software to simulate and analyse supernovae and other transients",
-    "link": "https://tardis-sn.github.io/",
-    "attribution_link": "https://tardis-sn.github.io/credits/",
-    "zenodo_doi": "10.5281/zenodo.592480",
-    "custom_citation": "This research made use of \\textsc{Tardis}, a community-developed software package for spectral synthesis in supernovae \\citep{2014MNRAS.440..387K, kerzendorf_wolfgang_2019_2590539}. The development of \\textsc{Tardis} received support from the Google Summer of Code initiative and from ESA’s Summer of Code in Space program. \\textsc{Tardis} makes extensive use of Astropy \\citep{astropy:2013, astropy:2018, astropy:2022} and PyNE \\url{https://pyne.io/} . The Spectral modeling of type II supernovae is from \\citet{2019A&A...621A..29V}.\\footnote{TODO: remove astropy if already cited, remove 'The Spectral modeling of type II supernovae' if not used}"
+    "tardis": {
+        "tags": [
+            "2014MNRAS.440..387K",
+            "2019A&A...621A..29V",
+            "kerzendorf_wolfgang_2019_2590539"
+        ],
+        "logo": "img/tardis.png",
+        "language": "Python",
+        "category": "Transients",
+        "keywords": [
+            "supernova",
+            "spectral modelling",
+            "radiative transfer. supernovae"
+        ],
+        "description": "An open-science software to simulate and analyse supernovae and other transients",
+        "link": "https://tardis-sn.github.io/",
+        "attribution_link": "https://tardis-sn.github.io/credits/",
+        "zenodo_doi": "10.5281/zenodo.592480",
+        "custom_citation": "This research made use of \\textsc{Tardis}, a community-developed software package for spectral synthesis in supernovae \\citep{2014MNRAS.440..387K, kerzendorf_wolfgang_2019_2590539}. The development of \\textsc{Tardis} received support from the Google Summer of Code initiative and from ESA’s Summer of Code in Space program. \\textsc{Tardis} makes extensive use of Astropy \\citep{astropy:2013, astropy:2018, astropy:2022} and PyNE \\url{https://pyne.io/}. The Spectral modeling of type II supernovae is from \\citet{2019A&A...621A..29V}.\\footnote{TODO: remove astropy if already cited, remove 'The Spectral modeling of type II supernovae' if not used}"
     }
 }
