@@ -220,7 +220,13 @@
         "link": "http://gala.adrian.pw/",
         "zenodo_doi": "10.5281/zenodo.593786",
         "attribution_link": "http://gala.adrian.pw/en/latest/index.html",
-        "custom_citation": ""
+        "custom_citation": "",
+        "dependencies": [
+            "numpy",
+            "scipy",
+            "astropy",
+            "Cython"
+        ]
     },
     "showyourwork": {
         "tags": ["Luger2021"],
@@ -244,7 +250,12 @@
         "link": "https://emcee.readthedocs.io/",
         "zenodo_doi": "10.5281/zenodo.1297476",
         "attribution_link": "https://github.com/dfm/emcee",
-        "custom_citation": ""
+        "custom_citation": "",
+        "dependencies": [
+            "numpy",
+            "h5py",
+            "matplotlib"
+        ]
     },
     "corner.py": {
         "tags": ["corner-Foreman-Mackey-2016"],
@@ -256,7 +267,10 @@
         "link": "https://corner.readthedocs.io/en/latest/",
         "zenodo_doi": "10.5281/zenodo.591491",
         "attribution_link": "https://corner.readthedocs.io/en/latest/#attribution",
-        "custom_citation": ""
+        "custom_citation": "",
+        "dependencies": [
+            "matplotlib"
+        ]
     },
     "astroBlend": {
         "tags": ["AstroBlend:2016"],
@@ -280,7 +294,10 @@
         "link": "https://jupyter.org/",
         "zenodo_doi": "",
         "attribution_link": "",
-        "custom_citation": ""
+        "custom_citation": "",
+        "dependencies": [
+            "python"
+        ]
     },
     "h5py": {
         "tags": ["collette_python_hdf5_2014"],
@@ -292,7 +309,11 @@
         "link": "https://docs.h5py.org/en/stable/",
         "zenodo_doi": "10.5281/zenodo.594310",
         "attribution_link": "https://docs.h5py.org/en/stable/licenses.html",
-        "custom_citation": ""
+        "custom_citation": "",
+        "dependencies": [
+            "numpy",
+            "Cython"
+        ]
     },
     "ChaNGa": {
         "tags": ["Jetley2008", "Jetley2010", "Menon2015"],
@@ -328,7 +349,19 @@
         "link": "https://github.com/afeinstein20/stella",
         "zenodo_doi": "",
         "attribution_link": "https://github.com/afeinstein20/stella",
-        "custom_citation": ""
+        "custom_citation": "",
+        "dependencies": [
+            "numpy",
+            "scipy",
+            "astropy",
+            "astroquery",
+            "matplotlib",
+            "seaborn",
+            "pandas",
+            "scikit-learn",
+            "tensorflow",
+            "tqdm"
+        ]
     },
     "GWFish": {
         "tags": ["DupletsaHarms2023"],
@@ -340,7 +373,16 @@
         "link": "https://github.com/janosch314/GWFish",
         "zenodo_doi": "",
         "attribution_link": "https://github.com/janosch314/GWFish",
-        "custom_citation": ""
+        "custom_citation": "",
+        "dependencies": [
+            "numpy",
+            "scipy",
+            "astropy",
+            "matplotlib",
+            "tqdm",
+            "sympy",
+            "pandas"
+        ]
     },
     "CAMELS": {
         "tags": [ "CAMELS_presentation", "CAMELS_DR1", "CAMELS_DR2"],
@@ -388,7 +430,11 @@
         "link": "https://scikit-image.org/",
         "zenodo_doi": "",
         "attribution_link": "https://scikit-image.org/",
-        "custom_citation": ""
+        "custom_citation": "",
+        "dependencies": [
+            "numpy",
+            "scipy"
+        ]
     },
     "scikit-learn": {
         "tags": [ "scikit-learn", "sklearn_api"],
@@ -400,7 +446,11 @@
         "link": "https://scikit-learn.org/stable/",
         "zenodo_doi": "10.5281/zenodo.591564",
         "attribution_link": "https://github.com/scikit-learn/scikit-learn?tab=readme-ov-file",
-        "custom_citation": ""
+        "custom_citation": "",
+        "dependencies": [
+            "numpy",
+            "scipy"
+        ]
     },
     "Numba": {
         "tags": [ "numba:2015"],
@@ -413,7 +463,10 @@
         "link": "https://numba.pydata.org/",
         "zenodo_doi": "10.5281/zenodo.4343230",
         "attribution_link": "https://numba.readthedocs.io/en/stable/user/faq.html#how-do-i-reference-cite-acknowledge-numba-in-other-work",
-        "custom_citation": ""
+        "custom_citation": "",
+        "dependencies": [
+            "numpy"
+        ]
     },
     "IRAF":{
         "tags": ["1993ASPC...52..173T", "1986SPIE..627..733T"],
@@ -455,7 +508,18 @@
         "link": "https://docs.lightkurve.org/",
         "attribution_link": "https://docs.lightkurve.org/about/citing.html",
         "zenodo_doi": "10.5281/zenodo.1181928",
-        "custom_citation": ""
+        "custom_citation": "",
+        "dependencies": [
+            "numpy",
+            "astropy",
+            "matplotlib",
+            "scipy",
+            "astroquery",
+            "tqdm",
+            "pandas",
+            "scikit-learn",
+            "Bokeh"
+        ]
     },
     "Athena++": {
         "tags": [
@@ -493,7 +557,10 @@
         "link": "https://tardis-sn.github.io/",
         "attribution_link": "https://tardis-sn.github.io/credits/",
         "zenodo_doi": "10.5281/zenodo.592480",
-        "custom_citation": "This research made use of \\textsc{Tardis}, a community-developed software package for spectral synthesis in supernovae \\citep{2014MNRAS.440..387K, kerzendorf_wolfgang_2019_2590539}. The development of \\textsc{Tardis} received support from the Google Summer of Code initiative and from ESA’s Summer of Code in Space program. \\textsc{Tardis} makes extensive use of Astropy \\citep{astropy:2013, astropy:2018, astropy:2022} and PyNE \\url{https://pyne.io/}. The Spectral modeling of type II supernovae is from \\citet{2019A&A...621A..29V}.\\footnote{TODO: remove astropy if already cited, remove 'The Spectral modeling of type II supernovae' if not used}"
+        "custom_citation": "This research made use of \\textsc{Tardis}, a community-developed software package for spectral synthesis in supernovae \\citep{2014MNRAS.440..387K, kerzendorf_wolfgang_2019_2590539}. The development of \\textsc{Tardis} received support from the Google Summer of Code initiative and from ESA’s Summer of Code in Space program. \\textsc{Tardis} makes extensive use of Astropy \\citep{astropy:2013, astropy:2018, astropy:2022} and PyNE \\url{https://pyne.io/}. The Spectral modeling of type II supernovae is from \\citet{2019A&A...621A..29V}.\\footnote{TODO: remove astropy if already cited, remove 'The Spectral modeling of type II supernovae' if not used}",
+        "dependencies": [
+            "astropy"
+        ]
     },
     "CMasher": {
         "tags": [
@@ -512,7 +579,11 @@
         "link": "https://cmasher.readthedocs.io/index.html",
         "attribution_link": "https://cmasher.readthedocs.io/community_guidelines.html",
         "zenodo_doi": "10.5281/zenodo.3637632",
-        "custom_citation": "Parts of the results in this work make use of the colormaps in the CMasher package \\citep{2020JOSS....5.2004V}"
+        "custom_citation": "Parts of the results in this work make use of the colormaps in the CMasher package \\citep{2020JOSS....5.2004V}",
+        "dependencies": [
+            "numpy",
+            "matplotlib"
+        ]
     },
     "schwimmbad": {
         "tags": [
@@ -549,6 +620,70 @@
         "custom_citation": "",
         "dependencies": [
             "python"
+        ]
+    },
+    "tensorflow" : {
+        "tags": [],
+        "logo": "img/tensorflow.png",
+        "language": "Python",
+        "category": "Machine Learning",
+        "keywords": [
+            "machine learning",
+            "deep learning",
+            "neural networks"
+        ],
+        "description": "TensorFlow is an end-to-end open source platform for machine learning. It has a comprehensive, flexible ecosystem of tools, libraries, and community resources that lets researchers push the state-of-the-art in ML and developers easily build and deploy ML-powered applications.",
+        "link": "https://www.tensorflow.org/api_docs/python/tf",
+        "attribution_link": "https://github.com/tensorflow/tensorflow/blob/master/CITATION.cff",
+        "zenodo_doi": "10.5281/zenodo.4724125",
+        "custom_citation": "",
+        "dependencies": [
+            "h5py",
+            "JAX",
+            "numpy",
+            "scipy"
+        ]
+    },
+    "astroquery": {
+        "tags": [
+            "2019AJ....157...98G"
+        ],
+        "logo": "img/astropy.png",
+        "language": "Python",
+        "category": "Data Handling",
+        "keywords": [
+            "data retrieval",
+            "astronomy",
+            "data"
+        ],
+        "description": "astroquery is a set of tools for querying astronomical web forms and databases.",
+        "link": "https://astroquery.readthedocs.io/en/latest/",
+        "attribution_link": "https://github.com/astropy/astroquery/blob/main/astroquery/CITATION",
+        "zenodo_doi": "10.5281/zenodo.591669",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "numpy"
+        ]
+    },
+    "Bokeh": {
+        "tags": ["Bokeh"],
+        "logo": "img/bokeh.png",
+        "language": "Python",
+        "category": "Visualisation",
+        "keywords": [
+            "interactive",
+            "plotting",
+            "visualization"
+        ],
+        "description": "Bokeh is a Python library for creating interactive visualizations for modern web browsers.",
+        "link": "https://docs.bokeh.org/en/latest/",
+        "attribution_link": "https://docs.bokeh.org/en/1.0.1/docs/citation.html",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "numpy",
+            "pandas"
         ]
     }
 }
