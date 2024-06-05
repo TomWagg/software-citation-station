@@ -9,7 +9,8 @@
         "link": "https://docs.python.org/3/",
         "zenodo_doi": "",
         "attribution_link": "http://citebay.com/how-to-cite/python/",
-        "custom_citation": ""
+        "custom_citation": "",
+        "dependencies": []
     },
     "numpy": {
         "tags": ["numpy"],
@@ -37,7 +38,11 @@
         "link": "https://matplotlib.org/",
         "zenodo_doi": "",
         "attribution_link": "https://matplotlib.org/stable/users/project/citing.html",
-        "custom_citation": ""
+        "custom_citation": "",
+        "dependencies": [
+            "numpy",
+            "python"
+        ]
     },
     "astropy": {
         "tags": ["astropy:2013", "astropy:2018", "astropy:2022"],
@@ -49,7 +54,13 @@
         "link": "https://docs.astropy.org/en/stable/",
         "zenodo_doi": "",
         "attribution_link": "https://www.astropy.org/acknowledging.html",
-        "custom_citation": ""
+        "custom_citation": "",
+        "dependencies": [
+            "numpy",
+            "scipy",
+            "matplotlib",
+            "python"
+        ]
     },
     "scipy": {
         "tags": ["2020SciPy-NMeth"],
@@ -61,7 +72,11 @@
         "link": "https://docs.scipy.org/doc/scipy/reference/",
         "zenodo_doi": "10.5281/zenodo.595738",
         "attribution_link": "https://scipy.org/citing-scipy/",
-        "custom_citation": ""
+        "custom_citation": "",
+        "dependencies": [
+            "numpy",
+            "python"
+        ]
     },
     "pandas": {
         "tags": ["mckinney-proc-scipy-2010"],
@@ -73,7 +88,11 @@
         "link": "https://pandas.pydata.org/docs/",
         "zenodo_doi": "10.5281/zenodo.3509134",
         "attribution_link": "https://pandas.pydata.org/about/citing.html",
-        "custom_citation": ""
+        "custom_citation": "",
+        "dependencies": [
+            "numpy",
+            "python"
+        ]
     },
     "seaborn": {
         "tags": ["Waskom2021"],
@@ -114,7 +133,17 @@
         "link": "https://legwork.readthedocs.io/en/stable/",
         "zenodo_doi": "10.5281/zenodo.5821187",
         "attribution_link": "https://legwork.readthedocs.io/en/stable/cite.html",
-        "custom_citation": ""
+        "custom_citation": "",
+        "dependencies": [
+            "python",
+            "numpy",
+            "Numba",
+            "scipy",
+            "astropy",
+            "matplotlib",
+            "seaborn",
+            "schwimmbad"
+        ]
     },
     "MESA": {
         "tags": ["Paxton2011", "Paxton2013", "Paxton2015", "Paxton2018", "Paxton2019", "Jermyn2023",
@@ -167,7 +196,19 @@
         "link": "https://cosmic-popsynth.github.io/docs/",
         "zenodo_doi": "10.5281/zenodo.3382152",
         "attribution_link": "https://github.com/COSMIC-PopSynth/COSMIC/blob/develop/README.md",
-        "custom_citation": ""
+        "custom_citation": "",
+        "dependencies": [
+            "python",
+            "numpy",
+            "scipy",
+            "astropy",
+            "matplotlib",
+            "seaborn",
+            "h5py",
+            "tqdm",
+            "pandas",
+            "schwimmbad"
+        ]
     },
     "gala": {
         "tags": ["gala_JOSS"],
@@ -454,23 +495,60 @@
         "zenodo_doi": "10.5281/zenodo.592480",
         "custom_citation": "This research made use of \\textsc{Tardis}, a community-developed software package for spectral synthesis in supernovae \\citep{2014MNRAS.440..387K, kerzendorf_wolfgang_2019_2590539}. The development of \\textsc{Tardis} received support from the Google Summer of Code initiative and from ESA’s Summer of Code in Space program. \\textsc{Tardis} makes extensive use of Astropy \\citep{astropy:2013, astropy:2018, astropy:2022} and PyNE \\url{https://pyne.io/}. The Spectral modeling of type II supernovae is from \\citet{2019A&A...621A..29V}.\\footnote{TODO: remove astropy if already cited, remove 'The Spectral modeling of type II supernovae' if not used}"
     },
-"CMasher": {
-    "tags": [
-        "2020JOSS....5.2004V"
-    ],
-    "logo": "img/CMasher.png",
-    "language": "Python",
-    "category": "Visualisation",
-    "keywords": [
-        "colormap",
-        "python",
-        "data visualization",
-        "plotting"
-    ],
-    "description": "The CMasher package is a collection of scientific colormaps and utility functions for making accessible, informative and cmashing plots in Python.",
-    "link": "https://cmasher.readthedocs.io/index.html",
-    "attribution_link": "https://cmasher.readthedocs.io/community_guidelines.html",
-    "zenodo_doi": "10.5281/zenodo.3637632",
-    "custom_citation": "Parts of the results in this work make use of the colormaps in the CMasher package \\citep{2020JOSS....5.2004V}"
+    "CMasher": {
+        "tags": [
+            "2020JOSS....5.2004V"
+        ],
+        "logo": "img/CMasher.png",
+        "language": "Python",
+        "category": "Visualisation",
+        "keywords": [
+            "colormap",
+            "python",
+            "data visualization",
+            "plotting"
+        ],
+        "description": "The CMasher package is a collection of scientific colormaps and utility functions for making accessible, informative and cmashing plots in Python.",
+        "link": "https://cmasher.readthedocs.io/index.html",
+        "attribution_link": "https://cmasher.readthedocs.io/community_guidelines.html",
+        "zenodo_doi": "10.5281/zenodo.3637632",
+        "custom_citation": "Parts of the results in this work make use of the colormaps in the CMasher package \\citep{2020JOSS....5.2004V}"
+    },
+    "schwimmbad": {
+        "tags": [
+            "schwimmbad"
+        ],
+        "logo": "",
+        "language": "Python",
+        "category": "Multiprocessing",
+        "keywords": [
+            "multiprocessing",
+            "parallelization"
+        ],
+        "description": "schwimmbad provides a uniform interface to parallel processing pools and enables switching easily between local development (e.g., serial processing or with multiprocessing) and deployment on a cluster or supercomputer (via, e.g., MPI or JobLib).",
+        "link": "https://schwimmbad.readthedocs.io/en/stable/",
+        "attribution_link": "https://github.com/adrn/schwimmbad",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "python"
+        ]
+    },
+    "tqdm": {
+        "tags": [],
+        "logo": "img/tqdm.gif",
+        "language": "Python",
+        "category": "Data Handling",
+        "keywords": [
+            "progress bar"
+        ],
+        "description": "tqdm is a fast, extensible progress bar for loops and pipelines.",
+        "link": "https://tqdm.github.io/",
+        "attribution_link": "https://tqdm.github.io/",
+        "zenodo_doi": "10.5281/zenodo.595120",
+        "custom_citation": "",
+        "dependencies": [
+            "python"
+        ]
     }
 }
