@@ -22,7 +22,10 @@
         "link": "https://numpy.org/doc/stable/",
         "zenodo_doi": "",
         "attribution_link": "https://numpy.org/citing-numpy/",
-        "custom_citation": ""
+        "custom_citation": "",
+        "dependencies": [
+            "python"
+        ]
     },
     "matplotlib": {
         "tags": ["Hunter:2007"],
@@ -82,7 +85,12 @@
         "link": "https://seaborn.pydata.org/",
         "zenodo_doi": "",
         "attribution_link": "https://seaborn.pydata.org/citing.html",
-        "custom_citation": ""
+        "custom_citation": "",
+        "dependencies": [
+            "matplotlib",
+            "numpy",
+            "pandas"
+        ]
     },
     "ADS":{
         "tags": [],
