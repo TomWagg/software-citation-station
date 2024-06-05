@@ -4,6 +4,7 @@ const bibtex_re = /@\w*{(?<tag>.*)(?=\,)/gmi;
 // latex regular expression to extract each command and arguments
 const latex_re = /(?<command>\\[^\\{]*)\{(?<args>[^\}]*)\}/gmi;
 
+// starting text for new GitHub issues for new software
 const base_issue_text = `# TODO before submitting
 
 - [ ] Attach or link a logo (preferably square, no background)
@@ -13,7 +14,7 @@ const base_issue_text = `# TODO before submitting
 
 # Citation information\n`
 
-// Fetch the data and populate the software list
+// Fetch the citation data and populate the software list
 Promise.all([
     fetch('data/citations.json').then(x => x.json()),
     fetch('data/bibtex.bib').then(x => x.text())
@@ -26,10 +27,10 @@ Promise.all([
     const software_list = document.getElementById('software-list');
     const ack = document.getElementById("acknowledgement");
     const bibtex_box = document.getElementById("bibtex");
-
     const category_select = document.getElementById("software-category");
     const language_select = document.getElementById("software-language");
 
+    // track the unique categories and languages
     let categories = new Set();
     let languages = new Set();
 
@@ -40,18 +41,18 @@ Promise.all([
         btn.setAttribute("data-key", key)
         btn.setAttribute("data-tags", citations[key]["tags"].join(","))
         btn.setAttribute("data-keywords", citations[key]["keywords"].join(","))
-        btn.setAttribute("data-category", citations[key]["category"])
-        btn.setAttribute("data-language", citations[key]["language"])
         btn.querySelector(".software-name").innerHTML = "<pre>" + key + "</pre>";
+        btn.id = "";
 
-        if (!categories.has(citations[key]["category"])) {
-            categories.add(citations[key]["category"]);
-        }
+        // track all unique categories and languages
+        const cat = capitalise(citations[key]["category"]);
+        const lang = capitalise(citations[key]["language"]);
+        btn.setAttribute("data-category", cat)
+        btn.setAttribute("data-language", lang)
+        categories.add(cat);
+        languages.add(lang);
 
-        if (!languages.has(citations[key]["language"])) {
-            languages.add(citations[key]["language"]);
-        }
-
+        // if the logo is missing then remove the image and add a text element instead
         if (citations[key]["logo"] === "") {
             btn.querySelector(".software-logo").remove();
             let el = document.createElement("span");
@@ -60,18 +61,21 @@ Promise.all([
             btn.insertBefore(el, btn.querySelector(".software-name"));
         } else {
             btn.querySelector(".software-logo").src = citations[key]["logo"];
+
+            // if the logo needs a white background then add the relevant classes
             if (citations[key]["logo_background"]) {
                 btn.querySelector(".software-logo").classList.add("bg-white", "p-1");
             }
         }
-        btn.id = "";
 
         // unhide the button and add it to the list
         btn.classList.remove("hide");
         software_list.appendChild(btn);
 
+        // create a new tooltip that will appear on right clicking the button
         let tooltip = new bootstrap.Tooltip(btn, {
             title: function() {
+                // update all of the details
                 const details = document.getElementById("details").cloneNode(true);
                 details.querySelector(".details-name").innerText = btn.getAttribute("data-key");
                 details.querySelector(".details-category").innerText = capitalise(btn.getAttribute("data-category"));
@@ -85,6 +89,7 @@ Promise.all([
                 details.querySelector(".details-docs").href = citations[btn.getAttribute("data-key")]["link"];
                 details.querySelector(".details-cite").href = citations[btn.getAttribute("data-key")]["attribution_link"];
 
+                // add the zenodo DOI if it exists
                 if (citations[btn.getAttribute("data-key")]["zenodo_doi"] === "") {
                     details.querySelector(".details-doi").remove();
                 } else {
@@ -96,6 +101,7 @@ Promise.all([
             trigger: 'manual'
         });
 
+        // make it so right-clicking opens the tooltip and closes all other tooltips
         btn.addEventListener('contextmenu', function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -113,6 +119,7 @@ Promise.all([
             // toggle the active class
             this.classList.toggle("active");
 
+            // if the button is now un-selected then hide the version picker if it exists
             if (!this.classList.contains("active")) {
                 const vp = document.getElementById(`${this.getAttribute("data-key")}-version-picker`);
                 if (vp !== null) {
@@ -120,6 +127,7 @@ Promise.all([
                 }
             }
 
+            // hide the tooltip if it's open
             tooltip.hide();
 
             // keep track of the acknowledgements and bibtex entries to add
@@ -127,11 +135,12 @@ Promise.all([
             let custom_acks_to_add = [];
             let bibs_to_add = [];
 
-            // remove old download buttons
+            // remove any old download buttons
             document.querySelectorAll(".download-button:not(.hide)").forEach(function(btn) {
                 btn.remove();
             });
 
+            // get all active buttons
             let active_buttons = document.querySelectorAll(".software-button.active")
 
             // if no software is selected then reset the acknowledgement and bibtex
@@ -150,15 +159,19 @@ Promise.all([
                 // add the acknowledgement and do some simple latex syntax highlighting
                 let new_ack = "\\texttt{" + btn.querySelector(".software-name").innerText + "} \\citep{" + btn_tags.join(", ") + "}"
 
+                // check if the software has a zenodo DOI
                 const zenodo_doi = citations[btn.getAttribute("data-key")]["zenodo_doi"];
                 if (zenodo_doi != "") {
                     const version_picker = document.getElementById(`${btn.getAttribute("data-key")}-version-picker`);
+
+                    // if the version picker doesn't exist then create it
                     if (version_picker == null) {
                         let vp = document.getElementById("version-picker-template").cloneNode(true);
                         vp.id = `${btn.getAttribute("data-key")}-version-picker`;
                         vp.classList.remove("hide");
                         vp.querySelector(".card-title").innerText = btn.getAttribute("data-key");
                         
+                        // if the software has no logo then remove the image and add a text element instead
                         if (citations[btn.getAttribute("data-key")]["logo"] === "") {
                             vp.querySelector(".software-logo").remove();
                             let el = document.createElement("span");
@@ -170,6 +183,8 @@ Promise.all([
                             vp.querySelector(".software-logo").src = citations[btn.getAttribute("data-key")]["logo"];
                         }
 
+                        // if the dropdown value is changed then trigger an update to the bibtex
+                        // (cheating by just clicking twice)
                         vp.querySelector(".version-select").addEventListener('change', function() {
                             if (this.value !== "-") {
                                 fetch_zenodo_bibtex(this.value).then((bibtex) => {
@@ -182,14 +197,17 @@ Promise.all([
                             }
                         });
 
+                        // update the version picker with available versions
                         get_zenodo_version_info(zenodo_doi, vp);
-
                         document.getElementById("version-list").appendChild(vp);
 
-                        // create a version picker cloned from the template
+                        // make a note that the user needs to select a version
                         new_ack += "\\footnote{{TODO}: Need to choose a version to cite!!}"
                     } else {
+                        // otherwise just show the version picker if it's hidden
                         version_picker.classList.remove("hide");
+
+                        // if you've selected a version then update the citation
                         if (version_picker.hasAttribute("data-bibtex")) {
                             const chosen_version = version_picker.querySelector(".version-select").value;
                             new_ack = new_ack.slice(0, -1) + ", " + btn.getAttribute("data-key") + "_" + chosen_version + "}";
@@ -200,10 +218,12 @@ Promise.all([
                     }
                 }
 
+                // check if the software has a custom acknowledgement
                 const custom_ack = citations[btn.getAttribute("data-key")]["custom_citation"];
                 if (custom_ack != "") {
                     custom_acks_to_add.push(highlight_latex(custom_ack));
                 } else {
+                    // otherwise use the regular acknowledgement
                     ack_to_add.push(highlight_latex(new_ack))
                 }
 
@@ -214,6 +234,7 @@ Promise.all([
                     }
                 }
 
+                // add some extra bibtex if necessary
                 const extra_bibtex = citations[btn.getAttribute("data-key")]["extra_bibtex"];
                 if (extra_bibtex !== undefined) {
                     bibs_to_add.push(highlight_bibtex(extra_bibtex));
@@ -262,20 +283,19 @@ Promise.all([
         });
     }
 
+    // populate the category and language selects
     for (let cat of [...categories].sort()) {
         const cat_caps = capitalise(cat);
         category_select.appendChild(create_option(cat_caps, cat_caps));
     }
-
     for (let lang of [...languages].sort()) {
         const lang_caps = capitalise(lang);
         language_select.appendChild(create_option(lang_caps, lang_caps));
     }
 
-    // populate the language and category selects based on the ones on the main page
+    // populate the language and category selects in the new-software form based on the ones on the main page
     const new_software_category = document.getElementById("new-software-category");
     const new_software_language = document.getElementById("new-software-language");
-
     if (new_software_category.children.length == 0) {
         new_software_category.appendChild(create_option("-", "Select category"));
         for (let i = 0; i < category_select.options.length; i++) {
@@ -287,7 +307,6 @@ Promise.all([
         }
         new_software_category.appendChild(create_option("new", "New category"));
     }
-
     if (new_software_language.children.length == 0) {
         new_software_language.appendChild(create_option("-", "Select language"));
         for (let i = 0; i < language_select.options.length; i++) {
@@ -300,13 +319,24 @@ Promise.all([
         new_software_language.appendChild(create_option("new", "New language"));
     }
 
+    // hide the loading overlay
     document.getElementById("software-loading").classList.add("hide");
 });
 
+// this function runs once the page has loaded
 window.addEventListener('DOMContentLoaded', () => {
+    // SOFTWARE SELECTION PANEL
+    // ========================
+
+    // add a search event to the search bar to run once you stop typing for 200ms
     let typingTimer;
     let doneTypingInterval = 200;
+    document.getElementById("software-search").addEventListener('input', function() {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(handle_search, doneTypingInterval);
+    });
 
+    // add a click event to the window to close all tooltips when clicking outside of them
     window.addEventListener('click', function(e) {
         if (!e.target.classList.contains("software-button")
             && !e.target.className.includes("details")
@@ -318,67 +348,37 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // clear the search field and reset filtering on click
     document.getElementById("software-search-clear").addEventListener('click', function() {
         document.getElementById("software-search").value = "";
         handle_search();
     });
 
+    // clear the category and language filters on click
     document.getElementById("software-filter-clear").addEventListener('click', function() {
         document.getElementById("software-category").value = "all";
         document.getElementById("software-language").value = "all";
         handle_search();
     });
 
-    document.getElementById("software-search").addEventListener('input', function() {
-        clearTimeout(typingTimer);
-        typingTimer = setTimeout(handle_search, doneTypingInterval);
-    });
-
+    // filter the software if a new category or language is selected in the dropdown
     document.getElementById("software-category").addEventListener('change', handle_search);
     document.getElementById("software-language").addEventListener('change', handle_search); 
 
-    function handle_search() {
-        let search = document.getElementById("software-search").value.toLowerCase();
-        const btns = document.querySelectorAll(".software-button:not(#software-btn-template)")
-
-        const category = document.getElementById("software-category").value.toLowerCase();
-        const language = document.getElementById("software-language").value.toLowerCase();
-
-        let all_hidden = true;
-        for (let btn of btns) {
-            const btn_key = btn.getAttribute("data-key").toLowerCase();
-            const btn_keywords = btn.getAttribute("data-keywords").toLowerCase();
-            const matches_search = ((btn_key.includes(search) || btn_keywords.includes(search))
-                                    && (category === "all" || btn.getAttribute("data-category").toLowerCase() === category)
-                                    && (language === "all" || btn.getAttribute("data-language").toLowerCase() === language));
-            if (matches_search) {
-                all_hidden = false;
-            }
-            if (btn.classList.contains("hide") && matches_search) {
-                btn.classList.remove("hide");
-                animateCSS(btn, "bounceIn");
-            } else if (!btn.classList.contains("hide") && !matches_search) {
-                // btn.classList.add("hide");
-                animateCSS(btn, "bounceOut").then(() => {
-                    btn.classList.add("hide");
-                });
+    // clear all selected software on the button click and hide version pickers if they exist
+    document.getElementById("software-clear").addEventListener('click', function() {
+        let buttons = document.querySelectorAll(".software-button.active")
+        for (let i = 0; i < buttons.length - 1; i++) {
+            buttons[i].classList.remove("active");
+            const vp = document.getElementById(`${buttons[i].getAttribute("data-key")}-version-picker`);
+            if (vp !== null) {
+                vp.classList.add("hide");
             }
         }
+        buttons[buttons.length - 1].click();
+    });
 
-        // if all buttons are hidden then show a message instead
-        const empty_msg = document.getElementById("software-search-empty");
-        const msg_hidden = empty_msg.classList.contains("hide");
-        if (all_hidden && msg_hidden) {
-            setTimeout(() => {
-                empty_msg.classList.remove("hide");
-                animateCSS(empty_msg, "flipInX");
-            }, 500);
-            // animateCSS(empty_msg, "bounceIn");
-        } else if (!all_hidden && !msg_hidden) {
-            empty_msg.classList.add("hide");
-        }
-    }
-
+    // handle the expand button, resizing the columns as desired
     document.getElementById("expand").addEventListener('click', function() {
         const left_col = document.getElementById("left-col");
         const right_col = document.getElementById("right-col");
@@ -409,27 +409,26 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    document.getElementById("software-clear").addEventListener('click', function() {
-        let buttons = document.querySelectorAll(".software-button.active")
-        for (let i = 0; i < buttons.length - 1; i++) {
-            buttons[i].classList.remove("active");
-            const vp = document.getElementById(`${buttons[i].getAttribute("data-key")}-version-picker`);
-            if (vp !== null) {
-                vp.classList.add("hide");
-            }
-        }
-        buttons[buttons.length - 1].click();
-    });
+    // setup the tooltips for each of the software packages
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
+    // VERSION SELECTION PANEL
+    // =======================
+
+    // handle the toggle buttons for whether to choose the latest version or not
     document.querySelectorAll("#version-selector button").forEach(function(btn) {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
             const active_btn = this.parentElement.querySelector(".active");
+
+            // if the active button is the other one then swap the toggle buttons
             if (active_btn !== this) {
                 active_btn.classList.remove("active");
                 this.classList.add("active");
+
+                // auto select the latest version for each version picker that isn't hidden
                 if (this.id === "latest_version") {
-                    // auto select the latest version for each version picker that isn't hidden
                     document.querySelectorAll(".version-picker:not(.hide) .version-select").forEach(function(select) {
                         select.value = select.children[1].value;
                         select.dispatchEvent(new Event('change'));
@@ -439,11 +438,11 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    // NEW SOFTWARE FORM
+    // =================
 
+    // keep a counter up to date for any character limited textareas
     document.querySelectorAll("textarea[data-counted]").forEach(function(textarea) {
-        console.log(textarea);
         textarea.addEventListener('input', function() {
             const count = this.value.length;
             const max = parseInt(this.getAttribute("maxlength"));
@@ -460,12 +459,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    document.querySelectorAll(".headshot-box").forEach(function(box) {
-        box.addEventListener('click', function() {
-            window.open(this.getAttribute("data-href"), "_blank");
-        });
-    });
-
+    // reveal the new category/language inputs if "new" is selected in the dropdown
     document.querySelectorAll("#new-software-category, #new-software-language").forEach(el => {
         el.addEventListener('change', function() {
             if (this.value === "new") {
@@ -477,6 +471,7 @@ window.addEventListener('DOMContentLoaded', () => {
         })
     });
 
+    // if the user wants to continue editing then scroll back up and hide the results section
     document.getElementById("back-new-software").addEventListener('click', function() {
         document.querySelector(".modal-title").scrollIntoView({behavior: "smooth"});
         setTimeout(() => {
@@ -484,29 +479,87 @@ window.addEventListener('DOMContentLoaded', () => {
         }, 1000);
     });
 
+    // on submission validate the form
     document.getElementById("submit-new-software").addEventListener('click', function(e) {
         validate_new_software_form();
         e.preventDefault();
         e.stopPropagation();
     });
 
+    // as the new name is changed, update the link for searching Zenodo
     document.getElementById("new-software-name").addEventListener('input', function() {
         document.getElementById("new-zenodo-search").href = `https://zenodo.org/search?q=${this.value}`;
     });
 
+    // if the user clicks the resulting citation data then take them to the issue creation
     document.getElementById("new-software-citation").addEventListener('click', function() {
         animateCSS(this, "rubberBand").then(() => {
             document.getElementById("copy-new-software").click();
         });
     });
 
-    let params = new URLSearchParams(document.location.search);
+
+    // MAIN PAGE
+    // =========
+    
+    // if the user arrives immediately wanting to add new software then launch the form
+    const params = new URLSearchParams(document.location.search);
     if (params.has("new-software") && params.get("new-software") === "true") {
         document.getElementById("launch-new-software").click();
     }
+
+    // open headshot links on click
+    document.querySelectorAll(".headshot-box").forEach(function(box) {
+        box.addEventListener('click', function() {
+            window.open(this.getAttribute("data-href"), "_blank");
+        });
+    });
 });
 
+// handle the searching/filtering of software packages
+function handle_search() {
+    let search = document.getElementById("software-search").value.toLowerCase();
+    const btns = document.querySelectorAll(".software-button:not(#software-btn-template)")
 
+    const category = document.getElementById("software-category").value.toLowerCase();
+    const language = document.getElementById("software-language").value.toLowerCase();
+
+    let all_hidden = true;
+    for (let btn of btns) {
+        const btn_key = btn.getAttribute("data-key").toLowerCase();
+        const btn_keywords = btn.getAttribute("data-keywords").toLowerCase();
+        const matches_search = ((btn_key.includes(search) || btn_keywords.includes(search))
+                                && (category === "all" || btn.getAttribute("data-category").toLowerCase() === category)
+                                && (language === "all" || btn.getAttribute("data-language").toLowerCase() === language));
+        if (matches_search) {
+            all_hidden = false;
+        }
+        if (btn.classList.contains("hide") && matches_search) {
+            btn.classList.remove("hide");
+            animateCSS(btn, "bounceIn");
+        } else if (!btn.classList.contains("hide") && !matches_search) {
+            // btn.classList.add("hide");
+            animateCSS(btn, "bounceOut").then(() => {
+                btn.classList.add("hide");
+            });
+        }
+    }
+
+    // if all buttons are hidden then show a message instead
+    const empty_msg = document.getElementById("software-search-empty");
+    const msg_hidden = empty_msg.classList.contains("hide");
+    if (all_hidden && msg_hidden) {
+        setTimeout(() => {
+            empty_msg.classList.remove("hide");
+            animateCSS(empty_msg, "flipInX");
+        }, 500);
+        // animateCSS(empty_msg, "bounceIn");
+    } else if (!all_hidden && !msg_hidden) {
+        empty_msg.classList.add("hide");
+    }
+}
+
+// create a dropdown menu option element
 function create_option(value, label) {
     let opt = document.createElement("option");
     opt.value = value;
@@ -514,13 +567,18 @@ function create_option(value, label) {
     return opt;
 }
 
-
+// capitalise the first letter in each word in a string
 function capitalise(string) {
     return string.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
 }
 
+// change units between rem and pixels
+function convertRemToPixels(rem) {    
+    return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+}
+
+// parse the bibtex file into a dictionary of tags and entries
 function parse_bibtex(bibtex_text) {
-    // parse the bibtex file into a dictionary of tags and entries
     let bibtex_obj = {};
     while ((match = bibtex_re.exec(bibtex_text)) != null) {
         bibtex_obj[match.groups["tag"]] = isolate_bibtex_entry(bibtex_text, match.index);
@@ -528,8 +586,8 @@ function parse_bibtex(bibtex_text) {
     return bibtex_obj
 }
 
+// isolate a bibtex entry based on closing curly braces
 function isolate_bibtex_entry(s, start) {
-    // isolate a bibtex entry based on closing curly braces
     let braces = 0;
     let cursor = start;
     let not_opened = true;
@@ -545,8 +603,9 @@ function isolate_bibtex_entry(s, start) {
     return s.slice(start, cursor)
 }
 
+
+// highlight the latex command and arguments with some simple syntax highlighting
 function highlight_latex(s) {
-    // highlight the latex command and arguments with some simple syntax highlighting
     return s.replace(latex_re, function(match, command, args) {
         if (command == "\\footnote") {
             return '<span class="latex-command">' + command + '</span>{' + args + "}";
@@ -556,14 +615,15 @@ function highlight_latex(s) {
     });
 }
 
+// highlight the bibtex entry with some simple syntax highlighting around the format and key
 function highlight_bibtex(s) {
-    // highlight the bibtex entry with some simple syntax highlighting around the format and key
     let at_thing = s.split("{")[0];
     let key = s.split("{")[1].split(",")[0];
     rest_starts_at = at_thing.length + key.length + 1;
     return "<span class='bibtex-format'>" + at_thing + "</span>{<span class='bibtex-key'>" + key + "</span>" + s.slice(rest_starts_at);
 }
 
+// create a copy button element that copies the provided text
 function copy_button(text) {
     let copy_btn = document.getElementById("copy-template").cloneNode(true);
     copy_btn.classList.remove("hide");
@@ -574,6 +634,7 @@ function copy_button(text) {
     return copy_btn 
 }
 
+// create a download button that downloads a "software.bib" file with the text
 function download_button(text) {
     let download_btn = document.getElementById("copy-template").cloneNode(true);
     download_btn.classList.remove("hide");
@@ -594,28 +655,20 @@ function download_button(text) {
     return download_btn
 }
 
+// apply animate.css animations
 const animateCSS = (node, animation, prefix = 'animate__') =>
-  // We create a Promise and return it
-  new Promise((resolve, reject) => {
+    new Promise((resolve, reject) => {
     const animationName = `${prefix}${animation}`;
-
     node.classList.add(`${prefix}animated`, animationName);
-
-    // When the animation ends, we clean the classes and resolve the Promise
     function handleAnimationEnd(event) {
-      event.stopPropagation();
-      node.classList.remove(`${prefix}animated`, animationName);
-      resolve('Animation ended');
+        event.stopPropagation();
+        node.classList.remove(`${prefix}animated`, animationName);
+        resolve('Animation ended');
     }
-
     node.addEventListener('animationend', handleAnimationEnd, {once: true});
-  });
+});
 
-
-function convertRemToPixels(rem) {    
-    return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
-}
-
+// custom function for sorting version strings
 function compare_versions(a, b) {
     if (a === b) {
         return 0;
