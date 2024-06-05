@@ -9,6 +9,7 @@ const base_issue_text = `# TODO before submitting
 
 - [ ] Attach or link a logo (preferably square, no background)
 - [ ] Update the logo file extension in the data below (change ".png" to the correct extension)
+- [ ] Optionally add comments to the issue with questions or additional information
 
 **Delete this list before submitting the issue!**
 
