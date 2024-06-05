@@ -689,22 +689,43 @@ async function get_zenodo_version_info(concept_doi, vp) {
     }
 }
 
-// Function to fetch records from Zenodo API
 async function validate_zenodo_doi(concept_doi) {
+    // don't bother if the DOI is empty
     if (concept_doi === "") {
-        return 0;
+        return [0, concept_doi];
     }
-    // Build the complete URL with the query parameter for concept DOI
+
+    // build the url and make the request
     const url = `https://zenodo.org/api/records?q=conceptdoi:"${concept_doi}"&all_versions=true`;
-    // Make the API request with the Accept header for BibTeX format
     const response = await fetch(url);
-    
     if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
     }
     
+    // grab the data from the response in JSON format
     const data = await response.json();
-    return data.hits.hits.length;
+
+    // if we didn't find anything then maybe the user entered a specific version DOI accidentally
+    if (data.hits.hits.length === 0) {
+        // retry by searching for the DOI assuming it's not a concept DOI
+        const url = `https://zenodo.org/api/records?q=doi:"${concept_doi}"&all_versions=true`;
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+
+        // if we found only one result then we can assume it's the correct one, retry with that as the concept DOI
+        if (data.hits.hits.length === 1) {
+            return await validate_zenodo_doi(data.hits.hits[0].conceptdoi);
+        } else {
+            // otherwise we can't find the DOI, failed
+            return [0, concept_doi];
+        }
+
+    } else {
+        return [data.hits.hits.length, concept_doi];
+    }
 }
 
 // Function to fetch records from Zenodo API
@@ -789,22 +810,22 @@ function validate_new_software_form() {
     const keyword_spans = keywords.map((kw) => `<span class='badge text-bg-success'>${kw}</span>`);
     document.getElementById("new-software-keywords").parentElement.querySelector(".valid-feedback").innerHTML = "Keywords detected: " + keyword_spans.join(" ");
 
+    const doi_input = form.querySelector("#new-software-doi");
 
-    validate_zenodo_doi(document.querySelector("#new-software-doi").value).then((n_versions) => {
-        console.log(n_versions);
-        const allow_single_version = form.querySelector("#new-software-single-version");
+    validate_zenodo_doi(doi_input.value.trim()).then((results) => {
+        const [n_versions, real_doi] = results;
+
+        // if the DOI has changed then update the input field as well
+        if (real_doi != doi_input.value.trim()) {
+            doi_input.value = real_doi;
+        }
+
         if (n_versions === 0) {
             form.querySelector("#new-software-doi").setCustomValidity("DOI not found on Zenodo.");
-            console.log(allow_single_version.parentElement.parentElement.querySelector(".invalid-feedback"))
-            allow_single_version.parentElement.parentElement.querySelector(".invalid-feedback").innerHTML = "Invalid DOI. Please ensure you have the correct DOI for <b>all</b> versions of the software (hover over the question mark above for instructions).";
-        } else if (n_versions === 1 && !allow_single_version.querySelector("input").checked) {
-            form.querySelector("#new-software-doi").setCustomValidity("DOI only has one version");
-            allow_single_version.classList.remove("hide");
-            allow_single_version.parentElement.parentElement.querySelector(".invalid-feedback").innerHTML = "This DOI only has one version - did you ensure to choose the DOI that matches <b>all</b> versions of the software (hover over the question mark above for instructions)?. If only one version is released so far, please check the box above and resubmit.";
+            doi_input.parentElement.querySelector(".invalid-feedback").innerHTML = "Invalid DOI. Please ensure you have the correct DOI for <b>all</b> versions of the software (hover over the question mark above for instructions).";
         } else {
             form.querySelector("#new-software-doi").setCustomValidity("");
-            allow_single_version.classList.add("hide");
-            allow_single_version.parentElement.parentElement.querySelector(".valid-feedback").innerHTML = "DOI found on Zenodo with " + n_versions + " versions.";
+            doi_input.parentElement.querySelector(".valid-feedback").innerHTML = "DOI found on Zenodo with " + n_versions + " versions.";
         }
 
         // perform the rest of the validation

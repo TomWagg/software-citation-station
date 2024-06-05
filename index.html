@@ -218,15 +218,9 @@
                                             <div class="col-12 col-md-6">
                                                 <div class="form-control-box mb-2">
                                                     <label for="new-software-doi" class="form-label"> Zenodo DOI <i>for all versions</i> <i class="fa fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Enter the DOI <b>associated with all versions</b> of your software package. This can be found on the Zenodo page for your just after it says <span class='text-warning'>'Cite all versions?'</span>." data-bs-html="true"></i></label>
-                                                    <div class="input-group">
-                                                        <input class="form-control" id="new-software-doi" placeholder="DOI (e.g. 10.5281/zenodo.595738)" />
-                                                        <div id="new-software-single-version" class="input-group-text hide" style="font-size: 0.7rem">
-                                                            Allow single version
-                                                            <input class="form-check-input ms-1" type="checkbox" value="" aria-label="Checkbox for following text input" />
-                                                        </div>
-                                                        <div class="valid-feedback">That DOI looks good, there are <span id="new-software-n-version"></span> versions associated with it.</div>
-                                                        <div class="invalid-feedback">That DOI doesn't seem to exist.</div>
-                                                    </div>
+                                                    <input class="form-control" id="new-software-doi" placeholder="DOI (e.g. 10.5281/zenodo.595738)" />
+                                                    <div class="valid-feedback">That DOI looks good, there are <span id="new-software-n-version"></span> versions associated with it.</div>
+                                                    <div class="invalid-feedback">That DOI doesn't seem to exist.</div>
                                                     <div>Click <a id="new-zenodo-search" class="fw-bold" href="https://zenodo.org/search?q=" target="_blank">here</a> to search Zenodo for your package.</div>
                                                 </div>
                                             </div>
