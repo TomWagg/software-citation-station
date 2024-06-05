@@ -463,6 +463,6 @@
     "link": "https://cmasher.readthedocs.io/index.html",
     "attribution_link": "https://cmasher.readthedocs.io/community_guidelines.html",
     "zenodo_doi": "10.5281/zenodo.3637632",
-    "custom_citation": "Parts of the results in this work make use of the colormaps in the CMasher package \\\\citep{2020JOSS....5.2004V}"
+    "custom_citation": "Parts of the results in this work make use of the colormaps in the CMasher package \\citep{2020JOSS....5.2004V}"
     }
 }
