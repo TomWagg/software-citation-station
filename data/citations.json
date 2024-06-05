@@ -407,5 +407,23 @@
         "attribution_link": "https://docs.lightkurve.org/about/citing.html",
         "zenodo_doi": "10.5281/zenodo.1181928",
         "custom_citation": ""
+    },
+    "Athena++": {
+        "tags": [
+            "Stone2020"
+        ],
+        "logo": "img/athena-pp.png",
+        "language": "C++",
+        "category": "Computing",
+        "keywords": [
+            "GRMHD",
+            "adaptive mesh refinement",
+            "magnetohydrodynamic"
+        ],
+        "description": "Athena++ radiation GRMHD code and adaptive mesh refinement (AMR) framework",
+        "link": "https://www.athena-astro.app/",
+        "attribution_link": "https://github.com/PrincetonUniversity/athena?tab=readme-ov-file",
+        "zenodo_doi": "10.5281/zenodo.4455879",
+        "custom_citation": ""
     }
 }
