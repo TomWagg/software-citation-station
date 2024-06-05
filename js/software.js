@@ -164,7 +164,8 @@ Promise.all([
                             let el = document.createElement("span");
                             el.className = "software-no-logo-text";
                             el.innerText = key;
-                            vp.insertBefore(el, vp.querySelector(".card-title"));
+                            const card_body = vp.querySelector(".card-body");
+                            card_body.insertBefore(el, card_body.querySelector(".card-title"));
                         } else {
                             vp.querySelector(".software-logo").src = citations[btn.getAttribute("data-key")]["logo"];
                         }
