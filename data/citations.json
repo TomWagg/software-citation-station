@@ -124,7 +124,7 @@
         "custom_citation": "This research has made use of NASA's Astrophysics Data System."
     },
     "legwork": {
-        "tags": ["LEGWORK_apjs", "LEGWORK_joss"],
+        "tags": ["LEGWORK_joss", "LEGWORK_apjs"],
         "logo": "img/legwork.png",
         "language": "python",
         "category": "gravitational waves",
