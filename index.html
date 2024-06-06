@@ -251,6 +251,14 @@
                                             <input type="text" class="form-control" id="new-software-keywords" />
                                             <div class="valid-feedback"></div>
                                         </div>
+                                        <div id="new-software-dependency-box" class="form-control-box mb-2">
+                                            <label for="new-software-dependencies" class="form-label">Dependencies (choose packages on which your new addition depends)</label>
+                                            <div id="new-software-dependencies">
+                                                <span id="dependency-template" class="badge rounded-pill text-bg-secondary dependency-toggle hide"></span>
+                                            </div>
+                                            <div class="valid-feedback"></div>
+                                            <div class="invalid-feedback">That doesn't seem to be a valid list of dependencies.</div>
+                                        </div>
                                     </form>
                                     <div class="loading-overlay overlay hide">
                                         <div class="spinner-border mt-5" role="status">

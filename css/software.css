@@ -76,6 +76,11 @@ footer.footer .social-link:active {
     background-color: var(--primary);
 }
 
+.text-bg-primary {
+    background-color: var(--primary)!important;
+    color: white;
+}
+
 .btn.btn-primary {
     background-color: var(--primary);
     border: none;
@@ -427,4 +432,21 @@ body.dark .overlay {
     bottom: 0;
     right: 0;
     padding: 1rem;
+}
+
+#new-software-dependencies {
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.25rem;
+    padding: 0.3rem;
+}
+
+.dependency-toggle {
+    cursor: pointer;
+    transition: 300ms;
+    margin-right: 0.2rem;
+    margin-bottom: 0.1rem;
+}
+
+.dependency-toggle:hover {
+    filter: brightness(0.8);
 }

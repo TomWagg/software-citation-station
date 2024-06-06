@@ -79,6 +79,22 @@ Promise.all([
         btn.classList.remove("hide");
         software_list.appendChild(btn);
 
+        // add this as an option for the new software dependencies
+        const dep_toggle = document.getElementById("dependency-template").cloneNode(true);
+        dep_toggle.id = "";
+        dep_toggle.innerText = key;
+        dep_toggle.classList.remove("hide");
+        dep_toggle.addEventListener('click', function() {
+            if (this.classList.contains("text-bg-secondary")) {
+                this.classList.remove("text-bg-secondary");
+                this.classList.add("text-bg-primary");
+            } else {
+                this.classList.remove("text-bg-primary");
+                this.classList.add("text-bg-secondary");
+            }
+        });
+        document.getElementById("new-software-dependencies").appendChild(dep_toggle);
+
         // create a new tooltip that will appear on right clicking the button
         let tooltip = new bootstrap.Tooltip(btn, {
             title: function() {
