@@ -8,6 +8,7 @@ const latex_re = /(?<command>\\[^\\{]*)\{(?<args>[^\}]*)\}/gmi;
 const base_issue_text = `# TODO before submitting
 
 - [ ] Attach or link a logo (preferably square, no background)
+    - If no logo is available then instead write that in a comment and change the data to have \`"logo": ""\` 
 - [ ] Update the logo file extension in the data below (change ".png" to the correct extension)
 - [ ] Optionally add comments to the issue with questions or additional information
 
@@ -805,7 +806,7 @@ async function get_zenodo_version_info(concept_doi, vp) {
 async function validate_zenodo_doi(concept_doi) {
     // don't bother if the DOI is empty
     if (concept_doi === "") {
-        return [0, concept_doi];
+        return [-1, concept_doi];
     }
 
     // build the url and make the request
@@ -886,16 +887,22 @@ function validate_new_software_form() {
 
     // attempt to parse the BibTeX field
     const bibtex_field = form.querySelector("#new-software-bibtex");
-    const bibtex = parse_bibtex(bibtex_field.value.trim());
-    if (Object.keys(bibtex).length === 0) {
-        bibtex_field.setCustomValidity("Invalid field.");
+    let bibtex = {}
+    if (bibtex_field.value.trim() === "") {
+        bibtex_field.setCustomValidity("");
+        bibtex_field.parentElement.querySelector(".valid-feedback").innerHTML = "No BibTeX provided.";
     } else {
-        bibtex_field.setCustomValidity("")
-        let tags = []
-        for (let key in bibtex) {
-            tags.push(`<span class='badge text-bg-success'>${key}</span>`);
+        bibtex = parse_bibtex(bibtex_field.value.trim());
+        if (Object.keys(bibtex).length === 0) {
+            bibtex_field.setCustomValidity("Invalid field.");
+        } else {
+            bibtex_field.setCustomValidity("")
+            let tags = []
+            for (let key in bibtex) {
+                tags.push(`<span class='badge text-bg-success'>${key}</span>`);
+            }
+            bibtex_field.parentElement.querySelector(".valid-feedback").innerHTML = "Valid BibTeX! Tags detected: " + tags.join(" ");
         }
-        bibtex_field.parentElement.querySelector(".valid-feedback").innerHTML = "Valid BibTeX! Tags detected: " + tags.join(" ");
     }
 
     // escape backslashes in the custom acknowledgement
@@ -938,7 +945,7 @@ function validate_new_software_form() {
             doi_input.parentElement.querySelector(".invalid-feedback").innerHTML = "Invalid DOI. Please ensure you have the correct DOI for <b>all</b> versions of the software (hover over the question mark above for instructions).";
         } else {
             form.querySelector("#new-software-doi").setCustomValidity("");
-            doi_input.parentElement.querySelector(".valid-feedback").innerHTML = "DOI found on Zenodo with " + n_versions + " versions.";
+            doi_input.parentElement.querySelector(".valid-feedback").innerHTML = n_versions > 0 ? ("DOI found on Zenodo with " + n_versions + " versions.") : "No DOI provided.";
         }
 
         // perform the rest of the validation
@@ -954,7 +961,17 @@ function validate_new_software_form() {
             if (category === "new") {
                 category = form.querySelector("#new-software-category-new").value.trim();
             }
+
+            const dep_toggles = form.querySelectorAll("#new-software-dependencies .dependency-toggle.text-bg-primary")
+            let deps = [];
+            if (dep_toggles.length > 0) {
+                for (let toggle of dep_toggles) {
+                    deps.push(toggle.innerText);
+                }
+            }
             
+            console.log(deps)
+
             const name = form.querySelector("#new-software-name").value.trim();
             json[name] = {
                 "tags": Object.keys(bibtex),
@@ -967,6 +984,7 @@ function validate_new_software_form() {
                 "attribution_link": form.querySelector("#new-software-attribution").value.trim(),
                 "zenodo_doi": form.querySelector("#new-software-doi").value.trim(),
                 "custom_citation": form.querySelector("#new-software-custom-acknowledgement").value.trim(),
+                "dependencies": deps,
             }
 
             const cite_string = JSON.stringify(json, null, 4).split('\n').slice(1, -1).map((line) => line.slice(4)).join('\n');
