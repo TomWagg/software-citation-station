@@ -706,5 +706,24 @@
             "scipy",
             "Cython"
         ]
+    },
+    "Arepo": {
+        "tags": [
+            "2010MNRAS.401..791S",
+            "2011MNRAS.418.1392P",
+            "2013MNRAS.432..176P",
+            "2016MNRAS.455.1134P",
+            "2020ApJS..248...32W"
+        ],
+        "logo": "img/Arepo.png",
+        "language": "C",
+        "category": "N-body",
+        "keywords": [],
+        "description": "AREPO is a massively parallel code for gravitational n-body systems and hydrodynamics, both on Newtonian as well as cosmological background.",
+        "link": "https://arepo-code.org/",
+        "attribution_link": "https://gitlab.mpcdf.mpg.de/vrs/arepo",
+        "zenodo_doi": "",
+        "custom_citation": "A description of the numerical algorithms employed by the Arepo code is given in the original code papers \\citep{2010MNRAS.401..791S,2011MNRAS.418.1392P,2013MNRAS.432..176P,2016MNRAS.455.1134P} and the release paper of the public version \\citep{2020ApJS..248...32W}.",
+        "dependencies": []
     }
 }
