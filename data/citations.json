@@ -685,5 +685,26 @@
             "numpy",
             "pandas"
         ]
+    },
+    "sympy": {
+        "tags": [],
+        "logo": "img/sympy.png",
+        "language": "Python",
+        "category": "Computing",
+        "keywords": [
+            "symbolic computation",
+            "mathematics",
+            "algebra"
+        ],
+        "description": "SymPy is a Python library for symbolic mathematics.",
+        "link": "https://docs.sympy.org/latest/index.html",
+        "attribution_link": "https://github.com/sympy/sympy/blob/master/CITATION.cff",
+        "zenodo_doi": "10.5281/zenodo.594254",
+        "custom_citation": "",
+        "dependencies": [
+            "numpy",
+            "scipy",
+            "Cython"
+        ]
     }
 }
