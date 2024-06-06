@@ -905,10 +905,6 @@ function validate_new_software_form() {
         }
     }
 
-    // escape backslashes in the custom acknowledgement
-    const custom = form.querySelector("#new-software-custom-acknowledgement");
-    custom.value = custom.value.trim().replace(/(?<!\\)\\(?!\\)/gm, '\\\\');
-
     // check the category and language selects. Both should not have value of "-", and if they have a value of "new" then the next input should not be empty
     for (let select of form.querySelectorAll("#new-software-category, #new-software-language")) {
         const select_new_input = select.nextElementSibling;
