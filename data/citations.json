@@ -10,7 +10,8 @@
         "zenodo_doi": "",
         "attribution_link": "http://citebay.com/how-to-cite/python/",
         "custom_citation": "",
-        "dependencies": []
+        "dependencies": [],
+        "frequently_used": true
     },
     "numpy": {
         "tags": ["numpy"],
@@ -26,7 +27,8 @@
         "custom_citation": "",
         "dependencies": [
             "python"
-        ]
+        ],
+        "frequently_used": true
     },
     "matplotlib": {
         "tags": ["Hunter:2007"],
@@ -42,7 +44,8 @@
         "dependencies": [
             "numpy",
             "python"
-        ]
+        ],
+        "frequently_used": true
     },
     "astropy": {
         "tags": ["astropy:2013", "astropy:2018", "astropy:2022"],
@@ -60,7 +63,8 @@
             "scipy",
             "matplotlib",
             "python"
-        ]
+        ],
+        "frequently_used": true
     },
     "scipy": {
         "tags": ["2020SciPy-NMeth"],
@@ -76,7 +80,8 @@
         "dependencies": [
             "numpy",
             "python"
-        ]
+        ],
+        "frequently_used": true
     },
     "pandas": {
         "tags": ["mckinney-proc-scipy-2010"],
@@ -92,7 +97,8 @@
         "dependencies": [
             "numpy",
             "python"
-        ]
+        ],
+        "frequently_used": true
     },
     "seaborn": {
         "tags": ["Waskom2021"],
@@ -121,7 +127,8 @@
         "link": "https://ui.adsabs.harvard.edu/about/",
         "zenodo_doi": "",
         "attribution_link": "https://ui.adsabs.harvard.edu/about/",
-        "custom_citation": "This research has made use of NASA's Astrophysics Data System."
+        "custom_citation": "This research has made use of NASA's Astrophysics Data System.",
+        "frequently_used": true
     },
     "legwork": {
         "tags": ["LEGWORK_joss", "LEGWORK_apjs"],
@@ -284,7 +291,7 @@
         "attribution_link": "",
         "custom_citation": ""
     },
-    "IPython/Jupyter": {
+    "Jupyter": {
         "tags": ["2007CSE.....9c..21P", "kluyver2016jupyter"],
         "logo": "img/jupyter.png",
         "language": "python",
@@ -293,11 +300,12 @@
         "description": "Free software, open standards, and web services for interactive computing across all programming languages",
         "link": "https://jupyter.org/",
         "zenodo_doi": "",
-        "attribution_link": "",
+        "attribution_link": "http://citebay.com/how-to-cite/jupyter-notebook/",
         "custom_citation": "",
         "dependencies": [
             "python"
-        ]
+        ],
+        "frequently_used": true
     },
     "h5py": {
         "tags": ["collette_python_hdf5_2014"],

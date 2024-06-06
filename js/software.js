@@ -36,8 +36,25 @@ Promise.all([
     let categories = new Set();
     let languages = new Set();
 
+    // sort the keys alphabetically
+    let sorted_keys = Object.keys(citations).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+
+    // additionally sort keys by whether they citations[key]["frequently_used"] exists and is true
+    sorted_keys.sort((a, b) => {
+        const a_freq = citations[a].hasOwnProperty("frequently_used") && citations[a]["frequently_used"];
+        const b_freq = citations[b].hasOwnProperty("frequently_used") && citations[b]["frequently_used"];
+        console.log(a, b, a_freq, b_freq)
+        if (a_freq && !b_freq) {
+            return -1;
+        } else if (!a_freq && b_freq) {
+            return 1;
+        } else {
+            return 0;
+        }
+    });
+
     // setup each button
-    for (var key in citations) {
+    for (var key of sorted_keys) {
         // clone the template button and populate it with the relevant data
         const btn = template_btn.cloneNode(true);
         btn.setAttribute("data-key", key)
