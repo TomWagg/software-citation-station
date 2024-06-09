@@ -753,5 +753,22 @@
     "zenodo_doi": "10.5281/zenodo.7808755",
     "custom_citation": "This work made use of \\textsc{REBOUND} \\citet{2012A&A...537A.128R} \\footnote{TODO: consider citing these additional papers that might be relevant to your specific REBOUND set-up: Symplectic Epicycle integrator \\citep{2011MNRAS.415.3168R}, IAS15 integrator \\citep{2015MNRAS.446.1424R}, WHFast \\citep{2015MNRAS.452..376R}, second order variational equations \\citep{2016MNRAS.459.2275R}, Simulationarchive \\citep{2017MNRAS.467.2377R},  JANUS integrator \\citep{2018MNRAS.473.3351R},  MERCURIUS integrator \\citep{2019MNRAS.485.5490R}, SABA, SABAC, SABACL, WHCKL, WHCKM, and WHCKC integrators \\citep{2019MNRAS.485.5490R}.  See \\url{https://rebound.readthedocs.io/en/latest/#acknowledgements} for details.",
     "dependencies": []
+    },
+"R": {
+    "tags": [
+        "R_manual"
+    ],
+    "logo": "img/R.png",
+    "language": "R",
+    "category": "Statistics",
+    "keywords": ["statistics",
+        "r"
+    ],
+    "description": "The R statistical programming language.",
+    "link": "https://cran.r-project.org/manuals.html",
+    "attribution_link": "https://cran.r-project.org/doc/FAQ/R-FAQ.html#Citing-R",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": []
     }
 }
