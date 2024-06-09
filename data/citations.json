@@ -402,7 +402,7 @@
         "link": "https://camels.readthedocs.io/en/latest/",
         "zenodo_doi": "",
         "attribution_link": "https://camels.readthedocs.io/en/latest/citation.html",
-        "custom_citation": "\\footnote{TODO: If you use data from CAMELS-SAM please consider citing the CMD paper  \\citet{CMD} If you use data from CAMELS-SAM please consider citing the CAMELS-SAM paper \\citet{CAMELS-SAM}}"
+        "custom_citation": "This work made use of \\citet{CAMELS_presentation} \\footnote{TODO: If you use data from CAMELS-SAM please consider citing the CMD paper  \\citet{CMD} If you use data from CAMELS-SAM please consider citing the CAMELS-SAM paper \\citet{CAMELS-SAM}}"
     },
     "JAX": {
         "tags": [ "jax2018github"],
@@ -733,5 +733,25 @@
         "zenodo_doi": "",
         "custom_citation": "A description of the numerical algorithms employed by the Arepo code is given in the original code papers \\citep{2010MNRAS.401..791S,2011MNRAS.418.1392P,2013MNRAS.432..176P,2016MNRAS.455.1134P} and the release paper of the public version \\citep{2020ApJS..248...32W}.",
         "dependencies": []
+    },
+"REBOUND": {
+    "tags": [
+        "2012A&A...537A.128R"
+    ],
+    "logo": "img/REBOUND.png",
+    "language": "Python",
+    "category": "N-body",
+    "keywords": [
+        "whfast",
+        "ias15",
+        "nbody",
+        "planetary dynamics"
+    ],
+    "description": "REBOUND is an N-body integrator, i.e. a software package that can integrate the motion of particles under the influence of gravity.",
+    "link": "https://rebound.readthedocs.io/en/latest/",
+    "attribution_link": "https://rebound.readthedocs.io/en/latest/#acknowledgements",
+    "zenodo_doi": "10.5281/zenodo.7808755",
+    "custom_citation": "This work made use of \\textsc{REBOUND} \\citet{2012A&A...537A.128R} \\footnote{TODO: consider citing these additional papers that might be relevant to your specific REBOUND set-up: Symplectic Epicycle integrator \\citep{2011MNRAS.415.3168R}, IAS15 integrator \\citep{2015MNRAS.446.1424R}, WHFast \\citep{2015MNRAS.452..376R}, second order variational equations \\citep{2016MNRAS.459.2275R}, Simulationarchive \\citep{2017MNRAS.467.2377R},  JANUS integrator \\citep{2018MNRAS.473.3351R},  MERCURIUS integrator \\citep{2019MNRAS.485.5490R}, SABA, SABAC, SABACL, WHCKL, WHCKM, and WHCKC integrators \\citep{2019MNRAS.485.5490R}.  See \\url{https://rebound.readthedocs.io/en/latest/#acknowledgements} for details.",
+    "dependencies": []
     }
 }
