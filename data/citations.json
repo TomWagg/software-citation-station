@@ -885,5 +885,39 @@
             "python",
             "JAX"
         ]
+    },
+    "transformers": {
+        "tags": [
+            "wolf-etal-2020-transformers"
+        ],
+        "logo": "img/hf-logo.svg",
+        "language": "Python",
+        "category": "Machine Learning",
+        "keywords": [
+            "nlp",
+            "machine-learning",
+            "natural-language-processing",
+            "deep-learning",
+            "transformer",
+            "speech-recognition",
+            "seq2seq",
+            "flax",
+            "pretrained-models",
+            "language-models",
+            "nlp-library",
+            "language-model",
+            "bert",
+            "model-hub"
+        ],
+        "description": "Transformers provides thousands of pretrained models to perform tasks on different modalities such as text, vision, and audio.",
+        "link": "https://huggingface.co/docs/transformers/index",
+        "attribution_link": "https://github.com/huggingface/transformers?tab=readme-ov-file#citation",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "numpy",
+            "tensorflow",
+            "JAX"
+        ]
     }
 }
