@@ -734,41 +734,69 @@
         "custom_citation": "A description of the numerical algorithms employed by the Arepo code is given in the original code papers \\citep{2010MNRAS.401..791S,2011MNRAS.418.1392P,2013MNRAS.432..176P,2016MNRAS.455.1134P} and the release paper of the public version \\citep{2020ApJS..248...32W}.",
         "dependencies": []
     },
-"REBOUND": {
-    "tags": [
-        "2012A&A...537A.128R" 
-    ],
-    "logo": "img/REBOUND.png",
-    "language": "Python",
-    "category": "N-body",
-    "keywords": [
-        "whfast",
-        "ias15",
-        "nbody",
-        "planetary dynamics"
-    ],
-    "description": "REBOUND is an N-body integrator, i.e. a software package that can integrate the motion of particles under the influence of gravity.",
-    "link": "https://rebound.readthedocs.io/en/latest/",
-    "attribution_link": "https://rebound.readthedocs.io/en/latest/#acknowledgements",
-    "zenodo_doi": "10.5281/zenodo.7808755",
-    "custom_citation": "Simulations in this paper made use of the \\textsc{REBOUND} N-body code \\citep{2012A&A...537A.128R} \\footnote{{TODO}: Cite the additional papers that are relevant to your specific REBOUND set-up. See \\url{https://rebound.readthedocs.io/en/latest/\\#acknowledgements} for details on automatically determined this with \\texttt{Simulation.cite()}.}",
-    "dependencies": []
-    },
-"R": {
-    "tags": [
-        "R_manual"
-    ],
-    "logo": "img/R.png",
-    "language": "R",
-    "category": "Statistics",
-    "keywords": ["statistics",
-        "r"
-    ],
-    "description": "The R statistical programming language.",
-    "link": "https://cran.r-project.org/manuals.html",
-    "attribution_link": "https://cran.r-project.org/doc/FAQ/R-FAQ.html#Citing-R",
-    "zenodo_doi": "",
-    "custom_citation": "",
-    "dependencies": []
-    }
+    "REBOUND": {
+        "tags": [
+            "2012A&A...537A.128R" 
+        ],
+        "logo": "img/REBOUND.png",
+        "language": "Python",
+        "category": "N-body",
+        "keywords": [
+            "whfast",
+            "ias15",
+            "nbody",
+            "planetary dynamics"
+        ],
+        "description": "REBOUND is an N-body integrator, i.e. a software package that can integrate the motion of particles under the influence of gravity.",
+        "link": "https://rebound.readthedocs.io/en/latest/",
+        "attribution_link": "https://rebound.readthedocs.io/en/latest/#acknowledgements",
+        "zenodo_doi": "10.5281/zenodo.7808755",
+        "custom_citation": "Simulations in this paper made use of the \\textsc{REBOUND} N-body code \\citep{2012A&A...537A.128R} \\footnote{{TODO}: Cite the additional papers that are relevant to your specific REBOUND set-up. See \\url{https://rebound.readthedocs.io/en/latest/\\#acknowledgements} for details on automatically determined this with \\texttt{Simulation.cite()}.}",
+        "dependencies": []
+        },
+    "R": {
+        "tags": [
+            "R_manual"
+        ],
+        "logo": "img/R.png",
+        "language": "R",
+        "category": "Statistics",
+        "keywords": ["statistics",
+            "r"
+        ],
+        "description": "The R statistical programming language.",
+        "link": "https://cran.r-project.org/manuals.html",
+        "attribution_link": "https://cran.r-project.org/doc/FAQ/R-FAQ.html#Citing-R",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": []
+        },
+        "sunpy": {
+            "tags": [
+                "sunpy_community2020"
+            ],
+            "logo": "img/sunpy.png",
+            "language": "Python",
+            "category": "Solar Physics",
+            "keywords": [
+                "solar physics",
+                "solar",
+                "science",
+                "sun",
+                "wcs",
+                "coordinates"
+            ],
+            "description": "sunpy is a Python software package that provides fundamental tools for accessing, loading and interacting with solar physics data in Python.",
+            "link": "https://docs.sunpy.org/en/stable/",
+            "attribution_link": "https://docs.sunpy.org/en/stable/citation.html",
+            "zenodo_doi": "10.5281/zenodo.591887",
+            "custom_citation": "",
+            "dependencies": [
+                "astropy",
+                "matplotlib",
+                "numpy",
+                "python",
+                "scipy"
+            ]
+        }
 }
