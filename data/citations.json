@@ -859,5 +859,31 @@
             "scipy",
             "emcee"
         ]
+    },
+    "pysersic": {
+        "tags": [
+            "Pasha2023"
+        ],
+        "logo": "https://github.com/pysersic/pysersic/blob/main/misc/pysersic.png?raw=true",
+        "language": "Python",
+        "category": "General",
+        "keywords": [
+            "profile fitting",
+            "galaxy morphology",
+            "sersic",
+            "bayesian"
+        ],
+        "description": "A Python package for determining galaxy structural properties via Bayesian inference, accelerated with jax.",
+        "link": "https://pysersic.readthedocs.io",
+        "attribution_link": "https://github.com/pysersic/pysersic?tab=readme-ov-file#citation",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "matplotlib",
+            "numpy",
+            "python",
+            "JAX"
+        ]
     }
 }
