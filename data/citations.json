@@ -771,7 +771,7 @@
         "link": "https://cran.r-project.org/manuals.html",
         "attribution_link": "https://cran.r-project.org/doc/FAQ/R-FAQ.html#Citing-R",
         "zenodo_doi": "",
-        "custom_citation": "",
+        "custom_citation": "This work made use of \\textsc{R} \\citep{R_manual}. \\footnote{{TODO}: add citations for additional software packages used, see \\url{https://r-pkgs.org/misc.html#sec-misc-inst-citation}}",
         "dependencies": []
         },
         "sunpy": {
