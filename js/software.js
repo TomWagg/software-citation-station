@@ -237,7 +237,7 @@ Promise.all([
                 // add the acknowledgement and do some simple latex syntax highlighting
                 let new_ack = "\\texttt{" + btn.querySelector(".software-name").innerText + "}";
                 if (btn_tags.length > 0 && btn_tags[0] !== "") {
-                    new_ack += "\\citep{" + btn_tags.join(", ") + "}"
+                    new_ack += " \\citep{" + btn_tags.join(", ") + "}"
                 }
 
                 // check if the software has a zenodo DOI
@@ -294,7 +294,7 @@ Promise.all([
                             if (new_ack.includes("citep")) {
                                 new_ack = new_ack.slice(0, -1) + ", " + btn.getAttribute("data-key") + "_" + chosen_version + "}";
                             } else {
-                                new_ack += "\\citep{" + btn.getAttribute("data-key") + "_" + chosen_version + "}";
+                                new_ack += " \\citep{" + btn.getAttribute("data-key") + "_" + chosen_version + "}";
                             }
                             bibs_to_add.push(highlight_bibtex(version_picker.getAttribute("data-bibtex")));
                         } else {
