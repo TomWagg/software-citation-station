@@ -919,5 +919,35 @@
             "tensorflow",
             "JAX"
         ]
+    },
+    "Rosetta": {
+        "tags": [
+            "leaver-fay_rosetta3_2011"
+        ],
+        "logo": "https://avatars.githubusercontent.com/u/3856847",
+        "language": "C++",
+        "category": "Biochemistry",
+        "keywords": [
+            "proteins",
+            "peptides",
+            "nucleic acids",
+            "DNA",
+            "RNA",
+            "amino acid",
+            "structure prediction",
+            "design",
+            "Monte Carlo",
+            "simulated annealing",
+            "docking"
+        ],
+        "description": "A suite of C++ libraries and applications for designing, docking, and predicting structures of proteins, peptides, nucleic acids, glycans, and other biomolecules.",
+        "link": "https://new.rosettacommons.org/docs/latest/Home",
+        "attribution_link": "https://new.rosettacommons.org/docs/latest/getting_started/FAQ#frequently-asked-questions_how-to-cite-rosetta-in-papers",
+        "zenodo_doi": "",
+        "custom_citation": "This research made use of \\texttt{Rosetta} \\citep{leaver-fay_rosetta3_2011}\\footnote{{TODO}: See additional output from Rosetta runs for particular papers to cite for specific Rosetta applications or modules.}",
+        "dependencies": [
+            "python",
+            "tensorflow"
+        ]
     }
 }
