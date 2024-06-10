@@ -344,10 +344,11 @@ Promise.all([
                 ack.innerHTML += "\n\n";
             }
             ack.innerHTML += custom_acks_to_add.join("\n\n");
-            ack.innerHTML += "\n\n" + highlight_latex("Software citation information aggregated using \\textit{The Software Citation Station} \\citep{software_citation_station}.");
+            ack.innerHTML += "\n\n" + highlight_latex("Software citation information aggregated using \\texttt{\\href{https://www.tomwagg.com/software-citation-station/}{The Software Citation Station}} \\citep{software-citation-station-paper, software-citation-station-zenodo}.");
 
             // add the bibtex entries
-            bibs_to_add.push(highlight_bibtex(bibtex_table['software_citation_station']))
+            bibs_to_add.push(highlight_bibtex(bibtex_table['software-citation-station-paper']))
+            bibs_to_add.push(highlight_bibtex(bibtex_table['software-citation-station-zenodo']))
             bibtex_box.innerHTML = bibs_to_add.join("\n\n");
 
             // create a button that copies the contents of each
