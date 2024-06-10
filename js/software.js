@@ -71,11 +71,21 @@ Promise.all([
 
         // track all unique categories and languages
         const cat = capitalise(citations[key]["category"]);
-        const lang = capitalise(citations[key]["language"]);
-        btn.setAttribute("data-category", cat)
-        btn.setAttribute("data-language", lang)
+        btn.setAttribute("data-category", cat);
         categories.add(cat);
-        languages.add(lang);
+
+        const lang = citations[key]["language"];
+
+        if (typeof(lang) === "string") {
+            const lang_string = capitalise(lang);
+            btn.setAttribute("data-language", lang_string)
+            languages.add(lang_string);
+        } else {
+            btn.setAttribute("data-language", lang.map(x => capitalise(x)).join(", "))
+            for (let x of lang) {
+                languages.add(capitalise(x));
+            }
+        }
 
         // if the logo is missing then remove the image and add a text element instead
         if (citations[key]["logo"] === "") {
@@ -606,9 +616,29 @@ function handle_search() {
     for (let btn of btns) {
         const btn_key = btn.getAttribute("data-key").toLowerCase();
         const btn_keywords = btn.getAttribute("data-keywords").toLowerCase();
+
+        // check if the language matches the button's language
+        const lang_string = btn.getAttribute("data-language").toLowerCase();
+        let matches_lang = false;
+
+        // check if the language is a list of languages
+        if (lang_string.includes(",")) {
+            // split the languages and check if the current language is in the list
+            const langs = lang_string.split(",");
+            for (let lang of langs) {
+                if (lang.trim() === language) {
+                    matches_lang = true;
+                }
+            }
+        } else {
+            // otherwise, just check if the language matches
+            matches_lang = lang_string === language;
+        }
+
+        // combine all of the search criteria
         const matches_search = ((btn_key.includes(search) || btn_keywords.includes(search))
                                 && (category === "all" || btn.getAttribute("data-category").toLowerCase() === category)
-                                && (language === "all" || btn.getAttribute("data-language").toLowerCase() === language));
+                                && (language === "all" || matches_lang));
         if (matches_search) {
             all_hidden = false;
         }

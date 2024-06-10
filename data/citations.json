@@ -739,7 +739,10 @@
             "2012A&A...537A.128R" 
         ],
         "logo": "img/REBOUND.png",
-        "language": "Python",
+        "language": [
+            "Python",
+            "C"
+        ],
         "category": "N-body",
         "keywords": [
             "whfast",
