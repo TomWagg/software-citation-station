@@ -235,7 +235,7 @@ Promise.all([
                 let btn_tags = btn.getAttribute("data-tags").split(",");
 
                 // add the acknowledgement and do some simple latex syntax highlighting
-                let new_ack = "\\texttt{" + btn.querySelector(".software-name").innerText + "} ";
+                let new_ack = "\\texttt{" + btn.querySelector(".software-name").innerText + "}";
                 if (btn_tags.length > 0 && btn_tags[0] !== "") {
                     new_ack += " \\citep{" + btn_tags.join(", ") + "}"
                 }
