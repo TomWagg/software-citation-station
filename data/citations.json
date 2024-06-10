@@ -801,5 +801,25 @@
                 "python",
                 "scipy"
             ]
-        }
+        },
+"Colossus": {
+    "tags": [
+        "2018ApJS..239...35D"
+    ],
+    "logo": "img/Colossus.png",
+    "language": "Python",
+    "category": "General",
+    "keywords": [
+        "cosmology",
+        "dark matter",
+        "halo",
+        "large-scale structure"
+    ],
+    "description": "Colossus is a python toolkit for calculations pertaining to cosmology, the large-scale structure of the universe, and the properties of dark matter halos.",
+    "link": "https://bdiemer.bitbucket.io/colossus/",
+    "attribution_link": "https://bdiemer.bitbucket.io/colossus/",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": []
+    }
 }
