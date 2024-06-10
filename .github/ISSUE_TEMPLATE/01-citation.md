@@ -2,7 +2,7 @@
 name: New software
 about: Submit a new software citation to be included!
 title: ''
-labels: new-citation
+labels: new-citation,requires-review
 assignees: ''
 
 ---
