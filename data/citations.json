@@ -821,5 +821,43 @@
         "zenodo_doi": "",
         "custom_citation": "",
         "dependencies": []
+    },
+    "XGA": {
+        "tags": [
+            "2022arXiv220201236T",
+            "2023ascl.soft01012T"
+        ],
+        "logo": "img/XGA.png",
+        "language": "Python",
+        "category": "X-ray Astrophysics",
+        "keywords": [
+            "astronomy",
+            "sas",
+            "astrophysics",
+            "galaxy-clusters",
+            "x-ray",
+            "xspec",
+            "heasoft",
+            "x-ray-astronomy",
+            "xmm",
+            "xmm-science-analysis",
+            "xmm-observation",
+            "erosita",
+            "esass"
+        ],
+        "description": "X-ray: Generate and Analyse (XGA) is a generalised X-ray astronomy analysis package; given an archive of data it will identify observation relevant to your sources, generate products (with convenient interfaces) and perform analyses.",
+        "link": "https://xga.readthedocs.io/",
+        "attribution_link": "https://xga.readthedocs.io/en/latest/index.html#bibtex-reference",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "matplotlib",
+            "numpy",
+            "pandas",
+            "python",
+            "scipy",
+            "emcee"
+        ]
     }
 }
