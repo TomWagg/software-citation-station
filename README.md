@@ -21,5 +21,5 @@
 </p>
 <p>
     To encourage, streamline, and standardize the process of citing software in academic work such as publications and presentations we introduce The Software Citation Station: a publicly available website and tool to quickly find or add software citations. You can read our paper about the importance of software (citations), resources for software citation, and a description of our tool at
-    <a href="https://github.com/TomWagg/software-citation-station/blob/main/paper.pdf">this link</a>.
+    <a href="https://arxiv.org/abs/2406.04405">this link</a>.
 </p>
