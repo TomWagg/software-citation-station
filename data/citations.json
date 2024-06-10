@@ -946,8 +946,7 @@
         "zenodo_doi": "",
         "custom_citation": "This research made use of \\texttt{Rosetta} \\citep{leaver-fay_rosetta3_2011}\\footnote{{TODO}: See additional output from Rosetta runs for particular papers to cite for specific Rosetta applications or modules.}",
         "dependencies": [
-            "python",
-            "tensorflow"
+            "python"
         ]
     }
 }
