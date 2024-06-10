@@ -43,7 +43,6 @@ Promise.all([
     sorted_keys.sort((a, b) => {
         const a_freq = citations[a].hasOwnProperty("frequently_used") && citations[a]["frequently_used"];
         const b_freq = citations[b].hasOwnProperty("frequently_used") && citations[b]["frequently_used"];
-        console.log(a, b, a_freq, b_freq)
         if (a_freq && !b_freq) {
             return -1;
         } else if (!a_freq && b_freq) {
@@ -1013,8 +1012,6 @@ function validate_new_software_form() {
                     deps.push(toggle.innerText);
                 }
             }
-            
-            console.log(deps)
 
             const name = form.querySelector("#new-software-name").value.trim();
             json[name] = {
