@@ -756,7 +756,7 @@
         "zenodo_doi": "10.5281/zenodo.7808755",
         "custom_citation": "Simulations in this paper made use of the \\textsc{REBOUND} N-body code \\citep{2012A&A...537A.128R} \\footnote{{TODO}: Cite the additional papers that are relevant to your specific REBOUND set-up. See \\url{https://rebound.readthedocs.io/en/latest/\\#acknowledgements} for details on automatically determined this with \\texttt{Simulation.cite()}.}",
         "dependencies": []
-        },
+    },
     "R": {
         "tags": [
             "R_manual"
@@ -773,53 +773,53 @@
         "zenodo_doi": "",
         "custom_citation": "This work made use of \\textsc{R} \\citep{R_manual}. \\footnote{{TODO}: add citations for additional software packages used, see \\url{https://r-pkgs.org/misc.html#sec-misc-inst-citation}}",
         "dependencies": []
-        },
-        "sunpy": {
-            "tags": [
-                "sunpy_community2020"
-            ],
-            "logo": "img/sunpy.png",
-            "language": "Python",
-            "category": "Solar Physics",
-            "keywords": [
-                "solar physics",
-                "solar",
-                "science",
-                "sun",
-                "wcs",
-                "coordinates"
-            ],
-            "description": "sunpy is a Python software package that provides fundamental tools for accessing, loading and interacting with solar physics data in Python.",
-            "link": "https://docs.sunpy.org/en/stable/",
-            "attribution_link": "https://docs.sunpy.org/en/stable/citation.html",
-            "zenodo_doi": "10.5281/zenodo.591887",
-            "custom_citation": "",
-            "dependencies": [
-                "astropy",
-                "matplotlib",
-                "numpy",
-                "python",
-                "scipy"
-            ]
-        },
-"Colossus": {
-    "tags": [
-        "2018ApJS..239...35D"
-    ],
-    "logo": "img/Colossus.png",
-    "language": "Python",
-    "category": "General",
-    "keywords": [
-        "cosmology",
-        "dark matter",
-        "halo",
-        "large-scale structure"
-    ],
-    "description": "Colossus is a python toolkit for calculations pertaining to cosmology, the large-scale structure of the universe, and the properties of dark matter halos.",
-    "link": "https://bdiemer.bitbucket.io/colossus/",
-    "attribution_link": "https://bdiemer.bitbucket.io/colossus/",
-    "zenodo_doi": "",
-    "custom_citation": "",
-    "dependencies": []
+    },
+    "sunpy": {
+        "tags": [
+            "sunpy_community2020"
+        ],
+        "logo": "img/sunpy.png",
+        "language": "Python",
+        "category": "Solar Physics",
+        "keywords": [
+            "solar physics",
+            "solar",
+            "science",
+            "sun",
+            "wcs",
+            "coordinates"
+        ],
+        "description": "sunpy is a Python software package that provides fundamental tools for accessing, loading and interacting with solar physics data in Python.",
+        "link": "https://docs.sunpy.org/en/stable/",
+        "attribution_link": "https://docs.sunpy.org/en/stable/citation.html",
+        "zenodo_doi": "10.5281/zenodo.591887",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "matplotlib",
+            "numpy",
+            "python",
+            "scipy"
+        ]
+    },
+    "Colossus": {
+        "tags": [
+            "2018ApJS..239...35D"
+        ],
+        "logo": "img/Colossus.png",
+        "language": "Python",
+        "category": "General",
+        "keywords": [
+            "cosmology",
+            "dark matter",
+            "halo",
+            "large-scale structure"
+        ],
+        "description": "Colossus is a python toolkit for calculations pertaining to cosmology, the large-scale structure of the universe, and the properties of dark matter halos.",
+        "link": "https://bdiemer.bitbucket.io/colossus/",
+        "attribution_link": "https://bdiemer.bitbucket.io/colossus/",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": []
     }
 }
