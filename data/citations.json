@@ -993,5 +993,33 @@
         "python",
         "transformers"
     ]
+    },
+"umap-learn": {
+    "tags": [
+        "mcinnes2018umap-software",
+        "2018arXivUMAP"
+    ],
+    "logo": "img/umap-learn.png",
+    "language": "Python",
+    "category": "Visualisation",
+    "keywords": [
+        "visualization",
+        "machine-learning",
+        "dimensionality-reduction",
+        "umap",
+        "topological-data-analysis"
+    ],
+    "description": "Uniform Manifold Approximation and Projection (UMAP) is a dimension reduction technique that can be used for visualisation similarly to t-SNE, but also for general non-linear dimension reduction.",
+    "link": "https://umap-learn.readthedocs.io/",
+    "attribution_link": "https://github.com/lmcinnes/umap?tab=readme-ov-file#citation",
+    "zenodo_doi": "",
+    "custom_citation": "This research made use of \\texttt{umap-learn} \\citep{mcinnes2018umap-software, 2018arXivUMAP}\\footnote{{TODO}: include the following if used: the densMAP algorithm \\citep{NBC2020} and the Parametric UMAP algorithm \\citep{SMG2020}.}",
+    "dependencies": [
+        "numpy",
+        "scipy",
+        "Numba",
+        "scikit-learn",
+        "tqdm"
+    ]
     }
 }
