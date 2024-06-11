@@ -967,5 +967,31 @@
     "zenodo_doi": "",
     "custom_citation": "",
     "dependencies": []
+    },
+"Inseq": {
+    "tags": [
+        "sarti-etal-2023-inseq"
+    ],
+    "logo": "https://inseq.org/en/latest/_static/inseq_logo.png",
+    "language": "Python",
+    "category": "Machine Learning",
+    "keywords": [
+        "interpretability",
+        "explainable ai",
+        "transformers",
+        "language models"
+    ],
+    "description": "Inseq is a Pytorch-based hackable toolkit to democratize the study of interpretability for sequence generation models.",
+    "link": "https://inseq.org/en/latest/",
+    "attribution_link": "https://github.com/inseq-team/inseq#citing-inseq",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": [
+        "Jupyter",
+        "matplotlib",
+        "numpy",
+        "python",
+        "transformers"
+    ]
     }
 }
