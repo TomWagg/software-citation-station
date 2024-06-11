@@ -948,5 +948,24 @@
         "dependencies": [
             "python"
         ]
+    },
+"Rapster": {
+    "tags": [
+        "Kritos:2022ggc"
+    ],
+    "logo": "img/Rapster.png",
+    "language": "Python",
+    "category": "Population Synthesis",
+    "keywords": [
+        "binary black hole mergers",
+        "dynamical formation",
+        "star clusters"
+    ],
+    "description": "Rapid population synthesis code for binary black hole mergers in dynamical environments.",
+    "link": "https://github.com/Kkritos/Rapster",
+    "attribution_link": "https://github.com/Kkritos/Rapster?tab=readme-ov-file#citingthiswork",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": []
     }
 }
