@@ -181,7 +181,7 @@ Promise.all([
                 let previously_unselected = [];
                 for (let dep of deps) {
                     const dep_btn = document.querySelector(`.software-button[data-key="${dep}"]`);
-                    if (!dep_btn.classList.contains("active")) {
+                    if (dep_btn !== null && !dep_btn.classList.contains("active")) {
                         previously_unselected.push(dep);
                         dep_btn.classList.add("active");
                     }
@@ -1061,6 +1061,9 @@ function validate_new_software_form() {
 function collect_dependencies(dep_set, id) {
     // recursively gather dependencies for a given software package
     const software_btn = document.querySelector(`.software-button[data-key='${id}']`)
+    if (software_btn === null) {
+        return dep_set;
+    }
     const new_deps = software_btn.getAttribute("data-dependencies");
 
     if (new_deps !== "") {
