@@ -1037,5 +1037,31 @@
     "zenodo_doi": "",
     "custom_citation": "",
     "dependencies": []
+    },
+"galpy": {
+    "tags": [
+        "2015ApJS..216...29B"
+    ],
+    "logo": "img/galpy.png",
+    "language": "Python",
+    "category": "Galactic Dynamics",
+    "keywords": [
+        "galaxies",
+        "galactic dynamics",
+        "dynamics",
+        "orbits",
+        "actions",
+        "distribution functions"
+    ],
+    "description": "galpy is a Python package for galactic dynamics. It supports orbit integration in a variety of potentials, various distribution functions, and the calculation of action-angle coordinates.",
+    "link": "https://docs.galpy.org/",
+    "attribution_link": "https://docs.galpy.org/en/latest/#acknowledging-galpy",
+    "zenodo_doi": "",
+    "custom_citation": "This work made use of \\texttt{galpy}\\footnote{Available at \\url{http://github.com/jobovy/galpy}~.} \\citep{2015ApJS..216...29B}.",
+    "dependencies": [
+        "matplotlib",
+        "numpy",
+        "scipy"
+    ]
     }
 }
