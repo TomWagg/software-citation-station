@@ -1048,5 +1048,106 @@
             "scikit-learn",
             "tqdm"
         ]
+    },
+    "numpyro": {
+        "tags": [
+            "phan2019composable",
+            "bingham2019pyro"
+        ],
+        "logo": "img/numpyro.png",
+        "language": "Python",
+        "category": "Library",
+        "keywords": [],
+        "description": "\"NumPyro is a lightweight probabilistic programming library that provides a NumPy backend for Pyro. We rely on JAX for automatic differentiation and JIT compilation to GPU / CPU.\"",
+        "link": "https://num.pyro.ai/en/stable/",
+        "attribution_link": "https://num.pyro.ai/en/stable/getting_started.html#citing-numpyro",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": []
+    },
+    "galpy": {
+        "tags": [
+            "2015ApJS..216...29B"
+        ],
+        "logo": "img/galpy.png",
+        "language": "Python",
+        "category": "Galactic Dynamics",
+        "keywords": [
+            "galaxies",
+            "galactic dynamics",
+            "dynamics",
+            "orbits",
+            "actions",
+            "distribution functions"
+        ],
+        "description": "galpy is a Python package for galactic dynamics. It supports orbit integration in a variety of potentials, various distribution functions, and the calculation of action-angle coordinates.",
+        "link": "https://docs.galpy.org/",
+        "attribution_link": "https://docs.galpy.org/en/latest/#acknowledging-galpy",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "matplotlib",
+            "numpy",
+            "scipy"
+        ]
+    },
+    "zeus": {
+        "tags": [
+            "karamanis2021zeus",
+            "karamanis2020ensemble"
+        ],
+        "logo": "img/zeus.png",
+        "language": "Python",
+        "category": "Statistics",
+        "keywords": [
+            "mcmc",
+            "Bayesian inference",
+            "data analysis",
+            "sampling",
+            "markov chain monte carlo",
+            "astronomy",
+            "cosmology",
+            "posterior"
+        ],
+        "description": "Lightning-fast MCMC",
+        "link": "https://zeus-mcmc.readthedocs.io",
+        "attribution_link": "https://github.com/minaskar/zeus",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "numpy",
+            "scipy",
+            "scikit-learn"
+        ]
+    },
+    "pocoMC": {
+        "tags": [
+            "karamanis2022accelerating",
+            "karamanis2022pocomc"
+        ],
+        "logo": "img/pocoMC.png",
+        "language": "Python",
+        "category": "Statistics",
+        "keywords": [
+            "Bayesian inference",
+            "sampling",
+            "model comparison",
+            "evidence",
+            "data analysis",
+            "mcmc",
+            "Markov chain Monte Carlo",
+            "Preconditioned Monte Carlo",
+            "posterior",
+            "likelihood"
+        ],
+        "description": "A Python implementation of Preconditioned Monte Carlo for accelerated Bayesian Computation",
+        "link": "https://pocomc.readthedocs.io",
+        "attribution_link": "https://github.com/minaskar/pocomc",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "numpy",
+            "scipy"
+        ]
     }
 }
