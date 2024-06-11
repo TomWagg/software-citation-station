@@ -1021,5 +1021,21 @@
         "scikit-learn",
         "tqdm"
     ]
+    },
+"numpyro": {
+    "tags": [
+        "phan2019composable",
+        "bingham2019pyro"
+    ],
+    "logo": "img/numpyro.png",
+    "language": "Python",
+    "category": "Library",
+    "keywords": [],
+    "description": "\"NumPyro is a lightweight probabilistic programming library that provides a NumPy backend for Pyro. We rely on JAX for automatic differentiation and JIT compilation to GPU / CPU.\"",
+    "link": "https://num.pyro.ai/en/stable/",
+    "attribution_link": "https://num.pyro.ai/en/stable/getting_started.html#citing-numpyro",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": []
     }
 }
