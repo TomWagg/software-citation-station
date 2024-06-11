@@ -948,5 +948,32 @@
         "dependencies": [
             "python"
         ]
+    },
+    "PyNeb": {
+        "tags": [
+            "2015Luridiana_aap573"
+        ],
+        "logo": "",
+        "language": "Python",
+        "category": "Interstellar Medium",
+        "keywords": [
+            "emission lines",
+            "nebulae",
+            "recombination lines",
+            "collisionally excited lines",
+            "emissivities"
+        ],
+        "description": "PyNeb is a modern python tool to compute emission line emissivities (recombination and collisionally excited lines).",
+        "link": "https://github.com/Morisset/PyNeb_devel/tree/master/docs",
+        "attribution_link": "https://github.com/Morisset/PyNeb_devel",
+        "zenodo_doi": "10.5281/zenodo.1246922",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "matplotlib",
+            "numpy",
+            "python",
+            "scipy"
+        ]
     }
 }
