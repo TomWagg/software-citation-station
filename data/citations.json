@@ -1092,5 +1092,35 @@
         "scipy",
         "scikit-learn"
     ]
-}
+    },
+"pocoMC": {
+    "tags": [
+        "karamanis2022accelerating",
+        "karamanis2022pocomc"
+    ],
+    "logo": "img/pocoMC.png",
+    "language": "Python",
+    "category": "Statistics",
+    "keywords": [
+        "Bayesian inference",
+        "sampling",
+        "model comparison",
+        "evidence",
+        "data analysis",
+        "mcmc",
+        "Markov chain Monte Carlo",
+        "Preconditioned Monte Carlo",
+        "posterior",
+        "likelihood"
+    ],
+    "description": "A Python implementation of Preconditioned Monte Carlo for accelerated Bayesian Computation",
+    "link": "https://pocomc.readthedocs.io",
+    "attribution_link": "https://github.com/minaskar/pocomc",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": [
+        "numpy",
+        "scipy"
+    ]
+    }
 }
