@@ -1057,7 +1057,7 @@
     "link": "https://docs.galpy.org/",
     "attribution_link": "https://docs.galpy.org/en/latest/#acknowledging-galpy",
     "zenodo_doi": "",
-    "custom_citation": "This work made use of \\texttt{galpy}\\footnote{Available at \\url{http://github.com/jobovy/galpy}~.} \\citep{2015ApJS..216...29B}.",
+    "custom_citation": "This work made use of \\texttt{galpy}\\footnote{Available at \\url{http://github.com/jobovy/galpy}~.} \\citep{2015ApJS..216...29B}.\\footnote{{TO DO:} add additional references for packages from \\url{https://docs.galpy.org/en/latest/#acknowledging-galpy}}",
     "dependencies": [
         "matplotlib",
         "numpy",
