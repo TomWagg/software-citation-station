@@ -31,6 +31,7 @@ Promise.all([
     const bibtex_box = document.getElementById("bibtex");
     const category_select = document.getElementById("software-category");
     const language_select = document.getElementById("software-language");
+    const dep_toggle_box = document.getElementById("new-software-dependencies");
 
     // track the unique categories and languages
     let categories = new Set();
@@ -120,7 +121,13 @@ Promise.all([
                 this.classList.add("text-bg-secondary");
             }
         });
-        document.getElementById("new-software-dependencies").appendChild(dep_toggle);
+
+        // add a break between the two sections of alphabetically sorted dependencies
+        latest_dep = dep_toggle_box.lastChild.innerText;
+        if (latest_dep !== undefined && latest_dep.toLowerCase()[0] > key.toLowerCase()[0]) {
+            dep_toggle_box.appendChild(document.createElement("br"));
+        }
+        dep_toggle_box.appendChild(dep_toggle);
 
         // create a new tooltip that will appear on right clicking the button
         let tooltip = new bootstrap.Tooltip(btn, {
