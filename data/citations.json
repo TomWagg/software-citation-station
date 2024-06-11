@@ -1063,5 +1063,34 @@
         "numpy",
         "scipy"
     ]
-    }
+    },
+"zeus": {
+    "tags": [
+        "karamanis2021zeus",
+        "karamanis2020ensemble"
+    ],
+    "logo": "img/zeus.png",
+    "language": "Python",
+    "category": "Statistics",
+    "keywords": [
+        "mcmc",
+        "Bayesian inference",
+        "data analysis",
+        "sampling",
+        "markov chain monte carlo",
+        "astronomy",
+        "cosmology",
+        "posterior"
+    ],
+    "description": "Lightning-fast MCMC",
+    "link": "https://zeus-mcmc.readthedocs.io",
+    "attribution_link": "https://github.com/minaskar/zeus",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": [
+        "numpy",
+        "scipy",
+        "scikit-learn"
+    ]
+}
 }
