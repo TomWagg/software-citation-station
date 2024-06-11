@@ -1149,5 +1149,39 @@
             "numpy",
             "scipy"
         ]
+    },
+    "Gammapy": {
+        "tags": [
+            "gammapy:2023"
+        ],
+        "logo": "img/Gammapy.png",
+        "language": "Python",
+        "category": "Gamma-ray astrophysics",
+        "keywords": [
+            "Astronomy",
+            "Gamma-rays",
+            "Data analysis"
+        ],
+        "description": "A Python package for gamma-ray astronomy: https://gammapy.org/",
+        "link": "https://docs.gammapy.org/",
+        "attribution_link": "https://gammapy.org/acknowledging.html",
+        "zenodo_doi": "10.5281/zenodo.4701488",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "matplotlib",
+            "numpy",
+            "python",
+            "scipy",
+            "regions",
+            "pyyaml",
+            "click",
+            "pydantic",
+            "iminuit",
+            "naima",
+            "healpy",
+            "tqdm",
+            "ipywidgets"
+        ]
     }
 }
