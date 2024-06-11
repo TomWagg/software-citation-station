@@ -975,5 +975,78 @@
             "python",
             "scipy"
         ]
+    },
+    "Rapster": {
+        "tags": [
+            "Kritos:2022ggc"
+        ],
+        "logo": "img/Rapster.png",
+        "language": "Python",
+        "category": "Population Synthesis",
+        "keywords": [
+            "binary black hole mergers",
+            "dynamical formation",
+            "star clusters"
+        ],
+        "description": "Rapid population synthesis code for binary black hole mergers in dynamical environments.",
+        "link": "https://github.com/Kkritos/Rapster",
+        "attribution_link": "https://github.com/Kkritos/Rapster?tab=readme-ov-file#citingthiswork",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": []
+    },
+    "Inseq": {
+        "tags": [
+            "sarti-etal-2023-inseq"
+        ],
+        "logo": "https://inseq.org/en/latest/_static/inseq_logo.png",
+        "language": "Python",
+        "category": "Machine Learning",
+        "keywords": [
+            "interpretability",
+            "explainable ai",
+            "transformers",
+            "language models"
+        ],
+        "description": "Inseq is a Pytorch-based hackable toolkit to democratize the study of interpretability for sequence generation models.",
+        "link": "https://inseq.org/en/latest/",
+        "attribution_link": "https://github.com/inseq-team/inseq#citing-inseq",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "Jupyter",
+            "matplotlib",
+            "numpy",
+            "python",
+            "transformers"
+        ]
+    },
+    "umap-learn": {
+        "tags": [
+            "mcinnes2018umap-software",
+            "2018arXivUMAP"
+        ],
+        "logo": "img/umap-learn.png",
+        "language": "Python",
+        "category": "Visualisation",
+        "keywords": [
+            "visualization",
+            "machine-learning",
+            "dimensionality-reduction",
+            "umap",
+            "topological-data-analysis"
+        ],
+        "description": "Uniform Manifold Approximation and Projection (UMAP) is a dimension reduction technique that can be used for visualisation similarly to t-SNE, but also for general non-linear dimension reduction.",
+        "link": "https://umap-learn.readthedocs.io/",
+        "attribution_link": "https://github.com/lmcinnes/umap?tab=readme-ov-file#citation",
+        "zenodo_doi": "",
+        "custom_citation": "This research made use of \\texttt{umap-learn} \\citep{mcinnes2018umap-software, 2018arXivUMAP}\\footnote{{TODO}: include the following if used: the densMAP algorithm \\citep{NBC2020} and the Parametric UMAP algorithm \\citep{SMG2020}.}",
+        "dependencies": [
+            "numpy",
+            "scipy",
+            "Numba",
+            "scikit-learn",
+            "tqdm"
+        ]
     }
 }
