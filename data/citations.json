@@ -1184,35 +1184,56 @@
             "ipywidgets"
         ]
     },
-"Gradio": {
-    "tags": [
-        "abid2019gradio"
-    ],
-    "logo": "img/Gradio.png",
-    "language": "Python",
-    "category": "Visualisation",
-    "keywords": [
-        "python",
-        "data-science",
-        "machine-learning",
-        "ui",
-        "deep-learning",
-        "interface",
-        "deploy",
-        "models",
-        "data-visualization",
-        "data-analysis",
-        "ui-components",
-        "gradio",
-        "hacktoberfest",
-        "python-notebook",
-        "gradio-interface"
-    ],
-    "description": "Gradio is an open-source Python package that allows you to quickly build a demo or web application for your machine learning model, API, or any arbitrary Python function.",
-    "link": "https://www.gradio.app/docs",
-    "attribution_link": "https://github.com/gradio-app/gradio?tab=readme-ov-file#citation",
-    "zenodo_doi": "",
-    "custom_citation": "",
-    "dependencies": []
+    "Gradio": {
+        "tags": [
+            "abid2019gradio"
+        ],
+        "logo": "img/Gradio.png",
+        "language": "Python",
+        "category": "Visualisation",
+        "keywords": [
+            "python",
+            "data-science",
+            "machine-learning",
+            "ui",
+            "deep-learning",
+            "interface",
+            "deploy",
+            "models",
+            "data-visualization",
+            "data-analysis",
+            "hacktoberfest"
+        ],
+        "description": "Gradio is an open-source Python package that allows you to quickly build a demo or web application for your machine learning model, API, or any arbitrary Python function.",
+        "link": "https://www.gradio.app/docs",
+        "attribution_link": "https://github.com/gradio-app/gradio?tab=readme-ov-file#citation",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": []
+    },
+    "Paicos": {
+        "tags": [
+            "Berlok_Paicos_A_Python_2024"
+        ],
+        "logo": "",
+        "language": "Python",
+        "category": "Visualisation",
+        "keywords": [
+            "Arepo"
+        ],
+        "description": "An object-oriented Python package for analysis of (cosmological) simulations performed with Arepo.",
+        "link": "https://paicos.readthedocs.io/",
+        "attribution_link": "https://github.com/tberlok/paicos",
+        "zenodo_doi": "10.5281/zenodo.10994256",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "numpy",
+            "python",
+            "scipy",
+            "Cython",
+            "h5py",
+            "Numba"
+        ]
     }
 }
