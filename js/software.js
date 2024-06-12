@@ -246,6 +246,9 @@ Promise.all([
                     new_ack += " \\citep{" + btn_tags.join(", ") + "}"
                 }
 
+                // check if the software has a custom acknowledgement
+                let custom_ack = citations[btn.getAttribute("data-key")]["custom_citation"];
+
                 // check if the software has a zenodo DOI
                 const zenodo_doi = citations[btn.getAttribute("data-key")]["zenodo_doi"];
                 if (zenodo_doi != "") {
@@ -290,6 +293,9 @@ Promise.all([
 
                         // make a note that the user needs to select a version
                         new_ack += "\\footnote{{TODO}: Need to choose a version to cite!!}"
+                        if (custom_ack != "") {
+                            custom_ack += "\\footnote{{TODO}: Need to choose a version to cite!!}"
+                        }
                     } else {
                         // otherwise just show the version picker if it's hidden
                         version_picker.classList.remove("hide");
@@ -302,15 +308,27 @@ Promise.all([
                             } else {
                                 new_ack += " \\citep{" + btn.getAttribute("data-key") + "_" + chosen_version + "}";
                             }
+
+                            // remove the final period if it exists
+                            if (custom_ack[custom_ack.length - 1] == ".") {
+                                custom_ack = custom_ack.slice(0, -1);
+                            }
+                            // update custom acknowledgement
+                            if (custom_ack.includes("citep") && custom_ack[custom_ack.length - 1] == "}") {
+                                custom_ack = custom_ack.slice(0, -1) + ", " + btn.getAttribute("data-key") + "_" + chosen_version + "}.";
+                            } else if (custom_ack != "") {
+                                custom_ack += " \\citep{" + btn.getAttribute("data-key") + "_" + chosen_version + "}.";
+                            }
                             bibs_to_add.push(highlight_bibtex(version_picker.getAttribute("data-bibtex")));
                         } else {
                             new_ack += "\\footnote{{TODO}: Need to choose a version to cite!!}"
+                            if (custom_ack != "") {
+                                custom_ack += "\\footnote{{TODO}: Need to choose a version to cite!!}"
+                            }
                         }
                     }
                 }
 
-                // check if the software has a custom acknowledgement
-                const custom_ack = citations[btn.getAttribute("data-key")]["custom_citation"];
                 if (custom_ack != "") {
                     custom_acks_to_add.push(highlight_latex(custom_ack));
                 } else {
