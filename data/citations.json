@@ -1235,5 +1235,31 @@
             "h5py",
             "Numba"
         ]
+    },
+    "healpy": {
+        "tags": [
+            "Zonca2019",
+            "2005ApJ...622..759G"
+        ],
+        "logo": "img/healpy.jpeg",
+        "language": "Python",
+        "category": "Data Handling",
+        "keywords": [
+            "pixel",
+            "healpix",
+            "projection",
+            "sky"
+        ],
+        "description": "healpy is a Python package to handle pixelated data on the sphere.",
+        "link": "http://healpy.readthedocs.org/",
+        "attribution_link": "https://github.com/healpy/healpy/blob/main/CITATION",
+        "zenodo_doi": "10.5281/zenodo.2605425",
+        "custom_citation": "Some of the results in this paper have been derived using \\texttt{healpy} and the HEALPix package\\footnote{http://healpix.sourceforge.net} \\citep{Zonca2019, 2005ApJ...622..759G}.",
+        "dependencies": [
+            "astropy",
+            "matplotlib",
+            "numpy",
+            "python"
+        ]
     }
 }
