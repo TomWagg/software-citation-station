@@ -584,6 +584,11 @@ window.addEventListener('DOMContentLoaded', () => {
         })
     });
 
+    document.getElementById("new-software-from-search").addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById("launch-new-software").click();
+    });
+
     // if the user wants to continue editing then scroll back up and hide the results section
     document.getElementById("back-new-software").addEventListener('click', function() {
         document.querySelector(".modal-title").scrollIntoView({behavior: "smooth"});
