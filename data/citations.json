@@ -1308,5 +1308,20 @@
         "python",
         "scipy"
     ]
+    },
+"RAMSES": {
+    "tags": [
+        "2002A&A...385..337T"
+    ],
+    "logo": "img/Ramses.png",
+    "language": "Fortran",
+    "category": "Galactic Dynamics",
+    "keywords": [],
+    "description": "Ramses is an open source code to model astrophysical systems, featuring self-gravitating, magnetised, compressible, radiative fluid flows. It is based on the Adaptive Mesh Refinement (AMR) technique.",
+    "link": "https://ramses-organisation.readthedocs.io/en/latest/",
+    "attribution_link": "https://github.com/ramses-organisation/ramses",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": []
     }
 }
