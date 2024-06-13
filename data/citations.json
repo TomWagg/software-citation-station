@@ -1283,5 +1283,30 @@
         "scipy",
         "corner.py"
     ]
+    },
+"spindler": {
+    "tags": [
+        "valli_longterm_2024"
+    ],
+   "logo": "img/spindler.png",
+    "language": "Python",
+    "category": "General",
+    "keywords": [
+        "circumbinary disk",
+        "supermassive black hole binary",
+        "binary star formation",
+        "post common envelope"
+    ],
+    "description": "A python package to compute the long-term orbital evolution of a binary interacting with a circumbinary disk",
+    "link": "https://spindler.readthedocs.io/en/latest/",
+    "attribution_link": "https://github.com/ruggero-valli/spindler/blob/master/README.md#citing-spindler",
+    "zenodo_doi": "10.5281/zenodo.10529059",
+    "custom_citation": "",
+    "dependencies": [
+        "numpy",
+        "pandas",
+        "python",
+        "scipy"
+    ]
     }
 }
