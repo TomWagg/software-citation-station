@@ -1346,5 +1346,24 @@
             "scipy",
             "scikit-learn"
         ]
+    },
+    "rubin-sim": {
+        "tags": [],
+        "logo": "img/rubin_sim.svg",
+        "logo_background": "true",
+        "language": "Python",
+        "category": "Simulations",
+        "keywords": [
+            "lsst",
+            "rubin"
+        ],
+        "description": "A package for helping simulate and evaluate the performance of Rubin C. Observatory’s Legacy Survey of Space and Time (the LSST).",
+        "link": "https://rubin-sim.lsst.io/",
+        "attribution_link": "https://github.com/lsst/rubin_sim",
+        "zenodo_doi": "10.5281/zenodo.7087822",
+        "custom_citation": "",
+        "dependencies": [
+            "python"
+        ]
     }
 }
