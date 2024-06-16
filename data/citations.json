@@ -1262,52 +1262,52 @@
             "python"
         ]
     },
-"Bilby": {
-    "tags": [
-        "bilby_paper"
-    ],
-    "logo": "img/Bilby.jpeg",
-    "language": "Python",
-    "category": "Gravitational Waves",
-    "keywords": [],
-    "description": "Bilby: a user-friendly Bayesian inference library.",
-    "link": "https://lscsoft.docs.ligo.org/bilby/index.html",
-    "attribution_link": "https://lscsoft.docs.ligo.org/bilby/citing-bilby.html",
-    "zenodo_doi": "10.5281/zenodo.2602177",
-    "custom_citation": "",
-    "dependencies": [
-        "astropy",
-        "matplotlib",
-        "numpy",
-        "python",
-        "scipy",
-        "corner.py"
-    ]
+    "Bilby": {
+        "tags": [
+            "bilby_paper"
+        ],
+        "logo": "img/Bilby.jpeg",
+        "language": "Python",
+        "category": "Gravitational Waves",
+        "keywords": [],
+        "description": "Bilby: a user-friendly Bayesian inference library.",
+        "link": "https://lscsoft.docs.ligo.org/bilby/index.html",
+        "attribution_link": "https://lscsoft.docs.ligo.org/bilby/citing-bilby.html",
+        "zenodo_doi": "10.5281/zenodo.2602177",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "matplotlib",
+            "numpy",
+            "python",
+            "scipy",
+            "corner.py"
+        ]
     },
-"spindler": {
-    "tags": [
-        "valli_longterm_2024"
-    ],
-   "logo": "img/spindler.png",
-    "language": "Python",
-    "category": "General",
-    "keywords": [
-        "circumbinary disk",
-        "supermassive black hole binary",
-        "binary star formation",
-        "post common envelope"
-    ],
-    "description": "A python package to compute the long-term orbital evolution of a binary interacting with a circumbinary disk",
-    "link": "https://spindler.readthedocs.io/en/latest/",
-    "attribution_link": "https://github.com/ruggero-valli/spindler/blob/master/README.md#citing-spindler",
-    "zenodo_doi": "10.5281/zenodo.10529059",
-    "custom_citation": "",
-    "dependencies": [
-        "numpy",
-        "pandas",
-        "python",
-        "scipy"
-    ]
+    "spindler": {
+        "tags": [
+            "valli_longterm_2024"
+        ],
+    "logo": "img/spindler.png",
+        "language": "Python",
+        "category": "General",
+        "keywords": [
+            "circumbinary disk",
+            "supermassive black hole binary",
+            "binary star formation",
+            "post common envelope"
+        ],
+        "description": "A python package to compute the long-term orbital evolution of a binary interacting with a circumbinary disk",
+        "link": "https://spindler.readthedocs.io/en/latest/",
+        "attribution_link": "https://github.com/ruggero-valli/spindler/blob/master/README.md#citing-spindler",
+        "zenodo_doi": "10.5281/zenodo.10529059",
+        "custom_citation": "",
+        "dependencies": [
+            "numpy",
+            "pandas",
+            "python",
+            "scipy"
+        ]
     },
     "RAMSES": {
         "tags": [
@@ -1323,5 +1323,28 @@
         "zenodo_doi": "",
         "custom_citation": "",
         "dependencies": []
+    },
+    "astroML": {
+        "tags": [
+            "astroML",
+            "astroMLText"
+        ],
+        "logo": "img/astroML.png",
+        "language": "Python",
+        "category": "Machine Learning",
+        "keywords": [],
+        "description": "AstroML is a Python module for machine learning and data mining.",
+        "link": "https://www.astroml.org/",
+        "attribution_link": "https://github.com/astroML/astroML/blob/main/CITATION",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "matplotlib",
+            "numpy",
+            "python",
+            "scipy",
+            "scikit-learn"
+        ]
     }
 }
