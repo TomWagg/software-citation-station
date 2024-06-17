@@ -1365,5 +1365,25 @@
         "dependencies": [
             "python"
         ]
+    },
+    "Pydantic": {
+        "tags": [],
+        "logo": "img/pydantic.png",
+        "language": "Python",
+        "category": "Data Handling",
+        "keywords": [
+            "python",
+            "validation",
+            "parsing",
+            "json-schema",
+            "hints",
+            "typing"
+        ],
+        "description": "Pydantic is the most widely used data validation library for Python.",
+        "link": "https://docs.pydantic.dev/latest/",
+        "attribution_link": "https://github.com/pydantic/pydantic/blob/main/CITATION.cff",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": []
     }
 }
