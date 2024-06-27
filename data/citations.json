@@ -1385,5 +1385,32 @@
         "zenodo_doi": "",
         "custom_citation": "",
         "dependencies": []
+    },
+    "Photutils": {
+        "tags": [],
+        "logo": "img/Photutils.svg",
+        "language": "Python",
+        "category": "Imaging",
+        "keywords": [
+            "python",
+            "astronomy",
+            "photometry",
+            "astropy",
+            "astropy-affiliated",
+            "source-detection"
+        ],
+        "description": "Photutils is an affiliated package of Astropy that primarily provides tools for detecting and performing photometry of astronomical sources.",
+        "link": "https://photutils.readthedocs.io/",
+        "attribution_link": "https://photutils.readthedocs.io/en/stable/citation.html",
+        "zenodo_doi": "10.5281/zenodo.596036",
+        "custom_citation": "This research made use of Photutils, an Astropy package for detection and photometry of astronomical sources.",
+        "dependencies": [
+            "astropy",
+            "matplotlib",
+            "numpy",
+            "python",
+            "scipy",
+            "scikit-image"
+        ]
     }
 }
