@@ -1412,5 +1412,30 @@
             "scipy",
             "scikit-image"
         ]
+    },
+    "PetroFit": {
+        "tags": [
+            "2022AJ....163..202G"
+        ],
+        "logo": "img/PetroFit.svg",
+        "language": "Python",
+        "category": "Imaging",
+        "keywords": [
+            "sersic",
+            "petrosian",
+            "petrofit"
+        ],
+        "description": "Python package for calculating Petrosian properties and fitting galaxy light profiles.  PetroFit includes tools for Petrosian profiling and image model  fitting (Sérsic etc.).",
+        "link": "https://petrofit.readthedocs.io/en/latest/",
+        "attribution_link": "https://petrofit.readthedocs.io/en/latest/citing.html",
+        "zenodo_doi": "10.5281/zenodo.6040780",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "numpy",
+            "python",
+            "scipy",
+            "Photutils"
+        ]
     }
 }
