@@ -1464,5 +1464,35 @@
             "scipy",
             "astroquery"
         ]
+    },
+    "MOSFiT": {
+        "tags": [
+            "2018ApJS..236....6G",
+            "2017ascl.soft10006G"
+        ],
+        "logo": "img/MOSFiT.png",
+        "language": "Python",
+        "category": "Transients",
+        "keywords": [
+            "Transients",
+            "Light Curves",
+            "Supernovae",
+            "Tidal Disruption Events"
+        ],
+        "description": "A package for fitting, sharing, and estimating the parameters of transients via user-contributed transient models.",
+        "link": "https://mosfit.readthedocs.io/en/latest/#",
+        "attribution_link": "https://github.com/guillochon/MOSFiT",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "matplotlib",
+            "numpy",
+            "python",
+            "scipy",
+            "emcee",
+            "schwimmbad",
+            "seaborn"
+        ]
     }
 }
