@@ -1437,5 +1437,32 @@
             "scipy",
             "Photutils"
         ]
+    },
+    "FLEET": {
+        "tags": [
+            "2020ApJ...904...74G"
+        ],
+        "logo": "img/FLEET.png",
+        "language": "Python",
+        "category": "Transients",
+        "keywords": [
+            "Transients",
+            "Supernovae",
+            "Machine Learning",
+            "Tidal Disruption Events"
+        ],
+        "description": "A machine learning pipeline designed to predict the probability of transients to be either a superluminous supernova or a tidal disruption event.",
+        "link": "https://github.com/gmzsebastian/FLEET/blob/master/README.md",
+        "attribution_link": "https://github.com/gmzsebastian/FLEET",
+        "zenodo_doi": "10.5281/zenodo.4013964",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "matplotlib",
+            "numpy",
+            "python",
+            "scipy",
+            "astroquery"
+        ]
     }
 }
