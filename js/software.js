@@ -360,7 +360,7 @@ Promise.all([
                 ack.innerHTML = "This work made use of the following software packages: "
 
                 // add add acknowledgements, joining them with commas and adding an "and" before the last one
-                ack.innerHTML += ack_to_add.slice(0, -1).join(', ') + (ack_to_add.length > 1 ? ' and ' : '') + ack_to_add.slice(-1) + '.';
+                ack.innerHTML += ack_to_add.slice(0, -1).join(', ') + (ack_to_add.length > 2 ? ',' : '') + (ack_to_add.length > 1 ? ' and ' : '') + ack_to_add.slice(-1) + '.';
             }
 
             // add the custom acknowledgements (with extra space between them and the main acknowledgements)
