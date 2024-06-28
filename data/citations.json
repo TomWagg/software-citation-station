@@ -1494,5 +1494,27 @@
             "schwimmbad",
             "seaborn"
         ]
+    },
+    "Astrocut": {
+        "tags": [
+            "Curtis+2019:2019AJ....158...77C",
+            "Brasseur+2019:2019ascl.soft05007B"
+        ],
+        "logo": "img/AstroCut.png",
+        "language": "Python",
+        "category": "Data Handling",
+        "keywords": [
+            "TESS",
+            "lightcurve"
+        ],
+        "description": "Astrocut provides tools for making cutouts from sets of astronomical images with shared footprints.",
+        "link": "https://ascl.net/code/v/2239",
+        "attribution_link": "https://ascl.net/code/v/2239",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "scipy"
+        ]
     }
 }
