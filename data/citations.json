@@ -1516,5 +1516,30 @@
             "astropy",
             "scipy"
         ]
+    },
+    "eleanor": {
+        "tags": [
+            "Feinstein+2019:2019PASP..131i4502F"
+        ],
+        "logo": "img/eleanor.gif",
+        "language": "Python",
+        "category": "Data Handling",
+        "keywords": [
+            "TESS",
+            "lightcurve"
+        ],
+        "description": "eleanor is a python package to extract target pixel files from TESS Full Frame Images and produce systematics-corrected light curves for any star observed by the TESS mission.",
+        "link": "https://github.com/afeinstein20/eleanor",
+        "attribution_link": "https://github.com/afeinstein20/eleanor",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "pandas",
+            "astroquery",
+            "Lightkurve",
+            "Photutils",
+            "tqdm"
+        ]
     }
 }
