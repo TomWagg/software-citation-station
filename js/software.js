@@ -16,6 +16,11 @@ const base_issue_text = `# TODO before submitting
 
 # Citation information\n`
 
+// cite badge HTML
+const badge_html = `<a href="https://www.tomwagg.com/software-citation-station/?auto-select=PACKAGENAME">
+    <img src="https://img.shields.io/badge/Cite-PACKAGENAME-blue" />
+</a>`
+
 // Fetch the citation data and populate the software list
 Promise.all([
     fetch('data/citations.json').then(x => x.json()),
@@ -431,6 +436,21 @@ Promise.all([
 
     // hide the loading overlay
     document.getElementById("software-loading").classList.add("hide");
+
+    // if the user has arrived at the page with a query string then auto-select the software
+    const params = new URLSearchParams(document.location.search);
+    if (params.has("auto-select")) {
+        const to_select = params.get("auto-select").split(",");
+        for (let key of to_select) {
+            key = key.trim();
+            const btn = document.querySelector(`.software-button[data-key="${key}"]`);
+
+            // only click the button if it exists and isn't already active
+            if (btn !== null && !btn.classList.contains("active")) {
+                btn.click();
+            }
+        }
+    }
 });
 
 // this function runs once the page has loaded
@@ -631,6 +651,13 @@ window.addEventListener('DOMContentLoaded', () => {
         box.addEventListener('click', function() {
             window.open(this.getAttribute("data-href"), "_blank");
         });
+    });
+
+    document.getElementById("cite-badge").addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // copy the bibtex to the clipboard
+        navigator.clipboard.writeText(badge_html);
     });
 });
 

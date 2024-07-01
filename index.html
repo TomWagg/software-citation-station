@@ -140,14 +140,27 @@
             <hr />
             <div class="row mt-5 text-center">
                 <div class="col-12 col-md-6">
-                    <h2>How can I add software to the list?</h2>
-                    <p class="mb-1">Use the button below to fill out a form to submit a new issue to the Software Citation Station! There's no need to own or contribute to the package, we appreciate submissions from <i>users</i> of packages too!</p>
+                    <h2>Adding new software</h2>
+                    <p class="mb-1">Use the button below to fill out a form to submit a new issue to the Software Citation Station! <i>Imposter syndrome disclaimer:</i> There's no need to own or contribute to the package, we appreciate submissions from <i>users</i> of packages just as much!</p>
                     <button id="launch-new-software" type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#new-software-modal">Submit new software</button>
                 </div>
                 <div class="col-12 col-md-6">
-                    <h2>How can I update existing software?</h2>
+                    <h2>Updating existing software</h2>
                     <p class="mb-1">Please use the button below to create a new GitHub issue on the Software Citation Station!</p>
                     <a class="btn btn-primary mb-4" href="https://github.com/TomWagg/software-citation-station/issues/new?assignees=&labels=update-citation&projects=&template=02-update.md&title=" target="_blank">Update existing software</a>
+                </div>
+            </div>
+            <div class="row justify-content-center mt-2">
+                <div class="col-12 col-md-9 text-center">
+                    <h2>Can I link this tool in my documentation?</h2>
+                    <div class="mb-2">
+                        <p class="mb-0">Absolutely, in fact, we encourage it! You can even make a custom link so that your package is automatically selected - just add to the URL like this:</p>
+                        <a href="https://www.tomwagg.com/software-citation-station/?auto-select=PACKAGENAME">https://www.tomwagg.com/software-citation-station/<span class="text-decoration-underline">?auto-select=PACKAGENAME</span></a>
+                    </div>
+                    <p class="mb-0">
+                        Or, if you'd like it formatted in a nifty little badge like this one,
+                        <a href="https://www.tomwagg.com/software-citation-station/?auto-select=PACKAGENAME"> <img src="https://img.shields.io/badge/Cite-PACKAGENAME-blue" /> </a>, click <a href="#" id="cite-badge" class="btn btn-primary" style="font-size: 0.7rem; padding: 0.2rem">this button</a> to copy some HTML that does that!
+                    </p>
                 </div>
             </div>
             <div class="row justify-content-center mt-2">
