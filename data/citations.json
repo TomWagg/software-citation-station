@@ -1542,23 +1542,23 @@
             "tqdm"
         ]
     },
-"VISTA": {
-    "tags": [
-        "1988igbo.conf..443S"
-    ],
-    "logo": "",
-    "language": "Fortran",
-    "category": "Photometry",
-    "keywords": [
-        "old school",
-        "photometric modeling",
-        "photometric profiles"
-    ],
-    "description": "VISTA is an astronomical CCD data reduction and analysis software package",
-    "link": "http://ganymede.nmsu.edu/holtz/xvista/help/man/index.html",
-    "attribution_link": "http://ganymede.nmsu.edu/holtz/xvista/",
-    "zenodo_doi": "",
-    "custom_citation": "",
-    "dependencies": []
+    "VISTA": {
+        "tags": [
+            "1988igbo.conf..443S"
+        ],
+        "logo": "",
+        "language": "Fortran",
+        "category": "Photometry",
+        "keywords": [
+            "old school",
+            "photometric modeling",
+            "photometric profiles"
+        ],
+        "description": "VISTA is an astronomical CCD data reduction and analysis software package",
+        "link": "http://ganymede.nmsu.edu/holtz/xvista/help/man/index.html",
+        "attribution_link": "http://ganymede.nmsu.edu/holtz/xvista/",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": []
     }
 }
