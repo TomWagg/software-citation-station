@@ -1560,5 +1560,27 @@
         "zenodo_doi": "",
         "custom_citation": "",
         "dependencies": []
+    },
+    "elk": {
+        "tags": [
+            "Wainer_JOSS",
+            "Wainer_AJ"
+        ],
+        "logo": "img/elk.png",
+        "language": "Python",
+        "category": "Stars",
+        "keywords": [],
+        "description": "This package allows you to download, correct, analyze and visualize integrated light curves from TESS FFI data.",
+        "link": "https://elk.readthedocs.io/en/latest/",
+        "attribution_link": "https://elk.readthedocs.io/en/latest/pages/cite.html",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "matplotlib",
+            "numpy",
+            "python",
+            "Lightkurve"
+        ]
     }
 }
