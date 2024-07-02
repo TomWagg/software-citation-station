@@ -1573,7 +1573,7 @@
         "description": "This package allows you to download, correct, analyze and visualize integrated light curves from TESS FFI data.",
         "link": "https://elk.readthedocs.io/en/latest/",
         "attribution_link": "https://elk.readthedocs.io/en/latest/pages/cite.html",
-        "zenodo_doi": "",
+        "zenodo_doi": "10.5281/zenodo.8393594",
         "custom_citation": "",
         "dependencies": [
             "astropy",
