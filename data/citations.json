@@ -1582,5 +1582,26 @@
             "python",
             "Lightkurve"
         ]
+    },
+    "Redback": {
+        "tags": [
+            "sarin_redback"
+        ],
+        "logo": "img/redback.png",
+        "language": "Python",
+        "category": "Transients",
+        "keywords": [
+            "inference",
+            "transient"
+        ],
+        "description": "A package for simulating, modelling, and inference of all electromagnetic transients and multi-messenger inference.",
+        "link": "https://redback.readthedocs.io/en/latest/",
+        "attribution_link": "https://redback.readthedocs.io/en/latest/acknowledgements.html#general-citation-text",
+        "zenodo_doi": "",
+        "custom_citation": "This work made use of \\textsc{Redback} \\citep{sarin_redback}.\\footnote{{TODO}: Please complete citation following instructions available at \\url{https://redback.readthedocs.io/en/latest/acknowledgements.html\\#general-citation-text}}.",
+        "dependencies": [
+            "numpy",
+            "scipy"
+        ]
     }
 }
