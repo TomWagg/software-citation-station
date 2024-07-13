@@ -1597,7 +1597,7 @@
         "description": "A package for simulating, modelling, and inference of all electromagnetic transients and multi-messenger inference.",
         "link": "https://redback.readthedocs.io/en/latest/",
         "attribution_link": "https://redback.readthedocs.io/en/latest/acknowledgements.html#general-citation-text",
-        "zenodo_doi": "",
+        "zenodo_doi": "10.5281/zenodo.12735386",
         "custom_citation": "This work made use of \\textsc{Redback} \\citep{sarin_redback}.\\footnote{{TODO}: Please complete citation following instructions available at \\url{https://redback.readthedocs.io/en/latest/acknowledgements.html\\#general-citation-text}}.",
         "dependencies": [
             "numpy",
