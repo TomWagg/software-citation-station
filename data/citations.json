@@ -1650,5 +1650,25 @@
         "zenodo_doi": "",
         "custom_citation": "",
         "dependencies": []
+    },
+    "iminuit": {
+        "tags": [
+            "iminuit",
+            "James:1975dr"
+        ],
+        "logo": "https://scikit-hep.org/iminuit/_images/iminuit_logo.svg",
+        "language": "Python",
+        "category": "Statistics",
+        "keywords": [
+            "fitting"
+        ],
+        "description": "iminuit is a Jupyter-friendly Python interface for the Minuit2 C++ library maintained by CERN's ROOT team.",
+        "link": "https://scikit-hep.org/iminuit/",
+        "attribution_link": "https://scikit-hep.org/iminuit/citation.html",
+        "zenodo_doi": "10.5281/zenodo.3949207",
+        "custom_citation": "",
+        "dependencies": [
+            "numpy"
+        ]
     }
 }
