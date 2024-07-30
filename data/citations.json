@@ -1603,5 +1603,32 @@
             "numpy",
             "scipy"
         ]
+    },
+    "WebbPSF": {
+        "tags": [
+            "2012SPIE.8442E..3DP",
+            "2014SPIE.9143E..3XP"
+        ],
+        "logo": "img/webbpsf.png",
+        "language": "Python",
+        "category": "Imaging",
+        "keywords": [
+            "JWST",
+            "Roman",
+            "PSF"
+        ],
+        "description": "WebbPSF computes simulated point spread functions (PSFs) for NASA's James Webb Space Telescope (JWST) and Nancy Grace Roman Space Telescope.",
+        "link": "https://webbpsf.readthedocs.io/en/stable/index.html",
+        "attribution_link": "https://webbpsf.readthedocs.io/en/stable/index.html",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "matplotlib",
+            "numpy",
+            "python",
+            "scipy",
+            "astroquery"
+        ]
     }
 }
