@@ -1630,5 +1630,25 @@
             "scipy",
             "astroquery"
         ]
+    },
+    "Agama": {
+        "tags": [
+            "2019MNRAS.482.1525V"
+        ],
+        "logo": "img/agama.png",
+        "logo_background": "true",
+        "language": "C++",
+        "category": "Galactic Dynamics",
+        "keywords": [
+            "galactic dynamics",
+            "galpy",
+            "gala"
+        ],
+        "description": "C++ package for galactic dynamics, with Python & Julia interfaces, plugins for NEMO & AMUSE, and interoperability with Gala & Galpy",
+        "link": "https://github.com/GalacticDynamics-Oxford/Agama",
+        "attribution_link": "https://github.com/GalacticDynamics-Oxford/Agama",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": []
     }
 }
