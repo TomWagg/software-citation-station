@@ -377,8 +377,14 @@ Promise.all([
 
             // add the bibtex entries
             bibs_to_add.push(highlight_bibtex(bibtex_table['software-citation-station-paper']))
-            bibs_to_add.push(highlight_bibtex(bibtex_table['software-citation-station-zenodo']))
             bibtex_box.innerHTML = bibs_to_add.join("\n\n");
+
+            // add the bibtex for the software citation station from Zenodo
+            fetch_zenodo_bibtex("13225526").then((bibtex) => {
+                const tag = bibtex.split("{")[1].split(",")[0];
+                bibtex = bibtex.replace(tag, "software-citation-station-zenodo");
+                bibtex_box.innerHTML += "\n\n" + highlight_bibtex(bibtex);
+            })
 
             // create a button that copies the contents of each
             ack.appendChild(copy_button(ack.innerText));
@@ -541,6 +547,11 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         }
     });
+
+    fetch_zenodo_bibtex("13225526").then((bibtex) => {
+        console.log(bibtex);
+        console.log(bibtex.split("{")[1].split(",")[0]);
+    })
 
     // setup the tooltips for each of the software packages
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
