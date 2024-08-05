@@ -381,9 +381,11 @@ Promise.all([
 
             // add the bibtex for the software citation station from Zenodo
             fetch_zenodo_bibtex("13225526").then((bibtex) => {
-                const tag = bibtex.split("{")[1].split(",")[0];
-                bibtex = bibtex.replace(tag, "software-citation-station-zenodo");
-                bibtex_box.innerHTML += "\n\n" + highlight_bibtex(bibtex);
+                if (!bibtex_box.innerHTML.includes("software-citation-station-zenodo")) {
+                    const tag = bibtex.split("{")[1].split(",")[0];
+                    bibtex = bibtex.replace(tag, "software-citation-station-zenodo");
+                    bibtex_box.innerHTML += "\n\n" + highlight_bibtex(bibtex);
+                }
             })
 
             // create a button that copies the contents of each
