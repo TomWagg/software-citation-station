@@ -1670,5 +1670,27 @@
         "dependencies": [
             "numpy"
         ]
+    },
+    "ArviZ": {
+        "tags": [
+            "arviz_2019"
+        ],
+        "logo": "img/arviz.png",
+        "language": "Python",
+        "category": "Statistics",
+        "keywords": [],
+        "description": "ArviZ is a Python package for exploratory analysis of Bayesian models. It serves as a backend-agnostic tool for diagnosing and visualizing Bayesian inference.",
+        "link": "https://python.arviz.org",
+        "attribution_link": "https://www.arviz.org/en/latest/support.html#cite",
+        "zenodo_doi": "10.5281/zenodo.2540944",
+        "custom_citation": "",
+        "dependencies": [
+            "matplotlib",
+            "numpy",
+            "pandas",
+            "python",
+            "scipy",
+            "xarray"
+        ]
     }
 }
