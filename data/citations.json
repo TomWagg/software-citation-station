@@ -1709,5 +1709,22 @@
         "dependencies": [
             "numpy"
         ]
+    },
+    "SEVN": {
+        "tags": [
+            "2023MNRAS.524..426I",
+            "2019MNRAS.485..889S",
+            "2017MNRAS.470.4739S"
+        ],
+        "logo": "img/SEVN.png",
+        "language": "C++",
+        "category": "Population Synthesis",
+        "keywords": [],
+        "description": "SEVN (Stellar EVolution for N-body) is a rapid binary population synthesis code.",
+        "link": "https://sevncodes.gitlab.io/sevn/index.html",
+        "attribution_link": "https://sevncodes.gitlab.io/sevn/index.html",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": []
     }
 }
