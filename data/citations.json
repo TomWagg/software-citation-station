@@ -1692,5 +1692,22 @@
             "scipy",
             "xarray"
         ]
+    },
+    "PyTables": {
+        "tags": [
+            "pytables"
+        ],
+        "logo": "img/PyTables.png",
+        "language": "Python",
+        "category": "Data Handling",
+        "keywords": [],
+        "description": "'A package for managing hierarchical datasets and designed to efficiently and easily cope with extremely large amounts of data.'",
+        "link": "https://www.pytables.org/",
+        "attribution_link": "https://www.pytables.org/FAQ.html",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "numpy"
+        ]
     }
 }
