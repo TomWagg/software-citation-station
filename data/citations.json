@@ -1775,5 +1775,23 @@
             "h5py",
             "healpy"
         ]
+    },
+    "pynbody": {
+        "tags": [
+            "pynbody"
+        ],
+        "logo": "img/pynbody.svg",
+        "language": "Python",
+        "category": "N-body",
+        "keywords": [],
+        "description": "an analysis package for astrophysical N-body and Smooth Particle Hydrodynamics simulations",
+        "link": "https://pynbody.readthedocs.io/latest/",
+        "attribution_link": "https://pynbody.readthedocs.io/latest/#acknowledging-pynbody-in-scientific-publications",
+        "zenodo_doi": "10.5281/zenodo.1297087",
+        "custom_citation": "",
+        "dependencies": [
+            "numpy",
+            "Cython"
+        ]
     }
 }
