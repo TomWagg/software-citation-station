@@ -1726,5 +1726,29 @@
         "zenodo_doi": "",
         "custom_citation": "",
         "dependencies": []
+    },
+    "isochrones": {
+        "tags": [
+            "Morton+2015:2015ascl.soft03010M"
+        ],
+        "logo": "",
+        "language": "Python",
+        "category": "Photometry",
+        "keywords": [
+            "isochrones",
+            "stellar models",
+            "photometry"
+        ],
+        "description": "Isochrones provides simple interface for interacting with stellar model grids.",
+        "link": "https://isochrones.readthedocs.io/en/latest/",
+        "attribution_link": "https://github.com/timothydmorton/isochrones?tab=readme-ov-file#attribution",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "numpy",
+            "Numba",
+            "PyTables",
+            "pandas"
+        ]
     }
 }
