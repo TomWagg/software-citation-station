@@ -1793,5 +1793,36 @@
             "numpy",
             "Cython"
         ]
+    },
+    "gaiaunlimited": {
+        "tags": [
+            "Castro-Ginard+2023:2023A&A...677A..37C",
+            "Cantat-Gaudin+2023:2023A&A...669A..55C",
+            "Boubert+2021:2021MNRAS.501.2954B",
+            "Boubert+2020:2020MNRAS.497.4246B",
+            "Everall+2022:2022MNRAS.509.6205E"
+        ],
+        "logo": "",
+        "language": "Python",
+        "category": "Data Handling",
+        "keywords": [
+            "Gaia",
+            "selection function"
+        ],
+        "description": "gaiaunlimited is a package for querying and constructing selection functions for the Gaia survey. It is developed by the GaiaUnlimited collaboration.",
+        "link": "https://gaiaunlimited.readthedocs.io/en/latest/",
+        "attribution_link": "https://gaiaunlimited.readthedocs.io/en/latest/citation.html",
+        "zenodo_doi": "",
+        "custom_citation": "This work made use of the Gaia selection function tools from \\texttt{gaiaunlimited} \\citep{Castro-Ginard+2023:2023A&A...677A..37C, Cantat-Gaudin+2023:2023A&A...669A..55C, Boubert+2021:2021MNRAS.501.2954B, Boubert+2020:2020MNRAS.497.4246B, Everall+2022:2022MNRAS.509.6205E}\\footnote{TODO: Include the relevant subset of these citations following instructions here: \\url{https://gaiaunlimited.readthedocs.io/en/latest/citation.html}}.",
+        "dependencies": [
+            "numpy",
+            "scipy",
+            "astropy",
+            "astroquery",
+            "pandas",
+            "healpy",
+            "h5py",
+            "tqdm"
+        ]
     }
 }
