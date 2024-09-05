@@ -1750,5 +1750,30 @@
             "PyTables",
             "pandas"
         ]
+    },
+    "dustmaps": {
+        "tags": [
+            "2018JOSS....3..695M"
+        ],
+        "logo": "",
+        "language": "Python",
+        "category": "Photometry",
+        "keywords": [
+            "dust",
+            "extinction",
+            "maps"
+        ],
+        "description": "dustmaps provides a unified interface for several 2D and 3D maps of interstellar dust reddening and extinction.",
+        "link": "https://dustmaps.readthedocs.io/en/latest/",
+        "attribution_link": "https://dustmaps.readthedocs.io/en/latest/",
+        "zenodo_doi": "10.5281/zenodo.1299367",
+        "custom_citation": "",
+        "dependencies": [
+            "numpy",
+            "scipy",
+            "astropy",
+            "h5py",
+            "healpy"
+        ]
     }
 }
