@@ -9,7 +9,7 @@
   • 
   <a href="https://www.tomwagg.com/software-citation-station/?new-software=true">Submit a new citation</a>
   • 
-  <a href="https://arxiv.org/abs/2406.04405">Read the paper</a>
+  <a href="https://raw.githubusercontent.com/TomWagg/software-citation-station/main/paper/paper.pdf">Read the paper</a>
 </p>
 
 <b>Why is it important to cite software?</b>
