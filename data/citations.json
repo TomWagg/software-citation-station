@@ -1824,5 +1824,21 @@
             "h5py",
             "tqdm"
         ]
+    },
+    "NetworkX": {
+        "tags": [
+            "networkx"
+        ],
+        "logo": "img/NetworkX.png",
+        "logo_background": "true",
+        "language": "Python",
+        "category": "Computing",
+        "keywords": [],
+        "description": "NetworkX is a Python package for the creation, manipulation, and study of the structure, dynamics, and functions of complex networks.",
+        "link": "https://networkx.org/",
+        "attribution_link": "https://networkx.org/documentation/stable/#citing",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": []
     }
 }
