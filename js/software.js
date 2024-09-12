@@ -873,7 +873,8 @@ function compare_versions(a, b) {
 // Function to fetch records from Zenodo API
 async function get_zenodo_version_info(concept_doi, vp) {
     // Build the complete URL with the query parameter for concept DOI
-    const url = `https://zenodo.org/api/records?q=conceptdoi:"${concept_doi}"&all_versions=true`;
+    const BIG_NUM = 10000;
+    const url = `https://zenodo.org/api/records?q=conceptdoi:"${concept_doi}"&all_versions=true&size=${BIG_NUM}`;
     try {
         // Make the API request with the Accept header for BibTeX format
         const response = await fetch(url);
@@ -926,8 +927,10 @@ async function validate_zenodo_doi(concept_doi) {
         return [-1, concept_doi];
     }
 
+    const BIG_NUM = 10000;
+
     // build the url and make the request
-    const url = `https://zenodo.org/api/records?q=conceptdoi:"${concept_doi}"&all_versions=true`;
+    const url = `https://zenodo.org/api/records?q=conceptdoi:"${concept_doi}"&all_versions=true&size=${BIG_NUM}`;
     const response = await fetch(url);
     if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -939,7 +942,7 @@ async function validate_zenodo_doi(concept_doi) {
     // if we didn't find anything then maybe the user entered a specific version DOI accidentally
     if (data.hits.hits.length === 0) {
         // retry by searching for the DOI assuming it's not a concept DOI
-        const url = `https://zenodo.org/api/records?q=doi:"${concept_doi}"&all_versions=true`;
+        const url = `https://zenodo.org/api/records?q=doi:"${concept_doi}"&all_versions=true&size=${BIG_NUM}`;
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
