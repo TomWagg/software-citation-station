@@ -385,6 +385,14 @@ Promise.all([
                     const tag = bibtex.split("{")[1].split(",")[0];
                     bibtex = bibtex.replace(tag, "software-citation-station-zenodo");
                     bibtex_box.innerHTML += "\n\n" + highlight_bibtex(bibtex);
+
+                    // remake the buttons for copying and downloading the bibtex now there's some extra
+                    const btn_group = bibtex_box.parentElement.querySelector(".btn-group.corner-button")
+                    if (btn_group !== null) {
+                        btn_group.innerHTML = "";
+                        btn_group.appendChild(copy_button(bibtex_box.innerText));
+                        btn_group.appendChild(download_button(bibtex_box.innerText));
+                    }
                 }
             })
 
