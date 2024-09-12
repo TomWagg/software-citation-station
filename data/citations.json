@@ -1840,5 +1840,26 @@
         "zenodo_doi": "",
         "custom_citation": "",
         "dependencies": []
+    },
+    "GaiaAlertsPy": {
+        "tags": [
+            "Hodgkin+2021:2021A&A...652A..76H",
+            "Tzanidakis+2023:2023ApJ...955...69T"
+        ],
+        "logo": "img/GaiaAlertsPy.png",
+        "language": "Python",
+        "category": "Data Handling",
+        "keywords": [
+            "Gaia"
+        ],
+        "description": "GaiaAlertsPy is a Python library for scraping the the Gaia Photometric Science Alerts.",
+        "link": "https://gaiaalertspy-docs.readthedocs.io/en/latest/",
+        "attribution_link": "https://gaiaalertspy-docs.readthedocs.io/en/latest/Cite.html",
+        "zenodo_doi": "",
+        "custom_citation": "This research made use of \\texttt{GaiaAlertsPy} \\citep{Hodgkin+2021:2021A&A...652A..76H, Tzanidakis+2023:2023ApJ...955...69T}. In addition, we acknowledge ESA Gaia, DPAC and the Photometric Science Alerts Team.",
+        "dependencies": [
+            "astropy",
+            "numpy"
+        ]
     }
 }
