@@ -1861,5 +1861,28 @@
             "astropy",
             "numpy"
         ]
+    },
+    "Cobaya": {
+        "tags": [
+            "2021JCAP...05..057T",
+            "2019ascl.soft10019T"
+        ],
+        "logo": "img/cobaya.webp",
+        "logo_background": "true",
+        "language": "Python",
+        "category": "Statistics",
+        "keywords": [],
+        "description": "A general-purpose Bayesian analysis code aimed at models with complex internal interdependencies.",
+        "link": "https://cobaya.readthedocs.io/en/latest/",
+        "attribution_link": "https://cobaya.readthedocs.io/en/latest/",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "matplotlib",
+            "pandas",
+            "python",
+            "scipy",
+            "Cython"
+        ]
     }
 }
