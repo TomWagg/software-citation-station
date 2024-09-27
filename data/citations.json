@@ -1884,5 +1884,22 @@
             "scipy",
             "Cython"
         ]
+    },
+    "xarray": {
+        "tags": [
+            "hoyer2017xarray"
+        ],
+        "logo": "img/xarray.png",
+        "language": "Python",
+        "category": "Data Handling",
+        "keywords": [
+            "xarray"
+        ],
+        "description": "N-D labeled Arrays and Datasets in Python",
+        "link": "https://docs.xarray.dev/en/latest",
+        "attribution_link": "https://docs.xarray.dev/en/latest/getting-started-guide/faq.html#how-should-i-cite-xarray",
+        "zenodo_doi": "10.5281/zenodo.598201",
+        "custom_citation": "",
+        "dependencies": ["numpy", "pandas"]
     }
 }
