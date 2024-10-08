@@ -1901,5 +1901,37 @@
         "zenodo_doi": "10.5281/zenodo.598201",
         "custom_citation": "",
         "dependencies": ["numpy", "pandas"]
+    },
+    "NMMA": {
+        "tags": [
+            "Pang:2022rzc",
+            "2024ascl.soft02001P"
+        ],
+        "logo": "img/NMMA.svg",
+        "language": "Python",
+        "category": "Parameter Estimation",
+        "keywords": [
+            "multimessenger",
+            "multi-messenger",
+            "Bayesian Inference",
+            "Parameter Estimation"
+        ],
+        "description": "nmma is a fully featured, Bayesian multi-messenger pipeline targeting joint analyses of gravitational-wave and electromagnetic data with additional non-astrophysical inputs.",
+        "link": "https://nuclear-multimessenger-astronomy.github.io/nmma/",
+        "attribution_link": "https://github.com/nuclear-multimessenger-astronomy/nmma?tab=readme-ov-file#citing-nmma",
+        "zenodo_doi": "10.5281/zenodo.6551052",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "Jupyter",
+            "matplotlib",
+            "numpy",
+            "python",
+            "scipy",
+            "ArviZ",
+            "Bilby",
+            "corner.py"
+        ]
     }
+
 }
