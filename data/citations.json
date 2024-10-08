@@ -1932,6 +1932,24 @@
             "Bilby",
             "corner.py"
         ]
+    },
+    "Galpynamics": {
+        "tags": [
+            "amsdottorato8449",
+            "2019A&A...622A..64B"
+        ],
+        "logo": "img/Galpynamics.png",
+        "language": "Python",
+        "category": "Galactic Dynamics",
+        "keywords": [],
+        "description": "Python module to estimate the potential of spheroidal and disc galactic components.\nIt includes methods to self-consistely estimate the scale height of discs.",
+        "link": "https://gitlab.com/iogiul/galpynamics",
+        "attribution_link": "https://gitlab.com/iogiul/galpynamics",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "numpy",
+            "python"
+        ]
     }
-
 }
