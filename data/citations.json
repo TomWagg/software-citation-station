@@ -1951,5 +1951,34 @@
             "numpy",
             "python"
         ]
+    },
+    "tglc": {
+        "tags": [
+            "2023AJ....165...71H"
+        ],
+        "logo": "img/tglc.jpg",
+        "language": "Python",
+        "category": "Photometry",
+        "keywords": [
+            "TESS",
+            "Light Curve",
+            "FFI light curve"
+        ],
+        "description": "TESS-Gaia Light Curve",
+        "link": "https://github.com/TeHanHunter/TESS_Gaia_Light_Curve",
+        "attribution_link": "https://archive.stsci.edu/hlsp/tglc",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "matplotlib",
+            "numpy",
+            "python",
+            "scipy",
+            "Astrocut",
+            "astroquery",
+            "Numba",
+            "tqdm"
+        ]
     }
 }
