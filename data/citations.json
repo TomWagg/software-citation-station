@@ -1967,7 +1967,7 @@
         "description": "TESS-Gaia Light Curve",
         "link": "https://github.com/TeHanHunter/TESS_Gaia_Light_Curve",
         "attribution_link": "https://archive.stsci.edu/hlsp/tglc",
-        "zenodo_doi": "",
+        "zenodo_doi": "10.5281/zenodo.7023845",
         "custom_citation": "",
         "dependencies": [
             "astropy",
