@@ -1980,5 +1980,26 @@
             "Numba",
             "tqdm"
         ]
+    },
+    "Simframe": {
+        "tags": [
+            "2022JOSS....7.3882S"
+        ],
+        "logo": "",
+        "language": "Python",
+        "category": "Simulations",
+        "keywords": [],
+        "description": "Python framework for scientific simulations.",
+        "link": "https://simframe.readthedocs.io/",
+        "attribution_link": "https://simframe.readthedocs.io/en/latest/A_citation.html",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "matplotlib",
+            "numpy",
+            "python",
+            "scipy",
+            "h5py"
+        ]
     }
 }
