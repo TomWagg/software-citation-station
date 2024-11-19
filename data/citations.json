@@ -2001,5 +2001,38 @@
             "scipy",
             "h5py"
         ]
+    },
+    "yt": {
+        "tags": [
+            "2011ApJS..192....9T"
+        ],
+        "logo": "img/yt.svg",
+        "language": "Python",
+        "category": "Visualisation",
+        "keywords": [
+            "visualization",
+            "python",
+            "data",
+            "analysis",
+            "astronomy",
+            "data-visualization",
+            "geophysics",
+            "scientific-visualization",
+            "scientific-computing",
+            "astrophysics",
+            "finite-element-analysis",
+            "nuclear-engineering"
+        ],
+        "description": "yt is a community-developed analysis and visualization toolkit for volumetric data.",
+        "link": "https://yt-project.org/doc/",
+        "attribution_link": "https://yt-project.org/doc/faq/index.html#how-do-i-cite-yt",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "matplotlib",
+            "numpy",
+            "python",
+            "tqdm"
+        ]
     }
 }
