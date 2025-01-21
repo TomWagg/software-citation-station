@@ -2063,5 +2063,24 @@
             "corner.py",
             "emcee"
         ]
+    },
+    "GetDist": {
+        "tags": [
+            "Lewis:2019xzd"
+        ],
+        "logo": "",
+        "language": "Python",
+        "category": "Parameter Estimation",
+        "keywords": [],
+        "description": "GetDist is a Python package for analysing and plotting Monte Carlo (or other) samples.",
+        "link": "https://getdist.readthedocs.io/en/latest/index.html",
+        "attribution_link": "https://getdist.readthedocs.io/en/latest/intro.html",
+        "zenodo_doi": "10.5281/zenodo.594378",
+        "custom_citation": "",
+        "dependencies": [
+            "matplotlib",
+            "python",
+            "scipy"
+        ]
     }
 }
