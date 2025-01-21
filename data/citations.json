@@ -2034,5 +2034,34 @@
             "python",
             "tqdm"
         ]
+    },
+    "naima": {
+        "tags": [
+            "naima"
+        ],
+        "logo": "",
+        "language": "Python",
+        "category": "Gamma-ray Astrophysics",
+        "keywords": [
+            "mcmc",
+            "gamma-ray",
+            "spectral analysis",
+            "spectral fitting",
+            "high-energy astrophysics"
+        ],
+        "description": "Python package for computation of non-thermal radiation from relativistic particle populations and MCMC fitting to observed spectra",
+        "link": "https://naima.readthedocs.io",
+        "attribution_link": "https://naima.readthedocs.io/en/latest/#license-attribution",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "matplotlib",
+            "numpy",
+            "python",
+            "scipy",
+            "corner.py",
+            "emcee"
+        ]
     }
 }
