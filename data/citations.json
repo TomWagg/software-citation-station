@@ -2082,5 +2082,23 @@
             "python",
             "scipy"
         ]
+    },
+    "plotly": {
+        "tags": [
+            "plotly"
+        ],
+        "logo": "img/plotly.png",
+        "language": "Python",
+        "category": "Visualisation",
+        "keywords": [
+            "data visualization",
+            "plotting"
+        ],
+        "description": "A open-source interactive plotting library.",
+        "link": "https://plotly.com/python/",
+        "attribution_link": "https://plotly.com/chart-studio-help/citations/",
+        "zenodo_doi": "10.5281/zenodo.14366348",
+        "custom_citation": "",
+        "dependencies": []
     }
 }
