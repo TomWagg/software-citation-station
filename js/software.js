@@ -897,7 +897,7 @@ async function get_zenodo_version_info(concept_doi, vp) {
         let version_and_doi = []
         let versions_so_far = new Set()
         for (let hit of data.hits.hits) {
-            if (!versions_so_far.has(hit.metadata.version)) {
+            if (!versions_so_far.has(hit.metadata.version) && hit.metadata.version !== undefined) {
                 version_and_doi.push({"version": hit.metadata.version, "doi": hit.id})
                 versions_so_far.add(hit.metadata.version)
             }
