@@ -565,7 +565,7 @@
         "link": "https://tardis-sn.github.io/",
         "attribution_link": "https://tardis-sn.github.io/credits/",
         "zenodo_doi": "10.5281/zenodo.592480",
-        "custom_citation": "This research made use of \\textsc{Tardis}, a community-developed software package for spectral synthesis in supernovae \\citep{2014MNRAS.440..387K, kerzendorf_wolfgang_2019_2590539}. The development of \\textsc{Tardis} received support from the Google Summer of Code initiative and from ESA’s Summer of Code in Space program. \\textsc{Tardis} makes extensive use of Astropy \\citep{astropy:2013, astropy:2018, astropy:2022} and PyNE \\url{https://pyne.io/}. The Spectral modeling of type II supernovae is from \\citet{2019A&A...621A..29V}.\\footnote{TODO: remove astropy if already cited, remove 'The Spectral modeling of type II supernovae' if not used}",
+        "custom_citation": "This research made use of \\textsc{Tardis}, a community-developed software package for spectral synthesis in supernovae \\citep{2014MNRAS.440..387K, kerzendorf_wolfgang_2019_2590539}. The development of \\textsc{Tardis} received support from the Google Summer of Code initiative and from ESA’s Summer of Code in Space program. \\textsc{Tardis} makes extensive use of Astropy \\citep{astropy:2013, astropy:2018, astropy:2022} and PyNE \\url{https://pyne.io/}. The Spectral modeling of type II supernovae is from \\citet{2019A&A...621A..29V}.\\footnote{TODO: remove astropy if already cited, remove 'The Spectral modeling of type II supernovae' if not used}. ",
         "dependencies": [
             "astropy"
         ]
@@ -2100,5 +2100,27 @@
         "zenodo_doi": "10.5281/zenodo.14366348",
         "custom_citation": "",
         "dependencies": []
+    },
+    "dust_extinction": {
+        "tags": [
+            "Gordon+2024:2024JOSS....9.7023G"
+        ],
+        "logo": "",
+        "language": "Python",
+        "category": "Interstellar Medium",
+        "keywords": [
+            "dust",
+            "extinction",
+            "extinction curves"
+        ],
+        "description": "A Python package that provides over 30 models of dust extinction curves.",
+        "link": "https://dust-extinction.readthedocs.io/en/latest/",
+        "attribution_link": "https://dust-extinction.readthedocs.io/en/latest/dust_extinction/references.html",
+        "zenodo_doi": "10.5281/zenodo.4658887",
+        "custom_citation": "This research made use of the dust extinction models provided by \\texttt{dust\\_extinction} \\citep{Gordon+2024:2024JOSS....9.7023G}. \\footnote{TODO: Include the relevant subset of these citations following instructions here: \\url{https://dust-extinction.readthedocs.io/en/latest/dust_extinction/references.html}}. ",
+        "dependencies": [
+            "astropy",
+            "scipy"
+        ]
     }
 }
