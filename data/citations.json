@@ -2162,5 +2162,20 @@
         "zenodo_doi": "",
         "custom_citation": "",
         "dependencies": []
+    },
+    "TOPCAT": {
+        "tags": [
+            "2005ASPC..347...29T"
+        ],
+        "logo": "img/TOPCAT.png",
+        "language": "Java",
+        "category": "Data Handling",
+        "keywords": [],
+        "description": "Tool for OPerations on Catalogues And Tables (TOPCAT) is an interactive graphical viewer and editor for tabular data.",
+        "link": "http://www.starlink.ac.uk/topcat/",
+        "attribution_link": "https://www.star.bris.ac.uk/~mbt/topcat/sun253/ack.html",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": []
     }
 }
