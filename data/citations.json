@@ -2122,5 +2122,27 @@
             "astropy",
             "scipy"
         ]
+    },
+    "FLASH": {
+        "tags": [
+            "2000ApJS..131..273F",
+            "DBLP:journals/corr/abs-0903-4875"
+        ],
+        "logo": "img/FLASH.jpg",
+        "language": "Fortran",
+        "category": "Simulations",
+        "keywords": [
+            "multiphysics",
+            "simulation",
+            "fortran"
+        ],
+        "description": "A composable, multipurpose, multiphysics simulation framework.",
+        "link": "https://flash.rochester.edu/site/index.shtml",
+        "attribution_link": "https://ascl.net/1010.082",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "python"
+        ]
     }
 }
