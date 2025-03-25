@@ -2144,5 +2144,23 @@
         "dependencies": [
             "python"
         ]
+    },
+    "SNEC": {
+        "tags": [
+            "2015ApJ...814...63M"
+        ],
+        "logo": "",
+        "language": "Fortran",
+        "category": "Transients",
+        "keywords": [
+            "supernova",
+            "light curve"
+        ],
+        "description": "SuperNova Explosion Code - light curve calculations",
+        "link": "https://stellarcollapse.org/index.php/SNEC.html",
+        "attribution_link": "https://stellarcollapse.org/index.php/SNEC.html",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": []
     }
 }
