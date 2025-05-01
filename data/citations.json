@@ -2177,5 +2177,34 @@
         "zenodo_doi": "",
         "custom_citation": "",
         "dependencies": []
+    },
+    "cogsworth": {
+        "tags": [
+            "cogsworth:joss",
+            "cogsworth:apjs"
+        ],
+        "logo": "img/cogsworth.png",
+        "language": "Python",
+        "category": "Population Synthesis",
+        "keywords": [
+            "population synthesis",
+            "stellar evolution",
+            "binary stars",
+            "galactic dynamics"
+        ],
+        "description": "A Python package for self-consistent binary population synthesis and galactic dynamics simulations.",
+        "link": "https://cogsworth.readthedocs.io/en/latest/",
+        "attribution_link": "https://cogsworth.readthedocs.io/en/latest/cite.html",
+        "zenodo_doi": "10.5281/zenodo.13368096",
+        "custom_citation": "This research made use of \\texttt{cogsworth} and its dependencies \\citep{cogsworth:joss,cogsworth:apjs}\\footnote{TODO: Run \\texttt{.get\\_citations()} on your finished \\texttt{Population} to get the full list of citations that apply to your simulation.}.",
+        "dependencies": [
+            "numpy",
+            "scipy",
+            "astropy",
+            "matplotlib",
+            "python",
+            "COSMIC",
+            "gala"
+        ]
     }
 }
