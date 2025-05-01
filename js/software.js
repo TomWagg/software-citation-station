@@ -308,10 +308,11 @@ Promise.all([
                         // if you've selected a version then update the citation
                         if (version_picker.hasAttribute("data-bibtex")) {
                             const chosen_version = version_picker.querySelector(".version-select").value;
+                            const new_tag = btn.getAttribute("data-key") + "_" + chosen_version
                             if (new_ack.includes("citep")) {
-                                new_ack = new_ack.slice(0, -1) + ", " + btn.getAttribute("data-key") + "_" + chosen_version + "}";
+                                new_ack = new_ack.slice(0, -1) + ", " + new_tag + "}";
                             } else {
-                                new_ack += " \\citep{" + btn.getAttribute("data-key") + "_" + chosen_version + "}";
+                                new_ack += " \\citep{" + new_tag + "}";
                             }
 
                             // remove the final period if it exists
@@ -319,10 +320,26 @@ Promise.all([
                                 custom_ack = custom_ack.slice(0, -1);
                             }
                             // update custom acknowledgement
+                            // if the custom acknowledgement has a citep in it then insert the new tag
                             if (custom_ack.includes("citep") && custom_ack[custom_ack.length - 1] == "}") {
-                                custom_ack = custom_ack.slice(0, -1) + ", " + btn.getAttribute("data-key") + "_" + chosen_version + "}.";
+                                // loop over the custom ack, starting at the citep, find the brace that closes
+                                // the citep and insert this new tag in place
+                                let open_braces = 0;
+                                for (let i = custom_ack.indexOf("\\citep") + 6; i < custom_ack.length; i++) {
+                                    if (custom_ack[i] == "{") {
+                                        open_braces += 1;
+                                    } else if (custom_ack[i] == "}") {
+                                        open_braces -= 1;
+                                    }
+                                    if (open_braces == 0) {
+                                        custom_ack = custom_ack.slice(0, i) + "," + new_tag + custom_ack.slice(i);
+                                        break;
+                                    }
+                                }
+                            // otherwise just append the new tag if there's a custom acknowledgement
                             } else if (custom_ack != "") {
-                                custom_ack += " \\citep{" + btn.getAttribute("data-key") + "_" + chosen_version + "}.";
+                                console.log("appending")
+                                custom_ack += " \\citep{" + new_tag + "}.";
                             }
                             bibs_to_add.push(highlight_bibtex(version_picker.getAttribute("data-bibtex")));
                         } else {
