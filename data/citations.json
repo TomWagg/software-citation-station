@@ -2206,5 +2206,20 @@
             "COSMIC",
             "gala"
         ]
+    },
+    "Quokka": {
+        "tags": [
+            "Quokka"
+        ],
+        "logo": "https://avatars.githubusercontent.com/u/118950435?s=200&v=4",
+        "language": "C++",
+        "category": "Simulations",
+        "keywords": ["AMR", "GPU", "CUDA", "ROCm", "hydrodynamics"],
+        "description": "Two-moment AMR radiation hydrodynamics (with self-gravity, particles, and chemistry) on CPUs/GPUs for astrophysics",
+        "link": "https://github.com/quokka-astro/quokka",
+        "attribution_link": "https://quokka-astro.github.io/quokka/citation/",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": []
     }
 }
