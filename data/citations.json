@@ -2221,5 +2221,27 @@
         "zenodo_doi": "",
         "custom_citation": "",
         "dependencies": []
+    },
+    "BibQuest": {
+        "tags": [
+        ],
+        "logo": "img/bibquest.png",
+        "language": "Python",
+        "category": "Manuscript Preparation",
+        "keywords": [
+            "bibtex",
+            "biblatex",
+            "latex",
+            "astronomy",
+            "research"
+        ],
+        "description": "Automagically fill your bib file just using bib keys",
+        "link": "https://github.com/sahiljhawar/BibQuest",
+        "attribution_link": "https://github.com/sahiljhawar/BibQuest",
+        "zenodo_doi": "10.5281/zenodo.15512122",
+        "custom_citation": "",
+        "dependencies": [
+            "python"
+        ]
     }
 }
