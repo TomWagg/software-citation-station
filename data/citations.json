@@ -2243,5 +2243,18 @@
         "dependencies": [
             "python"
         ]
+    },
+    "veeper": {
+        "tags": [],
+        "logo": "",
+        "language": "Python",
+        "category": "Interstellar Medium",
+        "keywords": [],
+        "description": "Tools for generating and fitting Voigt profiles of absorption lines.",
+        "link": "https://github.com/jnburchett/veeper/",
+        "attribution_link": "https://github.com/jnburchett/veeper/tree/master/docs",
+        "zenodo_doi": "10.5281/zenodo.10993983",
+        "custom_citation": "This research made use of \\texttt{the Veeper}.",
+        "dependencies": []
     }
 }
