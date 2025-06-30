@@ -2256,5 +2256,25 @@
         "zenodo_doi": "10.5281/zenodo.10993983",
         "custom_citation": "This research made use of \\texttt{the Veeper}.",
         "dependencies": []
+    },
+    "Turing.jl": {
+        "tags": [
+            "ge2018t"
+        ],
+        "logo": "img/turingjl.png",
+        "language": "Julia",
+        "category": "Parameter Estimation",
+        "keywords": [
+            "probabilistic modeling",
+            "bayesian inference",
+            "mcmc",
+            "sampling"
+        ],
+        "description": "A probabilistic modeling language built on Julia.",
+        "link": "https://turinglang.org/docs/",
+        "attribution_link": "https://github.com/TuringLang/Turing.jl/blob/main/CITATION.bib",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": []
     }
 }
