@@ -2275,6 +2275,27 @@
         "attribution_link": "https://github.com/TuringLang/Turing.jl/blob/main/CITATION.bib",
         "zenodo_doi": "",
         "custom_citation": "",
+        "dependencies": ["julia"]
+    },
+    "STAN": {
+        "tags": [],
+        "logo": "img/STAN.png",
+        "language": "STAN",
+        "category": "Statistics",
+        "keywords": [
+            "Statistics",
+            "Bayesian Inference",
+            "multi-language",
+            "C++",
+            "python",
+            "R",
+            "Julia"
+        ],
+        "description": "Software Toolkit for Bayesian Data Analysis",
+        "link": "https://mc-stan.org/docs/",
+        "attribution_link": "https://mc-stan.org/about/#how-to-cite-stan",
+        "zenodo_doi": "",
+        "custom_citation": "This work made use of \\texttt{STAN}.\\footnote{TODO: Follow STAN instructions to construct citation \\url{https://mc-stan.org/about/\\#how-to-cite-stan}.}",
         "dependencies": []
     }
 }
