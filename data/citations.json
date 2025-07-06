@@ -2297,5 +2297,26 @@
         "zenodo_doi": "",
         "custom_citation": "This work made use of \\texttt{STAN}.\\footnote{TODO: Follow STAN instructions to construct citation \\url{https://mc-stan.org/about/\\#how-to-cite-stan}.}",
         "dependencies": []
+    },
+    "pion": {
+        "tags": [
+            "2021MNRAS.504..983M"
+        ],
+        "logo": "img/pion.png",
+        "language": "C++",
+        "category": "Computational Fluid Dynamics",
+        "keywords": [
+            "hydrodynamics",
+            "magnetohydrodynamics",
+            "photoionisation",
+            "stellar winds",
+            "shockwaves"
+        ],
+        "description": "PION is a grid-based fluid dynamics code for hydrodynamics and magnetohydrodynamics, including a ray-tracing module for calculating the attenuation of radiation from point sources.",
+        "link": "https://www.pion.ie/docs/",
+        "attribution_link": "https://git.dias.ie/massive-stars-software/pion/-/blob/master/CITATION.txt",
+        "zenodo_doi": "",
+        "custom_citation": "Computations for this work used the \\texttt{PION} simulation code, publicly available at \\url{https://www.pion.ie/} and developed with support from research funding by the Irish Research Council, Science Foundation Ireland, The Deutsch Forschungsgemeinschaft and the Alexander von Humboldt Stiftung.",
+        "dependencies": []
     }
 }
