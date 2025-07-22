@@ -2333,5 +2333,32 @@
         "zenodo_doi": "",
         "custom_citation": "",
         "dependencies": []
+    },
+    "reLAISS": {
+        "tags": [
+            "Reynolds_2025"
+        ],
+        "logo": "img/reLAISS.png",
+        "language": "Python",
+        "category": "Transients",
+        "keywords": [
+            "similarity search",
+            "anomaly detection",
+            "light curve",
+            "time-series",
+            "photometry"
+        ],
+        "description": "A library for similarity searches of supernova light curves and host galaxies.",
+        "link": "https://github.com/VTDA-Group/re-laiss/tree/main/src/relaiss",
+        "attribution_link": "https://github.com/VTDA-Group/re-laiss?tab=readme-ov-file#citation",
+        "zenodo_doi": "10.5281/zenodo.15397885",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "matplotlib",
+            "numpy",
+            "pandas",
+            "python"
+        ]
     }
 }
