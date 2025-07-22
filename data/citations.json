@@ -2318,5 +2318,20 @@
         "zenodo_doi": "",
         "custom_citation": "Computations for this work used the \\texttt{PION} simulation code, publicly available at \\url{https://www.pion.ie/} and developed with support from research funding by the Irish Research Council, Science Foundation Ireland, The Deutsch Forschungsgemeinschaft and the Alexander von Humboldt Stiftung.",
         "dependencies": []
+    },
+    "3D-BAROLO": {
+        "tags": [
+            "DiTeodoro+2015"
+        ],
+        "logo": "img/bbarolo.jpg",
+        "language": "C++",
+        "category": "Galactic Dynamics",
+        "keywords": [],
+        "description": "A software to derive the kinematics of disk galaxies through 3D tilted-ring models.",
+        "link": "https://bbarolo.readthedocs.io/en/latest/",
+        "attribution_link": "https://bbarolo.readthedocs.io/en/latest/license.html",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": []
     }
 }
