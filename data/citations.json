@@ -2360,5 +2360,26 @@
             "pandas",
             "python"
         ]
+    },
+    "Pröst": {
+        "tags": [],
+        "logo": "img/prost.png",
+        "language": "Python",
+        "category": "Transients",
+        "keywords": [
+            "host galaxy association"
+        ],
+        "description": "A Bayesian code for transient-host galaxy association.",
+        "link": "https://github.com/alexandergagliano/Prost",
+        "attribution_link": "https://github.com/alexandergagliano/Prost",
+        "zenodo_doi": "10.5281/zenodo.15397885",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "numpy",
+            "pandas",
+            "python",
+            "scipy"
+        ]
     }
 }
