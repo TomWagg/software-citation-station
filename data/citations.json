@@ -2381,5 +2381,42 @@
             "python",
             "scipy"
         ]
+    },
+    "LALSuite": {
+        "tags": [
+            "lalsuite",
+            "swiglal"
+        ],
+        "logo": "img/LALSuite.png",
+        "language": ["C", "Python"],
+        "category": "Gravitational Waves",
+        "keywords": [
+            "gravitational wave",
+            "data analysis",
+            "waveform",
+            "burst",
+            "CBC",
+            "compact binary coalescence",
+            "binary black hole",
+            "binary neutron star",
+            "CW",
+            "continuous wave"
+        ],
+        "description": "The LVK Algorithm Library Suite (LALSuite) is comprised of various gravitational wave data analysis routines, including: waveform and noise generation; burst, CBC, and CW signal analysis.",
+        "link": "https://doi.org/10.7935/GT1W-FZ16",
+        "attribution_link": "https://git.ligo.org/lscsoft/lalsuite/#acknowledgment",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "matplotlib",
+            "numpy",
+            "python",
+            "scipy",
+            "h5py",
+            "healpy",
+            "sympy",
+            "tqdm"
+        ]
     }
 }
