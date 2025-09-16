@@ -2418,5 +2418,26 @@
             "sympy",
             "tqdm"
         ]
+    },
+    "qnm": {
+        "tags": [
+            "Stein:2019mop"
+        ],
+        "logo": "",
+        "language": "Python",
+        "category": "Gravitational Waves",
+        "keywords": [],
+        "description": "A Python package for calculating Kerr quasinormal modes, separation constants, and spherical-spheroidal mixing coefficients",
+        "link": "https://qnm.readthedocs.io/",
+        "attribution_link": "https://github.com/duetosymmetry/qnm?tab=readme-ov-file#how-to-cite",
+        "zenodo_doi": "10.5281/zenodo.2593978",
+        "custom_citation": "",
+        "dependencies": [
+            "numpy",
+            "python",
+            "scipy",
+            "Numba",
+            "tqdm"
+        ]
     }
 }
