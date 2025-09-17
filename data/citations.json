@@ -2458,5 +2458,42 @@
             "scipy",
             "Photutils"
         ]
+    },
+    "PyFstat": {
+        "tags": [
+            "pyfstat",
+            "Keitel:2021xeq",
+            "Ashton:2018ure",
+            "Keitel:2018pxz",
+            "Ashton:2018qth"
+        ],
+        "logo": "img/PyFstat.png",
+        "language": "Python",
+        "category": "Gravitational Waves",
+        "keywords": [
+            "astrophysics",
+            "data analysis",
+            "gravity",
+            "gravitational waves",
+            "neutron stars",
+            "ligo",
+            "virgo",
+            "pycuda"
+        ],
+        "description": "A python package for gravitational wave analysis with the F-statistic",
+        "link": "https://pyfstat.readthedocs.io/",
+        "attribution_link": "https://github.com/PyFstat/PyFstat/blob/master/README.md#citing-this-work",
+        "zenodo_doi": "10.5281/zenodo.3967045",
+        "custom_citation": "This paper made use of the \\textsc{PyFstat} package \\citep{pyfstat,Keitel:2021xeq,Ashton:2018ure} \\footnote{{TODO}: Optionally, if using transient signal features please also cite \\citet{Keitel:2018pxz} and for glitch-robust searches please also cite \\citet{Ashton:2018qth} . See \\url{https://github.com/PyFstat/PyFstat/blob/master/README.md#citing-this-work} for details.}",
+        "dependencies": [
+            "matplotlib",
+            "numpy",
+            "pandas",
+            "python",
+            "scipy",
+            "corner.py",
+            "LALSuite",
+            "tqdm"
+        ]
     }
 }
