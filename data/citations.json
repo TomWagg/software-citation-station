@@ -2439,5 +2439,24 @@
             "Numba",
             "tqdm"
         ]
+    },
+    "jwst": {
+        "tags": [],
+        "logo": "img/jwst.png",
+        "language": "Python",
+        "category": "Data Handling",
+        "keywords": [],
+        "description": "The STScI science calibration pipeline for data from the James Webb Space Telescope",
+        "link": "https://jwst-pipeline.readthedocs.io/en/latest/",
+        "attribution_link": "https://jwst-docs.stsci.edu/accessing-jwst-data/citing-jwst-data",
+        "zenodo_doi": "10.5281/zenodo.6984365",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "numpy",
+            "python",
+            "scipy",
+            "Photutils"
+        ]
     }
 }
