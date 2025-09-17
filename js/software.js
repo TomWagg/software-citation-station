@@ -642,6 +642,12 @@ window.addEventListener('DOMContentLoaded', () => {
         })
     });
 
+    document.getElementById("copy-new-software").addEventListener('click', function() {
+        navigator.clipboard.writeText(this.getAttribute("data-copy-text"));
+        const url = `https://github.com/TomWagg/software-citation-station/issues/new?assignees=&labels=new-citation&projects=&template=01-citation.md&title=[NEW SUBMISSION] ${name}`
+        window.open(url, "_blank");
+    });
+
     document.getElementById("new-software-from-search").addEventListener('click', function(e) {
         e.preventDefault();
         document.getElementById("launch-new-software").click();
@@ -1143,11 +1149,7 @@ function validate_new_software_form() {
             copy_text += "\n\n";
             copy_text += "# BibTeX\n```\n" + bibtex_field.value.trim() + "\n```";
 
-            document.getElementById("copy-new-software").addEventListener('click', function() {
-                navigator.clipboard.writeText(copy_text);
-                const url = `https://github.com/TomWagg/software-citation-station/issues/new?assignees=&labels=new-citation&projects=&template=01-citation.md&title=[NEW SUBMISSION] ${name}`
-                window.open(url, "_blank");
-            });
+            document.getElementById("copy-new-software").setAttribute("data-copy-text", copy_text);
         }
         form.classList.add('was-validated');
         loader.classList.add("hide");
