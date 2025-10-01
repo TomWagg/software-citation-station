@@ -2556,5 +2556,20 @@
         "dependencies": [
             "MESA"
         ]
+    },
+    "Magrathea": {
+        "tags": [
+            "Huang2022"
+        ],
+        "logo": "img/Magrathea.jpg",
+        "language": "C++",
+        "category": "Planet and Exoplanet",
+        "keywords": [],
+        "description": "A planet structure code which considers the case of fully differentiated interiors.",
+        "link": "https://github.com/Huang-CL/Magrathea",
+        "attribution_link": "https://github.com/Huang-CL/Magrathea/blob/master/CITATION.md",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": []
     }
 }
