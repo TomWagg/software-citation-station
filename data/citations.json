@@ -2538,5 +2538,23 @@
             "matplotlib",
             "MESA"
         ]
+    },
+    "MIST": {
+        "tags": [
+            "2016ApJ...823..102C",
+            "2016ApJS..222....8D"
+        ],
+        "logo": "img/MIST.jpg",
+        "language": "Fortran",
+        "category": "Stars",
+        "keywords": [],
+        "description": "Isochrone tool based on MESA with a large grids of single-star stellar evolutionary models extending across all evolutionary phases for all relevant masses & metallicities",
+        "link": "https://waps.cfa.harvard.edu/MIST/index.html",
+        "attribution_link": "https://waps.cfa.harvard.edu/MIST/references.html",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "MESA"
+        ]
     }
 }
