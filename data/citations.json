@@ -2515,5 +2515,28 @@
         "zenodo_doi": "",
         "custom_citation": "Calculations were performed with version yy.vr of Cloudy \\citep{1998PASP..110..761F, 2013RMxAA..49..137F, 2017RMxAA..53..385F, 2023RMxAA..59..327C}, last described by \\citep{2025arXiv250801102G}. \\footnote{TODO: Replace yy.vr with the version number used.}",
         "dependencies": []
+    },
+    "POSYDON": {
+        "tags": [
+            "2024arXiv241102376A",
+            "2023ApJS..264...45F"
+        ],
+        "logo": "img/posydon.png",
+        "language": "Python",
+        "category": "Population Synthesis",
+        "keywords": [],
+        "description": "POSYDON is a next-generation single and binary-star population synthesis code incorporating full stellar structure and evolution modeling with the use of MESA.",
+        "link": "https://posydon.org",
+        "attribution_link": "https://posydon.org",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "numpy",
+            "scipy",
+            "astropy",
+            "pandas",
+            "matplotlib",
+            "MESA"
+        ]
     }
 }
