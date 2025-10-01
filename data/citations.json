@@ -1264,16 +1264,17 @@
     },
     "Bilby": {
         "tags": [
-            "bilby_paper"
+            "bilby_paper",
+            "bilby_paper_2"
         ],
         "logo": "img/Bilby.jpeg",
         "language": "Python",
         "category": "Gravitational Waves",
         "keywords": [],
         "description": "Bilby: a user-friendly Bayesian inference library.",
-        "link": "https://lscsoft.docs.ligo.org/bilby/index.html",
-        "attribution_link": "https://lscsoft.docs.ligo.org/bilby/citing-bilby.html",
-        "zenodo_doi": "10.5281/zenodo.2602177",
+        "link": "https://bilby-dev.github.io/bilby/index.html",
+        "attribution_link": "https://bilby-dev.github.io/bilby/citing-bilby.html",
+        "zenodo_doi": "10.5281/zenodo.14025463",
         "custom_citation": "",
         "dependencies": [
             "astropy",
