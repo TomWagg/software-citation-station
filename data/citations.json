@@ -2496,5 +2496,24 @@
             "LALSuite",
             "tqdm"
         ]
+    },
+    "Cloudy": {
+        "tags": [
+            "1998PASP..110..761F",
+            "2013RMxAA..49..137F",
+            "2017RMxAA..53..385F",
+            "2023RMxAA..59..327C",
+            "2025arXiv250801102G"
+        ],
+        "logo": "img/cloudy.jpg",
+        "language": "C++",
+        "category": "General",
+        "keywords": [],
+        "description": "Cloudy is an ab initio spectral synthesis code designed to model a wide range of interstellar \"clouds\", from H II regions and planetary nebulae, to Active Galactic Nuclei.",
+        "link": "https://gitlab.nublado.org/cloudy/cloudy",
+        "attribution_link": "https://gitlab.nublado.org/cloudy/cloudy/-/wikis/Frequently%20asked%20Questions%20about%20Cloudy",
+        "zenodo_doi": "",
+        "custom_citation": "Calculations were performed with version yy.vr of Cloudy \\citep{1998PASP..110..761F, 2013RMxAA..49..137F, 2017RMxAA..53..385F, 2023RMxAA..59..327C}, last described by \\citep{2025arXiv250801102G}. \\footnote{TODO: Replace yy.vr with the version number used.}",
+        "dependencies": []
     }
 }
