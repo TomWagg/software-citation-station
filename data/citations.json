@@ -2571,5 +2571,22 @@
         "zenodo_doi": "",
         "custom_citation": "",
         "dependencies": []
+    },
+    "Makie.jl": {
+        "tags": [
+            "DanischKrumbiegel2021"
+        ],
+        "logo": "img/Makie.jl.svg",
+        "language": "Julia",
+        "category": "Data Handling",
+        "keywords": [],
+        "description": "A plotting library for Julia that is both reactive and useful for making publication-quality plots.",
+        "link": "https://docs.makie.org/stable/",
+        "attribution_link": "https://docs.makie.org/stable/#Citing-Makie",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "julia"
+        ]
     }
 }
