@@ -313,7 +313,6 @@ Promise.all([
                                 new_ack = new_ack.slice(0, -1) + "," + new_tag + "}";
                             } else {
                                 new_ack += " \\citep{" + new_tag + "}";
-                                print(new_ack)
                             }
 
                             // remove the final period if it exists
