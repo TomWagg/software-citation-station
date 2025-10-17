@@ -248,7 +248,7 @@ Promise.all([
                 // add the acknowledgement and do some simple latex syntax highlighting
                 let new_ack = "\\texttt{" + btn.querySelector(".software-name").innerText + "}";
                 if (btn_tags.length > 0 && btn_tags[0] !== "") {
-                    new_ack += " \\citep{" + btn_tags.join(", ") + "}"
+                    new_ack += " \\citep{" + btn_tags.join(",") + "}"
                 }
 
                 // check if the software has a custom acknowledgement
@@ -310,7 +310,7 @@ Promise.all([
                             const chosen_version = version_picker.querySelector(".version-select").value;
                             const new_tag = btn.getAttribute("data-key") + "_" + chosen_version
                             if (new_ack.includes("citep")) {
-                                new_ack = new_ack.slice(0, -1) + ", " + new_tag + "}";
+                                new_ack = new_ack.slice(0, -1) + "," + new_tag + "}";
                             } else {
                                 new_ack += " \\citep{" + new_tag + "}";
                             }
@@ -390,7 +390,7 @@ Promise.all([
                 ack.innerHTML += "\n\n";
             }
             ack.innerHTML += custom_acks_to_add.join("\n\n");
-            ack.innerHTML += "\n\n" + highlight_latex("Software citation information aggregated using \\texttt{\\href{https://www.tomwagg.com/software-citation-station/}{The Software Citation Station}} \\citep{software-citation-station-paper, software-citation-station-zenodo}.");
+            ack.innerHTML += "\n\n" + highlight_latex("Software citation information aggregated using \\texttt{\\href{https://www.tomwagg.com/software-citation-station/}{The Software Citation Station}} \\citep{software-citation-station-paper,software-citation-station-zenodo}.");
 
             // add the bibtex entries
             bibs_to_add.push(highlight_bibtex(bibtex_table['software-citation-station-paper']))
