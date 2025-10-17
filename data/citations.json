@@ -2588,5 +2588,20 @@
         "dependencies": [
             "julia"
         ]
+    },
+    "Zuko": {
+        "tags": [
+            "rozet2022zuko"
+        ],
+        "logo": "img/Zuko.svg",
+        "language": "Python",
+        "category": "Machine Learning",
+        "keywords": [],
+        "description": "Zuko is a Python package that implements normalizing flows in PyTorch.",
+        "link": "https://zuko.readthedocs.io/stable/",
+        "attribution_link": "https://github.com/probabilists/zuko/blob/master/CITATION.bib",
+        "zenodo_doi": "10.5281/zenodo.7625672",
+        "custom_citation": "",
+        "dependencies": []
     }
 }
