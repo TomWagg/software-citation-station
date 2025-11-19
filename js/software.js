@@ -958,10 +958,10 @@ async function validate_zenodo_doi(concept_doi) {
         return [-1, concept_doi];
     }
 
-    const BIG_NUM = 10000;
+    const PAGE_SIZE = 100;
 
     // build the url and make the request
-    const url = `https://zenodo.org/api/records?q=conceptdoi:"${concept_doi}"&all_versions=true&size=${BIG_NUM}`;
+    const url = `https://zenodo.org/api/records?q=conceptdoi:"${concept_doi}"&all_versions=true&size=${PAGE_SIZE}`;
     const response = await fetch(url);
     if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -973,7 +973,7 @@ async function validate_zenodo_doi(concept_doi) {
     // if we didn't find anything then maybe the user entered a specific version DOI accidentally
     if (data.hits.hits.length === 0) {
         // retry by searching for the DOI assuming it's not a concept DOI
-        const url = `https://zenodo.org/api/records?q=doi:"${concept_doi}"&all_versions=true&size=${BIG_NUM}`;
+        const url = `https://zenodo.org/api/records?q=doi:"${concept_doi}"&all_versions=true&size=${PAGE_SIZE}`;
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -1092,7 +1092,7 @@ function validate_new_software_form() {
             doi_input.parentElement.querySelector(".invalid-feedback").innerHTML = "Invalid DOI. Please ensure you have the correct DOI for <b>all</b> versions of the software (hover over the question mark above for instructions).";
         } else {
             form.querySelector("#new-software-doi").setCustomValidity("");
-            doi_input.parentElement.querySelector(".valid-feedback").innerHTML = n_versions > 0 ? ("DOI found on Zenodo with " + n_versions + " versions.") : "No DOI provided.";
+            doi_input.parentElement.querySelector(".valid-feedback").innerHTML = n_versions > 0 ? ("DOI found on Zenodo with at least " + n_versions + " versions.") : "No DOI provided.";
         }
 
         // perform the rest of the validation
