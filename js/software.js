@@ -338,7 +338,6 @@ Promise.all([
                                 }
                             // otherwise just append the new tag if there's a custom acknowledgement
                             } else if (custom_ack != "") {
-                                console.log("appending")
                                 custom_ack += " \\citep{" + new_tag + "}.";
                             }
                             bibs_to_add.push(highlight_bibtex(version_picker.getAttribute("data-bibtex")));
@@ -904,26 +903,65 @@ function compare_versions(a, b) {
 // Function to fetch records from Zenodo API
 async function get_zenodo_version_info(concept_doi, vp) {
     // Build the complete URL with the query parameter for concept DOI
-    const BIG_NUM = 10000;
-    const url = `https://zenodo.org/api/records?q=conceptdoi:"${concept_doi}"&all_versions=true&size=${BIG_NUM}`;
+    const PAGE_SIZE = 100;
+    const base_url = `https://zenodo.org/api/records?q=conceptdoi:"${concept_doi}"&all_versions=true&size=${PAGE_SIZE}`;
     try {
-        // Make the API request with the Accept header for BibTeX format
-        const response = await fetch(url);
-        
-        // Check if the response is OK (status code 200-299)
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-
+        // keep track of which versions we've seen so far
         let version_and_doi = []
         let versions_so_far = new Set()
-        for (let hit of data.hits.hits) {
-            if (!versions_so_far.has(hit.metadata.version) && hit.metadata.version !== undefined) {
-                version_and_doi.push({"version": hit.metadata.version, "doi": hit.id})
-                versions_so_far.add(hit.metadata.version)
+
+        // start with an absurd number of expected versions to enter the loop
+        let expected_versions = 100000;
+        let n_bad_versions = 0;
+        let page = 1;
+
+        while (version_and_doi.length + n_bad_versions < expected_versions) {
+            let url = base_url + `&page=${page}`;
+
+            // NOTE: THIS ASSUMES NO SOFTWARE HAS MORE THAN 1000 (10 * 100) VERSIONS, CHANGE IF NECESSARY
+            if (page > 10) {
+                console.warn(`Exceeded 10 pages of results for concept DOI ${concept_doi}. Stopping further requests to avoid rate limiting.`);
+                console.log(`Fetched ${version_and_doi.length} versions so far.`);
+                console.log(version_and_doi)
+                break;
             }
+
+            // make the API request with the Accept header for BibTeX format
+            const response = await fetch(url);
+
+            // check if it's a 429 (too many requests) error
+            if (response.status === 429) {
+                const rateLimitResetHeader = response.headers.get('x-ratelimit-reset');
+                let waitTime = 60000;     // default wait time of 60 seconds
+                if (rateLimitResetHeader) {
+                    const resetTimeInMilliseconds = parseInt(rateLimitResetHeader, 10) * 1000;
+                    const currentTime = Date.now();
+                    waitTime = Math.max(0, resetTimeInMilliseconds - currentTime);
+                }
+                console.warn(`Received 429 Too Many Requests response. Retrying after ${waitTime}ms...`);
+                await new Promise(resolve => setTimeout(resolve, waitTime));
+                continue;   // retry the same page
+            }
+            
+            // check if the response is OK (status code 200-299)
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+
+            // update the expected versions based on the total hits
+            expected_versions = data.hits.total;
+
+            for (let hit of data.hits.hits) {
+                if (!versions_so_far.has(hit.metadata.version) && hit.metadata.version !== undefined) {
+                    version_and_doi.push({"version": hit.metadata.version, "doi": hit.id})
+                    versions_so_far.add(hit.metadata.version)
+                } else {
+                    n_bad_versions += 1;
+                }
+            }
+            page += 1;
         }
 
         version_and_doi.sort(function(a, b) {
@@ -958,10 +996,10 @@ async function validate_zenodo_doi(concept_doi) {
         return [-1, concept_doi];
     }
 
-    const BIG_NUM = 10000;
+    const PAGE_SIZE = 100;
 
     // build the url and make the request
-    const url = `https://zenodo.org/api/records?q=conceptdoi:"${concept_doi}"&all_versions=true&size=${BIG_NUM}`;
+    const url = `https://zenodo.org/api/records?q=conceptdoi:"${concept_doi}"&all_versions=true&size=${PAGE_SIZE}`;
     const response = await fetch(url);
     if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -973,7 +1011,7 @@ async function validate_zenodo_doi(concept_doi) {
     // if we didn't find anything then maybe the user entered a specific version DOI accidentally
     if (data.hits.hits.length === 0) {
         // retry by searching for the DOI assuming it's not a concept DOI
-        const url = `https://zenodo.org/api/records?q=doi:"${concept_doi}"&all_versions=true&size=${BIG_NUM}`;
+        const url = `https://zenodo.org/api/records?q=doi:"${concept_doi}"&all_versions=true&size=${PAGE_SIZE}`;
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -1092,7 +1130,7 @@ function validate_new_software_form() {
             doi_input.parentElement.querySelector(".invalid-feedback").innerHTML = "Invalid DOI. Please ensure you have the correct DOI for <b>all</b> versions of the software (hover over the question mark above for instructions).";
         } else {
             form.querySelector("#new-software-doi").setCustomValidity("");
-            doi_input.parentElement.querySelector(".valid-feedback").innerHTML = n_versions > 0 ? ("DOI found on Zenodo with " + n_versions + " versions.") : "No DOI provided.";
+            doi_input.parentElement.querySelector(".valid-feedback").innerHTML = n_versions > 0 ? ("DOI found on Zenodo with at least " + n_versions + " versions.") : "No DOI provided.";
         }
 
         // perform the rest of the validation
