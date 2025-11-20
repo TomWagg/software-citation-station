@@ -2588,5 +2588,64 @@
         "dependencies": [
             "julia"
         ]
+    },
+    "Zuko": {
+        "tags": [
+            "rozet2022zuko"
+        ],
+        "logo": "img/Zuko.svg",
+        "language": "Python",
+        "category": "Machine Learning",
+        "keywords": [],
+        "description": "Zuko is a Python package that implements normalizing flows in PyTorch.",
+        "link": "https://zuko.readthedocs.io/stable/",
+        "attribution_link": "https://github.com/probabilists/zuko/blob/master/CITATION.bib",
+        "zenodo_doi": "10.5281/zenodo.7625672",
+        "custom_citation": "",
+        "dependencies": [
+            "python"
+        ]
+    },
+    "Pyia": {
+        "tags": [
+            "pyia"
+        ],
+        "logo": "",
+        "language": "Python",
+        "category": "Data Handling",
+        "keywords": [
+            "gaia"
+        ],
+        "description": "A package that provides a class for working with Gaia data",
+        "link": "https://pyia.readthedocs.io/en/latest/",
+        "attribution_link": "https://github.com/adrn/pyia",
+        "zenodo_doi": "10.5281/zenodo.1228135",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "numpy",
+            "pandas",
+            "python"
+        ]
+    },
+    "GalPaK3D": {
+        "tags": [
+            "2015AJ....150...92B"
+        ],
+        "logo": "img/GalPaK3D.png",
+        "language": "Python",
+        "category": "Galactic Dynamics",
+        "keywords": [],
+        "description": "A forward disk modelling tool",
+        "link": "https://galpak3d.univ-lyon1.fr/",
+        "attribution_link": "https://galpak3d.univ-lyon1.fr/doc/acknowledgments.html",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "matplotlib",
+            "numpy",
+            "python"
+        ]
     }
 }
