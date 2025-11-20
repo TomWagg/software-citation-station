@@ -2602,6 +2602,8 @@
         "attribution_link": "https://github.com/probabilists/zuko/blob/master/CITATION.bib",
         "zenodo_doi": "10.5281/zenodo.7625672",
         "custom_citation": "",
-        "dependencies": []
+        "dependencies": [
+            "python"
+        ]
     }
 }
