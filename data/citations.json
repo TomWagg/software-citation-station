@@ -2647,5 +2647,23 @@
             "numpy",
             "python"
         ]
+    },
+    "METISSE": {
+        "tags": [
+            "Agrawal+2020:2020MNRAS.497.4549A",
+            "Agrawal+2023:2023MNRAS.525..933A"
+        ],
+        "logo": "img/METISSE.png",
+        "language": "Fortran",
+        "category": "Stars",
+        "keywords": [
+            "interpolation"
+        ],
+        "description": "An open-source stellar evolution tool designed to provide a fast and flexible alternative to traditional rapid stellar evolution prescriptions.",
+        "link": "https://metisse.readthedocs.io/en/latest/",
+        "attribution_link": "https://metisse.readthedocs.io/en/latest/FAQ.html",
+        "zenodo_doi": "10.5281/zenodo.17650928",
+        "custom_citation": "",
+        "dependencies": []
     }
 }
