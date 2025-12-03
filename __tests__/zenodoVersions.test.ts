@@ -31,8 +31,10 @@ describe('compareVersions', () => {
   });
 
   it('should handle versions with different lengths', () => {
-    expect(compareVersions('1.0', '1.0.0')).toBeLessThan(0);
+    // Versions with trailing zeros are considered equal (1.0 == 1.0.0)
+    expect(compareVersions('1.0', '1.0.0')).toBe(0);
     expect(compareVersions('1.0.1', '1.0')).toBeGreaterThan(0);
+    expect(compareVersions('1.0', '1.0.1')).toBeLessThan(0);
   });
 
   it('should handle complex version comparisons', () => {

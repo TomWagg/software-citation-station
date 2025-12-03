@@ -44,13 +44,15 @@ export function compareVersions(a: string, b: string): number {
   const length = Math.max(splitA.length, splitB.length);
   
   for (let i = 0; i < length; i++) {
-    const numA = parseInt(splitA[i]);
-    const numB = parseInt(splitB[i]);
+    const partA = splitA[i] ?? '0';
+    const partB = splitB[i] ?? '0';
+    const numA = parseInt(partA);
+    const numB = parseInt(partB);
     
-    if (numA > numB || ((splitA[i] === splitB[i]) && isNaN(parseInt(splitB[i + 1])))) {
+    if (numA > numB || ((partA === partB) && (i + 1 < splitB.length) && isNaN(parseInt(splitB[i + 1])))) {
       return 1;
     }
-    if (numA < numB || ((splitA[i] === splitB[i]) && isNaN(parseInt(splitA[i + 1])))) {
+    if (numA < numB || ((partA === partB) && (i + 1 < splitA.length) && isNaN(parseInt(splitA[i + 1])))) {
       return -1;
     }
   }
@@ -71,7 +73,8 @@ export async function getZenodoVersionInfo(conceptDoi: string): Promise<ZenodoVe
   const versionAndDoi: ZenodoVersion[] = [];
   const versionsSoFar = new Set<string>();
   
-  let expectedVersions = 100000; // Start with absurd number to enter the loop
+  const INITIAL_EXPECTED_VERSIONS = 100000; // Start with large number to enter the loop
+  let expectedVersions = INITIAL_EXPECTED_VERSIONS;
   let nBadVersions = 0;
   let page = 1;
   

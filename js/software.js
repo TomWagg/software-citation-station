@@ -1006,7 +1006,7 @@ async function get_zenodo_version_info_cached(package_name, vp) {
         const version_and_doi = await response.json();
         
         // Populate the version picker
-        const select = vp.querySelector(".version-select")
+        const select = vp.querySelector(".version-select");
         for (let i = 0; i < version_and_doi.length; i++) {
             let opt = document.createElement("option")
             opt.value = version_and_doi[i].doi;
