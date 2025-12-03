@@ -903,7 +903,7 @@ function compare_versions(a, b) {
 // Function to fetch records from Zenodo API
 async function get_zenodo_version_info(concept_doi, vp) {
     // Build the complete URL with the query parameter for concept DOI
-    const PAGE_SIZE = 100;
+    const PAGE_SIZE = 25;
     const base_url = `https://zenodo.org/api/records?q=conceptdoi:"${concept_doi}"&all_versions=true&size=${PAGE_SIZE}`;
     try {
         // keep track of which versions we've seen so far
@@ -918,9 +918,9 @@ async function get_zenodo_version_info(concept_doi, vp) {
         while (version_and_doi.length + n_bad_versions < expected_versions) {
             let url = base_url + `&page=${page}`;
 
-            // NOTE: THIS ASSUMES NO SOFTWARE HAS MORE THAN 1000 (10 * 100) VERSIONS, CHANGE IF NECESSARY
-            if (page > 10) {
-                console.warn(`Exceeded 10 pages of results for concept DOI ${concept_doi}. Stopping further requests to avoid rate limiting.`);
+            // NOTE: THIS ASSUMES NO SOFTWARE HAS MORE THAN 1000 (40 * 25) VERSIONS, CHANGE IF NECESSARY
+            if (page > 40) {
+                console.warn(`Exceeded 40 pages of results for concept DOI ${concept_doi}. Stopping further requests to avoid rate limiting.`);
                 console.log(`Fetched ${version_and_doi.length} versions so far.`);
                 console.log(version_and_doi)
                 break;
