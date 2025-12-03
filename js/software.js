@@ -999,6 +999,9 @@ async function get_zenodo_version_info_cached(package_name, vp) {
         // If file doesn't exist, fall back to the API
         if (!response.ok) {
             console.warn(`No cached version data found for ${package_name}, falling back to API`);
+            if (!citations[package_name]) {
+                throw new Error(`Package ${package_name} not found in citations`);
+            }
             const zenodo_doi = citations[package_name]["zenodo_doi"];
             return get_zenodo_version_info(zenodo_doi, vp);
         }

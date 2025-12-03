@@ -44,17 +44,20 @@ export function compareVersions(a: string, b: string): number {
   const length = Math.max(splitA.length, splitB.length);
   
   for (let i = 0; i < length; i++) {
+    // Default to '0' for missing parts (e.g., '1.0' vs '1.0.0')
     const partA = splitA[i] ?? '0';
     const partB = splitB[i] ?? '0';
     const numA = parseInt(partA);
     const numB = parseInt(partB);
     
-    if (numA > numB || ((partA === partB) && (i + 1 < splitB.length) && isNaN(parseInt(splitB[i + 1])))) {
+    // Simple numeric comparison
+    if (numA > numB) {
       return 1;
     }
-    if (numA < numB || ((partA === partB) && (i + 1 < splitA.length) && isNaN(parseInt(splitA[i + 1])))) {
+    if (numA < numB) {
       return -1;
     }
+    // If equal, continue to next part
   }
   
   return 0;
@@ -73,8 +76,10 @@ export async function getZenodoVersionInfo(conceptDoi: string): Promise<ZenodoVe
   const versionAndDoi: ZenodoVersion[] = [];
   const versionsSoFar = new Set<string>();
   
-  const INITIAL_EXPECTED_VERSIONS = 100000; // Start with large number to enter the loop
-  let expectedVersions = INITIAL_EXPECTED_VERSIONS;
+  // Start with a large number to ensure we enter the loop at least once
+  // This will be updated with the actual total from the API response
+  const UNKNOWN_TOTAL_COUNT = Number.MAX_SAFE_INTEGER;
+  let expectedVersions = UNKNOWN_TOTAL_COUNT;
   let nBadVersions = 0;
   let page = 1;
   
