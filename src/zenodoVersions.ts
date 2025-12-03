@@ -70,7 +70,7 @@ export function compareVersions(a: string, b: string): number {
  * @returns Promise resolving to array of version information sorted by version (newest first)
  */
 export async function getZenodoVersionInfo(conceptDoi: string): Promise<ZenodoVersion[]> {
-  const PAGE_SIZE = 100;
+  const PAGE_SIZE = 25;
   const baseUrl = `https://zenodo.org/api/records?q=conceptdoi:"${conceptDoi}"&all_versions=true&size=${PAGE_SIZE}`;
   
   const versionAndDoi: ZenodoVersion[] = [];
@@ -86,7 +86,7 @@ export async function getZenodoVersionInfo(conceptDoi: string): Promise<ZenodoVe
   while (versionAndDoi.length + nBadVersions < expectedVersions) {
     const url = `${baseUrl}&page=${page}`;
     
-    // NOTE: THIS ASSUMES NO SOFTWARE HAS MORE THAN 1000 (10 * 100) VERSIONS
+    // NOTE: THIS ASSUMES NO SOFTWARE HAS MORE THAN 250 (10 * 25) VERSIONS
     if (page > 10) {
       console.warn(`Exceeded 10 pages of results for concept DOI ${conceptDoi}. Stopping further requests to avoid rate limiting.`);
       console.log(`Fetched ${versionAndDoi.length} versions so far.`);
