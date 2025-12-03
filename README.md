@@ -4,6 +4,8 @@
   <p>A website for making citing software used in your research quick and easy</p>
 </div>
 
+
+
 <p align="center">
   <a href="https://www.tomwagg.com/software-citation-station/">Visit the software citation station</a>
   • 
@@ -23,3 +25,26 @@
     To encourage, streamline, and standardize the process of citing software in academic work such as publications and presentations we introduce The Software Citation Station: a publicly available website and tool to quickly find or add software citations. You can read our paper about the importance of software (citations), resources for software citation, and a description of our tool at
     <a href="https://arxiv.org/abs/2406.04405">this link</a>.
 </p>
+
+## Development
+
+This project uses TypeScript for backend utilities and JavaScript for the frontend. 
+
+### Setup
+
+```bash
+npm install
+npm run build
+npm test
+```
+
+### Zenodo Version Caching
+
+The project includes an automated system for caching Zenodo version information. See [ZENODO_CACHE.md](ZENODO_CACHE.md) for details.
+
+To manually update the cache:
+```bash
+npm run fetch-versions
+```
+
+The cache is automatically updated daily via GitHub Actions.

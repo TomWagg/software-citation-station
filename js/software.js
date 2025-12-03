@@ -293,7 +293,7 @@ Promise.all([
                         });
 
                         // update the version picker with available versions
-                        get_zenodo_version_info(zenodo_doi, vp);
+                        get_zenodo_version_info_cached(btn.getAttribute("data-key"), vp);
                         document.getElementById("version-list").appendChild(vp);
 
                         // make a note that the user needs to select a version
@@ -987,6 +987,47 @@ async function get_zenodo_version_info(concept_doi, vp) {
     } catch (error) {
         // Handle errors
         console.error('Error fetching records:', error);
+    }
+}
+
+// Function to get Zenodo version info from cached files
+async function get_zenodo_version_info_cached(package_name, vp) {
+    try {
+        // Fetch the cached version data for this package
+        const response = await fetch(`data/zenodo-versions/${package_name}.json`);
+        
+        // If file doesn't exist, fall back to the API
+        if (!response.ok) {
+            console.warn(`No cached version data found for ${package_name}, falling back to API`);
+            if (!citations[package_name]) {
+                throw new Error(`Package ${package_name} not found in citations`);
+            }
+            const zenodo_doi = citations[package_name]["zenodo_doi"];
+            return get_zenodo_version_info(zenodo_doi, vp);
+        }
+        
+        const version_and_doi = await response.json();
+        
+        // Populate the version picker
+        const select = vp.querySelector(".version-select");
+        for (let i = 0; i < version_and_doi.length; i++) {
+            let opt = document.createElement("option")
+            opt.value = version_and_doi[i].doi;
+            opt.innerText = version_and_doi[i].version;
+            select.appendChild(opt);
+        }
+
+        vp.querySelector(".waiter").classList.add("hide");
+        vp.querySelector(".version-select").classList.remove("hide");
+
+        // if user just wants to select the latest version then do it
+        if (document.getElementById("latest_version").classList.contains("active")) {
+            select.value = version_and_doi[0].doi;
+            select.dispatchEvent(new Event('change'));
+        }
+    } catch (error) {
+        // Handle errors
+        console.error('Error loading cached version data:', error);
     }
 }
 
