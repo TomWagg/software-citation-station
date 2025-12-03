@@ -70,6 +70,12 @@ async function fetchAllVersions() {
   console.log(`  Processed: ${processed}`);
   console.log(`  Skipped (no DOI): ${skipped}`);
   console.log(`  Failed: ${failed}`);
+  
+  // Exit with error code if any packages failed to fetch
+  if (failed > 0) {
+    console.error(`\nERROR: ${failed} package(s) failed to fetch. Exiting with error code.`);
+    process.exit(1);
+  }
 }
 
 // Run the script

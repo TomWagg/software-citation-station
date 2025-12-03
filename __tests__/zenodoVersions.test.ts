@@ -174,8 +174,8 @@ describe('getZenodoVersionInfo', () => {
   it('should handle pagination correctly', async () => {
     const mockResponsePage1 = {
       hits: {
-        total: 150, // More than PAGE_SIZE (100)
-        hits: Array.from({ length: 100 }, (_, i) => ({
+        total: 50, // More than PAGE_SIZE (25)
+        hits: Array.from({ length: 25 }, (_, i) => ({
           id: `id${i}`,
           metadata: { version: `1.${i}.0` }
         }))
@@ -184,10 +184,10 @@ describe('getZenodoVersionInfo', () => {
 
     const mockResponsePage2 = {
       hits: {
-        total: 150,
-        hits: Array.from({ length: 50 }, (_, i) => ({
-          id: `id${i + 100}`,
-          metadata: { version: `1.${i + 100}.0` }
+        total: 50,
+        hits: Array.from({ length: 25 }, (_, i) => ({
+          id: `id${i + 25}`,
+          metadata: { version: `1.${i + 25}.0` }
         }))
       }
     };
@@ -206,7 +206,7 @@ describe('getZenodoVersionInfo', () => {
 
     const result = await getZenodoVersionInfo('10.5281/zenodo.1234567');
 
-    expect(result).toHaveLength(150);
+    expect(result).toHaveLength(50);
     expect(global.fetch).toHaveBeenCalledTimes(2);
   });
 
@@ -214,7 +214,7 @@ describe('getZenodoVersionInfo', () => {
     const mockResponse = {
       hits: {
         total: 100000, // Unrealistically high number
-        hits: Array.from({ length: 100 }, (_, i) => ({
+        hits: Array.from({ length: 25 }, (_, i) => ({
           id: `id${i}`,
           metadata: { version: `1.${i}.0` }
         }))
