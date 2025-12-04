@@ -2,7 +2,7 @@
  * Comprehensive unit tests for Zenodo version fetching functionality
  */
 
-import { compareVersions, getZenodoVersionInfo, ZenodoVersion } from '../src/zenodoVersions';
+import { compareVersions, getZenodoVersionInfo } from '../src/zenodoVersions';
 
 describe('compareVersions', () => {
   it('should return 0 for equal versions', () => {
