@@ -1,0 +1,24 @@
+{
+  "name": "software-citation-station",
+  "version": "1.0.0",
+  "description": "Software citation station with Zenodo version caching",
+  "scripts": {
+    "test": "jest",
+    "build": "tsc",
+    "fetch-versions": "node dist/fetchVersions.js"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.11",
+    "@types/node": "^20.10.6",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.3.3"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/__tests__/**/*.test.ts"
+    ]
+  }
+}
