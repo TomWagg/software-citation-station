@@ -36,7 +36,7 @@ Extract the Zenodo version parsing function from software.js, rewrite it in Type
 - Fetches Zenodo versions only for packages with `zenodo_doi`
 - Saves individual JSON files: `data/zenodo-versions/{package-name}.json`
 - Overwrites previous data on each run
-- Adds a 500ms delay between calls to ease rate limits
+- Adds a 1s delay between calls to ease rate limits
 - Includes error handling and progress reporting
 
 ### 4. GitHub Actions Workflow (`.github/workflows/fetch-zenodo-versions.yml`)

@@ -25,7 +25,7 @@ A Node.js script that:
 2. For each package with a `zenodo_doi`, fetches version information using `getZenodoVersionInfo()`
 3. Saves results to individual JSON files in `data/zenodo-versions/{package-name}.json`
 4. Overwrites previous versions each time
-5. Waits 500ms between requests to reduce rate limiting
+5. Waits 1s between requests to reduce rate limiting
 
 ### Frontend Integration (`js/software.js`)
 
