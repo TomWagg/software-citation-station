@@ -4,3 +4,7 @@
 *.synctex.gz
 *.pyg*
 *.bbl
+
+# Node.js
+node_modules/
+dist/
