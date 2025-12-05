@@ -1,0 +1,730 @@
+[
+  {
+    "version": "release-2024.12.29",
+    "doi": "14567778"
+  },
+  {
+    "version": "release-2022.12.26",
+    "doi": "7484173"
+  },
+  {
+    "version": "release-2024.12.22",
+    "doi": "14542312"
+  },
+  {
+    "version": "release-2021.12.19",
+    "doi": "5791428"
+  },
+  {
+    "version": "release-2024.12.15",
+    "doi": "14485351"
+  },
+  {
+    "version": "release-2022.12.12",
+    "doi": "7428821"
+  },
+  {
+    "version": "release-2021.12.12",
+    "doi": "5774392"
+  },
+  {
+    "version": "release-2024.12.08",
+    "doi": "14300679"
+  },
+  {
+    "version": "release-2021.12.5",
+    "doi": "5759134"
+  },
+  {
+    "version": "release-2024.12.01",
+    "doi": "14252185"
+  },
+  {
+    "version": "release-2021.11.28",
+    "doi": "5732521"
+  },
+  {
+    "version": "release-2023.11.26",
+    "doi": "10207663"
+  },
+  {
+    "version": "release-2024.11.24",
+    "doi": "14210866"
+  },
+  {
+    "version": "release-2021.11.21",
+    "doi": "5716473"
+  },
+  {
+    "version": "release-2022.11.21",
+    "doi": "7342407"
+  },
+  {
+    "version": "release-2024.11.20",
+    "doi": "14193201"
+  },
+  {
+    "version": "release-2022.11.17",
+    "doi": "7331855"
+  },
+  {
+    "version": "release-2025.11.16",
+    "doi": "17620321"
+  },
+  {
+    "version": "release-2021.11.14",
+    "doi": "5699004"
+  },
+  {
+    "version": "release-2024.11.11",
+    "doi": "14070168"
+  },
+  {
+    "version": "release-2025.11.09",
+    "doi": "17561758"
+  },
+  {
+    "version": "release-2023.11.05",
+    "doi": "10072207"
+  },
+  {
+    "version": "release-2021.10.31",
+    "doi": "5629276"
+  },
+  {
+    "version": "release-2023.10.20",
+    "doi": "1213092"
+  },
+  {
+    "version": "release-2021.10.17",
+    "doi": "5574249"
+  },
+  {
+    "version": "release-2024.10.14",
+    "doi": "13929578"
+  },
+  {
+    "version": "release-2025.10.12",
+    "doi": "17330175"
+  },
+  {
+    "version": "release-2021.10.1",
+    "doi": "5559128"
+  },
+  {
+    "version": "release-2021.9.26",
+    "doi": "5528354"
+  },
+  {
+    "version": "release-2025.09.21",
+    "doi": "17168294"
+  },
+  {
+    "version": "release-2021.9.19",
+    "doi": "5515680"
+  },
+  {
+    "version": "release-2023.09.17",
+    "doi": "8352407"
+  },
+  {
+    "version": "release-2025.09.14",
+    "doi": "17114929"
+  },
+  {
+    "version": "release-2021.9.12",
+    "doi": "5501628"
+  },
+  {
+    "version": "release-2023.09.10",
+    "doi": "8331710"
+  },
+  {
+    "version": "release-2025.09.07",
+    "doi": "17070229"
+  },
+  {
+    "version": "release-2023.09.03",
+    "doi": "8312170"
+  },
+  {
+    "version": "release-2025.08.31",
+    "doi": "17010211"
+  },
+  {
+    "version": "release-2021.8.29",
+    "doi": "5310619"
+  },
+  {
+    "version": "release-2021.8.26",
+    "doi": "5270722"
+  },
+  {
+    "version": "release-2024.08.25",
+    "doi": "13370472"
+  },
+  {
+    "version": "release-2025.08.24",
+    "doi": "16934799"
+  },
+  {
+    "version": "release-2023.08.20",
+    "doi": "8266420"
+  },
+  {
+    "version": "release-2024.08.18",
+    "doi": "13336971"
+  },
+  {
+    "version": "release-2025.08.17",
+    "doi": "16888341"
+  },
+  {
+    "version": "release-2021.8.15.0",
+    "doi": "5202808"
+  },
+  {
+    "version": "release-2023.08.13",
+    "doi": "8244935"
+  },
+  {
+    "version": "release-2024.08.12",
+    "doi": "13305329"
+  },
+  {
+    "version": "release-2021.8.8.0",
+    "doi": "5168863"
+  },
+  {
+    "version": "release-2023.08.06",
+    "doi": "8218133"
+  },
+  {
+    "version": "release-2024.08.04",
+    "doi": "13207705"
+  },
+  {
+    "version": "release-2025.08.03",
+    "doi": "16730222"
+  },
+  {
+    "version": "release-2021.8.1.0",
+    "doi": "5150917"
+  },
+  {
+    "version": "release-2023.07.30",
+    "doi": "8196246"
+  },
+  {
+    "version": "release-2025.07.27",
+    "doi": "16468585"
+  },
+  {
+    "version": "release-2021.7.25.0",
+    "doi": "5135060"
+  },
+  {
+    "version": "release-2023.07.23",
+    "doi": "8175810"
+  },
+  {
+    "version": "release-2025.07.20",
+    "doi": "16189101"
+  },
+  {
+    "version": "release-2021.7.18.0",
+    "doi": "5111909"
+  },
+  {
+    "version": "release-2023.07.16",
+    "doi": "8152569"
+  },
+  {
+    "version": "release-2021.7.14.0",
+    "doi": "5103652"
+  },
+  {
+    "version": "release-2025.07.13",
+    "doi": "15871806"
+  },
+  {
+    "version": "release-2021.7.12.0",
+    "doi": "5093824"
+  },
+  {
+    "version": "release-2021.7.11.0",
+    "doi": "5090280"
+  },
+  {
+    "version": "release-2023.07.09",
+    "doi": "8128141"
+  },
+  {
+    "version": "release-2021.7.5",
+    "doi": "5070808"
+  },
+  {
+    "version": "release-2023.07.02",
+    "doi": "8104987"
+  },
+  {
+    "version": "release-2021.7.2.dev1+g58e4e79d",
+    "doi": "5068283"
+  },
+  {
+    "version": "release-2021.07.01",
+    "doi": "5057604"
+  },
+  {
+    "version": "release-2023.06.25",
+    "doi": "8079686"
+  },
+  {
+    "version": "release-2022.06.19",
+    "doi": "6662839"
+  },
+  {
+    "version": "release-2023.06.18",
+    "doi": "8051420"
+  },
+  {
+    "version": "release-2022.06.05",
+    "doi": "6614338"
+  },
+  {
+    "version": "release-2023.06.04",
+    "doi": "8002377"
+  },
+  {
+    "version": "release-2025.06.01",
+    "doi": "15567542"
+  },
+  {
+    "version": "release-2023.05.28",
+    "doi": "7978284"
+  },
+  {
+    "version": "release-2025.05.25",
+    "doi": "15508445"
+  },
+  {
+    "version": "release-2023.05.21",
+    "doi": "7953900"
+  },
+  {
+    "version": "release-2025.05.18",
+    "doi": "15454335"
+  },
+  {
+    "version": "release-2023.05.15",
+    "doi": "7937748"
+  },
+  {
+    "version": "release-2025.05.11",
+    "doi": "15381437"
+  },
+  {
+    "version": "release-2022.05.08",
+    "doi": "6527890"
+  },
+  {
+    "version": "release-2023.05.07",
+    "doi": "7905191"
+  },
+  {
+    "version": "release-2025.05.04",
+    "doi": "15334795"
+  },
+  {
+    "version": "release-2022.05.04",
+    "doi": "6518540"
+  },
+  {
+    "version": "release-2023.04.30",
+    "doi": "7881540"
+  },
+  {
+    "version": "release-2025.04.27",
+    "doi": "15288779"
+  },
+  {
+    "version": "release-2022.4.24",
+    "doi": "6480576"
+  },
+  {
+    "version": "release-2023.04.23",
+    "doi": "7855824"
+  },
+  {
+    "version": "release-2025.04.20",
+    "doi": "15250022"
+  },
+  {
+    "version": "release-2023.04.16",
+    "doi": "7832336"
+  },
+  {
+    "version": "release-2023.04.09",
+    "doi": "7811154"
+  },
+  {
+    "version": "release-2022.4.3",
+    "doi": "6408958"
+  },
+  {
+    "version": "release-2022.4.1",
+    "doi": "6430631"
+  },
+  {
+    "version": "release-2025.03.30",
+    "doi": "15107213"
+  },
+  {
+    "version": "release-2022.3.27",
+    "doi": "6387030"
+  },
+  {
+    "version": "release-2023.03.26",
+    "doi": "7771266"
+  },
+  {
+    "version": "release-2025.03.23",
+    "doi": "15069852"
+  },
+  {
+    "version": "release-2023.03.20",
+    "doi": "7753535"
+  },
+  {
+    "version": "release-2025.03.19",
+    "doi": "15052203"
+  },
+  {
+    "version": "release-2025.03.16",
+    "doi": "15033539"
+  },
+  {
+    "version": "release-2022.3.13",
+    "doi": "6349623"
+  },
+  {
+    "version": "release-2025.03.09",
+    "doi": "14994431"
+  },
+  {
+    "version": "release-2022.3.6",
+    "doi": "6331250"
+  },
+  {
+    "version": "release-2025.03.02",
+    "doi": "14954777"
+  },
+  {
+    "version": "release-2022.3.2",
+    "doi": "6370841"
+  },
+  {
+    "version": "release-2022.2.27",
+    "doi": "6299948"
+  },
+  {
+    "version": "release-2023.02.27",
+    "doi": "7681486"
+  },
+  {
+    "version": "release-2025.02.23",
+    "doi": "14911793"
+  },
+  {
+    "version": "release-2023.02.16",
+    "doi": "7646631"
+  },
+  {
+    "version": "release-2025.02.16",
+    "doi": "14876790"
+  },
+  {
+    "version": "release-2025.02.09",
+    "doi": "14838299"
+  },
+  {
+    "version": "release-2022.2.6",
+    "doi": "5979739"
+  },
+  {
+    "version": "release-2023.02.06",
+    "doi": "7612458"
+  },
+  {
+    "version": "release-2022.2.2",
+    "doi": "6174747"
+  },
+  {
+    "version": "release-2023.02.2",
+    "doi": "7657469"
+  },
+  {
+    "version": "release-2025.02.02",
+    "doi": "14788322"
+  },
+  {
+    "version": "release-2025.01.26",
+    "doi": "14740815"
+  },
+  {
+    "version": "release-2022.1.23",
+    "doi": "5893773"
+  },
+  {
+    "version": "release-2022.1.16",
+    "doi": "5855001"
+  },
+  {
+    "version": "release-2025.01.12",
+    "doi": "14633332"
+  },
+  {
+    "version": "release-2023.01.11",
+    "doi": "7525913"
+  },
+  {
+    "version": "release-2022.1.9",
+    "doi": "5831215"
+  },
+  {
+    "version": "release-2025.01.05",
+    "doi": "14600165"
+  },
+  {
+    "version": "release-2022.1.3",
+    "doi": "5919226"
+  },
+  {
+    "version": "v3.0.dev3448",
+    "doi": "3870957"
+  },
+  {
+    "version": "v3.0.dev3801",
+    "doi": "4430025"
+  },
+  {
+    "version": "v3.0-alpha.2",
+    "doi": "2590539"
+  },
+  {
+    "version": "v3.0.dev3808",
+    "doi": "4459690"
+  },
+  {
+    "version": "v3.0.dev3680",
+    "doi": "4295581"
+  },
+  {
+    "version": "v3.0.dev3442",
+    "doi": "3842125"
+  },
+  {
+    "version": "v3.0.dev3403",
+    "doi": "3675390"
+  },
+  {
+    "version": "($VERSION)",
+    "doi": "3627731"
+  },
+  {
+    "version": "v3.0.dev3504",
+    "doi": "4027937"
+  },
+  {
+    "version": "v3.0.dev3539",
+    "doi": "4257029"
+  },
+  {
+    "version": "v3.0.a1",
+    "doi": "2589622"
+  },
+  {
+    "version": "v3.0.dev3947",
+    "doi": "4754362"
+  },
+  {
+    "version": "v3.0.dev3959",
+    "doi": "4781778"
+  },
+  {
+    "version": "v3.0.dev3497",
+    "doi": "3977743"
+  },
+  {
+    "version": "3.0.dev3396",
+    "doi": "3660696"
+  },
+  {
+    "version": "v3.0.dev3463",
+    "doi": "3902923"
+  },
+  {
+    "version": "v3.0.dev3794",
+    "doi": "4394528"
+  },
+  {
+    "version": "v3.0.dev3484",
+    "doi": "3951734"
+  },
+  {
+    "version": "v3.0.dev3527",
+    "doi": "4079500"
+  },
+  {
+    "version": "v3.0.dev3472",
+    "doi": "3912043"
+  },
+  {
+    "version": "v3.0.dev3510",
+    "doi": "4054070"
+  },
+  {
+    "version": "v3.0.dev3503",
+    "doi": "4016992"
+  },
+  {
+    "version": "v3.0.dev3541",
+    "doi": "4274289"
+  },
+  {
+    "version": "v3.0.dev3796",
+    "doi": "4411996"
+  },
+  {
+    "version": "v3.0.dev3756",
+    "doi": "4319274"
+  },
+  {
+    "version": "v3.0.dev3952",
+    "doi": "4765234"
+  },
+  {
+    "version": "3.0.dev3384",
+    "doi": "3634124"
+  },
+  {
+    "version": "v3.0.dev4010",
+    "doi": "4995779"
+  },
+  {
+    "version": "v3.0.dev3698",
+    "doi": "4308103"
+  },
+  {
+    "version": "v3.0.dev3459",
+    "doi": "3893940"
+  },
+  {
+    "version": "v3.0.dev3945",
+    "doi": "4752091"
+  },
+  {
+    "version": "v3.0.dev3983",
+    "doi": "4903992"
+  },
+  {
+    "version": "v3.0.dev3487",
+    "doi": "3970249"
+  },
+  {
+    "version": "v3.0.dev3998",
+    "doi": "4946458"
+  },
+  {
+    "version": "3.0.dev3383",
+    "doi": "3634063"
+  },
+  {
+    "version": "3.0.dev1",
+    "doi": "3626045"
+  },
+  {
+    "version": "v3.0.dev3970",
+    "doi": "4853970"
+  },
+  {
+    "version": "v3.0.dev3769",
+    "doi": "4362656"
+  },
+  {
+    "version": "v3.0.dev3526",
+    "doi": "4065592"
+  },
+  {
+    "version": "v3.0.dev3425",
+    "doi": "3763762"
+  },
+  {
+    "version": "v3.0-alpha.3",
+    "doi": "2799539"
+  },
+  {
+    "version": "v3.0.dev4019",
+    "doi": "5034859"
+  },
+  {
+    "version": "v",
+    "doi": "3627351"
+  },
+  {
+    "version": "v3.0.dev3957",
+    "doi": "4776912"
+  },
+  {
+    "version": "3.0.dev3388",
+    "doi": "3627733"
+  },
+  {
+    "version": "v3.0.dev3500",
+    "doi": "3987472"
+  },
+  {
+    "version": "v3.0.dev3477",
+    "doi": "3941302"
+  },
+  {
+    "version": "v3.0.dev3458",
+    "doi": "3884310"
+  },
+  {
+    "version": "v3.0.dev3673",
+    "doi": "4284097"
+  },
+  {
+    "version": "v3.0.dev3424",
+    "doi": "3813677"
+  },
+  {
+    "version": "v3.0.dev3439",
+    "doi": "3835959"
+  },
+  {
+    "version": "v3.0.dev3409",
+    "doi": "3686373"
+  },
+  {
+    "version": "v2.0.2",
+    "doi": "1292315"
+  },
+  {
+    "version": "v2.0",
+    "doi": "1213132"
+  },
+  {
+    "version": "v2_test1",
+    "doi": "1213671"
+  },
+  {
+    "version": "v2_test2",
+    "doi": "1213676"
+  },
+  {
+    "version": "v1.0.1",
+    "doi": "17630"
+  }
+]
