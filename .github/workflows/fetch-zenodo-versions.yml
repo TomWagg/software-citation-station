@@ -4,6 +4,7 @@ on:
   schedule:
     # Run every day at 6:00 AM UTC
     - cron: '0 6 * * *'
+  pull_request:
   workflow_dispatch: # Allow manual triggering
 
 jobs:
@@ -32,6 +33,7 @@ jobs:
         run: npm run fetch-versions
         
       - name: Commit and push if changes
+        if: github.event_name != 'pull_request'
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
