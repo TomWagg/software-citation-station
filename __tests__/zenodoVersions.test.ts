@@ -153,7 +153,7 @@ describe('getZenodoVersionInfo', () => {
     expect(result[0]).toEqual({ version: '1.0.0', doi: '12346' });
   });
 
-  it('should prefer newer created timestamp over older updated timestamp', async () => {
+  it('should select record with latest available timestamp (updated or created)', async () => {
     const mockResponse = {
       hits: {
         total: 2,
