@@ -876,30 +876,6 @@ const animateCSS = (node, animation, prefix = 'animate__') =>
     node.addEventListener('animationend', handleAnimationEnd, {once: true});
 });
 
-// custom function for sorting version strings
-function compare_versions(a, b) {
-    if (a === b) {
-        return 0;
-    }
-    if (a[0] == "v") {
-        a = a.slice(1);
-    }
-    if (b[0] == "v") {
-        b = b.slice(1);
-    }
-    let splitA = a.split('.');
-    let splitB = b.split('.');
-    const length = Math.max(splitA.length, splitB.length);
-    for (let i = 0; i < length; i++) {
-        if (parseInt(splitA[i]) > parseInt(splitB[i]) || ((splitA[i] === splitB[i]) && isNaN(splitB[i + 1]))) {
-            return 1;
-        }
-        if (parseInt(splitA[i]) < parseInt(splitB[i]) || ((splitA[i] === splitB[i]) && isNaN(splitA[i + 1]))) {
-            return -1;
-        }
-    }
-}
-
 // Function to fetch records from Zenodo API
 async function get_zenodo_version_info(concept_doi, vp) {
     // Build the complete URL with the query parameter for concept DOI
@@ -964,10 +940,6 @@ async function get_zenodo_version_info(concept_doi, vp) {
             page += 1;
         }
 
-        version_and_doi.sort(function(a, b) {
-            return compare_versions(a.version, b.version);
-        }).reverse();
-
         const select = vp.querySelector(".version-select")
         for (let i = 0; i < version_and_doi.length; i++) {
             let opt = document.createElement("option")
@@ -1007,11 +979,6 @@ async function get_zenodo_version_info_cached(package_name, vp) {
         }
         
         const version_and_doi = await response.json();
-
-        // Standardize ordering regardless of API/cache order
-        version_and_doi.sort(function(a, b) {
-            return compare_versions(a.version, b.version);
-        }).reverse();
 
         // Populate the version picker
         const select = vp.querySelector(".version-select");

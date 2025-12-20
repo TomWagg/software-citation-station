@@ -3,6 +3,8 @@
  * Extracts and rewrites the get_zenodo_version_info function from software.js with strict TypeScript typing
  */
 
+import semver from 'semver';
+
 export interface ZenodoVersion {
   version: string;
   doi: string;
@@ -40,36 +42,20 @@ interface ZenodoVersionCandidate {
  * Ported from software.js compare_versions function
  */
 export function compareVersions(a: string, b: string): number {
-  // Normalize versions by removing 'v' prefix
-  let versionA = a[0] === "v" ? a.slice(1) : a;
-  let versionB = b[0] === "v" ? b.slice(1) : b;
+  const versionA = semver.coerce(a)?.version;
+  const versionB = semver.coerce(b)?.version;
 
-  if (versionA === versionB) {
-    return 0;
+  if (!versionA && !versionB) {
+    return a.localeCompare(b);
+  }
+  if (!versionA) {
+    return -1;
+  }
+  if (!versionB) {
+    return 1;
   }
 
-  const splitA = versionA.split('.');
-  const splitB = versionB.split('.');
-  const length = Math.max(splitA.length, splitB.length);
-
-  for (let i = 0; i < length; i++) {
-    // Default to '0' for missing parts (e.g., '1.0' vs '1.0.0')
-    const partA = splitA[i] ?? '0';
-    const partB = splitB[i] ?? '0';
-    const numA = parseInt(partA);
-    const numB = parseInt(partB);
-
-    // Simple numeric comparison
-    if (numA > numB) {
-      return 1;
-    }
-    if (numA < numB) {
-      return -1;
-    }
-    // If equal, continue to next part
-  }
-
-  return 0;
+  return semver.compare(versionA, versionB);
 }
 
 /**
