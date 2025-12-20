@@ -1007,7 +1007,12 @@ async function get_zenodo_version_info_cached(package_name, vp) {
         }
         
         const version_and_doi = await response.json();
-        
+
+        // Standardize ordering regardless of API/cache order
+        version_and_doi.sort(function(a, b) {
+            return compare_versions(a.version, b.version);
+        }).reverse();
+
         // Populate the version picker
         const select = vp.querySelector(".version-select");
         for (let i = 0; i < version_and_doi.length; i++) {
