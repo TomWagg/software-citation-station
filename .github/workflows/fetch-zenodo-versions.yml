@@ -35,6 +35,7 @@ jobs:
 
       - name: Comment diff on pull requests
         if: github.event_name == 'pull_request'
+        continue-on-error: true
         uses: actions/github-script@v7
         with:
           script: |
@@ -52,7 +53,7 @@ jobs:
             }
             const maxLen = 60000;
             const trimmed = diff.length > maxLen ? diff.slice(0, maxLen) + '\\n... (truncated)' : diff;
-            const body = `${header}\n\n\\`\\`\\`diff\n${trimmed}\n\\`\\`\\``;
+            const body = header + '\\n\\n```diff\\n' + trimmed + '\\n```';
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
