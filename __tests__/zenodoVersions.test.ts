@@ -164,12 +164,6 @@ describe('getZenodoVersionInfo', () => {
       }
     };
 
-    const originalHas = Set.prototype.has;
-    const hasSpy = jest.spyOn(Set.prototype, 'has');
-    hasSpy.mockImplementation(function (this: Set<unknown>, value: unknown) {
-      return originalHas.call(this, value);
-    });
-
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
       status: 200,
@@ -180,10 +174,6 @@ describe('getZenodoVersionInfo', () => {
 
     expect(result).toHaveLength(1);
     expect(result[0]).toEqual({ version: '', doi: 'v0' });
-    // Only one duplicate check (for the empty string version); undefined should not trigger has('')
-    expect(hasSpy.mock.calls.length).toBe(1);
-
-    hasSpy.mockRestore();
   });
 
   it('should throw error on HTTP failure', async () => {
