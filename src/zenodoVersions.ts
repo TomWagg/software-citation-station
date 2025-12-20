@@ -38,8 +38,8 @@ interface ZenodoVersionCandidate {
 }
 
 /**
- * Custom function for sorting version strings
- * Ported from software.js compare_versions function
+ * Compares version strings using the semver library.
+ * Replaces the custom compare_versions function from software.js.
  */
 export function compareVersions(a: string, b: string): number {
   const versionA = semver.coerce(a)?.version;
@@ -57,6 +57,15 @@ export function compareVersions(a: string, b: string): number {
 
   return semver.compare(versionA, versionB);
 }
+
+const getRecordTimestamp = (candidate: Pick<ZenodoVersionCandidate, 'updated' | 'created'>): number | null => {
+  const timestamp = candidate.updated ?? candidate.created;
+  if (!timestamp) {
+    return null;
+  }
+  const parsed = Date.parse(timestamp);
+  return Number.isNaN(parsed) ? null : parsed;
+};
 
 /**
  * Fetches version information for a package from Zenodo API
@@ -76,15 +85,6 @@ export async function getZenodoVersionInfo(conceptDoi: string): Promise<ZenodoVe
   let expectedVersions = UNKNOWN_TOTAL_COUNT;
   let nBadVersions = 0;
   let page = 1;
-
-  const getRecordTimestamp = (candidate: Pick<ZenodoVersionCandidate, 'updated' | 'created'>): number | null => {
-    const timestamp = candidate.updated ?? candidate.created;
-    if (!timestamp) {
-      return null;
-    }
-    const parsed = Date.parse(timestamp);
-    return Number.isNaN(parsed) ? null : parsed;
-  };
 
   while (versionCandidates.size + nBadVersions < expectedVersions) {
     const url = `${baseUrl}&page=${page}`;
