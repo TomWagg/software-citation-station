@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write  # Required to commit and push changes
+      pull-requests: write  # Required to comment on pull requests
     
     steps:
       - name: Checkout repository
@@ -31,6 +32,33 @@ jobs:
         
       - name: Fetch Zenodo versions
         run: npm run fetch-versions
+
+      - name: Comment diff on pull requests
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            const diff = execSync('git diff -- data/zenodo-versions/', { encoding: 'utf8' });
+            const header = 'Zenodo fetch diff (not pushed on PRs):';
+            if (!diff.trim()) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: `${header}\n\nNo changes detected.`,
+              });
+              return;
+            }
+            const maxLen = 60000;
+            const trimmed = diff.length > maxLen ? diff.slice(0, maxLen) + '\\n... (truncated)' : diff;
+            const body = `${header}\n\n\\`\\`\\`diff\n${trimmed}\n\\`\\`\\``;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body,
+            });
         
       - name: Commit and push if changes
         if: github.event_name != 'pull_request'
