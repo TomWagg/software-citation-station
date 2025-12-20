@@ -36,6 +36,8 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           echo "Zenodo fetch diff (not pushed on PRs):"
+          stats=$(git diff --numstat -- data/zenodo-versions/ | awk '{add+=$1; del+=$2; files+=1} END {printf "Files changed: %d, Lines added: %d, Lines deleted: %d\n", files, add, del}')
+          echo "$stats"
           git diff -- data/zenodo-versions/ || true
         
       - name: Commit and push if changes
