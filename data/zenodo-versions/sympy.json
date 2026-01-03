@@ -32,12 +32,12 @@
     "doi": "12549863"
   },
   {
-    "version": "1.13.0",
-    "doi": "12691504"
-  },
-  {
     "version": "1.13.0rc2",
     "doi": "11877827"
+  },
+  {
+    "version": "1.13.0",
+    "doi": "12691504"
   },
   {
     "version": "1.13.0rc1",
@@ -76,20 +76,20 @@
     "doi": "6371200"
   },
   {
-    "version": "sympy-1.10rc2",
-    "doi": "6205070"
-  },
-  {
     "version": "sympy-1.10",
     "doi": "6331748"
   },
   {
-    "version": "sympy-1.10rc1",
-    "doi": "6146916"
+    "version": "sympy-1.10rc2",
+    "doi": "6205070"
   },
   {
     "version": "sympy-1.10rc3",
     "doi": "6299592"
+  },
+  {
+    "version": "sympy-1.10rc1",
+    "doi": "6146916"
   },
   {
     "version": "sympy-1.9",
