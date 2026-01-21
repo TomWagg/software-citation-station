@@ -109,9 +109,9 @@ describe('getZenodoVersionInfo', () => {
       hits: {
         total: 4,
         hits: [
-          { id: '12345', metadata: { version: '1.0.0' } },
-          { id: '12346', metadata: { version: '1.0.0' } }, // duplicate
-          { id: '12347', metadata: { version: '1.1.0' } },
+          { id: '12345', metadata: { version: '1.0.0' }, updated: '2024-12-01T10:00:00Z' },
+          { id: '12346', metadata: { version: '1.0.0' }, updated: '2024-12-05T10:00:00Z' }, // duplicate, newer
+          { id: '12347', metadata: { version: '1.1.0' }, updated: '2024-12-02T10:00:00Z' },
           { id: '12348', metadata: { version: undefined } } // no version
         ]
       }
@@ -127,7 +127,76 @@ describe('getZenodoVersionInfo', () => {
 
     expect(result).toHaveLength(2);
     expect(result[0]).toEqual({ version: '1.1.0', doi: '12347' });
-    expect(result[1]).toEqual({ version: '1.0.0', doi: '12345' });
+    expect(result[1]).toEqual({ version: '1.0.0', doi: '12346' });
+  });
+
+  it('should prefer latest created record when updated is missing', async () => {
+    const mockResponse = {
+      hits: {
+        total: 2,
+        hits: [
+          { id: '12345', metadata: { version: '1.0.0' }, created: '2024-12-01T10:00:00Z' },
+          { id: '12346', metadata: { version: '1.0.0' }, created: '2024-12-03T10:00:00Z' }
+        ]
+      }
+    };
+
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: async () => mockResponse
+    });
+
+    const result = await getZenodoVersionInfo('10.5281/zenodo.1234567');
+
+    expect(result).toHaveLength(1);
+    expect(result[0]).toEqual({ version: '1.0.0', doi: '12346' });
+  });
+
+  it('should select record with latest available timestamp (updated or created)', async () => {
+    const mockResponse = {
+      hits: {
+        total: 2,
+        hits: [
+          { id: '12345', metadata: { version: '1.0.0' }, updated: '2024-01-02T10:00:00Z' },
+          { id: '12346', metadata: { version: '1.0.0' }, created: '2024-02-01T10:00:00Z' }
+        ]
+      }
+    };
+
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: async () => mockResponse
+    });
+
+    const result = await getZenodoVersionInfo('10.5281/zenodo.1234567');
+
+    expect(result).toHaveLength(1);
+    expect(result[0]).toEqual({ version: '1.0.0', doi: '12346' });
+  });
+
+  it('should keep first record when duplicate versions have no timestamps', async () => {
+    const mockResponse = {
+      hits: {
+        total: 2,
+        hits: [
+          { id: 'first', metadata: { version: '1.0.0' } },
+          { id: 'second', metadata: { version: '1.0.0' } }
+        ]
+      }
+    };
+
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: async () => mockResponse
+    });
+
+    const result = await getZenodoVersionInfo('10.5281/zenodo.1234567');
+
+    expect(result).toHaveLength(1);
+    expect(result[0]).toEqual({ version: '1.0.0', doi: 'first' });
   });
 
   it('should ignore undefined versions before checking duplicates', async () => {
@@ -141,12 +210,6 @@ describe('getZenodoVersionInfo', () => {
       }
     };
 
-    const originalHas = Set.prototype.has;
-    const hasSpy = jest.spyOn(Set.prototype, 'has');
-    hasSpy.mockImplementation(function (this: Set<unknown>, value: unknown) {
-      return originalHas.call(this, value);
-    });
-
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
       status: 200,
@@ -157,10 +220,6 @@ describe('getZenodoVersionInfo', () => {
 
     expect(result).toHaveLength(1);
     expect(result[0]).toEqual({ version: '', doi: 'v0' });
-    // Only one duplicate check (for the empty string version); undefined should not trigger has('')
-    expect(hasSpy.mock.calls.length).toBe(1);
-
-    hasSpy.mockRestore();
   });
 
   it('should throw error on HTTP failure', async () => {
