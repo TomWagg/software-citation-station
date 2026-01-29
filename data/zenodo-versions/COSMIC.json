@@ -36,20 +36,20 @@
     "doi": "13259748"
   },
   {
-    "version": "v3.4.12-alpha1",
-    "doi": "13255891"
-  },
-  {
     "version": "v3.4.12-beta",
     "doi": "13258026"
   },
   {
-    "version": "3.4.12-alpha",
-    "doi": "13255866"
+    "version": "v3.4.12-alpha1",
+    "doi": "13255891"
   },
   {
     "version": "v3.4.12-beta1",
     "doi": "13259706"
+  },
+  {
+    "version": "3.4.12-alpha",
+    "doi": "13255866"
   },
   {
     "version": "v3.4.12-alpha2",
@@ -92,16 +92,12 @@
     "doi": "6982111"
   },
   {
-    "version": "3.4.3-beta",
-    "doi": "6981625"
-  },
-  {
     "version": "v3.4.3-beta1",
     "doi": "6981649"
   },
   {
-    "version": "v3.4.3-beta2",
-    "doi": "6981692"
+    "version": "3.4.3-beta",
+    "doi": "6981625"
   },
   {
     "version": "3.4.3-beta2",
@@ -112,12 +108,16 @@
     "doi": "6981732"
   },
   {
-    "version": "v3.4.3-beta4",
-    "doi": "6981775"
+    "version": "v3.4.3-beta2",
+    "doi": "6981692"
   },
   {
     "version": "v3.4.3",
     "doi": "6984461"
+  },
+  {
+    "version": "v3.4.3-beta4",
+    "doi": "6981775"
   },
   {
     "version": "3.4.2",
