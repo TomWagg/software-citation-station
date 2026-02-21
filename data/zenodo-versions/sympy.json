@@ -136,12 +136,12 @@
     "doi": "2629338"
   },
   {
-    "version": "sympy-1.4rc1",
-    "doi": "2620635"
-  },
-  {
     "version": "sympy-1.4",
     "doi": "2634633"
+  },
+  {
+    "version": "sympy-1.4rc1",
+    "doi": "2620635"
   },
   {
     "version": "sympy-1.3rc1",
