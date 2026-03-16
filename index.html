@@ -110,6 +110,10 @@
                                         <select class="form-select form-select-sm version-select hide">
                                             <option value="-">Select version</option>
                                         </select>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm mt-2 feature-btn hide">
+                                            <i class="fa fa-list-check"></i> select features
+                                        </button>
+                                        <div class="feature-summary mt-1" style="font-size: 0.7rem"></div>
                                     </div>
                                 </div>
                             </div>
@@ -273,6 +277,15 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row mb-2">
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" id="open-subpackages-modal">
+                                        <i class="fa fa-plus"></i> Add citations for features/options/sub-packages
+                                    </button>
+                                    <i class="fa fa-question-circle ms-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Use this when there are additional citations that should be included when specific functionality/features/options of this software are used." data-bs-html="true"></i>
+                                    <div id="subpackage-summary" class="mt-1"></div>
+                                </div>
+                            </div>
                             <h6 class="fw-bold">Additional metadata</h6>
                             <div class="row">
                                 <div class="col-12 col-md-6">
@@ -344,6 +357,63 @@
                 </div>
             </div>
         </div>
+        <!-- Feature selection modal -->
+        <div class="modal fade" id="features-modal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold">Select Features</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-muted" style="font-size: 0.8rem">Select the features/options/sub-packages you used. Their citations will be added to your acknowledgement and BibTeX.</p>
+                        <div id="features-modal-checkboxes"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="save-features">Apply</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sub-packages citation modal -->
+        <div class="modal fade" id="subpackages-modal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold">Add citations for features/options/sub-packages</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body" style="font-size: 0.7rem">
+                        <p class="text-muted">Add each feature/option/sub-package name and its corresponding BibTeX. Click <strong>+</strong> to add more entries.</p>
+                        <div id="subpackage-entries">
+                            <div class="subpackage-entry border rounded p-2 mb-2">
+                                <div class="mb-1">
+                                    <label class="form-label">Feature/option/sub-package name</label>
+                                    <input type="text" class="form-control subpackage-name" placeholder="e.g. numpy.fft" />
+                                </div>
+                                <div class="subpackage-bibtex-group">
+                                    <div class="d-flex align-items-center mb-1">
+                                        <label class="form-label mb-0 me-2">BibTeX</label>
+                                        <button type="button" class="btn btn-outline-success btn-sm add-bibtex-field" style="font-size: 0.6rem"><i class="fa fa-plus"></i> add another citation for feature</button>
+                                    </div>
+                                    <textarea class="form-control subpackage-bibtex mb-1" rows="3" placeholder="Paste BibTeX here"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-outline-primary btn-sm mt-1" id="add-subpackage-entry">
+                            <i class="fa fa-plus"></i> add another feature
+                        </button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="save-subpackages">Save citations</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div id="details" class="details-no-close card text-center hide" style="width: 18rem; z-index: 100">
             <div class="card-body details-no-close">
                 <img src="img/python.png" class="m-auto details-logo" style="max-height: 100px; max-width: 18rem" />

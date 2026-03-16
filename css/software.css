@@ -334,6 +334,16 @@ pre {
     font-size: 0.7rem;
 }
 
+.feature-btn {
+    font-size: 0.7rem;
+}
+
+#subpackages-modal .form-control,
+#subpackages-modal .form-label,
+#subpackages-modal .btn-sm {
+    font-size: 0.7rem;
+}
+
 .headshot {
     border-radius: 100%;
     max-width: 200px;
