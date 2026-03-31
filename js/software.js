@@ -227,6 +227,7 @@ Promise.all([
             let ack_to_add = [];
             let custom_acks_to_add = [];
             let bibs_to_add = [];
+            let feature_sentences_to_add = [];
 
             // remove any old download buttons
             document.querySelectorAll(".download-button:not(.hide)").forEach(function(btn) {
@@ -250,9 +251,10 @@ Promise.all([
                 // get the tags for the current button
                 let btn_tags = btn.getAttribute("data-tags").split(",");
 
-                // append any selected feature tags
+                // collect selected feature citations (kept separate from main tags)
                 const feature_tags_raw = citations[btn_key]["feature_tags"];
                 const feature_tags_data = feature_tags_raw !== undefined ? parse_feature_tags(feature_tags_raw) : undefined;
+                let selected_feature_data = [];
                 if (feature_tags_data !== undefined) {
                     const picker_el = document.getElementById(`${btn_key}-version-picker`)
                                    || document.getElementById(`${btn_key}-feature-picker`);
@@ -260,18 +262,45 @@ Promise.all([
                         const selected_features = (picker_el.getAttribute("data-selected-features") || "").split(",").filter(Boolean);
                         for (const feature of selected_features) {
                             const tags = feature_tags_data[feature];
-                            if (tags) btn_tags = btn_tags.concat(tags);
+                            if (tags && tags.length > 0) {
+                                selected_feature_data.push({ name: feature, tags });
+                            }
                         }
                     }
                 }
 
-                // deduplicate tags (e.g. multiple features sharing the same reference)
+                // deduplicate main tags only
                 btn_tags = [...new Set(btn_tags)];
 
                 // add the acknowledgement and do some simple latex syntax highlighting
-                let new_ack = "\\texttt{" + btn.querySelector(".software-name").innerText + "}";
+                const software_name = btn.querySelector(".software-name").innerText;
+                let new_ack = "\\texttt{" + software_name + "}";
                 if (btn_tags.length > 0 && btn_tags[0] !== "") {
-                    new_ack += " \\citep{" + btn_tags.join(",") + "}"
+                    new_ack += " \\citep{" + btn_tags.join(",") + "}";
+                }
+
+                // build feature sentence separately so it isn't folded into the comma-joined software list
+                if (selected_feature_data.length > 0) {
+                    const feature_parts = selected_feature_data.map(f =>
+                        `\\texttt{${f.name}} \\citep{${f.tags.join(",")}}`
+                    );
+                    let feature_list;
+                    if (feature_parts.length === 1) {
+                        feature_list = feature_parts[0];
+                    } else if (feature_parts.length === 2) {
+                        feature_list = feature_parts[0] + " and " + feature_parts[1];
+                    } else {
+                        feature_list = feature_parts.slice(0, -1).join(", ") + ", and " + feature_parts[feature_parts.length - 1];
+                    }
+                    feature_sentences_to_add.push(
+                        highlight_latex(`The following features of \\texttt{${software_name}} were used: ${feature_list}.`)
+                    );
+                    // add feature bibtex entries
+                    for (const f of selected_feature_data) {
+                        for (const tag of f.tags) {
+                            if (bibtex_table[tag]) bibs_to_add.push(highlight_bibtex(bibtex_table[tag]));
+                        }
+                    }
                 }
 
                 // check if the software has a custom acknowledgement
@@ -342,10 +371,15 @@ Promise.all([
                         if (version_picker.hasAttribute("data-bibtex")) {
                             const chosen_version = version_picker.querySelector(".version-select").value;
                             const new_tag = btn.getAttribute("data-key") + "_" + chosen_version
-                            if (new_ack.includes("citep")) {
-                                new_ack = new_ack.slice(0, -1) + "," + new_tag + "}";
+                            if (new_ack.includes("\\citep{")) {
+                                // insert zenodo tag into the first \citep{} (the main software citation)
+                                const citep_idx = new_ack.indexOf("\\citep{");
+                                const close_idx = new_ack.indexOf("}", citep_idx);
+                                new_ack = new_ack.slice(0, close_idx) + "," + new_tag + new_ack.slice(close_idx);
                             } else {
-                                new_ack += " \\citep{" + new_tag + "}";
+                                // no existing citep — insert one right after \texttt{name}
+                                const texttt_end = new_ack.indexOf("}") + 1;
+                                new_ack = new_ack.slice(0, texttt_end) + " \\citep{" + new_tag + "}" + new_ack.slice(texttt_end);
                             }
 
                             // remove the final period if it exists
@@ -438,6 +472,9 @@ Promise.all([
 
                 // add add acknowledgements, joining them with commas and adding an "and" before the last one
                 ack.innerHTML += ack_to_add.slice(0, -1).join(', ') + (ack_to_add.length > 2 ? ',' : '') + (ack_to_add.length > 1 ? ' and ' : '') + ack_to_add.slice(-1) + '.';
+                if (feature_sentences_to_add.length > 0) {
+                    ack.innerHTML += " " + feature_sentences_to_add.join(" ");
+                }
             }
 
             // add the custom acknowledgements (with extra space between them and the main acknowledgements)

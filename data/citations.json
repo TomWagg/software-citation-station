@@ -2607,8 +2607,13 @@
         ],
         "feature_tags": [ {
                 "chronoflow": [
-                    "2025ApJ...986...59V"
-                ]
+                    "2025ApJ...986...59V",
+                    "rozet2022zuko"
+                ]},
+                {
+                    "cf2 flows": [
+                        "2025ApJ...986...59V"
+                    ]
             }
             ]
     },
@@ -2632,7 +2637,23 @@
             "numpy",
             "pandas",
             "python"
-        ]
+        ],
+                "feature_tags": [ {
+                "chronoflow": [
+                    "2025ApJ...986...59V",
+                    "rozet2022zuko"
+                ]},
+                {
+                    "cf2 flows": [
+                        "2025ApJ...986...59V"
+                    ]
+            },
+            {
+                    "cf3 flows": [
+                        "2025ApJ...986...59V"
+                    ]
+            }
+            ]
     },
     "GalPaK3D": {
         "tags": [
