@@ -240,7 +240,7 @@
                                 <div class="col-12 col-md-6">
                                     <div class="form-control-box mb-2">
                                         <label for="new-software-bibtex" class="form-label">BibTeX</label>
-                                        <textarea class="form-control" id="new-software-bibtex" placeholder="Paste all BibTeX to be cited"></textarea>
+                                        <textarea class="form-control" id="new-software-bibtex" rows="6" placeholder="Paste all BibTeX to be cited"></textarea>
                                         <div class="valid-feedback"></div>
                                         <div class="invalid-feedback">That doesn't seem to be valid BibTeX.</div>
                                     </div>
@@ -251,6 +251,9 @@
                                             Custom acknowledgement (in LaTeX)
                                             <i class="fa fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="If your software package has specific text required for its citation then enter it here as LaTeX. See <code>COMPAS</code> or <code>MESA</code> for examples." data-bs-html="true"></i>
                                         </label>
+                                        <div class="alert alert-warning py-1 px-2 mb-1" id="feature-custom-ack-warning" style="font-size: 0.7rem">
+                                            <i class="fa fa-exclamation-triangle"></i> <strong>Warning:</strong> custom acknowledgement will override citations for any features or sub-packages. Please include these directly in the custom acknowledgement if required.
+                                        </div>
                                         <textarea class="form-control" id="new-software-custom-acknowledgement" placeholder="LaTeX (e.g. 'This software wants to specifically cite \citet{thispackage} in this way.')"></textarea>
                                     </div>
                                 </div>
@@ -389,6 +392,9 @@
                         <p class="text-muted">Add each feature/option/sub-package name and its corresponding BibTeX. Click <strong>+</strong> to add more entries.</p>
                         <div id="subpackage-entries">
                             <div class="subpackage-entry border rounded p-2 mb-2">
+                                <div class="d-flex justify-content-end mb-1">
+                                    <button type="button" class="btn btn-outline-danger btn-sm clear-subpackage"><i class="fa fa-times"></i></button>
+                                </div>
                                 <div class="mb-1">
                                     <label class="form-label">Feature/option/sub-package name</label>
                                     <input type="text" class="form-control subpackage-name" placeholder="e.g. numpy.fft" />

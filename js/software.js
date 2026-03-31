@@ -777,6 +777,20 @@ window.addEventListener('DOMContentLoaded', () => {
         if (remove_btn) {
             remove_btn.addEventListener('click', function() { entry.remove(); });
         }
+        const clear_btn = entry.querySelector(".clear-subpackage");
+        if (clear_btn) {
+            clear_btn.addEventListener('click', function() {
+                entry.querySelector(".subpackage-name").value = "";
+                // remove any dynamically added bibtex fields, leaving only the first
+                entry.querySelectorAll(".subpackage-bibtex-group .d-flex.align-items-start").forEach(el => el.remove());
+                // reset the original textarea and its feedback
+                const textarea = entry.querySelector(".subpackage-bibtex");
+                textarea.value = "";
+                textarea.classList.remove("is-valid", "is-invalid");
+                const feedback = entry.querySelector(".bibtex-feedback");
+                if (feedback) feedback.innerHTML = "";
+            });
+        }
         entry.querySelector(".add-bibtex-field").addEventListener('click', function() {
             add_bibtex_field(entry);
         });
@@ -827,6 +841,7 @@ window.addEventListener('DOMContentLoaded', () => {
         } else {
             summary.innerHTML = "";
         }
+
         bootstrap.Modal.getInstance(document.getElementById("subpackages-modal")).hide();
     });
 
