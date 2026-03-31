@@ -759,14 +759,17 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function add_bibtex_field(entry) {
         const group = entry.querySelector(".subpackage-bibtex-group");
-        const row = document.createElement("div");
-        row.className = "d-flex align-items-start mb-1";
-        row.innerHTML = `<textarea class="form-control subpackage-bibtex me-1" rows="3" placeholder="Paste BibTeX here"></textarea>
-            <button type="button" class="btn btn-outline-danger btn-sm remove-bibtex-field"><i class="fa fa-minus"></i></button>`;
-        row.querySelector(".remove-bibtex-field").addEventListener('click', function() {
-            row.remove();
+        const wrapper = document.createElement("div");
+        wrapper.className = "mb-1";
+        wrapper.innerHTML = `<div class="d-flex align-items-start">
+                <textarea class="form-control subpackage-bibtex me-1" rows="3" placeholder="Paste BibTeX here"></textarea>
+                <button type="button" class="btn btn-outline-danger btn-sm remove-bibtex-field"><i class="fa fa-minus"></i></button>
+            </div>
+            <div class="bibtex-feedback" style="font-size: 0.65rem"></div>`;
+        wrapper.querySelector(".remove-bibtex-field").addEventListener('click', function() {
+            wrapper.remove();
         });
-        group.appendChild(row);
+        group.appendChild(wrapper);
     }
 
     function setup_entry(entry) {
@@ -799,13 +802,23 @@ window.addEventListener('DOMContentLoaded', () => {
                     <label class="form-label mb-0 me-2">BibTeX</label>
                     <button type="button" class="btn btn-outline-success btn-sm add-bibtex-field" style="font-size: 0.6rem"><i class="fa fa-plus"></i> add another citation for feature</button>
                 </div>
-                <textarea class="form-control subpackage-bibtex mb-1" rows="3" placeholder="Paste BibTeX here"></textarea>
+                <textarea class="form-control subpackage-bibtex" rows="3" placeholder="Paste BibTeX here"></textarea>
+                <div class="bibtex-feedback mb-1" style="font-size: 0.65rem"></div>
             </div>`;
         container.appendChild(entry);
         setup_entry(entry);
     });
 
     document.getElementById("save-subpackages").addEventListener('click', function() {
+        // validate each feature BibTeX field before allowing the modal to close
+        let all_valid = true;
+        document.querySelectorAll("#subpackage-entries .subpackage-bibtex").forEach(function(textarea) {
+            if (!validate_feature_bibtex(textarea)) {
+                all_valid = false;
+            }
+        });
+        if (!all_valid) return;
+
         const subpackages = collect_subpackages();
         const summary = document.getElementById("subpackage-summary");
         if (subpackages.length > 0) {
@@ -933,6 +946,62 @@ function capitalise(string) {
 // change units between rem and pixels
 function convertRemToPixels(rem) {    
     return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+}
+
+// validate a single feature bibtex textarea, showing inline feedback
+// mirrors the same logic as the main BibTeX field validation
+function validate_feature_bibtex(textarea) {
+    const val = textarea.value.trim();
+
+    // the feedback element sits after the textarea (static entries) or after
+    // the .d-flex row that wraps the textarea + remove button (dynamic entries)
+    const flex_parent = textarea.parentElement.classList.contains('d-flex') ? textarea.parentElement : null;
+    const anchor = flex_parent || textarea;
+
+    let feedback = anchor.nextElementSibling;
+    if (!feedback || !feedback.classList.contains('bibtex-feedback')) {
+        feedback = document.createElement('div');
+        feedback.className = 'bibtex-feedback';
+        feedback.style.fontSize = '0.65rem';
+        anchor.insertAdjacentElement('afterend', feedback);
+    }
+
+    if (val === "") {
+        textarea.classList.remove('is-invalid', 'is-valid');
+        feedback.innerHTML = "";
+        return true;
+    }
+
+    const parsed = parse_bibtex(val);
+    if (Object.keys(parsed).length === 0) {
+        textarea.classList.add('is-invalid');
+        textarea.classList.remove('is-valid');
+        feedback.innerHTML = "<span class='text-danger'>Invalid BibTeX.</span>";
+        return false;
+    } else {
+        textarea.classList.add('is-valid');
+        textarea.classList.remove('is-invalid');
+        const tags = Object.keys(parsed).map(k => `<span class='badge text-bg-success'>${k}</span>`).join(" ");
+        feedback.innerHTML = "Tags detected: " + tags;
+        return true;
+    }
+}
+
+// validate all feature bibtex textareas; opens the modal and flags
+// #subpackage-summary if any are invalid; returns true if all valid
+function validate_all_feature_bibtexes() {
+    let all_valid = true;
+    for (const textarea of document.querySelectorAll("#subpackage-entries .subpackage-bibtex")) {
+        if (!validate_feature_bibtex(textarea)) {
+            all_valid = false;
+        }
+    }
+    if (!all_valid) {
+        document.getElementById("subpackage-summary").innerHTML =
+            '<small class="text-danger">Fix invalid BibTeX in feature citations before submitting.</small>';
+        bootstrap.Modal.getOrCreateInstance(document.getElementById("subpackages-modal")).show();
+    }
+    return all_valid;
 }
 
 // parse the bibtex file into a dictionary of tags and entries
@@ -1349,7 +1418,7 @@ function validate_new_software_form() {
         }
 
         // perform the rest of the validation
-        let valid = form.checkValidity();
+        let valid = form.checkValidity() && validate_all_feature_bibtexes();
         if (valid) {
             let json = {}
 
