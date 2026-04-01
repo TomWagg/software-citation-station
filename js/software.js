@@ -427,10 +427,12 @@ Promise.all([
                         fp.innerHTML = `<div class="card text-center version-card">
                             <div class="card-body">
                                 <pre class="card-title">${btn_key}</pre>
-                                <button type="button" class="btn btn-outline-secondary btn-sm feature-btn">
-                                    <i class="fa fa-list-check"></i> select features
-                                </button>
-                                <div class="feature-summary mt-1" style="font-size: 0.7rem"></div>
+                                <div class="card-controls">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm feature-btn">
+                                        <i class="fa fa-list-check"></i> select features
+                                    </button>
+                                    <div class="feature-summary mt-1" style="font-size: 0.7rem"></div>
+                                </div>
                             </div>
                         </div>`;
                         document.getElementById("version-list").appendChild(fp);
@@ -460,6 +462,9 @@ Promise.all([
                     bibs_to_add.push(highlight_bibtex(extra_bibtex));
                 }
             });
+
+            // sort version pickers: version-only first, then feature-only, then both
+            sort_version_pickers();
 
             // clear the acknowledgement
             ack.innerHTML = "";
@@ -1337,6 +1342,23 @@ async function fetch_zenodo_bibtex(doi) {
         return data;
     } catch (error) {
         console.error('Error fetching records:', error);
+    }
+}
+
+function sort_version_pickers() {
+    /* Sort version picker cards by setting CSS flexbox order:
+       version-only (1), feature-only (2), both (3).
+       Using style.order rather than DOM re-appending means the sort is
+       idempotent and survives the btn.click()/btn.click() update pattern
+       without causing visible jumps. */
+    const pickers = document.querySelectorAll(".version-picker:not(#version-picker-template)");
+    for (const el of pickers) {
+        if (el.id.endsWith("-feature-picker")) {
+            el.style.order = 2;
+        } else {
+            const feature_btn = el.querySelector(".feature-btn");
+            el.style.order = (feature_btn && !feature_btn.classList.contains("hide")) ? 3 : 1;
+        }
     }
 }
 
