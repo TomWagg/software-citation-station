@@ -64,40 +64,32 @@
     "doi": "10727594"
   },
   {
-    "version": "v2.0.0-beta.5",
-    "doi": "10825298"
+    "version": "v2.0.0",
+    "doi": "14392497"
   },
   {
     "version": "v2.0.0-beta.9",
     "doi": "11114201"
   },
   {
-    "version": "v2.0.0-rc2",
-    "doi": "14277378"
-  },
-  {
-    "version": "v2.0.0",
-    "doi": "14392497"
+    "version": "v2.0.0-beta.5",
+    "doi": "10825298"
   },
   {
     "version": "v2.0.0-beta.3",
     "doi": "10801500"
   },
   {
-    "version": "v2.0.0-beta.11",
-    "doi": "11621683"
-  },
-  {
-    "version": "v2.0.0-beta.4",
-    "doi": "10820725"
+    "version": "v2.0.0-rc2",
+    "doi": "14277378"
   },
   {
     "version": "v2.0.0-beta.8",
     "doi": "11112590"
   },
   {
-    "version": "v2.0.0-rc1",
-    "doi": "14182722"
+    "version": "v2.0.0-beta.12",
+    "doi": "12730763"
   },
   {
     "version": "v2.0.0-beta.14",
@@ -108,8 +100,16 @@
     "doi": "10782272"
   },
   {
-    "version": "v2.0.0-beta.12",
-    "doi": "12730763"
+    "version": "v2.0.0-beta.4",
+    "doi": "10820725"
+  },
+  {
+    "version": "v2.0.0-rc1",
+    "doi": "14182722"
+  },
+  {
+    "version": "v2.0.0-beta.11",
+    "doi": "11621683"
   },
   {
     "version": "v1.6.0",
