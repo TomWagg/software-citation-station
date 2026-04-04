@@ -181,11 +181,15 @@ Promise.all([
             // toggle the active class
             this.classList.toggle("active");
 
-            // if the button is now un-selected then hide the version picker if it exists
+            // if the button is now un-selected then hide the version/feature picker if it exists
             if (!this.classList.contains("active")) {
                 const vp = document.getElementById(`${this.getAttribute("data-key")}-version-picker`);
                 if (vp !== null) {
                     vp.classList.add("hide");
+                }
+                const fp = document.getElementById(`${this.getAttribute("data-key")}-feature-picker`);
+                if (fp !== null) {
+                    fp.classList.add("hide");
                 }
             } else {
                 // if the package has dependencies, find all of them and select them
@@ -223,6 +227,7 @@ Promise.all([
             let ack_to_add = [];
             let custom_acks_to_add = [];
             let bibs_to_add = [];
+            let feature_sentences_to_add = [];
 
             // remove any old download buttons
             document.querySelectorAll(".download-button:not(.hide)").forEach(function(btn) {
@@ -242,13 +247,60 @@ Promise.all([
 
             // loop through all active buttons and add the relevant information
             active_buttons.forEach(function(btn) {
+                const btn_key = btn.getAttribute("data-key");
                 // get the tags for the current button
                 let btn_tags = btn.getAttribute("data-tags").split(",");
 
+                // collect selected feature citations (kept separate from main tags)
+                const feature_tags_raw = citations[btn_key]["feature_tags"];
+                const feature_tags_data = feature_tags_raw !== undefined ? parse_feature_tags(feature_tags_raw) : undefined;
+                let selected_feature_data = [];
+                if (feature_tags_data !== undefined) {
+                    const picker_el = document.getElementById(`${btn_key}-version-picker`)
+                                   || document.getElementById(`${btn_key}-feature-picker`);
+                    if (picker_el !== null) {
+                        const selected_features = (picker_el.getAttribute("data-selected-features") || "").split(",").filter(Boolean);
+                        for (const feature of selected_features) {
+                            const tags = feature_tags_data[feature];
+                            if (tags && tags.length > 0) {
+                                selected_feature_data.push({ name: feature, tags });
+                            }
+                        }
+                    }
+                }
+
+                // deduplicate main tags only
+                btn_tags = [...new Set(btn_tags)];
+
                 // add the acknowledgement and do some simple latex syntax highlighting
-                let new_ack = "\\texttt{" + btn.querySelector(".software-name").innerText + "}";
+                const software_name = btn.querySelector(".software-name").innerText;
+                let new_ack = "\\texttt{" + software_name + "}";
                 if (btn_tags.length > 0 && btn_tags[0] !== "") {
-                    new_ack += " \\citep{" + btn_tags.join(",") + "}"
+                    new_ack += " \\citep{" + btn_tags.join(",") + "}";
+                }
+
+                // build feature sentence separately so it isn't folded into the comma-joined software list
+                if (selected_feature_data.length > 0) {
+                    const feature_parts = selected_feature_data.map(f =>
+                        `\\texttt{${f.name}} \\citep{${f.tags.join(",")}}`
+                    );
+                    let feature_list;
+                    if (feature_parts.length === 1) {
+                        feature_list = feature_parts[0];
+                    } else if (feature_parts.length === 2) {
+                        feature_list = feature_parts[0] + " and " + feature_parts[1];
+                    } else {
+                        feature_list = feature_parts.slice(0, -1).join(", ") + ", and " + feature_parts[feature_parts.length - 1];
+                    }
+                    feature_sentences_to_add.push(
+                        highlight_latex(`The following features of \\texttt{${software_name}} were used: ${feature_list}.`)
+                    );
+                    // add feature bibtex entries
+                    for (const f of selected_feature_data) {
+                        for (const tag of f.tags) {
+                            if (bibtex_table[tag]) bibs_to_add.push(highlight_bibtex(bibtex_table[tag]));
+                        }
+                    }
                 }
 
                 // check if the software has a custom acknowledgement
@@ -293,8 +345,13 @@ Promise.all([
                         });
 
                         // update the version picker with available versions
-                        get_zenodo_version_info_cached(btn.getAttribute("data-key"), vp);
+                        get_zenodo_version_info_cached(btn_key, vp);
                         document.getElementById("version-list").appendChild(vp);
+
+                        // if the software has feature_tags, show and wire up the feature button
+                        if (feature_tags_data !== undefined) {
+                            attach_feature_btn(vp, btn_key, feature_tags_data);
+                        }
 
                         // make a note that the user needs to select a version
                         new_ack += "\\footnote{{TODO}: Need to choose a version to cite!!}"
@@ -305,14 +362,24 @@ Promise.all([
                         // otherwise just show the version picker if it's hidden
                         version_picker.classList.remove("hide");
 
+                        // attach the feature button if not already done (idempotent)
+                        if (feature_tags_data !== undefined) {
+                            attach_feature_btn(version_picker, btn_key, feature_tags_data);
+                        }
+
                         // if you've selected a version then update the citation
                         if (version_picker.hasAttribute("data-bibtex")) {
                             const chosen_version = version_picker.querySelector(".version-select").value;
                             const new_tag = btn.getAttribute("data-key") + "_" + chosen_version
-                            if (new_ack.includes("citep")) {
-                                new_ack = new_ack.slice(0, -1) + "," + new_tag + "}";
+                            if (new_ack.includes("\\citep{")) {
+                                // insert zenodo tag into the first \citep{} (the main software citation)
+                                const citep_idx = new_ack.indexOf("\\citep{");
+                                const close_idx = new_ack.indexOf("}", citep_idx);
+                                new_ack = new_ack.slice(0, close_idx) + "," + new_tag + new_ack.slice(close_idx);
                             } else {
-                                new_ack += " \\citep{" + new_tag + "}";
+                                // no existing citep — insert one right after \texttt{name}
+                                const texttt_end = new_ack.indexOf("}") + 1;
+                                new_ack = new_ack.slice(0, texttt_end) + " \\citep{" + new_tag + "}" + new_ack.slice(texttt_end);
                             }
 
                             // remove the final period if it exists
@@ -350,6 +417,31 @@ Promise.all([
                     }
                 }
 
+                // for non-zenodo software with feature_tags, create or show a feature-only picker card
+                if (zenodo_doi === "" && feature_tags_data !== undefined) {
+                    const existing_fp = document.getElementById(`${btn_key}-feature-picker`);
+                    if (existing_fp === null) {
+                        const fp = document.createElement("div");
+                        fp.id = `${btn_key}-feature-picker`;
+                        fp.className = "version-picker col-sm-6 col-lg-4";
+                        fp.innerHTML = `<div class="card text-center version-card">
+                            <div class="card-body">
+                                <pre class="card-title">${btn_key}</pre>
+                                <div class="card-controls">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm feature-btn">
+                                        <i class="fa fa-list-check"></i> select features
+                                    </button>
+                                    <div class="feature-summary mt-1" style="font-size: 0.7rem"></div>
+                                </div>
+                            </div>
+                        </div>`;
+                        document.getElementById("version-list").appendChild(fp);
+                        attach_feature_btn(fp, btn_key, feature_tags_data);
+                    } else {
+                        existing_fp.classList.remove("hide");
+                    }
+                }
+
                 if (custom_ack != "") {
                     custom_acks_to_add.push(highlight_latex(custom_ack));
                 } else {
@@ -371,6 +463,9 @@ Promise.all([
                 }
             });
 
+            // sort version pickers: version-only first, then feature-only, then both
+            sort_version_pickers();
+
             // clear the acknowledgement
             ack.innerHTML = "";
 
@@ -382,6 +477,9 @@ Promise.all([
 
                 // add add acknowledgements, joining them with commas and adding an "and" before the last one
                 ack.innerHTML += ack_to_add.slice(0, -1).join(', ') + (ack_to_add.length > 2 ? ',' : '') + (ack_to_add.length > 1 ? ' and ' : '') + ack_to_add.slice(-1) + '.';
+                if (feature_sentences_to_add.length > 0) {
+                    ack.innerHTML += " " + feature_sentences_to_add.join(" ");
+                }
             }
 
             // add the custom acknowledgements (with extra space between them and the main acknowledgements)
@@ -667,6 +765,128 @@ window.addEventListener('DOMContentLoaded', () => {
         e.stopPropagation();
     });
 
+    // feature selection modal (main page)
+    document.getElementById("save-features").addEventListener('click', function() {
+        const modal_el = document.getElementById("features-modal");
+        const picker_id = modal_el.getAttribute("data-picker-id");
+        const key = modal_el.getAttribute("data-key");
+        const picker = document.getElementById(picker_id);
+
+        const selected = [];
+        document.querySelectorAll("#features-modal-checkboxes .form-check-input:checked").forEach(cb => {
+            selected.push(cb.value);
+        });
+        picker.setAttribute("data-selected-features", selected.join(","));
+
+        const summary = picker.querySelector(".feature-summary");
+        const total = document.querySelectorAll("#features-modal-checkboxes .form-check-input").length;
+        summary.innerHTML = selected.length > 5
+            ? `<span class="text-muted">${selected.length}/${total} features selected</span>`
+            : selected.map(s => `<span class="badge text-bg-secondary me-1">${s}</span>`).join("");
+
+        bootstrap.Modal.getInstance(modal_el).hide();
+
+        // trigger citation recalculation
+        const btn = document.querySelector(`.software-button[data-key="${key}"]`);
+        btn.click();
+        btn.click();
+    });
+
+    // sub-packages modal
+
+    document.getElementById("open-subpackages-modal").addEventListener('click', function() {
+        const modal = new bootstrap.Modal(document.getElementById("subpackages-modal"));
+        modal.show();
+    });
+
+    function add_bibtex_field(entry) {
+        const group = entry.querySelector(".subpackage-bibtex-group");
+        const wrapper = document.createElement("div");
+        wrapper.className = "mb-1";
+        wrapper.innerHTML = `<div class="d-flex align-items-start">
+                <textarea class="form-control subpackage-bibtex me-1" rows="3" placeholder="Paste BibTeX here"></textarea>
+                <button type="button" class="btn btn-outline-danger btn-sm remove-bibtex-field"><i class="fa fa-minus"></i></button>
+            </div>
+            <div class="bibtex-feedback" style="font-size: 0.65rem"></div>`;
+        wrapper.querySelector(".remove-bibtex-field").addEventListener('click', function() {
+            wrapper.remove();
+        });
+        group.appendChild(wrapper);
+    }
+
+    function setup_entry(entry) {
+        const remove_btn = entry.querySelector(".remove-subpackage");
+        if (remove_btn) {
+            remove_btn.addEventListener('click', function() { entry.remove(); });
+        }
+        const clear_btn = entry.querySelector(".clear-subpackage");
+        if (clear_btn) {
+            clear_btn.addEventListener('click', function() {
+                entry.querySelector(".subpackage-name").value = "";
+                // remove any dynamically added bibtex fields, leaving only the first
+                entry.querySelectorAll(".subpackage-bibtex-group .d-flex.align-items-start").forEach(el => el.remove());
+                // reset the original textarea and its feedback
+                const textarea = entry.querySelector(".subpackage-bibtex");
+                textarea.value = "";
+                textarea.classList.remove("is-valid", "is-invalid");
+                const feedback = entry.querySelector(".bibtex-feedback");
+                if (feedback) feedback.innerHTML = "";
+            });
+        }
+        entry.querySelector(".add-bibtex-field").addEventListener('click', function() {
+            add_bibtex_field(entry);
+        });
+    }
+
+    // wire up the static first entry
+    setup_entry(document.querySelector("#subpackage-entries .subpackage-entry"));
+
+    document.getElementById("add-subpackage-entry").addEventListener('click', function() {
+        const container = document.getElementById("subpackage-entries");
+        const entry = document.createElement("div");
+        entry.className = "subpackage-entry border rounded p-2 mb-2";
+        entry.innerHTML = `
+            <div class="d-flex justify-content-end mb-1">
+                <button type="button" class="btn btn-outline-danger btn-sm remove-subpackage"><i class="fa fa-times"></i></button>
+            </div>
+            <div class="mb-1">
+                <label class="form-label">Feature/option/sub-package name</label>
+                <input type="text" class="form-control subpackage-name" placeholder="e.g. numpy.fft" />
+            </div>
+            <div class="subpackage-bibtex-group">
+                <div class="d-flex align-items-center mb-1">
+                    <label class="form-label mb-0 me-2">BibTeX</label>
+                    <button type="button" class="btn btn-outline-success btn-sm add-bibtex-field" style="font-size: 0.6rem"><i class="fa fa-plus"></i> add another citation for feature</button>
+                </div>
+                <textarea class="form-control subpackage-bibtex" rows="3" placeholder="Paste BibTeX here"></textarea>
+                <div class="bibtex-feedback mb-1" style="font-size: 0.65rem"></div>
+            </div>`;
+        container.appendChild(entry);
+        setup_entry(entry);
+    });
+
+    document.getElementById("save-subpackages").addEventListener('click', function() {
+        // validate each feature BibTeX field before allowing the modal to close
+        let all_valid = true;
+        document.querySelectorAll("#subpackage-entries .subpackage-bibtex").forEach(function(textarea) {
+            if (!validate_feature_bibtex(textarea)) {
+                all_valid = false;
+            }
+        });
+        if (!all_valid) return;
+
+        const subpackages = collect_subpackages();
+        const summary = document.getElementById("subpackage-summary");
+        if (subpackages.length > 0) {
+            const badges = subpackages.map(sp => `<span class="badge text-bg-secondary me-1">${sp.name || "(unnamed)"}</span>`).join("");
+            summary.innerHTML = `<small class="text-muted">Sub-packages saved: ${badges}</small>`;
+        } else {
+            summary.innerHTML = "";
+        }
+
+        bootstrap.Modal.getInstance(document.getElementById("subpackages-modal")).hide();
+    });
+
     // as the new name is changed, update the link for searching Zenodo
     document.getElementById("new-software-name").addEventListener('input', function() {
         document.getElementById("new-zenodo-search").href = `https://zenodo.org/search?q=${this.value}`;
@@ -783,6 +1003,62 @@ function capitalise(string) {
 // change units between rem and pixels
 function convertRemToPixels(rem) {    
     return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+}
+
+// validate a single feature bibtex textarea, showing inline feedback
+// mirrors the same logic as the main BibTeX field validation
+function validate_feature_bibtex(textarea) {
+    const val = textarea.value.trim();
+
+    // the feedback element sits after the textarea (static entries) or after
+    // the .d-flex row that wraps the textarea + remove button (dynamic entries)
+    const flex_parent = textarea.parentElement.classList.contains('d-flex') ? textarea.parentElement : null;
+    const anchor = flex_parent || textarea;
+
+    let feedback = anchor.nextElementSibling;
+    if (!feedback || !feedback.classList.contains('bibtex-feedback')) {
+        feedback = document.createElement('div');
+        feedback.className = 'bibtex-feedback';
+        feedback.style.fontSize = '0.65rem';
+        anchor.insertAdjacentElement('afterend', feedback);
+    }
+
+    if (val === "") {
+        textarea.classList.remove('is-invalid', 'is-valid');
+        feedback.innerHTML = "";
+        return true;
+    }
+
+    const parsed = parse_bibtex(val);
+    if (Object.keys(parsed).length === 0) {
+        textarea.classList.add('is-invalid');
+        textarea.classList.remove('is-valid');
+        feedback.innerHTML = "<span class='text-danger'>Invalid BibTeX.</span>";
+        return false;
+    } else {
+        textarea.classList.add('is-valid');
+        textarea.classList.remove('is-invalid');
+        const tags = Object.keys(parsed).map(k => `<span class='badge text-bg-success'>${k}</span>`).join(" ");
+        feedback.innerHTML = "Tags detected: " + tags;
+        return true;
+    }
+}
+
+// validate all feature bibtex textareas; opens the modal and flags
+// #subpackage-summary if any are invalid; returns true if all valid
+function validate_all_feature_bibtexes() {
+    let all_valid = true;
+    for (const textarea of document.querySelectorAll("#subpackage-entries .subpackage-bibtex")) {
+        if (!validate_feature_bibtex(textarea)) {
+            all_valid = false;
+        }
+    }
+    if (!all_valid) {
+        document.getElementById("subpackage-summary").innerHTML =
+            '<small class="text-danger">Fix invalid BibTeX in feature citations before submitting.</small>';
+        bootstrap.Modal.getOrCreateInstance(document.getElementById("subpackages-modal")).show();
+    }
+    return all_valid;
 }
 
 // parse the bibtex file into a dictionary of tags and entries
@@ -1069,6 +1345,75 @@ async function fetch_zenodo_bibtex(doi) {
     }
 }
 
+function sort_version_pickers() {
+    /* Sort version picker cards by setting CSS flexbox order:
+       version-only (1), feature-only (2), both (3).
+       Using style.order rather than DOM re-appending means the sort is
+       idempotent and survives the btn.click()/btn.click() update pattern
+       without causing visible jumps. */
+    const pickers = document.querySelectorAll(".version-picker:not(#version-picker-template)");
+    for (const el of pickers) {
+        if (el.id.endsWith("-feature-picker")) {
+            el.style.order = 2;
+        } else {
+            const feature_btn = el.querySelector(".feature-btn");
+            el.style.order = (feature_btn && !feature_btn.classList.contains("hide")) ? 3 : 1;
+        }
+    }
+}
+
+function parse_feature_tags(arr) {
+    /* Convert [{name: "tag"}, ...] to a flat {name: "tag"} lookup object */
+    const out = {};
+    for (const item of arr) {
+        const k = Object.keys(item)[0];
+        out[k] = item[k];
+    }
+    return out;
+}
+
+function attach_feature_btn(picker_el, key, feature_tags_data) {
+    /* Show the feature button on a picker card and wire up the modal */
+    const feature_btn = picker_el.querySelector(".feature-btn");
+    if (feature_btn === null) return;
+    if (feature_btn.dataset.wired) return;  // already wired up
+    feature_btn.dataset.wired = "true";
+    feature_btn.classList.remove("hide");
+
+    feature_btn.addEventListener('click', function() {
+        const modal_el = document.getElementById("features-modal");
+        modal_el.setAttribute("data-picker-id", picker_el.id);
+        modal_el.setAttribute("data-key", key);
+
+        const checkboxes_el = document.getElementById("features-modal-checkboxes");
+        checkboxes_el.innerHTML = "";
+        const selected = (picker_el.getAttribute("data-selected-features") || "").split(",").filter(Boolean);
+
+        for (const feature_name of Object.keys(feature_tags_data)) {
+            const div = document.createElement("div");
+            div.className = "form-check";
+            const checked = selected.includes(feature_name) ? "checked" : "";
+            div.innerHTML = `<input class="form-check-input" type="checkbox" value="${feature_name}" id="feature-cb-${feature_name}" ${checked}>
+                <label class="form-check-label" for="feature-cb-${feature_name}">${feature_name}</label>`;
+            checkboxes_el.appendChild(div);
+        }
+
+        bootstrap.Modal.getOrCreateInstance(modal_el).show();
+    });
+}
+
+function collect_subpackages() {
+    const subpackages = [];
+    document.querySelectorAll("#subpackage-entries .subpackage-entry").forEach(function(entry) {
+        const name = entry.querySelector(".subpackage-name").value.trim();
+        const bibtexes = [...entry.querySelectorAll(".subpackage-bibtex")].map(t => t.value.trim()).filter(Boolean);
+        if (name !== "" || bibtexes.length > 0) {
+            subpackages.push({ name, bibtexes });
+        }
+    });
+    return subpackages;
+}
+
 function validate_new_software_form() {
     /* validate the input fields in the new software form */
     let form = document.querySelector(".new-software-form");
@@ -1147,7 +1492,7 @@ function validate_new_software_form() {
         }
 
         // perform the rest of the validation
-        let valid = form.checkValidity();
+        let valid = form.checkValidity() && validate_all_feature_bibtexes();
         if (valid) {
             let json = {}
 
@@ -1169,6 +1514,17 @@ function validate_new_software_form() {
             }
 
             const name = form.querySelector("#new-software-name").value.trim();
+            const subpackages = collect_subpackages();
+            const feature_tags_out = [];
+            for (const sp of subpackages) {
+                if (sp.name !== "") {
+                    const all_tags = [];
+                    for (const bibtex of sp.bibtexes) {
+                        all_tags.push(...Object.keys(parse_bibtex(bibtex)));
+                    }
+                    feature_tags_out.push({ [sp.name]: all_tags });
+                }
+            }
             json[name] = {
                 "tags": Object.keys(bibtex),
                 "logo": `img/${name}.png`,
@@ -1181,6 +1537,9 @@ function validate_new_software_form() {
                 "zenodo_doi": form.querySelector("#new-software-doi").value.trim(),
                 "custom_citation": form.querySelector("#new-software-custom-acknowledgement").value.trim(),
                 "dependencies": deps,
+            }
+            if (feature_tags_out.length > 0) {
+                json[name]["feature_tags"] = feature_tags_out;
             }
 
             const cite_string = JSON.stringify(json, null, 4).split('\n').slice(1, -1).map((line) => line.slice(4)).join('\n');
@@ -1199,6 +1558,18 @@ function validate_new_software_form() {
             copy_text += "```\n" + cite_string + "\n```";
             copy_text += "\n\n";
             copy_text += "# BibTeX\n```\n" + bibtex_field.value.trim() + "\n```";
+
+            if (subpackages.length > 0) {
+                copy_text += "\n\n# Feature/sub-package BibTeX";
+                for (const sp of subpackages) {
+                    if (sp.name !== "") {
+                        copy_text += `\n## ${sp.name}`;
+                        for (const bibtex of sp.bibtexes) {
+                            copy_text += `\n\`\`\`\n${bibtex}\n\`\`\``;
+                        }
+                    }
+                }
+            }
 
             document.getElementById("copy-new-software").setAttribute("data-copy-text", copy_text);
         }

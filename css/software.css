@@ -325,12 +325,38 @@ pre {
     --bs-tooltip-max-width: 18rem;
 }
 
+.version-card {
+    height: 100%;
+}
+
+.version-card .card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.version-card .card-controls {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .version-button {
     font-size: 0.8rem;
     font-weight: bold;
 }
 
 .version-select {
+    font-size: 0.7rem;
+}
+
+.feature-btn {
+    font-size: 0.7rem;
+}
+
+#subpackages-modal .form-control,
+#subpackages-modal .form-label,
+#subpackages-modal .btn-sm {
     font-size: 0.7rem;
 }
 
