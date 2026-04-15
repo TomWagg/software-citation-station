@@ -1,0 +1,38 @@
+name: Tidy BibTeX
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/bibtex.bib'
+  pull_request:
+    paths:
+      - 'data/bibtex.bib'
+  workflow_dispatch:
+
+jobs:
+  tidy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'latest'
+
+      - name: Install bibtex-tidy
+        run: npm install -g bibtex-tidy
+
+      - name: Run bibtex-tidy
+        run: |
+          bibtex-tidy data/bibtex.bib \
+            --modify \
+            --omit=abstract,file \
+            --duplicates
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: format data/bibtex.bib"
+          file_pattern: 'data/bibtex.bib'

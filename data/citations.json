@@ -204,6 +204,7 @@
         "zenodo_doi": "10.5281/zenodo.3382152",
         "attribution_link": "https://github.com/COSMIC-PopSynth/COSMIC/blob/develop/README.md",
         "custom_citation": "",
+        "pypi-name": "cosmic-popsynth",
         "dependencies": [
             "python",
             "numpy",
@@ -2665,5 +2666,43 @@
         "zenodo_doi": "10.5281/zenodo.17650928",
         "custom_citation": "",
         "dependencies": []
+    },
+    "Kokkos": {
+        "tags": [
+            "9485033"
+        ],
+        "logo": "https://avatars2.githubusercontent.com/u/10199860?s=200&v=4",
+        "language": "C++",
+        "category": "Computing",
+        "keywords": [
+            "performance portability",
+            "parallelism"
+        ],
+        "description": "A hardware agnostic framework for on-node parallelism.",
+        "link": "https://kokkos.org/kokkos-core-wiki/index.html",
+        "attribution_link": "https://kokkos.org/kokkos-core-wiki/citation.html",
+        "zenodo_doi": "10.5281/zenodo.17635197",
+        "custom_citation": "",
+        "dependencies": []
+    },
+    "Parthenon": {
+        "tags": [
+            "parthenon"
+        ],
+        "logo": "",
+        "language": "C++",
+        "category": "Computing",
+        "keywords": [
+            "performance portability",
+            "adaptive mesh refinement"
+        ],
+        "description": "A performance portable block-structured adaptive mesh refinement framework for building physics applications.",
+        "link": "https://parthenon-hpc-lab.github.io/parthenon/develop/index.html",
+        "attribution_link": "https://github.com/parthenon-hpc-lab/parthenon/",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "Kokkos"
+        ]
     }
 }

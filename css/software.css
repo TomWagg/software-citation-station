@@ -7,6 +7,7 @@
     --primary-light-dm: #5791a7;
     --primary-light-dm-rgb: 87, 145, 167;
     --primary-dark: #186280;
+    --link-color: #005eff;
 }
 
 body,
@@ -33,7 +34,7 @@ body {
 
 a,
 a.nav-link {
-    color: var(--primary);
+    color: var(--link-color);
     text-decoration: none;
     transition: 0.3s;
 }
