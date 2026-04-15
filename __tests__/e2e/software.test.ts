@@ -153,6 +153,45 @@ astropy==5.3.4`;
     await expect(astropyBtn).toHaveClass(/active/);
   });
 
+  test('version picker should appear after file upload', async ({ page }) => {
+    await page.goto('/');
+    
+    // Wait for software list to load
+    await page.waitForSelector('.software-button:not(#software-btn-template)', { state: 'visible', timeout: 10000 });
+    
+    // Create a test requirements.txt file with specific versions
+    const requirementsContent = `scipy==1.10.0
+numpy==1.24.0`;
+    
+    const testFile = Buffer.from(requirementsContent);
+    
+    // Upload file
+    const fileInput = page.locator('#file-upload');
+    await fileInput.setInputFiles({
+      name: 'requirements.txt',
+      mimeType: 'text/plain',
+      buffer: testFile
+    });
+    
+    // Wait for processing
+    await page.waitForTimeout(2000);
+    
+    // Check that scipy button is active
+    const scipyBtn = page.locator('.software-button[data-key="scipy"]');
+    await expect(scipyBtn).toHaveClass(/active/);
+    
+    // Check that version picker appears for scipy
+    // Note: This test documents expected behavior - version pickers should appear
+    // but may not be implemented yet in the TypeScript port
+    const versionPicker = page.locator('#scipy-version-picker');
+    await expect(versionPicker).toBeVisible();
+    
+    // Check that version picker has the correct version selected
+    const versionSelect = versionPicker.locator('.version-select');
+    const selectedVersion = await versionSelect.inputValue();
+    expect(selectedVersion).toBe('1.10.0');
+  });
+
   // TODO: Re-enable when version picker is implemented
   // The following features are not yet implemented in the TypeScript port:
   // - BibTeX updates when software is selected
