@@ -17,10 +17,12 @@ jobs:
         node-version: lts/*
     - name: Install dependencies
       run: npm ci
+    - name: Install Playwright browsers
+      run: npx playwright install --with-deps chromium
     - name: Build project
       run: npm run build:all
-    - name: Install Playwright
-      run: npx playwright install --with-deps chromium
+    - name: Start HTTP server
+      run: npx http-server . -p 3000 -c-1 --silent &
     - name: Run Playwright tests
       run: npx playwright test --reporter=list
     - uses: actions/upload-artifact@v4
