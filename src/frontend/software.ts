@@ -573,9 +573,10 @@ function handleFileUpload(event: Event): void {
       autoDepsToggle.classList.remove('active');
     }
 
-    // Track missing software
+    // Track missing software and count selected packages
     const missingSoftwares: { key: string; version: string }[] = [];
     const intervalsRemaining: ReturnType<typeof setInterval>[] = [];
+    let selectedCount = 0;
 
     // Go through each software button
     const softwareBtns = document.querySelectorAll('.software-button:not(#software-btn-template)');
@@ -590,7 +591,11 @@ function handleFileUpload(event: Event): void {
           parsedSoftwares = parsedSoftwares.filter((s) => s.key !== software.key);
 
           if (!btn.classList.contains('active')) {
+            selectedCount++;
             (btn as HTMLButtonElement).click();
+          } else {
+            // Already selected, still count it
+            selectedCount++;
           }
 
           // If version picker exists, wait for data to load and select version
@@ -647,14 +652,13 @@ function handleFileUpload(event: Event): void {
         }
 
         // Show success toast for packages that were found
-        const foundCount = softwareBtns.length - parsedSoftwares.length;
-        if (foundCount > 0 || missingSoftwares.length > 0) {
+        if (selectedCount > 0 || missingSoftwares.length > 0) {
           const toast = document.getElementById('toast-template')?.cloneNode(true) as HTMLElement;
           if (toast) {
             toast.id = '';
             toast.classList.remove('hide');
             toast.querySelector('.main-package')!.textContent = file.name;
-            toast.querySelector('.dependencies')!.textContent = `${foundCount} packages selected${missingSoftwares.length > 0 ? `, ${missingSoftwares.length} missing` : ''}`;
+            toast.querySelector('.dependencies')!.textContent = `${selectedCount} packages selected${missingSoftwares.length > 0 ? `, ${missingSoftwares.length} missing` : ''}`;
             document.getElementById('toaster')?.appendChild(toast);
 
             const bsToast = new (window as any).bootstrap.Toast(toast);

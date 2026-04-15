@@ -1,7 +1,7 @@
 /**
  * Software Citation Station - Frontend Bundle
  * Generated automatically by bundle-frontend.js
- * Build time: 2026-04-15T23:21:41.724Z
+ * Build time: 2026-04-15T23:39:10.973Z
  */
 
 (function() {
@@ -907,9 +907,10 @@ function handleFileUpload(event) {
         if (autoDepsToggle?.classList.contains('active')) {
             autoDepsToggle.classList.remove('active');
         }
-        // Track missing software
+        // Track missing software and count selected packages
         const missingSoftwares = [];
         const intervalsRemaining = [];
+        let selectedCount = 0;
         // Go through each software button
         const softwareBtns = document.querySelectorAll('.software-button:not(#software-btn-template)');
         for (const btn of Array.from(softwareBtns)) {
@@ -921,7 +922,12 @@ function handleFileUpload(event) {
                     // Remove this software from the list so we don't keep looping over it
                     parsedSoftwares = parsedSoftwares.filter((s) => s.key !== software.key);
                     if (!btn.classList.contains('active')) {
+                        selectedCount++;
                         btn.click();
+                    }
+                    else {
+                        // Already selected, still count it
+                        selectedCount++;
                     }
                     // If version picker exists, wait for data to load and select version
                     const vp = document.getElementById(`${btn.getAttribute('data-key')}-version-picker`);
@@ -971,14 +977,13 @@ function handleFileUpload(event) {
                     showToastNotification('Missing versions', body, '', false);
                 }
                 // Show success toast for packages that were found
-                const foundCount = softwareBtns.length - parsedSoftwares.length;
-                if (foundCount > 0 || missingSoftwares.length > 0) {
+                if (selectedCount > 0 || missingSoftwares.length > 0) {
                     const toast = document.getElementById('toast-template')?.cloneNode(true);
                     if (toast) {
                         toast.id = '';
                         toast.classList.remove('hide');
                         toast.querySelector('.main-package').textContent = file.name;
-                        toast.querySelector('.dependencies').textContent = `${foundCount} packages selected${missingSoftwares.length > 0 ? `, ${missingSoftwares.length} missing` : ''}`;
+                        toast.querySelector('.dependencies').textContent = `${selectedCount} packages selected${missingSoftwares.length > 0 ? `, ${missingSoftwares.length} missing` : ''}`;
                         document.getElementById('toaster')?.appendChild(toast);
                         const bsToast = new window.bootstrap.Toast(toast);
                         bsToast.show();
