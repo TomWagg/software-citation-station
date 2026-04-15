@@ -4,9 +4,8 @@ import { CitationEngine } from "./citationEngine";
 import { CitationOutput } from "./citationTypes";
 import { RemoteDataProvider, DEFAULT_BASE_URL } from "./remoteData";
 
-// Output format is now controlled by --json flag (default text)
-type OutputFormat = "text" | "json"; // format controlled by --json flag
-type Command = "list" | "show" | "cite" | "deps";
+type OutputFormat = "text" | "json";
+type Command = "list" | "show" | "cite";
 
 interface ParsedFlags {
   format: OutputFormat;
@@ -68,7 +67,7 @@ MORE INFORMATION
   `);
 }
 
-function parseFlags(args: string[]): ParsedFlags {
+export function parseFlags(args: string[]): ParsedFlags {
   const parsed: ParsedFlags = {
     format: "text",
     acknowledgement: false,
@@ -134,13 +133,14 @@ async function main(): Promise<void> {
   const argv = process.argv.slice(2);
   if (argv.length === 0 || argv[0] === "--help" || argv[0] === "-h") {
     printUsage();
-    process.exit(argv.length === 0 ? 2 : 0);
+    process.exit(argv.length === 0 ? 1 : 0);
   }
 
   const command = argv[0] as Command;
   const flags = parseFlags(argv.slice(1));
   const baseUrl = process.env.SCS_BASE_URL ?? DEFAULT_BASE_URL;
-  const engine = new CitationEngine(new RemoteDataProvider(baseUrl));
+  const dataProvider = new RemoteDataProvider(baseUrl);
+  const engine = new CitationEngine(dataProvider);
 
   if (command === "list") {
     const packages = await engine.listPackages();
@@ -159,7 +159,7 @@ async function main(): Promise<void> {
     }
 
     const record = await engine.getPackage(packageName);
-    const versions = record.zenodo_doi ? await new RemoteDataProvider(baseUrl).getVersions(packageName) : [];
+    const versions = record.zenodo_doi ? await dataProvider.getVersions(packageName) : [];
     const payload = {
       package: packageName,
       citation: record,
@@ -243,7 +243,10 @@ async function main(): Promise<void> {
   throw new Error(`Unknown command "${command}".`);
 }
 
-main().catch((error) => {
-  console.error(`Error: ${error instanceof Error ? error.message : String(error)}`);
-  process.exit(1);
-});
+// Only run main if this is the entry point (not being imported for testing)
+if (require.main === module) {
+  main().catch((error) => {
+    console.error(`Error: ${error instanceof Error ? error.message : String(error)}`);
+    process.exit(1);
+  });
+}
