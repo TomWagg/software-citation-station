@@ -2,10 +2,14 @@
   "name": "software-citation-station",
   "version": "1.0.0",
   "description": "Software citation station with Zenodo version caching",
+  "bin": {
+    "scs": "dist/cli.js"
+  },
   "scripts": {
     "test": "jest",
     "build": "tsc",
-    "fetch-versions": "node dist/fetchVersions.js"
+    "fetch-versions": "node dist/fetchVersions.js",
+    "cli": "node dist/cli.js"
   },
   "devDependencies": {
     "@types/jest": "^29.5.11",
