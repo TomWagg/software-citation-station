@@ -6,6 +6,13 @@ Changelog
 - Feat: New button for uploading a .txt or .yml/.yaml and parse to auto-add packages from a pip freeze or conda env export call
 - Feat: Categories and languages are now defined as lists/arrays so that each software can have multiple, this is also possible on the submission form
 - Feat: Add feature_tags as an option in the JSON, which allows you to just cite specific suboptions within the package
+- Implementation of the CLI interface `scs`
+  - `scs list` - List all available packages
+  - `scs show <package>` - Show package details and available versions
+  - `scs cite <package...>` - Generate citations with automatic dependency resolution
+  - Flags: `--acknowledgement/--ack`, `--bibtex`, `--deps`, `--json`
+  - Support for version pinning (e.g., `scipy==1.10.0`)
+  - JSON output format support
 - Improved CLI help output with clearer flag descriptions
 - Added note about default output format (package list, acknowledgement, BibTeX)
 - Clarified that package list includes inferred dependencies
