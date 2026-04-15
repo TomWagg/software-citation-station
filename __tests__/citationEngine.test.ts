@@ -83,7 +83,7 @@ describe("CitationEngine", () => {
     const engine = new CitationEngine(provider);
     const output = await engine.cite(["scipy"]) as CitationOutput;
 
-    expect(output.acknowledgement).toContain("\\\\citep{scipy-paper,scipy_999}");
+    expect(output.acknowledgement).toContain("\\citep{scipy-paper,scipy_999}");
     expect(output.acknowledgement).toContain("software-citation-station-paper,software-citation-station-zenodo");
     expect(output.bibtex).toContain("@software{scipy_999,");
     expect(output.bibtex).toContain("@article{software-citation-station-paper,");
