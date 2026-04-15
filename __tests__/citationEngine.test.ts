@@ -117,4 +117,31 @@ describe("CitationEngine", () => {
     expect(output.bibtex).toContain("@software{scipy_998,");
     expect(output.packages[0].selectedVersion).toBe("1.10.0");
   });
+
+  it("matches explicit version overrides with or without v prefix", async () => {
+    const provider = new MockProvider(
+      {
+        scipy: {
+          ...baseCitation,
+          zenodo_doi: "10.5281/zenodo.111"
+        }
+      },
+      {
+        "software-citation-station-paper": "@article{software-citation-station-paper,title={SCS}}"
+      },
+      {
+        scipy: [
+          { version: "v1.17.1", doi: "999" }
+        ]
+      },
+      {
+        "999": "@software{orig-999,title={SciPy 1.17.1}}",
+        "13225526": "@software{orig-scs,title={SCS Zenodo}}"
+      }
+    );
+    const engine = new CitationEngine(provider);
+    const output = await engine.cite(["scipy"], { versions: { scipy: "1.17.1" } });
+    expect(output.packages[0].selectedVersion).toBe("v1.17.1");
+    expect(output.packages[0].selectedDoi).toBe("999");
+  });
 });
