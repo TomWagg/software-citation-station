@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 
+import { readFileSync } from "fs";
 import { CitationEngine } from "./citationEngine";
 import { CitationOutput } from "./citationTypes";
 import { RemoteDataProvider, DEFAULT_BASE_URL } from "./remoteData";
+import { parseEnvironmentFile, expandDependencies } from "./shared";
 
 type OutputFormat = "text" | "json";
-type Command = "list" | "show" | "cite";
+type Command = "list" | "show" | "cite" | "parse";
 
 interface ParsedFlags {
   format: OutputFormat;
@@ -13,6 +15,8 @@ interface ParsedFlags {
   bibtex: boolean;
   positional: string[];
   deps: boolean;
+  autoDeps: boolean;
+  file?: string;
 }
 
 function printUsage(): void {
@@ -27,12 +31,15 @@ COMMANDS
   list                        List all available packages
   show <package>              Show details about a specific package
   cite <package...>           Generate citations for one or more packages
+  parse <file>                Parse requirements.txt or conda env file
 
 OPTIONS
   --acknowledgement, --ack    Output only acknowledgement text
   --bibtex                    Output only BibTeX citation
   --deps                      Output only dependencies
+  --no-auto-deps              Disable automatic dependency expansion
   --json                      Output in JSON format (default: plain text)
+  --file, -f                  Parse packages from file (requirements.txt or conda env.yaml)
   --help, -h                  Show this help message
 
   By default, 'scs cite' shows package list (with inferred dependencies),
@@ -62,6 +69,15 @@ EXAMPLES
     scs cite scipy==1.10.0 numpy==1.24.0
     scs cite scipy==1.10.0 --bibtex
 
+  Parse requirements file and cite:
+    scs parse requirements.txt
+    scs parse environment.yaml --json
+    scs cite --file requirements.txt
+    scs cite -f environment.yaml --deps
+
+  Disable auto-dependency expansion:
+    scs cite scipy --no-auto-deps
+
 ENVIRONMENT VARIABLES
   SCS_BASE_URL    Custom base URL for data
                   (default: ${DEFAULT_BASE_URL})
@@ -77,7 +93,8 @@ export function parseFlags(args: string[]): ParsedFlags {
     acknowledgement: false,
     bibtex: false,
     positional: [],
-    deps: false
+    deps: false,
+    autoDeps: true
   };
 
   for (let i = 0; i < args.length; i++) {
@@ -86,8 +103,6 @@ export function parseFlags(args: string[]): ParsedFlags {
       parsed.format = "json";
       continue;
     }
-    // other flags handled below
-
     if (arg === "--acknowledgement" || arg === "--ack") {
       parsed.acknowledgement = true;
       parsed.bibtex = false;
@@ -100,6 +115,14 @@ export function parseFlags(args: string[]): ParsedFlags {
     }
     if (arg === "--deps") {
       parsed.deps = true;
+      continue;
+    }
+    if (arg === "--no-auto-deps") {
+      parsed.autoDeps = false;
+      continue;
+    }
+    if (arg === "--file" || arg === "-f") {
+      parsed.file = args[++i];
       continue;
     }
     parsed.positional.push(arg);
@@ -186,20 +209,90 @@ async function main(): Promise<void> {
     return;
   }
 
-  if (command === "cite") {
-    if (flags.positional.length === 0) {
-      throw new Error("cite requires at least one package name.");
+  if (command === "parse") {
+    const filename = flags.positional[0] || flags.file;
+    if (!filename) {
+      throw new Error("parse requires a filename.");
     }
-    const pinnedVersions: Record<string, string> = {};
-    const packageNames: string[] = [];
-    for (const token of flags.positional) {
-      const pinned = splitPinnedPackage(token);
-      if (pinned) {
-        pinnedVersions[pinned.packageName] = pinned.version;
-        packageNames.push(pinned.packageName);
-      } else {
-        packageNames.push(token);
+
+    let content: string;
+    try {
+      content = readFileSync(filename, "utf-8");
+    } catch (error) {
+      throw new Error(`Failed to read file "${filename}": ${error instanceof Error ? error.message : String(error)}`);
+    }
+
+    const parsed = parseEnvironmentFile(content, filename);
+    const citations = await dataProvider.getCitations();
+
+    // Expand dependencies if auto-deps is enabled
+    let expandedPackages = parsed.packages;
+    if (flags.autoDeps) {
+      expandedPackages = expandDependencies(parsed.packages, citations, { autoExpand: true });
+    }
+
+    if (flags.format === "json") {
+      console.log(JSON.stringify({
+        source: parsed.source,
+        pythonVersion: parsed.pythonVersion,
+        packages: parsed.packages,
+        expandedPackages: flags.autoDeps ? expandedPackages : undefined
+      }, null, 2));
+    } else {
+      console.log(`Source: ${parsed.source}`);
+      if (parsed.pythonVersion) {
+        console.log(`Python version: ${parsed.pythonVersion}`);
       }
+      console.log(`\nPackages (${parsed.packages.length}):`);
+      console.log(parsed.packages.sort().join("\n"));
+      
+      if (flags.autoDeps && expandedPackages.length > parsed.packages.length) {
+        console.log(`\nExpanded with dependencies (${expandedPackages.length}):`);
+        console.log(expandedPackages.sort().join("\n"));
+      }
+    }
+    return;
+  }
+
+  if (command === "cite") {
+    let packageNames: string[] = [];
+    const pinnedVersions: Record<string, string> = {};
+
+    // Handle file input
+    if (flags.file) {
+      let content: string;
+      try {
+        content = readFileSync(flags.file, "utf-8");
+      } catch (error) {
+        throw new Error(`Failed to read file "${flags.file}": ${error instanceof Error ? error.message : String(error)}`);
+      }
+      const parsed = parseEnvironmentFile(content, flags.file);
+      packageNames = parsed.packages;
+    }
+
+    // Handle positional arguments
+    if (flags.positional.length > 0) {
+      for (const token of flags.positional) {
+        const pinned = splitPinnedPackage(token);
+        if (pinned) {
+          pinnedVersions[pinned.packageName] = pinned.version;
+          packageNames.push(pinned.packageName);
+        } else {
+          packageNames.push(token);
+        }
+      }
+    }
+
+    if (packageNames.length === 0) {
+      throw new Error("cite requires at least one package name or a file.");
+    }
+
+    // Get citations for dependency expansion
+    const citations = await dataProvider.getCitations();
+    
+    // Expand dependencies if auto-deps is enabled
+    if (flags.autoDeps) {
+      packageNames = expandDependencies(packageNames, citations, { autoExpand: true });
     }
 
     const output = await engine.cite(packageNames, {
