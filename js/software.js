@@ -265,6 +265,9 @@ Promise.all([
                         vp.id = `${btn.getAttribute("data-key")}-version-picker`;
                         vp.classList.remove("hide");
                         vp.querySelector(".card-title").innerText = btn.getAttribute("data-key");
+
+                        // store in the html data that it hasn't fully loaded yet
+                        vp.setAttribute("data-loaded", "false");
                         
                         // if the software has no logo then remove the image and add a text element instead
                         if (citations[btn.getAttribute("data-key")]["logo"] === "") {
@@ -297,7 +300,9 @@ Promise.all([
                             btn.getAttribute("data-key"),
                             citations[btn.getAttribute("data-key")]["zenodo_doi"],
                             vp
-                        );
+                        ).then(() => {
+                            vp.setAttribute("data-loaded", "true");
+                        });
                         document.getElementById("version-list").appendChild(vp);
 
                         // make a note that the user needs to select a version
@@ -1255,19 +1260,31 @@ function handle_file_upload(file, type) {
             if (btn !== null && !btn.classList.contains("active")) {
                 btn.click();
 
-                // watch for the version picker to load and then select the correct version if it exists
-                const observer = new MutationObserver((mutations, obs) => {
-                    const vp = document.getElementById(`${btn.getAttribute("data-key")}-version-picker`);
-                    if (vp !== null && !vp.classList.contains("hide")) {
-                        const select = vp.querySelector(".version-select");
-                        if (select.querySelector(`option[value="${dep.version}"]`) !== null) {
-                            select.value = dep.version;
-                            select.dispatchEvent(new Event('change'));
+                // if the version picker exists, wait for the list to be loaded and then select the correct version if it exists
+                const vp = document.getElementById(`${btn.getAttribute("data-key")}-version-picker`);
+                if (vp !== null) {
+                    // wait until the data-loaded attribute is true
+                    const interval = setInterval(() => {
+                        if (vp.getAttribute("data-loaded") === "true") {
+                            const select = vp.querySelector(".version-select");
+                            let found_version = false;
+                            for (let opt of select.options) {
+                                let opt_text = opt.text.toLowerCase().trim();
+                                let dep_version = dep.version.toLowerCase().trim();
+                                if (opt_text === dep_version || opt_text === 'v' + dep_version) {
+                                    select.value = opt.value;
+                                    select.dispatchEvent(new Event('change'));
+                                    found_version = true;
+                                    break;
+                                }
+                            }
+                            if (!found_version) {
+                                console.warn(`Version ${dep.version} for package ${dep.key} not found in version picker options.`);
+                            }
+                            clearInterval(interval);
                         }
-                        obs.disconnect();
-                    }
-                });
-                observer.observe(document.body, {childList: true, subtree: true});
+                    }, 500);
+                }
             }
         }
     };
