@@ -454,7 +454,31 @@
         </div>
 
         <div id="javascriptbox">
-            <script src="js/software.js"></script>
+            <script src="dist/software.js"></script>
         </div>
+
+        <footer class="text-center mt-5 py-4">
+            <div class="container">
+                <hr />
+                <p class="text-muted mb-1">
+                    Built with <i class="fa fa-heart"></i> by <a href="https://www.tomwagg.com/" target="_blank">Tom Wagg</a> and <a href="https://www.broekgaarden.nl/floor/wordpress/" target="_blank">Floor Broekgaarden</a>
+                </p>
+                <p class="text-muted small" id="build-timestamp">
+                    Last built: <span id="build-time">Loading...</span>
+                </p>
+            </div>
+        </footer>
+
+        <script>
+            // Load and display build timestamp
+            fetch('dist/build-timestamp.json')
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('build-time').textContent = data.buildTimeFormatted;
+                })
+                .catch(err => {
+                    document.getElementById('build-time').textContent = 'Local development';
+                });
+        </script>
     </body>
 </html>

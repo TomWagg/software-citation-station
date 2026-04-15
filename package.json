@@ -8,6 +8,9 @@
   "scripts": {
     "test": "jest",
     "build": "tsc",
+    "build:frontend": "tsc -p tsconfig.frontend.json && node scripts/bundle-frontend.js",
+    "build:timestamp": "node scripts/generate-timestamp.js",
+    "build:all": "npm run build && npm run build:frontend && npm run build:timestamp",
     "fetch-versions": "node dist/fetchVersions.js",
     "cli": "node dist/cli.js"
   },
