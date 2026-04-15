@@ -108,7 +108,8 @@ dependencies:
     - another-package`;
     
     const result = parseCondaEnvYaml(content);
-    expect(result.packages).toEqual(['python', 'numpy', 'pip', 'some-pip-package', 'another-package']);
+    // Note: 'pip' subsection marker is skipped, only pip packages are included
+    expect(result.packages).toEqual(['python', 'numpy', 'some-pip-package', 'another-package']);
   });
 
   it('handles various version specifiers', () => {
