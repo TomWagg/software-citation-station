@@ -6,6 +6,19 @@ export interface CiteOptions {
   versions?: Record<string, string>;
 }
 
+function resolveRequestedVersion(available: ZenodoVersion[], requested: string): ZenodoVersion | undefined {
+  const exact = available.find(v => v.version === requested);
+  if (exact) {
+    return exact;
+  }
+
+  const stripped = requested.startsWith("v") ? requested.slice(1) : requested;
+  return available.find(v => {
+    const candidate = v.version.startsWith("v") ? v.version.slice(1) : v.version;
+    return candidate === stripped;
+  });
+}
+
 function appendTagToCitep(text: string, tag: string): string {
   if (text.includes("\\citep") && text.endsWith("}")) {
     let openBraces = 0;
@@ -89,7 +102,7 @@ export class CitationEngine {
         let selected: ZenodoVersion | undefined;
 
         if (requestedVersion) {
-          selected = versions.find(v => v.version === requestedVersion);
+          selected = resolveRequestedVersion(versions, requestedVersion);
           if (!selected) {
             throw new Error(`Version "${requestedVersion}" was not found for package "${packageName}".`);
           }
