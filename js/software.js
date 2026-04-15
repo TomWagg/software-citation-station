@@ -578,11 +578,6 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    fetch_zenodo_bibtex("13225526").then((bibtex) => {
-        console.log(bibtex);
-        console.log(bibtex.split("{")[1].split(",")[0]);
-    })
-
     // setup the tooltips for each of the software packages
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
@@ -1302,6 +1297,7 @@ function parse_conda_env(content) {
     let in_pip_deps = false;
     for (let line of lines) {
         line = line.trim();
+        console.log(line);
         if (line === "dependencies:") {
             in_deps = true;
             continue;
