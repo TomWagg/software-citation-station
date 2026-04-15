@@ -1297,14 +1297,13 @@ function parse_conda_env(content) {
     let in_pip_deps = false;
     for (let line of lines) {
         line = line.trim();
-        console.log(line);
         if (line === "dependencies:") {
             in_deps = true;
             continue;
         }
         if (in_pip_deps) {
             if (line.startsWith("- ")) {
-                const dep_line = line.slice(4);
+                const dep_line = line.slice(2);
                 const [key, version] = dep_line.split("==");
                 deps.push({key: key.toLowerCase(), version: version});
             } else {
