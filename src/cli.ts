@@ -85,6 +85,19 @@ function printByFormat(format: OutputFormat, value: unknown, textSelector?: (x: 
   console.log(String(value));
 }
 
+function splitPinnedPackage(value: string): { packageName: string; version: string } | null {
+  const idx = value.indexOf("==");
+  if (idx === -1) {
+    return null;
+  }
+  const packageName = value.slice(0, idx).trim();
+  const version = value.slice(idx + 2).trim();
+  if (!packageName || !version) {
+    throw new Error(`Invalid pinned package "${value}". Expected package==version.`);
+  }
+  return { packageName, version };
+}
+
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);
   if (argv.length === 0) {
@@ -122,12 +135,14 @@ async function main(): Promise<void> {
 
     printByFormat(flags.format, payload, (v) => {
       const data = v as typeof payload;
+      const latestVersions = data.versions.slice(0, 5).map((entry) => entry.version);
       return [
         `Package: ${data.package}`,
         `Language: ${data.citation.language}`,
         `Category: ${data.citation.category}`,
         `DOI: ${data.citation.zenodo_doi || "(none)"}`,
         `Tags: ${data.citation.tags.join(", ") || "(none)"}`,
+        `Latest versions: ${latestVersions.length > 0 ? latestVersions.join(", ") : "(none)"}`,
         `Versions: ${data.versions.length}`
       ].join("\n");
     });
@@ -138,9 +153,21 @@ async function main(): Promise<void> {
     if (flags.positional.length === 0) {
       throw new Error("cite requires at least one package name.");
     }
-    const output = await engine.cite(flags.positional, {
+    const pinnedVersions: Record<string, string> = {};
+    const packageNames: string[] = [];
+    for (const token of flags.positional) {
+      const pinned = splitPinnedPackage(token);
+      if (pinned) {
+        pinnedVersions[pinned.packageName] = pinned.version;
+        packageNames.push(pinned.packageName);
+      } else {
+        packageNames.push(token);
+      }
+    }
+
+    const output = await engine.cite(packageNames, {
       latest: flags.latest,
-      versions: flags.versions
+      versions: { ...flags.versions, ...pinnedVersions }
     });
 
     if (flags.format === "json") {
