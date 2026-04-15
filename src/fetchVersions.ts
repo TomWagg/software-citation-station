@@ -62,7 +62,7 @@ async function fetchAllVersions() {
       await new Promise(resolve => setTimeout(resolve, RATE_LIMIT_DELAY_MS));
     } catch (error) {
       console.error(`  ✗ Failed to fetch versions for ${packageName}:`, error);
-      failed++;
+      throw error;
     }
   }
 
