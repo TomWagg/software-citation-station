@@ -19,26 +19,52 @@ interface ParsedFlags {
 function printUsage(): void {
   console.log(`Software Citation Station CLI
 
-Usage:
-  scs list [--json]
-  scs show <package> [--json]
-  scs cite <package...> [package==version ...] [--acknowledgement] [--bibtex]
-  scs cite <package...> [package==version ...] --deps [--json]
+Generate citations and acknowledgements for software packages with proper DOI references.
 
-Examples:
-  scs cite scipy numpy
-  scs cite scipy==1.10.0 numpy
-  scs cite scipy numpy --acknowledgement
-  scs cite scipy numpy --bibtex
+USAGE
+  scs <command> [options] [arguments]
 
-  Flags:
-  --acknowledgement           Output only acknowledgement text
-  --bibtex                    Output only bibtex
-  --deps                      Show dependencies without generating citations
+COMMANDS
+  list                        List all available packages
+  show <package>              Show details about a specific package
+  cite <package...>           Generate citations for one or more packages
+
+OPTIONS
+  --acknowledgement, --ack    Output only acknowledgement text (for use in papers)
+  --bibtex                    Output only BibTeX formatted citation
+  --deps                      Show dependencies without generating full citations
   --json                      Output format as JSON (default: plain text)
+  --help, -h                  Show this help message
 
-Environment variables:
-  SCS_BASE_URL                Custom base URL for data (default: https://data.softwarecitationstation.org)
+EXAMPLES
+  List all available packages:
+    scs list
+    scs list --json
+
+  Show package details:
+    scs show scipy
+    scs show numpy --json
+
+  Generate citations (latest versions):
+    scs cite scipy numpy
+    scs cite scipy --ack
+    scs cite scipy --bibtex
+    scs cite scipy --json
+
+  Generate citations (specific versions):
+    scs cite scipy==1.10.0 numpy==1.24.0
+    scs cite scipy==1.10.0 --bibtex
+
+  Show dependencies:
+    scs cite scipy --deps
+    scs cite scipy numpy --deps --json
+
+ENVIRONMENT VARIABLES
+  SCS_BASE_URL    Custom base URL for data
+                  (default: ${DEFAULT_BASE_URL})
+
+MORE INFORMATION
+  Full documentation at: https://www.tomwagg.com/software-citation-station/
   `);
 }
 
@@ -59,7 +85,7 @@ function parseFlags(args: string[]): ParsedFlags {
     }
     // other flags handled below
 
-    if (arg === "--acknowledgement") {
+    if (arg === "--acknowledgement" || arg === "--ack") {
       parsed.acknowledgement = true;
       parsed.bibtex = false;
       continue;
@@ -72,10 +98,6 @@ function parseFlags(args: string[]): ParsedFlags {
     if (arg === "--deps") {
       parsed.deps = true;
       continue;
-    }
-    if (arg === "--help" || arg === "-h") {
-      printUsage();
-      process.exit(0);
     }
     parsed.positional.push(arg);
   }
@@ -110,9 +132,9 @@ function splitPinnedPackage(value: string): { packageName: string; version: stri
 
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);
-  if (argv.length === 0) {
+  if (argv.length === 0 || argv[0] === "--help" || argv[0] === "-h") {
     printUsage();
-    process.exit(2);
+    process.exit(argv.length === 0 ? 2 : 0);
   }
 
   const command = argv[0] as Command;
@@ -184,10 +206,15 @@ async function main(): Promise<void> {
     if (flags.deps) {
       if (Array.isArray(output)) {
         const deps = output;
+        const depsWithVersions = deps.map(dep => {
+          const version = pinnedVersions[dep];
+          return version ? `${dep}==${version}` : dep;
+        });
         if (flags.format === "json") {
-          console.log(JSON.stringify({ packages: packageNames, dependencies: deps }, null, 2));
+          console.log(JSON.stringify({ packages: packageNames, dependencies: depsWithVersions }, null, 2));
         } else {
-          console.log(deps.join("\n"));
+          console.log(`Packages (${packageNames.length}): ${packageNames.sort().join(", ")}`);
+          console.log(`\nDependencies (${depsWithVersions.length}):\n${depsWithVersions.sort().join("\n")}`);
         }
       }
       return;
@@ -207,7 +234,9 @@ async function main(): Promise<void> {
       return;
     }
 
-    console.log(`${citationOutput.acknowledgement}\n\n${citationOutput.bibtex}`);
+    const citedPackages = citationOutput.packages.map(p => p.name).sort();
+    console.log(`Packages (${citedPackages.length}): ${citedPackages.join(", ")}`);
+    console.log(`\n${citationOutput.acknowledgement}\n\n${citationOutput.bibtex}`);
     return;
   }
 
