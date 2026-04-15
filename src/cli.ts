@@ -4,14 +4,14 @@ import { CitationEngine } from "./citationEngine";
 import { CitationOutput } from "./citationTypes";
 import { RemoteDataProvider, DEFAULT_BASE_URL } from "./remoteData";
 
-type OutputFormat = "text" | "bibtex" | "json";
+// Output format is now controlled by --json flag (default text)
+type OutputFormat = "text" | "json"; // format controlled by --json flag
 type Command = "list" | "show" | "cite" | "deps";
 
 interface ParsedFlags {
-  baseUrl: string;
   format: OutputFormat;
-  latest: boolean;
-  versions: Record<string, string>;
+  acknowledgement: boolean;
+  bibtex: boolean;
   positional: string[];
   deps: boolean;
 }
@@ -20,50 +20,53 @@ function printUsage(): void {
   console.log(`Software Citation Station CLI
 
 Usage:
-  scs list [--format text|json] [--base-url URL]
-  scs show <package> [--format text|json] [--base-url URL]
-  scs cite <package...> [--latest] [--version package=version ...] [--format text|bibtex|json] [--base-url URL]
-`);
+  scs list [--json]
+  scs show <package> [--json]
+  scs cite <package...> [package==version ...] [--acknowledgement] [--bibtex]
+  scs cite <package...> [package==version ...] --deps [--json]
+
+Examples:
+  scs cite scipy numpy
+  scs cite scipy==1.10.0 numpy
+  scs cite scipy numpy --acknowledgement
+  scs cite scipy numpy --bibtex
+
+  Flags:
+  --acknowledgement           Output only acknowledgement text
+  --bibtex                    Output only bibtex
+  --deps                      Show dependencies without generating citations
+  --json                      Output format as JSON (default: plain text)
+
+Environment variables:
+  SCS_BASE_URL                Custom base URL for data (default: https://data.softwarecitationstation.org)
+  `);
 }
 
 function parseFlags(args: string[]): ParsedFlags {
   const parsed: ParsedFlags = {
-    baseUrl: DEFAULT_BASE_URL,
     format: "text",
-    latest: true,
-    versions: {},
+    acknowledgement: false,
+    bibtex: false,
     positional: [],
     deps: false
   };
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
-    if (arg === "--base-url") {
-      parsed.baseUrl = args[++i] ?? parsed.baseUrl;
+    if (arg === "--json") {
+      parsed.format = "json";
       continue;
     }
-    if (arg === "--format") {
-      parsed.format = (args[++i] as OutputFormat) ?? parsed.format;
+    // other flags handled below
+
+    if (arg === "--acknowledgement") {
+      parsed.acknowledgement = true;
+      parsed.bibtex = false;
       continue;
     }
-    if (arg === "--latest") {
-      parsed.latest = true;
-      continue;
-    }
-    if (arg === "--no-latest") {
-      parsed.latest = false;
-      continue;
-    }
-    if (arg === "--version") {
-      const value = args[++i];
-      if (!value || !value.includes("=")) {
-        throw new Error(`Invalid --version value "${value ?? ""}". Expected package=version.`);
-      }
-      const [pkg, version] = value.split("=", 2);
-      if (!pkg || !version) {
-        throw new Error(`Invalid --version value "${value}". Expected package=version.`);
-      }
-      parsed.versions[pkg] = version;
+    if (arg === "--bibtex") {
+      parsed.bibtex = true;
+      parsed.acknowledgement = false;
       continue;
     }
     if (arg === "--deps") {
@@ -114,7 +117,8 @@ async function main(): Promise<void> {
 
   const command = argv[0] as Command;
   const flags = parseFlags(argv.slice(1));
-  const engine = new CitationEngine(new RemoteDataProvider(flags.baseUrl));
+  const baseUrl = process.env.SCS_BASE_URL ?? DEFAULT_BASE_URL;
+  const engine = new CitationEngine(new RemoteDataProvider(baseUrl));
 
   if (command === "list") {
     const packages = await engine.listPackages();
@@ -133,7 +137,7 @@ async function main(): Promise<void> {
     }
 
     const record = await engine.getPackage(packageName);
-    const versions = record.zenodo_doi ? await new RemoteDataProvider(flags.baseUrl).getVersions(packageName) : [];
+    const versions = record.zenodo_doi ? await new RemoteDataProvider(baseUrl).getVersions(packageName) : [];
     const payload = {
       package: packageName,
       citation: record,
@@ -173,17 +177,18 @@ async function main(): Promise<void> {
     }
 
     const output = await engine.cite(packageNames, {
-      latest: flags.latest,
-      versions: { ...flags.versions, ...pinnedVersions },
+      versions: pinnedVersions,
       depsOnly: flags.deps
     });
 
     if (flags.deps) {
-      const deps = output as string[];
-      if (flags.format === "json") {
-        console.log(JSON.stringify({ packages: packageNames, dependencies: deps }, null, 2));
-      } else {
-        console.log(deps.join("\\n"));
+      if (Array.isArray(output)) {
+        const deps = output;
+        if (flags.format === "json") {
+          console.log(JSON.stringify({ packages: packageNames, dependencies: deps }, null, 2));
+        } else {
+          console.log(deps.join("\n"));
+        }
       }
       return;
     }
@@ -193,12 +198,16 @@ async function main(): Promise<void> {
       console.log(JSON.stringify(citationOutput, null, 2));
       return;
     }
-    if (flags.format === "bibtex") {
+    if (flags.bibtex) {
       console.log(citationOutput.bibtex);
       return;
     }
+    if (flags.acknowledgement) {
+      console.log(citationOutput.acknowledgement);
+      return;
+    }
 
-    console.log(`${citationOutput.acknowledgement}\\n\\n${citationOutput.bibtex}`);
+    console.log(`${citationOutput.acknowledgement}\n\n${citationOutput.bibtex}`);
     return;
   }
 
