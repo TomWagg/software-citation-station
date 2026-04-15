@@ -94,6 +94,9 @@ export class CitationEngine {
     return record;
   }
 
+  // Overloads to provide precise return types based on depsOnly flag
+  async cite(packages: string[], options: CiteOptions & { depsOnly: true }): Promise<string[]>;
+  async cite(packages: string[], options?: CiteOptions): Promise<CitationOutput>;
   async cite(packages: string[], options: CiteOptions = {}): Promise<CitationOutput | string[]> {
     if (packages.length === 0) {
       throw new Error("No packages provided.");
