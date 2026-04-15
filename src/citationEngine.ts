@@ -4,6 +4,7 @@ import { CitationOutput, CitationPackage, DataProvider, ZenodoVersion } from "./
 export interface CiteOptions {
   latest?: boolean;
   versions?: Record<string, string>;
+  depsOnly?: boolean;
 }
 
 function resolveRequestedVersion(available: ZenodoVersion[], requested: string): ZenodoVersion | undefined {
@@ -17,6 +18,34 @@ function resolveRequestedVersion(available: ZenodoVersion[], requested: string):
     const candidate = v.version.startsWith("v") ? v.version.slice(1) : v.version;
     return candidate === stripped;
   });
+}
+
+async function expandWithDependencies(
+  provider: DataProvider,
+  packages: string[]
+): Promise<string[]> {
+  const citations = await provider.getCitations();
+  const allPackages = new Set<string>();
+  const toProcess = [...packages];
+
+  while (toProcess.length > 0) {
+    const current = toProcess.shift()!;
+    if (allPackages.has(current)) {
+      continue;
+    }
+    allPackages.add(current);
+
+    const citation = citations[current];
+    if (citation?.dependencies) {
+      for (const dep of citation.dependencies) {
+        if (!allPackages.has(dep) && citations[dep]) {
+          toProcess.push(dep);
+        }
+      }
+    }
+  }
+
+  return Array.from(allPackages);
 }
 
 function appendTagToCitep(text: string, tag: string): string {
@@ -65,13 +94,19 @@ export class CitationEngine {
     return record;
   }
 
-  async cite(packages: string[], options: CiteOptions = {}): Promise<CitationOutput> {
+  async cite(packages: string[], options: CiteOptions = {}): Promise<CitationOutput | string[]> {
     if (packages.length === 0) {
       throw new Error("No packages provided.");
     }
 
     const versionsByPackage = options.versions ?? {};
     const latest = options.latest !== false;
+    const expandedPackages = await expandWithDependencies(this.provider, packages);
+
+    if (options.depsOnly) {
+      return expandedPackages;
+    }
+
     const citations = await this.provider.getCitations();
     const bibtexTable = await this.provider.getBibtexTable();
 

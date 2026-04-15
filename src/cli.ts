@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
 import { CitationEngine } from "./citationEngine";
+import { CitationOutput } from "./citationTypes";
 import { RemoteDataProvider, DEFAULT_BASE_URL } from "./remoteData";
 
 type OutputFormat = "text" | "bibtex" | "json";
-type Command = "list" | "show" | "cite";
+type Command = "list" | "show" | "cite" | "deps";
 
 interface ParsedFlags {
   baseUrl: string;
@@ -12,6 +13,7 @@ interface ParsedFlags {
   latest: boolean;
   versions: Record<string, string>;
   positional: string[];
+  deps: boolean;
 }
 
 function printUsage(): void {
@@ -30,7 +32,8 @@ function parseFlags(args: string[]): ParsedFlags {
     format: "text",
     latest: true,
     versions: {},
-    positional: []
+    positional: [],
+    deps: false
   };
 
   for (let i = 0; i < args.length; i++) {
@@ -61,6 +64,10 @@ function parseFlags(args: string[]): ParsedFlags {
         throw new Error(`Invalid --version value "${value}". Expected package=version.`);
       }
       parsed.versions[pkg] = version;
+      continue;
+    }
+    if (arg === "--deps") {
+      parsed.deps = true;
       continue;
     }
     if (arg === "--help" || arg === "-h") {
@@ -167,19 +174,31 @@ async function main(): Promise<void> {
 
     const output = await engine.cite(packageNames, {
       latest: flags.latest,
-      versions: { ...flags.versions, ...pinnedVersions }
+      versions: { ...flags.versions, ...pinnedVersions },
+      depsOnly: flags.deps
     });
 
+    if (flags.deps) {
+      const deps = output as string[];
+      if (flags.format === "json") {
+        console.log(JSON.stringify({ packages: packageNames, dependencies: deps }, null, 2));
+      } else {
+        console.log(deps.join("\\n"));
+      }
+      return;
+    }
+
+    const citationOutput = output as CitationOutput;
     if (flags.format === "json") {
-      console.log(JSON.stringify(output, null, 2));
+      console.log(JSON.stringify(citationOutput, null, 2));
       return;
     }
     if (flags.format === "bibtex") {
-      console.log(output.bibtex);
+      console.log(citationOutput.bibtex);
       return;
     }
 
-    console.log(`${output.acknowledgement}\n\n${output.bibtex}`);
+    console.log(`${citationOutput.acknowledgement}\\n\\n${citationOutput.bibtex}`);
     return;
   }
 
