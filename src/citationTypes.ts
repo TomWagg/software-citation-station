@@ -1,7 +1,8 @@
 export interface CitationPackage {
   tags: string[];
   logo: string;
-  language: string;
+  logo_background?: boolean;
+  language: string | string[];
   category: string;
   keywords: string[];
   description: string;
@@ -9,9 +10,10 @@ export interface CitationPackage {
   zenodo_doi: string;
   attribution_link: string;
   custom_citation: string;
-  dependencies: string[];
+  dependencies?: string[];
   extra_bibtex?: string;
   frequently_used?: boolean;
+  pypi_name?: string;
 }
 
 export interface ZenodoVersion {

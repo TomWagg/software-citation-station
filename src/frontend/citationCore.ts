@@ -47,7 +47,7 @@ export class FrontendDataProvider {
           }
           return response.text();
         })
-        .then(parseBibtex);
+        .then(parseBibtexFrontend);
     }
     return await this.bibtexTablePromise;
   }
@@ -106,24 +106,21 @@ export class FrontendDataProvider {
 }
 
 /**
- * Parse BibTeX content into a lookup table
+ * Parse BibTeX content into a lookup table (frontend version)
  * @param bibtexText - Raw BibTeX text
  * @returns Object mapping tags to BibTeX entries
  */
-function parseBibtexText(bibtexText: string): Record<string, string> {
+export function parseBibtexFrontend(bibtexText: string): Record<string, string> {
   const bibtexTable: Record<string, string> = {};
-  const bibtexRe = /@\w*{(?<tag>.*)(?=,)/gmi;
+  const bibtexRe = /@\w*{(?<tag>.*?)(?=,)/gms;
   
   let match: RegExpExecArray | null;
   while ((match = bibtexRe.exec(bibtexText)) !== null) {
-    const tagName = match.groups?.tag?.trim();
-    if (tagName) {
-      bibtexTable[tagName] = match[0];
+    const tag = match.groups?.tag?.trim();
+    if (tag) {
+      bibtexTable[tag] = match[0];
     }
   }
   
   return bibtexTable;
 }
-
-// Export the parseBibtex function with the correct name
-export { parseBibtexText as parseBibtex };
