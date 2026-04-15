@@ -6,6 +6,10 @@ Changelog
 - Feat: New button for uploading a .txt or .yml/.yaml and parse to auto-add packages from a pip freeze or conda env export call
 - Feat: Categories and languages are now defined as lists/arrays so that each software can have multiple, this is also possible on the submission form
 - Feat: Add feature_tags as an option in the JSON, which allows you to just cite specific suboptions within the package
+- Improved CLI help output with clearer flag descriptions
+- Added note about default output format (package list, acknowledgement, BibTeX)
+- Clarified that package list includes inferred dependencies
+- Reorganized examples to show dependencies first
 
 # v1.4
 - Bug fix: Zenodo reduced their page limit to 100, so we implemented pagination internally to avoid crashing when asking for Zenodo versions
