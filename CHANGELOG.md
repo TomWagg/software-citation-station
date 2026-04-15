@@ -1,11 +1,14 @@
 Changelog
 ---------
 
-# v1.5
-- Improved CLI help output with clearer flag descriptions
-- Added note about default output format (package list, acknowledgement, BibTeX)
-- Clarified that package list includes inferred dependencies
-- Reorganized examples to show dependencies first
+# Unreleased
+- Implementation of the CLI interface `scs`
+  - `scs list` - List all available packages
+  - `scs show <package>` - Show package details and available versions
+  - `scs cite <package...>` - Generate citations with automatic dependency resolution
+  - Flags: `--acknowledgement/--ack`, `--bibtex`, `--deps`, `--json`
+  - Support for version pinning (e.g., `scipy==1.10.0`)
+  - JSON output format support
 
 # v1.4
 - Bug fix: Zenodo reduced their page limit to 100, so we implemented pagination internally to avoid crashing when asking for Zenodo versions
