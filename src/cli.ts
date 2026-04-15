@@ -257,6 +257,7 @@ async function main(): Promise<void> {
   if (command === "cite") {
     let packageNames: string[] = [];
     const pinnedVersions: Record<string, string> = {};
+    const warnings: string[] = [];
 
     // Handle file input
     if (flags.file) {
@@ -287,9 +288,37 @@ async function main(): Promise<void> {
       throw new Error("cite requires at least one package name or a file.");
     }
 
-    // Get citations for dependency expansion
+    // Get citations for dependency expansion and validate packages
     const citations = await dataProvider.getCitations();
     
+    // Check for unknown packages and warn
+    const validPackages: string[] = [];
+    for (const pkg of packageNames) {
+      if (citations[pkg]) {
+        validPackages.push(pkg);
+      } else {
+        warnings.push(`Unknown package "${pkg}" - skipping`);
+      }
+    }
+    
+    // Print warnings for unknown packages
+    if (warnings.length > 0) {
+      if (flags.format === "json") {
+        // Warnings will be included in JSON output
+      } else {
+        for (const warning of warnings) {
+          console.error(`Warning: ${warning}`);
+        }
+      }
+    }
+    
+    // Use only valid packages
+    packageNames = validPackages;
+    
+    if (packageNames.length === 0) {
+      throw new Error("No valid packages found.");
+    }
+
     // Expand dependencies if auto-deps is enabled
     if (flags.autoDeps) {
       packageNames = expandDependencies(packageNames, citations, { autoExpand: true });
@@ -308,7 +337,9 @@ async function main(): Promise<void> {
           return version ? `${dep}==${version}` : dep;
         });
         if (flags.format === "json") {
-          console.log(JSON.stringify({ packages: packageNames, dependencies: depsWithVersions }, null, 2));
+          const result: Record<string, any> = { packages: packageNames, dependencies: depsWithVersions };
+          if (warnings.length > 0) result.errors = warnings;
+          console.log(JSON.stringify(result, null, 2));
         } else {
           console.log(`Packages (${packageNames.length}): ${packageNames.sort().join(", ")}`);
           console.log(depsWithVersions.sort().join("\n"));
@@ -319,7 +350,9 @@ async function main(): Promise<void> {
 
     const citationOutput = output as CitationOutput;
     if (flags.format === "json") {
-      console.log(JSON.stringify(citationOutput, null, 2));
+      const result: Record<string, any> = citationOutput;
+      if (warnings.length > 0) result.errors = warnings;
+      console.log(JSON.stringify(result, null, 2));
       return;
     }
     if (flags.bibtex) {
