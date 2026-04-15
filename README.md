@@ -28,7 +28,7 @@
 
 ## Development
 
-This project uses TypeScript for backend utilities and JavaScript for the frontend. 
+This project uses TypeScript for backend utilities and JavaScript for the frontend.
 
 ### Setup
 
@@ -36,6 +36,30 @@ This project uses TypeScript for backend utilities and JavaScript for the fronte
 npm install
 npm run build
 npm test
+```
+
+### CLI Usage
+
+```bash
+# List all available packages
+npm run cli list
+npm run cli list -- --json
+
+# Show package details
+npm run cli show scipy
+npm run cli show numpy -- --json
+
+# Generate citations (latest versions)
+npm run cli cite scipy numpy
+npm run cli cite scipy -- --acknowledgement
+npm run cli cite scipy -- --bibtex
+
+# Generate citations (specific versions)
+npm run cli cite scipy==1.10.0 numpy==1.24.0
+
+# Show dependencies
+npm run cli cite scipy -- --deps
+npm run cli cite scipy numpy -- --deps --json
 ```
 
 ### Zenodo Version Caching
