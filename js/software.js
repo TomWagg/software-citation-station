@@ -188,31 +188,37 @@ Promise.all([
                     vp.classList.add("hide");
                 }
             } else {
-                // if the package has dependencies, find all of them and select them
-                const deps = collect_dependencies(new Set(), this.getAttribute("data-key"));
-                let previously_unselected = [];
-                for (let dep of deps) {
-                    const dep_btn = document.querySelector(`.software-button[data-key="${dep}"]`);
-                    if (dep_btn !== null && !dep_btn.classList.contains("active")) {
-                        previously_unselected.push(dep);
-                        dep_btn.classList.add("active");
+                // check whether the user wants to automatically add dependencies
+                const auto_add_deps = document.getElementById("auto-deps-toggle").classList.contains("active");
+
+                if (auto_add_deps) {
+
+                    // if the package has dependencies, find all of them and select them
+                    const deps = collect_dependencies(new Set(), this.getAttribute("data-key"));
+                    let previously_unselected = [];
+                    for (let dep of deps) {
+                        const dep_btn = document.querySelector(`.software-button[data-key="${dep}"]`);
+                        if (dep_btn !== null && !dep_btn.classList.contains("active")) {
+                            previously_unselected.push(dep);
+                            dep_btn.classList.add("active");
+                        }
                     }
-                }
 
-                // if we've selected any new dependencies then post a toast
-                if (previously_unselected.length > 0) {
-                    // post a toast letting the user know we've selected them
-                    let toast = document.getElementById("toast-template").cloneNode(true);
-                    toast.querySelector(".toast-body .main-package").innerText = this.getAttribute("data-key");
-                    toast.querySelector(".toast-body .dependencies").innerText = previously_unselected.join(", ");
-                    document.getElementById("toaster").appendChild(toast);
+                    // if we've selected any new dependencies then post a toast
+                    if (previously_unselected.length > 0) {
+                        // post a toast letting the user know we've selected them
+                        let toast = document.getElementById("toast-template").cloneNode(true);
+                        toast.querySelector(".toast-body .main-package").innerText = this.getAttribute("data-key");
+                        toast.querySelector(".toast-body .dependencies").innerText = previously_unselected.join(", ");
+                        document.getElementById("toaster").appendChild(toast);
 
-                    bootstrap.Toast.getOrCreateInstance(toast).show();
+                        bootstrap.Toast.getOrCreateInstance(toast).show();
 
-                    // remove the toast once it's hidden
-                    toast.addEventListener('hidden.bs.toast', () => {
-                        toast.remove();
-                    })                      
+                        // remove the toast once it's hidden
+                        toast.addEventListener('hidden.bs.toast', () => {
+                            toast.remove();
+                        })
+                    }
                 }
             }
 
