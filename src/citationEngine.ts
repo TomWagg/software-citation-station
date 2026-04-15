@@ -118,7 +118,7 @@ export class CitationEngine {
     const bibsToAdd: string[] = [];
     const packageInfo: CitationOutput["packages"] = [];
 
-    for (const packageName of packages) {
+    for (const packageName of expandedPackages) {
       const citation = citations[packageName];
       if (!citation) {
         throw new Error(`Unknown package "${packageName}". Package matching is exact.`);
