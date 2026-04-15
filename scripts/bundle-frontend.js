@@ -9,23 +9,36 @@ const fs = require('fs');
 const path = require('path');
 
 const DIST_DIR = path.join(__dirname, '..', 'dist');
-const FRONTEND_DIST_DIR = path.join(DIST_DIR, 'frontend');
+const FRONTEND_DIST_DIR = path.join(DIST_DIR, 'frontend', 'frontend');
+const SHARED_DIST_DIR = path.join(DIST_DIR, 'frontend', 'shared');
 const OUTPUT_FILE = path.join(DIST_DIR, 'software.js');
 
 // Read all compiled frontend modules
-function readModule(filename) {
-  const filePath = path.join(FRONTEND_DIST_DIR, filename);
+function readModule(dir, filename) {
+  const filePath = path.join(dir, filename);
   if (fs.existsSync(filePath)) {
     return fs.readFileSync(filePath, 'utf-8');
   }
+  console.warn(`Warning: Module not found: ${filePath}`);
   return '';
 }
 
+// Remove import/export statements for bundling
+function removeImportsExports(code) {
+  return code
+    .replace(/^import\s+[\s\S]*?from\s+['"][^'"]+['"]\s*;?\s*/gm, '')
+    .replace(/^export\s+/gm, '')
+    .replace(/^export\s+\*\s+from\s+['"][^'"]+['"]\s*;?\s*/gm, '');
+}
+
 // Read all frontend modules
-const darkMode = readModule('darkMode.js');
-const citationCore = readModule('citationCore.js');
-const software = readModule('software.js');
-const softwareUI = readModule('softwareUI.js');
+const darkMode = removeImportsExports(readModule(FRONTEND_DIST_DIR, 'darkMode.js'));
+const citationCore = removeImportsExports(readModule(FRONTEND_DIST_DIR, 'citationCore.js'));
+const software = removeImportsExports(readModule(FRONTEND_DIST_DIR, 'software.js'));
+
+// Read shared modules
+const dependencyResolver = removeImportsExports(readModule(SHARED_DIST_DIR, 'dependencyResolver.js'));
+const fileParser = removeImportsExports(readModule(SHARED_DIST_DIR, 'fileParser.js'));
 
 // Create bundled output
 const bundle = `/**
@@ -37,15 +50,18 @@ const bundle = `/**
 (function() {
   'use strict';
 
+  // Shared modules
+  ${dependencyResolver}
+  ${fileParser}
+
   // Dark mode module
-  ${darkMode.replace(/export /g, '')}
+  ${darkMode}
 
   // Citation core module
-  ${citationCore.replace(/export /g, '')}
+  ${citationCore}
 
   // Software UI module
-  ${software.replace(/export /g, '')}
-  ${softwareUI.replace(/export /g, '')}
+  ${software}
 
   // Initialize when DOM is ready
   if (document.readyState === 'loading') {
