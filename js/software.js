@@ -1252,54 +1252,103 @@ function collect_dependencies(dep_set, id) {
 
 
 function handle_file_upload(file, type) {
+    // start reading a new file
     const reader = new FileReader();
     reader.onload = function(e) {
+        // parse based on the file type
         const content = e.target.result;
-        let parsed_deps = [];
+        let parsed_softwares = [];
         if (type === "txt") {
-            parsed_deps = parse_pip_freeze(content);
+            parsed_softwares = parse_pip_freeze(content);
         } else if (type === "yaml") {
-            parsed_deps = parse_conda_env(content);
+            parsed_softwares = parse_conda_env(content);
+        } else {
+            toast_notification("Error", "Unsupported file type. Please upload a .txt or .yaml file.", "");
+            return;
         }
-        for (let dep of parsed_deps) {
-            const btn = document.querySelector(`.software-button[data-key="${dep.key}"]`);
-            if (btn !== null && !btn.classList.contains("active")) {
-                btn.click();
 
-                // if the version picker exists, wait for the list to be loaded and then select the correct version if it exists
-                const vp = document.getElementById(`${btn.getAttribute("data-key")}-version-picker`);
-                if (vp !== null) {
-                    // wait until the data-loaded attribute is true
-                    const interval = setInterval(() => {
-                        if (vp.getAttribute("data-loaded") === "true") {
-                            const select = vp.querySelector(".version-select");
-                            let found_version = false;
-                            for (let opt of select.options) {
-                                let opt_text = opt.text.toLowerCase().trim();
-                                let dep_version = dep.version.toLowerCase().trim();
-                                if (opt_text === dep_version || opt_text === 'v' + dep_version) {
-                                    select.value = opt.value;
-                                    select.dispatchEvent(new Event('change'));
-                                    found_version = true;
-                                    break;
-                                }
+        // turn off auto-add dependencies if necessary
+        const autoDepsToggle = document.getElementById("auto-deps-toggle");
+        if (autoDepsToggle.classList.contains("active")) {
+            autoDepsToggle.classList.remove("active");
+        }
+
+        // track all intervals
+        let intervals_remaining = [];
+        let missing_softwares = [];
+
+        // go through each new 
+        for (let software of parsed_softwares) {
+
+            // if the button isn't already active, click it to add the software
+            const btn = document.querySelector(`.software-button[data-key="${software.key}"]`);
+
+            // if there's no button, don't do anything
+            if (btn === null) {
+                continue;
+            }
+
+            if (!btn.classList.contains("active")) {
+                btn.click();
+            }
+
+            // if the version picker exists, wait for the list to be loaded and then select the correct version if it exists
+            const vp = document.getElementById(`${btn.getAttribute("data-key")}-version-picker`);
+            if (vp !== null) {
+                // wait until the data-loaded attribute is true
+                const interval = setInterval(() => {
+                    if (vp.getAttribute("data-loaded") === "true") {
+
+                        // select the version that matches (pre-pend a 'v' if necessary)
+                        const select = vp.querySelector(".version-select");
+                        let found_version = false;
+                        for (let opt of select.options) {
+                            let opt_text = opt.text.toLowerCase().trim();
+                            let version_from_file = software.version.toLowerCase().trim();
+                            if (opt_text === version_from_file || opt_text === 'v' + version_from_file) {
+                                select.value = opt.value;
+                                select.dispatchEvent(new Event('change'));
+                                found_version = true;
+                                break;
                             }
-                            if (!found_version) {
-                                console.warn(`Version ${dep.version} for package ${dep.key} not found in version picker options.`);
-                            }
-                            clearInterval(interval);
                         }
-                    }, 500);
-                }
+
+                        // if we can't find it, make a note of it
+                        if (!found_version) {
+                            missing_softwares.push(software);
+                        }
+                        clearInterval(interval);
+
+                        // remove interval from remaining intervals list
+                        intervals_remaining = intervals_remaining.filter((i) => i !== interval);
+                    }
+                }, 500);
+                intervals_remaining.push(interval);
             }
         }
+
+        // once all of the intervals have been cleared
+        const checkIntervals = setInterval(() => {
+            if (intervals_remaining.length === 0) {
+                clearInterval(checkIntervals);
+
+                // if any were missing then let the user know
+                if (missing_softwares.length > 0) {
+                    let body = "<p class='m-0' style='font-size: 0.7rem;'>The following packages and versions are not available on Zenodo: ";
+                    body_softwares = missing_softwares.map((software) => `<code>${software.key}==${software.version}</code>`);
+                    body += body_softwares.join(", ") + "</p>";
+                    toast_notification("Missing versions", body, "", false);
+                }
+            }
+        }, 500);
+
     };
     reader.readAsText(file);
 }
 
 function parse_pip_freeze(content) {
     // parse the output of pip freeze to get package names
-    let deps = [];
+    let softwares = [];
     const lines = content.split("\n");
     for (let line of lines) {
         line = line.trim();
@@ -1307,14 +1356,14 @@ function parse_pip_freeze(content) {
             continue;
         }
         const [key, version] = line.split("==");
-        deps.push({key: key.toLowerCase(), version: version});
+        softwares.push({key: key.toLowerCase(), version: version});
     }
-    return deps;
+    return softwares;
 }
 
 function parse_conda_env(content) {
     // parse the output of conda env export to get package names
-    let deps = [];
+    let softwares = [];
     const lines = content.split("\n");
     let in_deps = false;
     let in_pip_deps = false;
@@ -1328,7 +1377,7 @@ function parse_conda_env(content) {
             if (line.startsWith("- ")) {
                 const dep_line = line.slice(2);
                 const [key, version] = dep_line.split("==");
-                deps.push({key: key.toLowerCase(), version: version});
+                softwares.push({key: key.toLowerCase(), version: version});
             } else {
                 in_pip_deps = false;
                 break;
@@ -1341,11 +1390,36 @@ function parse_conda_env(content) {
             if (line.startsWith("- ")) {
                 const dep_line = line.slice(2);
                 const [key, version] = dep_line.split("=");
-                deps.push({key: key.toLowerCase(), version: version});
+                softwares.push({key: key.toLowerCase(), version: version});
             } else {
                 break;
             }
         }
     }
-    return deps;
+    return softwares;
+}
+
+function toast_notification(header, body, type="", autohide=true, delay=5000) {
+    console.log("Showing toast notification:", header, body, type, autohide, delay);
+    const toastContainer = document.getElementById("toaster");
+    const toast = document.getElementById("toast-template").cloneNode(true);
+    toast.classList.remove("hide");
+
+    toast.id = '';
+    toast.querySelector(".toast-body").innerHTML = body;
+
+    // set the background color based on the type of notification
+    if (type !== "") {
+        toast.querySelector(".toast-header").classList.add('bg-' + type);
+    }
+    toast.querySelector(".toast-header-title").innerText = header;
+
+    toastContainer.appendChild(toast);
+    const bsToast = new bootstrap.Toast(toast, {autohide: autohide, delay: delay});
+    bsToast.show();
+
+    // remove the toast from the DOM after it hides
+    toast.addEventListener('hidden.bs.toast', function() {
+        toast.remove();
+    });
 }
