@@ -726,7 +726,7 @@ window.addEventListener('DOMContentLoaded', () => {
         } else if (file.name.endsWith(".yaml")) {
             handle_file_upload(file, 'yaml');
         } else {
-            alert("Unsupported file type. Please upload a .txt or .yaml file.");
+            toast_notification("Error", "Unsupported file type. Please upload a .txt or .yaml file.", "danger");
         }
     });
 });
