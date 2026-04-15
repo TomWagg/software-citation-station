@@ -45,7 +45,7 @@
         <div class="container-fluid mt-4 mb-5">
             <div class="row align-items-center">
                 <div class="col-2 pe-0">
-                    <img id="main-logo" src="img/software-citation-station-no-circle-blue.png" class="img-fluid" />
+                    <img id="main-logo" src="img/software-citation-station-no-circle-blue.png" alt="Software Citation Station logo" class="img-fluid" />
                 </div>
                 <div class="col-10 col-md-10">
                     <div class="display-3 fw-bold">The Software Citation Station</div>
@@ -58,19 +58,22 @@
                     <div id="software-selection" class="rounded-box">
                         <div class="header-number">1</div>
                         <h3 class="header-title">
-                            Select the software <button class="btn" id="expand" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Expand"><i class="fa fa-arrow-right"></i></button>
+                            Select the software <button class="btn" id="expand" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Expand" alt="Select software"><i class="fa fa-arrow-right"></i></button>
                         </h3>
                         <p class="header-desc">Use the buttons below to select the software that you used in your research. Right-click each for more information about the software</p>
                         <div class="input-group mb-1">
-                            <input id="software-search" type="text" class="form-control" placeholder="Search for software" />
+                            <input id="software-search" type="text" class="form-control" placeholder="Search for software"/>
+                            <label for="software-search" />
                             <button class="btn btn-primary" id="software-search-clear" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Clear search"><i class="fa fa-times"></i></button>
                         </div>
                         <div class="input-group mb-1">
                             <select class="form-select" id="software-category">
                                 <option value="all">All categories</option>
+                                <label for="software-category" />
                             </select>
                             <select class="form-select" id="software-language">
                                 <option value="all">All languages</option>
+                                <label for="software-language" />
                             </select>
                             <button class="btn btn-primary" id="software-filter-clear" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Clear filters"><i class="fa fa-times"></i></button>
                         </div>
@@ -80,7 +83,7 @@
                             </div>
                         </div>
                         <div id="software-list" class="text-center shadow-scroll">
-                            <button id="software-btn-template" class="btn btn-primary hide me-2 software-button mb-2"><img class="software-logo me-1" src="img/python.png" /><span class="software-name">Software name</span></button>
+                            <button id="software-btn-template" class="btn btn-primary hide me-2 software-button mb-2"><img class="software-logo me-1" src="img/python.png" alt="python logo" /><span class="software-name">Software name</span></button>
                             <p id="software-loading">Loading software list <i class="fa fa-spinner fa-spin"></i></p>
                         </div>
                         <p id="software-search-empty" class="hide">Your search doesn't match any of the software in our list - perhaps this is an opportunity for you to <a id="new-software-from-search" href="#" class="link text-decoration-underline" style="font-weight: bold">contribute a new software package to our list</a>? Absolutely no need to own or contribute to the package, we appreciate submissions from users of packages too!</p>
@@ -159,7 +162,7 @@
                     </div>
                     <p class="mb-0">
                         Or, if you'd like it formatted in a nifty little badge like this one,
-                        <a href="https://www.tomwagg.com/software-citation-station/?auto-select=PACKAGENAME"> <img src="https://img.shields.io/badge/Cite-PACKAGENAME-blue" /> </a>, click <a href="#" id="cite-badge" class="btn btn-primary" style="font-size: 0.7rem; padding: 0.2rem">this button</a> to copy some HTML that does that!
+                        <a href="https://www.tomwagg.com/software-citation-station/?auto-select=PACKAGENAME"> <img src="https://img.shields.io/badge/Cite-PACKAGENAME-blue" alt="GitHub badge" /> </a>, click <a href="#" id="cite-badge" class="btn btn-primary" style="font-size: 0.7rem; padding: 0.2rem">this button</a> to copy some HTML that does that!
                     </p>
                 </div>
             </div>
@@ -183,11 +186,11 @@
 
                     <div class="d-md-flex justify-content-center mt-3">
                         <div class="headshot-box me-md-3" data-href="https://www.tomwagg.com/">
-                            <img src="img/tom.png" class="rounded-circle m-auto headshot" />
+                            <img src="img/tom.png" class="rounded-circle m-auto headshot" alt="Tom headshot" />
                             <p class="fs-5">Tom Wagg</p>
                         </div>
                         <div class="headshot-box" data-href="https://www.broekgaarden.nl/floor/wordpress/">
-                            <img src="img/floor.jpeg" class="rounded-circle m-auto headshot" />
+                            <img src="img/floor.jpeg" class="rounded-circle m-auto headshot" alt="Floor headshot" />
                             <p class="fs-5">Floor Broekgaarden</p>
                         </div>
                     </div>
@@ -346,7 +349,7 @@
         </div>
         <div id="details" class="details-no-close card text-center hide" style="width: 18rem; z-index: 100">
             <div class="card-body details-no-close">
-                <img src="img/python.png" class="m-auto details-logo" style="max-height: 100px; max-width: 18rem" />
+                <img src="img/python.png" class="m-auto details-logo" alt="Python logo" style="max-height: 100px; max-width: 18rem" />
                 <h5 class="card-title fw-bold details-name">Python</h5>
                 <p class="card-text details-desc">A high-level, general-purpose interpreted programming language.</p>
                 <div><i class="fa fa-list"></i> <span class="details-category me-3">General</span> <i class="fa fa-language"></i> <span class="details-language">Python</span></div>

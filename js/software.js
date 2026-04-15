@@ -18,7 +18,7 @@ const base_issue_text = `# TODO before submitting
 
 // cite badge HTML
 const badge_html = `<a href="https://www.tomwagg.com/software-citation-station/?auto-select=PACKAGENAME">
-    <img src="https://img.shields.io/badge/Cite-PACKAGENAME-blue" />
+    <img src="https://img.shields.io/badge/Cite-PACKAGENAME-blue" alt="GitHub badge" />
 </a>`
 
 // Fetch the citation data and populate the software list
@@ -101,6 +101,7 @@ Promise.all([
             btn.insertBefore(el, btn.querySelector(".software-name"));
         } else {
             btn.querySelector(".software-logo").src = citations[key]["logo"];
+            btn.querySelector(".software-logo").alt = citations[key] + " logo";
 
             // if the logo needs a white background then add the relevant classes
             if (citations[key]["logo_background"]) {
@@ -276,6 +277,7 @@ Promise.all([
                             card_body.insertBefore(el, card_body.querySelector(".card-title"));
                         } else {
                             vp.querySelector(".software-logo").src = citations[btn.getAttribute("data-key")]["logo"];
+                            vp.querySelector(".software-logo").alt = citations[btn.getAttribute("data-key")] + " logo";
                         }
 
                         // if the dropdown value is changed then trigger an update to the bibtex
