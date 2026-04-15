@@ -723,10 +723,10 @@ window.addEventListener('DOMContentLoaded', () => {
         const file = this.files[0];
         if (file.name.endsWith(".txt")) {
             handle_file_upload(file, 'txt');
-        } else if (file.name.endsWith(".yaml")) {
-            handle_file_upload(file, 'yaml');
+        } else if (file.name.endsWith(".yml") || file.name.endsWith(".yaml")) {
+            handle_file_upload(file, 'yml');
         } else {
-            toast_notification("Error", "Unsupported file type. Please upload a .txt or .yaml file.", "danger");
+            toast_notification("Error", "Unsupported file type. Please upload a .txt, .yml, or .yaml file.", "danger");
         }
     });
 });
@@ -1261,10 +1261,10 @@ function handle_file_upload(file, type) {
         let parsed_softwares = [];
         if (type === "txt") {
             parsed_softwares = parse_pip_freeze(content);
-        } else if (type === "yaml") {
+        } else if (type === "yml" || type === "yaml") {
             parsed_softwares = parse_conda_env(content);
         } else {
-            toast_notification("Error", "Unsupported file type. Please upload a .txt or .yaml file.", "");
+            toast_notification("Error", "Unsupported file type. Please upload a .txt, .yml, or .yaml file.", "");
             return;
         }
 
