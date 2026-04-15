@@ -26,7 +26,54 @@
     <a href="https://arxiv.org/abs/2406.04405">this link</a>.
 </p>
 
-## Development
+## CLI Installation
+
+The Software Citation Station CLI (`scs`) can be installed globally:
+
+```bash
+# Clone the repository
+git clone https://github.com/TomWagg/software-citation-station.git
+cd software-citation-station
+
+# Install dependencies and build
+npm install
+npm run build
+
+# Install globally to use 'scs' command
+npm install -g .
+```
+
+After installation, you can use the `scs` command from anywhere:
+
+```bash
+scs --help
+```
+
+## CLI Usage
+
+```bash
+# List all available packages
+scs list
+scs list --json
+
+# Show package details
+scs show scipy
+scs show numpy --json
+
+# Generate citations (latest versions)
+scs cite scipy numpy
+scs cite scipy --acknowledgement
+scs cite scipy --bibtex
+
+# Generate citations (specific versions)
+scs cite scipy==1.10.0 numpy==1.24.0
+
+# Show dependencies
+scs cite scipy --deps
+scs cite scipy numpy --deps --json
+```
+
+### Development
 
 This project uses TypeScript for backend utilities and JavaScript for the frontend.
 
@@ -38,28 +85,14 @@ npm run build
 npm test
 ```
 
-### CLI Usage
+### Testing the CLI during development
+
+Without installing globally, you can test the CLI using:
 
 ```bash
-# List all available packages
-npm run cli list
-npm run cli list -- --json
-
-# Show package details
-npm run cli show scipy
-npm run cli show numpy -- --json
-
-# Generate citations (latest versions)
-npm run cli cite scipy numpy
-npm run cli cite scipy -- --acknowledgement
-npm run cli cite scipy -- --bibtex
-
-# Generate citations (specific versions)
-npm run cli cite scipy==1.10.0 numpy==1.24.0
-
-# Show dependencies
-npm run cli cite scipy -- --deps
-npm run cli cite scipy numpy -- --deps --json
+npm run cli -- list
+npm run cli -- show scipy
+npm run cli -- cite scipy numpy
 ```
 
 ### Zenodo Version Caching
