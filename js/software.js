@@ -65,6 +65,7 @@ Promise.all([
         btn.setAttribute("data-key", key)
         btn.setAttribute("data-tags", citations[key]["tags"].join(","))
         btn.setAttribute("data-keywords", citations[key]["keywords"].join(","))
+        btn.setAttribute("data-pypi-name", citations[key]["pypi-name"] || "")
 
         if (citations[key].hasOwnProperty("dependencies")) {
             btn.setAttribute("data-dependencies", citations[key]["dependencies"].join(","))
@@ -1277,53 +1278,56 @@ function handle_file_upload(file, type) {
         let intervals_remaining = [];
         let missing_softwares = [];
 
-        // go through each new 
-        for (let software of parsed_softwares) {
+        // go through each software button
+        const software_btns = document.querySelectorAll(".software-button:not(#software-btn-template)");
+        for (let btn of software_btns) {
+            const key = btn.getAttribute("data-key").toLowerCase();
+            const pypi_name = btn.getAttribute("data-pypi-name").toLowerCase();
 
-            // if the button isn't already active, click it to add the software
-            const btn = document.querySelector(`.software-button[data-key="${software.key}"]`);
+            // if the key or pypi name matches any of the softwares in the file, click the button to add it
+            for (let software of parsed_softwares) {
+                if (key === software.key || pypi_name === software.key) {
+                    // remove this software from the list of parsed softwares so we don't keep looping over it
+                    parsed_softwares = parsed_softwares.filter((s) => s.key !== software.key);
 
-            // if there's no button, don't do anything
-            if (btn === null) {
-                continue;
-            }
-
-            if (!btn.classList.contains("active")) {
-                btn.click();
-            }
-
-            // if the version picker exists, wait for the list to be loaded and then select the correct version if it exists
-            const vp = document.getElementById(`${btn.getAttribute("data-key")}-version-picker`);
-            if (vp !== null) {
-                // wait until the data-loaded attribute is true
-                const interval = setInterval(() => {
-                    if (vp.getAttribute("data-loaded") === "true") {
-
-                        // select the version that matches (pre-pend a 'v' if necessary)
-                        const select = vp.querySelector(".version-select");
-                        let found_version = false;
-                        for (let opt of select.options) {
-                            let opt_text = opt.text.toLowerCase().trim();
-                            let version_from_file = software.version.toLowerCase().trim();
-                            if (opt_text === version_from_file || opt_text === 'v' + version_from_file) {
-                                select.value = opt.value;
-                                select.dispatchEvent(new Event('change'));
-                                found_version = true;
-                                break;
-                            }
-                        }
-
-                        // if we can't find it, make a note of it
-                        if (!found_version) {
-                            missing_softwares.push(software);
-                        }
-                        clearInterval(interval);
-
-                        // remove interval from remaining intervals list
-                        intervals_remaining = intervals_remaining.filter((i) => i !== interval);
+                    if (!btn.classList.contains("active")) {
+                        btn.click();
                     }
-                }, 500);
-                intervals_remaining.push(interval);
+
+                    // if the version picker exists, wait for the list to be loaded and then select the correct version if it exists
+                    const vp = document.getElementById(`${btn.getAttribute("data-key")}-version-picker`);
+                    if (vp !== null) {
+                        // wait until the data-loaded attribute is true
+                        const interval = setInterval(() => {
+                            if (vp.getAttribute("data-loaded") === "true") {
+
+                                // select the version that matches (pre-pend a 'v' if necessary)
+                                const select = vp.querySelector(".version-select");
+                                let found_version = false;
+                                for (let opt of select.options) {
+                                    let opt_text = opt.text.toLowerCase().trim();
+                                    let version_from_file = software.version.toLowerCase().trim();
+                                    if (opt_text === version_from_file || opt_text === 'v' + version_from_file) {
+                                        select.value = opt.value;
+                                        select.dispatchEvent(new Event('change'));
+                                        found_version = true;
+                                        break;
+                                    }
+                                }
+
+                                // if we can't find it, make a note of it
+                                if (!found_version) {
+                                    missing_softwares.push(software);
+                                }
+                                clearInterval(interval);
+
+                                // remove interval from remaining intervals list
+                                intervals_remaining = intervals_remaining.filter((i) => i !== interval);
+                            }
+                        }, 500);
+                        intervals_remaining.push(interval);
+                    }
+                }
             }
         }
 
@@ -1400,7 +1404,6 @@ function parse_conda_env(content) {
 }
 
 function toast_notification(header, body, type="", autohide=true, delay=5000) {
-    console.log("Showing toast notification:", header, body, type, autohide, delay);
     const toastContainer = document.getElementById("toaster");
     const toast = document.getElementById("toast-template").cloneNode(true);
     toast.classList.remove("hide");

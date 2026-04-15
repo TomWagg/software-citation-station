@@ -204,6 +204,7 @@
         "zenodo_doi": "10.5281/zenodo.3382152",
         "attribution_link": "https://github.com/COSMIC-PopSynth/COSMIC/blob/develop/README.md",
         "custom_citation": "",
+        "pypi-name": "cosmic-popsynth",
         "dependencies": [
             "python",
             "numpy",
