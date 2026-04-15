@@ -4,6 +4,14 @@
 
 import { compareVersions, getZenodoVersionInfo } from '../src/zenodoVersions';
 
+function mockedFetch(): jest.Mock {
+  return global.fetch as jest.Mock;
+}
+
+async function flushTimers(ms: number): Promise<void> {
+  await jest.advanceTimersByTimeAsync(ms);
+}
+
 describe('compareVersions', () => {
   it('should return 0 for equal versions', () => {
     expect(compareVersions('1.0.0', '1.0.0')).toBe(0);
@@ -55,6 +63,13 @@ describe('getZenodoVersionInfo', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    jest.useRealTimers();
+    jest.spyOn(console, 'warn').mockImplementation();
+    jest.spyOn(console, 'log').mockImplementation();
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
   it('should fetch and parse version information correctly', async () => {
@@ -234,7 +249,9 @@ describe('getZenodoVersionInfo', () => {
 
   it('should handle rate limiting with retry', async () => {
     // First call returns 429, second call succeeds
-    (global.fetch as jest.Mock)
+    jest.useFakeTimers();
+
+    mockedFetch()
       .mockResolvedValueOnce({
         ok: false,
         status: 429,
@@ -258,11 +275,148 @@ describe('getZenodoVersionInfo', () => {
         })
       });
 
-    const result = await getZenodoVersionInfo('10.5281/zenodo.1234567');
+    const resultPromise = getZenodoVersionInfo('10.5281/zenodo.1234567');
+    await flushTimers(1000);
+    const result = await resultPromise;
 
     expect(result).toHaveLength(1);
     expect(result[0]).toEqual({ version: '1.0.0', doi: '12345' });
-    expect(global.fetch).toHaveBeenCalledTimes(2);
+    expect(mockedFetch()).toHaveBeenCalledTimes(2);
+  });
+
+  it('should retry transient HTTP errors with backoff', async () => {
+    jest.useFakeTimers();
+
+    mockedFetch()
+      .mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        headers: {
+          get: () => null
+        }
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({
+          hits: {
+            total: 1,
+            hits: [{ id: '12345', metadata: { version: '1.0.0' } }]
+          }
+        })
+      });
+
+    const resultPromise = getZenodoVersionInfo('10.5281/zenodo.1234567');
+    await flushTimers(10_000);
+    const result = await resultPromise;
+
+    expect(result).toEqual([{ version: '1.0.0', doi: '12345' }]);
+    expect(mockedFetch()).toHaveBeenCalledTimes(2);
+  });
+
+  it('should use Retry-After for 503 responses', async () => {
+    jest.useFakeTimers();
+    const timeoutSpy = jest.spyOn(global, 'setTimeout');
+
+    mockedFetch()
+      .mockResolvedValueOnce({
+        ok: false,
+        status: 503,
+        headers: {
+          get: (header: string) => header.toLowerCase() === 'retry-after' ? '7' : null
+        }
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({
+          hits: {
+            total: 1,
+            hits: [{ id: '12345', metadata: { version: '1.0.0' } }]
+          }
+        })
+      });
+
+    const resultPromise = getZenodoVersionInfo('10.5281/zenodo.1234567');
+    await flushTimers(7_000);
+    await resultPromise;
+
+    expect(timeoutSpy).toHaveBeenCalledWith(expect.any(Function), 7_000);
+  });
+
+  it('should retry 408 responses', async () => {
+    jest.useFakeTimers();
+
+    mockedFetch()
+      .mockResolvedValueOnce({
+        ok: false,
+        status: 408,
+        headers: {
+          get: () => null
+        }
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({
+          hits: {
+            total: 1,
+            hits: [{ id: '12345', metadata: { version: '1.0.0' } }]
+          }
+        })
+      });
+
+    const resultPromise = getZenodoVersionInfo('10.5281/zenodo.1234567');
+    await flushTimers(10_000);
+    const result = await resultPromise;
+
+    expect(result).toEqual([{ version: '1.0.0', doi: '12345' }]);
+    expect(mockedFetch()).toHaveBeenCalledTimes(2);
+  });
+
+  it('should retry network fetch failures', async () => {
+    jest.useFakeTimers();
+
+    mockedFetch()
+      .mockRejectedValueOnce(new TypeError('socket hang up'))
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({
+          hits: {
+            total: 1,
+            hits: [{ id: '12345', metadata: { version: '1.0.0' } }]
+          }
+        })
+      });
+
+    const resultPromise = getZenodoVersionInfo('10.5281/zenodo.1234567');
+    await flushTimers(10_000);
+    const result = await resultPromise;
+
+    expect(result).toEqual([{ version: '1.0.0', doi: '12345' }]);
+    expect(mockedFetch()).toHaveBeenCalledTimes(2);
+  });
+
+  it('should fail after exhausting retries for transient HTTP errors', async () => {
+    jest.useFakeTimers();
+
+    mockedFetch().mockResolvedValue({
+      ok: false,
+      status: 503,
+      headers: {
+        get: () => null
+      }
+    });
+
+    const resultPromise = expect(
+      getZenodoVersionInfo('10.5281/zenodo.1234567')
+    ).rejects.toThrow(
+      'Failed to fetch Zenodo concept DOI 10.5281/zenodo.1234567 page 1 after 3 retries: HTTP 503'
+    );
+    await flushTimers(10_000 + 30_000 + 90_000);
+    await resultPromise;
+    expect(mockedFetch()).toHaveBeenCalledTimes(4);
   });
 
   it('should handle pagination correctly', async () => {

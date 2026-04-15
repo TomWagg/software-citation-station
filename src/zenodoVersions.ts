@@ -37,6 +37,58 @@ interface ZenodoVersionCandidate {
   created?: string;
 }
 
+const MAX_PAGE_COUNT = 10;
+const RETRY_DELAYS_MS = [10_000, 30_000, 90_000] as const;
+const RETRYABLE_STATUS_CODES = new Set([408, 500, 502, 503, 504]);
+
+function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function parseRetryAfterHeader(retryAfterHeader: string | null): number | null {
+  if (!retryAfterHeader) {
+    return null;
+  }
+
+  const retryAfterSeconds = Number.parseInt(retryAfterHeader, 10);
+  if (!Number.isNaN(retryAfterSeconds) && retryAfterSeconds >= 0) {
+    return retryAfterSeconds * 1000;
+  }
+
+  const retryAfterDate = Date.parse(retryAfterHeader);
+  if (!Number.isNaN(retryAfterDate)) {
+    return Math.max(0, retryAfterDate - Date.now());
+  }
+
+  return null;
+}
+
+function getRateLimitWaitTime(response: Response): number {
+  const rateLimitResetHeader = response.headers.get('x-ratelimit-reset');
+  if (rateLimitResetHeader) {
+    const resetTimeInMilliseconds = parseInt(rateLimitResetHeader, 10) * 1000;
+    const currentTime = Date.now();
+    return Math.max(0, resetTimeInMilliseconds - currentTime);
+  }
+
+  return parseRetryAfterHeader(response.headers.get('retry-after')) ?? 60_000;
+}
+
+function getRetryWaitTime(response: Response, attemptIndex: number): number {
+  if (response.status === 429) {
+    return getRateLimitWaitTime(response);
+  }
+
+  if (response.status === 503) {
+    const retryAfterWaitTime = parseRetryAfterHeader(response.headers.get('retry-after'));
+    if (retryAfterWaitTime !== null) {
+      return retryAfterWaitTime;
+    }
+  }
+
+  return RETRY_DELAYS_MS[attemptIndex];
+}
+
 /**
  * Compares version strings using the semver library.
  * Replaces the custom compare_versions function from software.js.
@@ -90,34 +142,52 @@ export async function getZenodoVersionInfo(conceptDoi: string): Promise<ZenodoVe
     const url = `${baseUrl}&page=${page}`;
 
     // NOTE: THIS ASSUMES NO SOFTWARE HAS MORE THAN 250 (10 * 25) VERSIONS
-    if (page > 10) {
+    if (page > MAX_PAGE_COUNT) {
       console.warn(`Exceeded 10 pages of results for concept DOI ${conceptDoi}. Stopping further requests to avoid rate limiting.`);
       console.log(`Fetched ${versionCandidates.size} versions so far.`);
       break;
     }
 
-    // Make the API request
-    const response = await fetch(url);
+    let response: Response | undefined;
+    for (let attemptIndex = 0; attemptIndex <= RETRY_DELAYS_MS.length; attemptIndex++) {
+      try {
+        response = await fetch(url);
+      } catch (error) {
+        if (attemptIndex === RETRY_DELAYS_MS.length) {
+          const message = error instanceof Error ? error.message : String(error);
+          throw new Error(
+            `Failed to fetch Zenodo concept DOI ${conceptDoi} page ${page} after ${attemptIndex} retries: ${message}`
+          );
+        }
 
-    // Handle rate limiting (429 Too Many Requests)
-    if (response.status === 429) {
-      const rateLimitResetHeader = response.headers.get('x-ratelimit-reset');
-      let waitTime = 60000; // Default wait time of 60 seconds
-
-      if (rateLimitResetHeader) {
-        const resetTimeInMilliseconds = parseInt(rateLimitResetHeader, 10) * 1000;
-        const currentTime = Date.now();
-        waitTime = Math.max(0, resetTimeInMilliseconds - currentTime);
+        const waitTime = RETRY_DELAYS_MS[attemptIndex];
+        console.warn(`Fetch error for concept DOI ${conceptDoi} page ${page}. Retrying after ${waitTime}ms...`);
+        await sleep(waitTime);
+        continue;
       }
 
-      console.warn(`Received 429 Too Many Requests response. Retrying after ${waitTime}ms...`);
-      await new Promise(resolve => setTimeout(resolve, waitTime));
-      continue; // Retry the same page
+      if (response.status === 429 || RETRYABLE_STATUS_CODES.has(response.status)) {
+        if (attemptIndex === RETRY_DELAYS_MS.length) {
+          throw new Error(
+            `Failed to fetch Zenodo concept DOI ${conceptDoi} page ${page} after ${attemptIndex} retries: HTTP ${response.status}`
+          );
+        }
+
+        const waitTime = getRetryWaitTime(response, attemptIndex);
+        console.warn(`Received HTTP ${response.status} for concept DOI ${conceptDoi} page ${page}. Retrying after ${waitTime}ms...`);
+        await sleep(waitTime);
+        continue;
+      }
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      break;
     }
 
-    // Check if the response is OK
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+    if (!response || !response.ok) {
+      throw new Error(`Failed to fetch Zenodo concept DOI ${conceptDoi} page ${page}: no successful response received`);
     }
 
     const data = await response.json() as ZenodoApiResponse;
