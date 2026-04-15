@@ -470,11 +470,11 @@
         </footer>
 
         <script>
-            // Load and display build timestamp
+            // Load and display build timestamp (PST)
             fetch('dist/build-timestamp.json')
                 .then(r => r.json())
                 .then(data => {
-                    document.getElementById('build-time').textContent = data.buildTimeFormatted;
+                    document.getElementById('build-time').textContent = data.buildTimePST;
                 })
                 .catch(err => {
                     document.getElementById('build-time').textContent = 'Local development';
