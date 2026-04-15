@@ -1,7 +1,7 @@
 /**
  * Software Citation Station - Frontend Bundle
  * Generated automatically by bundle-frontend.js
- * Build time: 2026-04-15T22:53:17.207Z
+ * Build time: 2026-04-15T23:11:53.903Z
  */
 
 (function() {
@@ -811,6 +811,15 @@ function setupEventListeners() {
             updateCitationDisplay();
         });
     }
+    // File upload
+    const fileUploadGo = document.getElementById('file-upload-go');
+    const fileUpload = document.getElementById('file-upload');
+    if (fileUploadGo && fileUpload) {
+        fileUploadGo.addEventListener('click', () => {
+            fileUpload.click();
+        });
+        fileUpload.addEventListener('change', handleFileUpload);
+    }
     // Version selector toggle
     const versionButtons = document.querySelectorAll('#version-selector button');
     versionButtons.forEach(btn => {
@@ -868,6 +877,53 @@ function handleSearch() {
             noResults.classList.add('hide');
         }
     }
+}
+/**
+ * Handle file upload and parse
+ */
+function handleFileUpload(event) {
+    const input = event.target;
+    const file = input.files?.[0];
+    if (!file)
+        return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        const content = e.target?.result;
+        const filename = file.name.toLowerCase();
+        // Parse the file content
+        const parsed = parseEnvironmentFile(content, filename);
+        // Get citations for dependency expansion
+        const autoAddDeps = document.getElementById('auto-deps-toggle')?.classList.contains('active');
+        // Expand dependencies if enabled
+        let packagesToSelect = parsed.packages;
+        if (autoAddDeps) {
+            packagesToSelect = expandDependencies(parsed.packages, citations, { autoExpand: true });
+        }
+        // Select the packages
+        for (const pkgName of packagesToSelect) {
+            const btn = document.querySelector(`.software-button[data-key="${pkgName}"]`);
+            if (btn && !btn.classList.contains('active')) {
+                btn.click();
+            }
+        }
+        // Show toast notification
+        const toast = document.getElementById('toast-template')?.cloneNode(true);
+        if (toast) {
+            toast.id = '';
+            toast.classList.remove('hide');
+            toast.querySelector('.main-package').textContent = file.name;
+            toast.querySelector('.dependencies').textContent = `${packagesToSelect.length} packages selected`;
+            document.getElementById('toaster')?.appendChild(toast);
+            const bsToast = new window.bootstrap.Toast(toast);
+            bsToast.show();
+            toast.addEventListener('hidden.bs.toast', () => {
+                toast.remove();
+            });
+        }
+        // Reset file input
+        input.value = '';
+    };
+    reader.readAsText(file);
 }
 //# sourceMappingURL=software.js.map
 
