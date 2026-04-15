@@ -29,16 +29,24 @@ COMMANDS
   cite <package...>           Generate citations for one or more packages
 
 OPTIONS
-  --acknowledgement, --ack    Output only acknowledgement text (for use in papers)
-  --bibtex                    Output only BibTeX formatted citation
-  --deps                      Show dependencies without generating full citations
-  --json                      Output format as JSON (default: plain text)
+  --acknowledgement, --ack    Output only acknowledgement text
+  --bibtex                    Output only BibTeX citation
+  --deps                      Output only dependencies
+  --json                      Output in JSON format (default: plain text)
   --help, -h                  Show this help message
+
+  By default, 'scs cite' shows package list (with inferred dependencies),
+  acknowledgement, and BibTeX citation. Use these flags to output only one
+  specific format.
 
 EXAMPLES
   List all available packages:
     scs list
     scs list --json
+
+  Show package list with dependencies:
+    scs cite scipy --deps
+    scs cite scipy numpy --deps --json
 
   Show package details:
     scs show scipy
@@ -53,10 +61,6 @@ EXAMPLES
   Generate citations (specific versions):
     scs cite scipy==1.10.0 numpy==1.24.0
     scs cite scipy==1.10.0 --bibtex
-
-  Show dependencies:
-    scs cite scipy --deps
-    scs cite scipy numpy --deps --json
 
 ENVIRONMENT VARIABLES
   SCS_BASE_URL    Custom base URL for data
