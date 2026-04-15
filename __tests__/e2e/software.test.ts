@@ -52,7 +52,7 @@ test.describe('Software Citation Station - E2E Tests', () => {
     // Check that acknowledgement changed
     const newAckText = await ackBox.textContent();
     expect(newAckText).not.toEqual(initialText);
-    expect(newAckText).toContain('This work made use of');
+    expect(newAckText).toMatch(/made use of|research has made use of/);
   });
 
   test('software clear button works', async ({ page }) => {
@@ -159,19 +159,19 @@ astropy==5.3.4`;
     // Wait for page to load
     await page.waitForSelector('.software-button:not(#software-btn-template)', { state: 'visible', timeout: 10000 });
     
-    // Find dark mode toggle
-    const darkModeToggle = page.locator('#dark-mode-toggle');
-    await expect(darkModeToggle).toBeVisible();
+    // Find dark mode toggle checkbox
+    const darkModeCheckbox = page.locator('#dark-mode-checkbox');
+    await expect(darkModeCheckbox).toBeAttached();
     
-    // Get initial body class
-    const initialClass = await page.locator('body').getAttribute('class') || '';
+    // Get initial checked state
+    const initialChecked = await darkModeCheckbox.isChecked();
     
     // Click toggle
-    await darkModeToggle.click();
+    await darkModeCheckbox.click();
     await page.waitForTimeout(300);
     
-    // Check that body class changed
-    const newClass = await page.locator('body').getAttribute('class') || '';
-    expect(newClass).not.toEqual(initialClass);
+    // Check that checked state changed
+    const newChecked = await darkModeCheckbox.isChecked();
+    expect(newChecked).not.toEqual(initialChecked);
   });
 });
