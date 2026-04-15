@@ -706,6 +706,22 @@ window.addEventListener('DOMContentLoaded', () => {
         // copy the bibtex to the clipboard
         navigator.clipboard.writeText(badge_html);
     });
+
+    document.getElementById("file-upload-go").addEventListener('click', function() {
+        const file_input = document.getElementById("file-upload");
+        file_input.click();
+    });
+    
+    document.getElementById("file-upload").addEventListener('change', function() {
+        const file = this.files[0];
+        if (file.name.endsWith(".txt")) {
+            handle_file_upload(file, 'txt');
+        } else if (file.name.endsWith(".yaml")) {
+            handle_file_upload(file, 'yaml');
+        } else {
+            alert("Unsupported file type. Please upload a .txt or .yaml file.");
+        }
+    });
 });
 
 // handle the searching/filtering of software packages
@@ -1226,4 +1242,92 @@ function collect_dependencies(dep_set, id) {
         }
     }
     return dep_set;
+}
+
+
+function handle_file_upload(file, type) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const content = e.target.result;
+        let parsed_deps = [];
+        if (type === "txt") {
+            parsed_deps = parse_pip_freeze(content);
+        } else if (type === "yaml") {
+            parsed_deps = parse_conda_env(content);
+        }
+        for (let dep of parsed_deps) {
+            const btn = document.querySelector(`.software-button[data-key="${dep.key}"]`);
+            if (btn !== null && !btn.classList.contains("active")) {
+                btn.click();
+
+                // watch for the version picker to load and then select the correct version if it exists
+                const observer = new MutationObserver((mutations, obs) => {
+                    const vp = document.getElementById(`${btn.getAttribute("data-key")}-version-picker`);
+                    if (vp !== null && !vp.classList.contains("hide")) {
+                        const select = vp.querySelector(".version-select");
+                        if (select.querySelector(`option[value="${dep.version}"]`) !== null) {
+                            select.value = dep.version;
+                            select.dispatchEvent(new Event('change'));
+                        }
+                        obs.disconnect();
+                    }
+                });
+                observer.observe(document.body, {childList: true, subtree: true});
+            }
+        }
+    };
+    reader.readAsText(file);
+}
+
+function parse_pip_freeze(content) {
+    // parse the output of pip freeze to get package names
+    let deps = [];
+    const lines = content.split("\n");
+    for (let line of lines) {
+        line = line.trim();
+        if (line === "" || line.startsWith("#")) {
+            continue;
+        }
+        const [key, version] = line.split("==");
+        deps.push({key: key.toLowerCase(), version: version});
+    }
+    return deps;
+}
+
+function parse_conda_env(content) {
+    // parse the output of conda env export to get package names
+    let deps = [];
+    const lines = content.split("\n");
+    let in_deps = false;
+    let in_pip_deps = false;
+    for (let line of lines) {
+        line = line.trim();
+        if (line === "dependencies:") {
+            in_deps = true;
+            continue;
+        }
+        if (in_pip_deps) {
+            if (line.startsWith("- ")) {
+                const dep_line = line.slice(4);
+                const [key, version] = dep_line.split("==");
+                deps.push({key: key.toLowerCase(), version: version});
+            } else {
+                in_pip_deps = false;
+                break;
+            }
+        } else if (in_deps) {
+            if (line === "- pip:") {
+                in_pip_deps = true;
+                continue;
+            }
+            if (line.startsWith("- ")) {
+                const dep_line = line.slice(2);
+                const [key, version] = dep_line.split("=");
+                deps.push({key: key.toLowerCase(), version: version});
+            } else {
+                break;
+            }
+        }
+    }
+    return deps;
 }
