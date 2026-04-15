@@ -153,6 +153,48 @@ astropy==5.3.4`;
     await expect(astropyBtn).toHaveClass(/active/);
   });
 
+  test('bibtex section updates when software is selected', async ({ page }) => {
+    await page.goto('/');
+    
+    // Wait for software list to load
+    await page.waitForSelector('.software-button:not(#software-btn-template)', { state: 'visible', timeout: 10000 });
+    
+    // Get initial bibtex content
+    const bibtexBox = page.locator('#bibtex');
+    const initialBibtex = await bibtexBox.textContent();
+    expect(initialBibtex).toContain('Bibtex will go here');
+    
+    // Click a software button
+    const firstButton = page.locator('.software-button:not(#software-btn-template):not(.hide)').first();
+    await firstButton.click();
+    
+    // Wait for bibtex to update
+    await page.waitForTimeout(500);
+    
+    // Check that bibtex was updated (should contain @)
+    const newBibtex = await bibtexBox.textContent();
+    expect(newBibtex).not.toContain('Bibtex will go here');
+    expect(newBibtex).toContain('@');
+  });
+
+  test('version picker appears for software with zenodo DOI', async ({ page }) => {
+    await page.goto('/');
+    
+    // Wait for software list to load
+    await page.waitForSelector('.software-button:not(#software-btn-template)', { state: 'visible', timeout: 10000 });
+    
+    // Click scipy (has zenodo DOI)
+    const scipyBtn = page.locator('.software-button[data-key="scipy"]');
+    await scipyBtn.click();
+    
+    // Wait for version picker to appear
+    await page.waitForTimeout(1000);
+    
+    // Check that version picker exists
+    const versionPicker = page.locator('#scipy-version-picker');
+    await expect(versionPicker).toBeVisible();
+  });
+
   // Note: Dark mode toggle test removed - the checkbox is hidden in the UI
   // and requires special handling that's not critical for core functionality
 });
