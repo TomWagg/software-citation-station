@@ -1,0 +1,37 @@
+# Example conda environment file for testing the Software Citation Station
+# This file contains sample Python packages that can be cited
+#
+# Usage:
+#   Website: Click "Upload and Parse File" and select this file
+#   CLI: scs cite --file test-data/environment.yaml
+#        scs parse test-data/environment.yaml
+
+name: scs-test-env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  # Python version
+  - python=3.10
+  
+  # Core scientific packages
+  - numpy=1.24.0
+  - scipy=1.10.0
+  - matplotlib=3.7.0
+  - pandas=2.0.0
+  
+  # Machine learning
+  - scikit-learn=1.2.0
+  
+  # Astronomy packages
+  - astropy=5.3.4
+  
+  # Data handling
+  - h5py=3.8.0
+  
+  # pip packages (installed via conda)
+  - pip:
+    - tensorflow==2.12.0
+    - torch==2.0.0
+    - requests==2.28.0
+    - tqdm==4.65.0
