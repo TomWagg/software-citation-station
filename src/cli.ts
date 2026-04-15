@@ -311,7 +311,7 @@ async function main(): Promise<void> {
           console.log(JSON.stringify({ packages: packageNames, dependencies: depsWithVersions }, null, 2));
         } else {
           console.log(`Packages (${packageNames.length}): ${packageNames.sort().join(", ")}`);
-          console.log(`\nDependencies (${depsWithVersions.length}):\n${depsWithVersions.sort().join("\n")}`);
+          console.log(depsWithVersions.sort().join("\n"));
         }
       }
       return;
