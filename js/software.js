@@ -189,10 +189,6 @@ Promise.all([
                 if (vp !== null) {
                     vp.classList.add("hide");
                 }
-                const fp = document.getElementById(`${this.getAttribute("data-key")}-feature-picker`);
-                if (fp !== null) {
-                    fp.classList.add("hide");
-                }
             } else {
                 // check whether the user wants to automatically add dependencies
                 const auto_add_deps = document.getElementById("auto-deps-toggle").classList.contains("active");
@@ -264,8 +260,7 @@ Promise.all([
                 const feature_tags_data = feature_tags_raw !== undefined ? parse_feature_tags(feature_tags_raw) : undefined;
                 let selected_feature_data = [];
                 if (feature_tags_data !== undefined) {
-                    const picker_el = document.getElementById(`${btn_key}-version-picker`)
-                                   || document.getElementById(`${btn_key}-feature-picker`);
+                    const picker_el = document.getElementById(`${btn_key}-version-picker`);
                     if (picker_el !== null) {
                         const selected_features = (picker_el.getAttribute("data-selected-features") || "").split(",").filter(Boolean);
                         for (const feature of selected_features) {
@@ -288,10 +283,9 @@ Promise.all([
                 }
 
                 // build feature sentence separately so it isn't folded into the comma-joined software list
-                let feature_sentence = "";
                 if (selected_feature_data.length > 0) {
                     const feature_parts = selected_feature_data.map(f =>
-                        `\\textit{${f.name}} \\citep{${f.tags.join(",")}}`
+                        `\\texttt{${f.name}} \\citep{${f.tags.join(",")}}`
                     );
                     let feature_list;
                     if (feature_parts.length === 1) {
@@ -301,7 +295,9 @@ Promise.all([
                     } else {
                         feature_list = feature_parts.slice(0, -1).join(", ") + ", and " + feature_parts[feature_parts.length - 1];
                     }
-                    feature_sentence = highlight_latex(`The following features of \\texttt{${software_name}} were used: ${feature_list}.`);
+                    feature_sentences_to_add.push(
+                        highlight_latex(`The following features of \\texttt{${software_name}} were used: ${feature_list}.`)
+                    );
                     // add feature bibtex entries
                     for (const f of selected_feature_data) {
                         for (const tag of f.tags) {
@@ -435,41 +431,42 @@ Promise.all([
                 }
 
                 // for non-zenodo software with feature_tags, create or show a feature-only picker card
-                if (zenodo_doi === "" && feature_tags_data !== undefined) {
-                    const existing_fp = document.getElementById(`${btn_key}-feature-picker`);
-                    if (existing_fp === null) {
-                        const fp = document.createElement("div");
-                        fp.id = `${btn_key}-feature-picker`;
-                        fp.className = "version-picker col-sm-6 col-lg-4";
-                        fp.innerHTML = `<div class="card text-center version-card">
-                            <div class="card-body">
-                                <pre class="card-title">${btn_key}</pre>
-                                <div class="card-controls">
-                                    <button type="button" class="btn btn-outline-secondary btn-sm feature-btn">
-                                        <i class="fa fa-list-check"></i> select features<span class="feature-count"></span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>`;
-                        document.getElementById("version-list").appendChild(fp);
-                        attach_feature_btn(fp, btn_key, feature_tags_data);
+                let picker = document.getElementById(`${btn.getAttribute("data-key")}-version-picker`);
+                if (zenodo_doi === "" && feature_tags_data !== undefined && picker === null) {
+                    let picker = document.getElementById("version-picker-template").cloneNode(true);
+                    picker.id = `${btn.getAttribute("data-key")}-version-picker`;
+                    picker.classList.remove("hide");
+                    picker.setAttribute("data-loaded", "true");
+                    picker.querySelector(".waiter").classList.add("hide");
+                    picker.querySelector(".card-title").innerText = btn.getAttribute("data-key");
+                    picker.querySelector(".version-select").classList.add("hide");
+                    picker.querySelector(".feature-btn").classList.remove("hide");
+
+                    // if the software has no logo then remove the image and add a text element instead
+                    if (citations[btn.getAttribute("data-key")]["logo"] === "") {
+                        picker.querySelector(".software-logo").remove();
+                        let el = document.createElement("span");
+                        el.className = "software-no-logo-text";
+                        el.innerText = btn.getAttribute("data-key");
+                        const card_body = picker.querySelector(".card-body");
+                        card_body.insertBefore(el, card_body.querySelector(".card-title"));
                     } else {
-                        existing_fp.classList.remove("hide");
+                        picker.querySelector(".software-logo").src = citations[btn.getAttribute("data-key")]["logo"];
+                        picker.querySelector(".software-logo").alt = citations[btn.getAttribute("data-key")] + " logo";
                     }
+
+                    attach_feature_btn(picker, btn_key, feature_tags_data);
+
+                    document.getElementById("version-list").appendChild(picker);
+                } else if (picker !== null) {
+                    picker.classList.remove("hide");
                 }
 
                 if (custom_ack != "") {
-                    let combined = highlight_latex(custom_ack);
-                    if (feature_sentence !== "") {
-                        combined += " " + feature_sentence;
-                    }
-                    custom_acks_to_add.push(combined);
+                    custom_acks_to_add.push(highlight_latex(custom_ack));
                 } else {
                     // otherwise use the regular acknowledgement
                     ack_to_add.push(highlight_latex(new_ack))
-                    if (feature_sentence !== "") {
-                        feature_sentences_to_add.push(feature_sentence);
-                    }
                 }
 
                 // same for the bibtex
@@ -1407,10 +1404,6 @@ function attach_feature_btn(picker_el, key, feature_tags_data) {
     if (feature_btn.dataset.wired) return;  // already wired up
     feature_btn.dataset.wired = "true";
     feature_btn.classList.remove("hide");
-
-    const total = Object.keys(feature_tags_data).length;
-    const selected_count = (picker_el.getAttribute("data-selected-features") || "").split(",").filter(Boolean).length;
-    feature_btn.querySelector(".feature-count").textContent = ` (${selected_count}/${total})`;
 
     feature_btn.addEventListener('click', function() {
         const modal_el = document.getElementById("features-modal");
