@@ -3512,5 +3512,25 @@
         "dependencies": [
             "Kokkos"
         ]
+    },
+    "CASA": {
+        "tags": [
+            "2022PASP..134k4501C"
+        ],
+        "logo": "img/CASA.png",
+        "language": [
+            "C++",
+            "Python"
+        ],
+        "category": [
+            "General"
+        ],
+        "keywords": [],
+        "description": "The CASA software can process data from both single-dish and aperture-synthesis telescopes. It is the primary data processing software for ALMA and the VLA.",
+        "link": "https://casadocs.readthedocs.io/en/latest/notebooks/introduction.html",
+        "attribution_link": "https://casa.nrao.edu/index_docs.shtml",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": []
     }
 }
