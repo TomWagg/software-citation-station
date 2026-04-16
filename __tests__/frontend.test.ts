@@ -881,3 +881,205 @@ describe('Multi-select categories and languages', () => {
     expect(categories).toEqual(['astronomy', 'physics', 'data']);
   });
 });
+
+describe('validateNewSoftwareForm', () => {
+  let originalFetch: typeof global.fetch;
+
+  beforeAll(() => {
+    originalFetch = global.fetch;
+    global.fetch = jest.fn();
+  });
+
+  afterAll(() => {
+    global.fetch = originalFetch;
+  });
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    cleanupMockDOM();
+    
+    // Setup mock DOM for form
+    document.body.innerHTML = `
+      <div>
+        <div class="loading-overlay hide"></div>
+        <form class="new-software-form">
+          <input type="url" id="new-software-link" value="www.example.com" />
+          <div class="valid-feedback"><a href=""></a></div>
+          
+          <textarea id="new-software-bibtex"></textarea>
+          <div class="valid-feedback"></div>
+          
+          <select id="new-software-category" multiple>
+            <option value="astronomy">Astronomy</option>
+            <option value="new">New category</option>
+          </select>
+          <input type="text" id="new-software-category-new" />
+          <div class="invalid-feedback"></div>
+          
+          <select id="new-software-language" multiple>
+            <option value="python">Python</option>
+            <option value="new">New language</option>
+          </select>
+          <input type="text" id="new-software-language-new" />
+          
+          <textarea id="new-software-keywords"></textarea>
+          <div class="valid-feedback"></div>
+          
+          <input type="text" id="new-software-doi" />
+          <div class="valid-feedback"></div>
+          <div class="invalid-feedback"></div>
+        </form>
+      </div>
+    `;
+  });
+
+  afterEach(() => {
+    cleanupMockDOM();
+  });
+
+  it('should fix URL fields missing https://', async () => {
+    const { validateNewSoftwareForm } = await import('../src/frontend/software');
+    
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ hits: { total: 1 } })
+    });
+
+    await validateNewSoftwareForm();
+    
+    const urlInput = document.querySelector<HTMLInputElement>('#new-software-link');
+    expect(urlInput?.value).toBe('https://www.example.com');
+  });
+
+  it('should validate empty BibTeX', async () => {
+    const { validateNewSoftwareForm } = await import('../src/frontend/software');
+    
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ hits: { total: 1 } })
+    });
+
+    await validateNewSoftwareForm();
+    
+    // Check that form was processed (BibTeX field should have feedback)
+    const bibtexField = document.querySelector<HTMLTextAreaElement>('#new-software-bibtex');
+    expect(bibtexField?.validationMessage).toBe('');
+  });
+
+  it('should validate valid BibTeX', async () => {
+    const { validateNewSoftwareForm } = await import('../src/frontend/software');
+    
+    const bibtexField = document.querySelector<HTMLTextAreaElement>('#new-software-bibtex');
+    if (bibtexField) {
+      bibtexField.value = '@article{test, title={Test}}';
+    }
+
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ hits: { total: 1 } })
+    });
+
+    await validateNewSoftwareForm();
+    
+    // Check that BibTeX was accepted
+    expect(bibtexField?.validationMessage).toBe('');
+  });
+
+  it('should validate category selection', async () => {
+    const { validateNewSoftwareForm } = await import('../src/frontend/software');
+    
+    const categorySelect = document.querySelector<HTMLSelectElement>('#new-software-category');
+    if (categorySelect) {
+      categorySelect.value = 'astronomy';
+    }
+
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ hits: { total: 1 } })
+    });
+
+    await validateNewSoftwareForm();
+    
+    const categorySelectEl = document.querySelector<HTMLSelectElement>('#new-software-category');
+    expect(categorySelectEl?.validationMessage).toBe('');
+  });
+
+  it('should validate new category input', async () => {
+    const { validateNewSoftwareForm } = await import('../src/frontend/software');
+    
+    const categorySelect = document.querySelector<HTMLSelectElement>('#new-software-category');
+    const newCategoryInput = document.querySelector<HTMLInputElement>('#new-software-category-new');
+    
+    if (categorySelect) {
+      categorySelect.value = 'new';
+    }
+    // Leave new category input empty
+
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ hits: { total: 1 } })
+    });
+
+    await validateNewSoftwareForm();
+    
+    expect(newCategoryInput?.validationMessage).toBe('Please enter a new category/language.');
+  });
+
+  it('should validate keywords', async () => {
+    const { validateNewSoftwareForm } = await import('../src/frontend/software');
+    
+    const keywordsField = document.querySelector<HTMLTextAreaElement>('#new-software-keywords');
+    if (keywordsField) {
+      keywordsField.value = 'astronomy, physics, data';
+    }
+
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ hits: { total: 1 } })
+    });
+
+    await validateNewSoftwareForm();
+    
+    const feedbackEl = keywordsField?.parentElement?.querySelector('.valid-feedback');
+    expect(feedbackEl?.textContent).toContain('Keywords detected');
+  });
+
+  it('should validate Zenodo DOI', async () => {
+    const { validateNewSoftwareForm } = await import('../src/frontend/software');
+    
+    const doiInput = document.querySelector<HTMLInputElement>('#new-software-doi');
+    if (doiInput) {
+      doiInput.value = '10.5281/zenodo.123';
+    }
+
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ hits: { total: 5 } })
+    });
+
+    await validateNewSoftwareForm();
+    
+    const feedbackEl = doiInput?.parentElement?.querySelector('.valid-feedback');
+    expect(feedbackEl?.textContent).toContain('DOI found');
+    expect(feedbackEl?.textContent).toContain('version');
+  });
+
+  it('should reject invalid Zenodo DOI', async () => {
+    const { validateNewSoftwareForm } = await import('../src/frontend/software');
+    
+    const doiInput = document.querySelector<HTMLInputElement>('#new-software-doi');
+    if (doiInput) {
+      doiInput.value = '10.5281/zenodo.invalid';
+    }
+
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ hits: { total: 0 } })
+    });
+
+    const result = await validateNewSoftwareForm();
+    
+    // Form should be invalid when DOI is not found
+    expect(result).toBe(false);
+  });
+});

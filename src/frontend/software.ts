@@ -1022,3 +1022,119 @@ function showToastNotification(title: string, body: string, type: string, isHtml
     toast.remove();
   });
 }
+
+/**
+ * Validate new software form
+ */
+export async function validateNewSoftwareForm(): Promise<boolean> {
+  const form = document.querySelector('.new-software-form') as HTMLFormElement;
+  if (!form) return false;
+
+  const loader = form.parentElement?.querySelector('.loading-overlay');
+  loader?.classList.remove('hide');
+
+  // Check URL fields and add https:// if missing
+  for (const input of form.querySelectorAll<HTMLInputElement>("input[type='url']")) {
+    let url = input.value.trim();
+    if (url.startsWith('www.') && !url.startsWith('http://') && !url.startsWith('https://')) {
+      input.value = 'https://' + url;
+    }
+    const feedbackLink = input.parentElement?.querySelector<HTMLAnchorElement>('.valid-feedback a');
+    if (feedbackLink) {
+      feedbackLink.href = input.value;
+    }
+  }
+
+  // Parse BibTeX field
+  const bibtexField = form.querySelector<HTMLTextAreaElement>('#new-software-bibtex');
+  if (bibtexField) {
+    const bibtexText = bibtexField.value.trim();
+    const feedbackEl = bibtexField.parentElement?.querySelector('.valid-feedback');
+    
+    if (bibtexText === '') {
+      bibtexField.setCustomValidity('');
+      if (feedbackEl) feedbackEl.innerHTML = 'No BibTeX provided.';
+    } else {
+      // Simple BibTeX validation - check for @ symbol and braces
+      const hasBibtex = bibtexText.includes('@') && bibtexText.includes('{');
+      if (!hasBibtex) {
+        bibtexField.setCustomValidity('Invalid field.');
+      } else {
+        bibtexField.setCustomValidity('');
+        // Count BibTeX entries
+        const entryCount = (bibtexText.match(/@\w+\{/g) || []).length;
+        if (feedbackEl) {
+          feedbackEl.innerHTML = `Valid BibTeX! ${entryCount} entrie${entryCount === 1 ? 's' : 'ies'} detected.`;
+        }
+      }
+    }
+  }
+
+  // Check category and language selects
+  for (const select of form.querySelectorAll<HTMLSelectElement>('#new-software-category, #new-software-language')) {
+    const selected = Array.from(select.selectedOptions).map(o => o.value);
+    const selectNewInput = select.nextElementSibling as HTMLInputElement;
+    const invalidFeedback = select.parentElement?.querySelector('.invalid-feedback');
+    
+    if (selected.length === 0) {
+      select.setCustomValidity('Please select at least one option.');
+      selectNewInput.setCustomValidity('Please select at least one option.');
+      if (invalidFeedback) invalidFeedback.innerHTML = 'No value selected.';
+    } else if (selected.includes('new') && selectNewInput.value.trim() === '') {
+      select.setCustomValidity('Please enter a new category/language.');
+      selectNewInput.setCustomValidity('Please enter a new category/language.');
+      if (invalidFeedback) invalidFeedback.innerHTML = 'New value not entered.';
+    } else {
+      select.setCustomValidity('');
+      selectNewInput.setCustomValidity('');
+    }
+  }
+
+  // Validate keywords
+  const keywordsField = form.querySelector<HTMLTextAreaElement>('#new-software-keywords');
+  if (keywordsField) {
+    const keywords = keywordsField.value.trim().split(',').map(kw => kw.trim()).filter(kw => kw);
+    const keywordSpans = keywords.map(kw => `<span class='badge text-bg-success'>${kw}</span>`);
+    const feedbackEl = keywordsField.parentElement?.querySelector('.valid-feedback');
+    if (feedbackEl) {
+      feedbackEl.innerHTML = `Keywords detected: ${keywordSpans.join(' ')}`;
+    }
+  }
+
+  // Validate Zenodo DOI
+  const doiInput = form.querySelector<HTMLInputElement>('#new-software-doi');
+  if (doiInput) {
+    try {
+      const doi = doiInput.value.trim();
+      if (doi) {
+        // Fetch version count from Zenodo
+        const response = await fetch(`https://zenodo.org/api/records?conceptdoi=${encodeURIComponent(doi)}`);
+        const data = await response.json();
+        const nVersions = data.hits?.total || 0;
+        
+        if (nVersions === 0) {
+          doiInput.setCustomValidity('DOI not found on Zenodo.');
+          const invalidFeedback = doiInput.parentElement?.querySelector('.invalid-feedback');
+          if (invalidFeedback) {
+            invalidFeedback.innerHTML = 'Invalid DOI. Please ensure you have the correct DOI for <b>all</b> versions of the software.';
+          }
+        } else {
+          doiInput.setCustomValidity('');
+          const validFeedback = doiInput.parentElement?.querySelector('.valid-feedback');
+          if (validFeedback) {
+            validFeedback.innerHTML = `DOI found! ${nVersions} version${nVersions === 1 ? '' : 's'} on Zenodo.`;
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error validating DOI:', error);
+      doiInput.setCustomValidity('Error validating DOI.');
+    }
+  }
+
+  // Hide loader
+  loader?.classList.add('hide');
+
+  // Return whether form is valid
+  return form.checkValidity();
+}
