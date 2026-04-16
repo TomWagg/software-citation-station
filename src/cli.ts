@@ -22,6 +22,14 @@ interface ParsedFlags {
   deps: boolean;
   autoDeps: boolean;
   file?: string;
+  // submit command options
+  description?: string;
+  link?: string;
+  attributionLink?: string;
+  zenodoDoi?: string;
+  language?: string;
+  category?: string;
+  tags?: string;
 }
 
 export function printUsage(): void {
@@ -47,6 +55,15 @@ OPTIONS
   --json                      Output in JSON format (default: plain text)
   --file, -f                  Parse packages from file (requirements.txt or conda env.yaml)
   --help, -h                  Show this help message
+
+SUBMIT OPTIONS
+  --description               Package description
+  --link                      Project homepage URL
+  --attribution-link          URL with citation instructions
+  --zenodo-doi                Zenodo concept DOI
+  --language                  Programming language (default: python)
+  --category                  Category (default: general)
+  --tags                      Comma-separated citation tags
 
   By default, 'scs cite' shows package list (with inferred dependencies),
   acknowledgement, and BibTeX citation. Use these flags to output only one
@@ -129,6 +146,34 @@ export function parseFlags(args: string[]): ParsedFlags {
     }
     if (arg === "--file" || arg === "-f") {
       parsed.file = args[++i];
+      continue;
+    }
+    if (arg === "--description") {
+      parsed.description = args[++i];
+      continue;
+    }
+    if (arg === "--link") {
+      parsed.link = args[++i];
+      continue;
+    }
+    if (arg === "--attribution-link") {
+      parsed.attributionLink = args[++i];
+      continue;
+    }
+    if (arg === "--zenodo-doi") {
+      parsed.zenodoDoi = args[++i];
+      continue;
+    }
+    if (arg === "--language") {
+      parsed.language = args[++i];
+      continue;
+    }
+    if (arg === "--category") {
+      parsed.category = args[++i];
+      continue;
+    }
+    if (arg === "--tags") {
+      parsed.tags = args[++i];
       continue;
     }
     parsed.positional.push(arg);
@@ -417,16 +462,16 @@ async function main(): Promise<void> {
       throw new Error(`Package "${packageName}" already exists in the database.`);
     }
 
-    // Generate submission template
+    // Build template with provided parameters
     const template = {
       name: packageName,
-      language: "python", // default, user should update
-      category: "general", // default, user should update
-      description: "TODO: Add description",
-      link: "TODO: Add project URL",
-      attribution_link: "TODO: Add attribution/citation URL",
-      zenodo_doi: "TODO: Add Zenodo concept DOI (e.g., 10.5281/zenodo.XXXXX)",
-      tags: [`TODO_add_citation_key`],
+      language: flags.language || "python",
+      category: flags.category || "general",
+      description: flags.description || "TODO: Add description",
+      link: flags.link || "TODO: Add project URL",
+      attribution_link: flags.attributionLink || "TODO: Add attribution/citation URL",
+      zenodo_doi: flags.zenodoDoi || "TODO: Add Zenodo concept DOI (e.g., 10.5281/zenodo.XXXXX)",
+      tags: flags.tags ? flags.tags.split(',').map(t => t.trim()) : ["TODO_add_citation_key"],
       logo: "",
       logo_background: false,
       keywords: [],
@@ -448,13 +493,13 @@ Copy this JSON template and fill in the details:
 
 Required fields:
   - name: Package name (filled in)
-  - language: Programming language (python, julia, etc.)
-  - category: Category (data, viz, ml, etc.)
+  - language: Programming language (default: python)
+  - category: Category (default: general)
   - description: Brief description of the software
   - link: Project homepage URL
   - attribution_link: URL with citation instructions
   - zenodo_doi: Zenodo concept DOI (get from zenodo.org)
-  - tags: Citation keys for BibTeX entries
+  - tags: Citation keys for BibTeX entries (comma-separated)
 
 Optional fields:
   - logo: Path to logo image (e.g., "img/package.png")
@@ -467,6 +512,12 @@ Submit by creating a PR to:
   https://github.com/tomwagg/software-citation-station
 
 Or contact the maintainers for assistance.
+
+Example usage:
+  scs submit mypackage --description "My awesome package" \\
+    --link "https://github.com/user/mypackage" \\
+    --zenodo-doi "10.5281/zenodo.123456" \\
+    --language python --category data
 `);
     }
     return;
