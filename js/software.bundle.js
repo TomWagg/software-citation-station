@@ -1,7 +1,7 @@
 /**
  * Software Citation Station - Frontend Bundle
  * Generated automatically by bundle-frontend.js
- * Build time: 2026-04-16T04:11:51.253Z
+ * Build time: 2026-04-16T04:28:13.583Z
  */
 
 (function() {
@@ -868,6 +868,7 @@ async function updateCitationDisplay() {
             acknowledgement += ` \\citep{${tags.join(',')}}`;
         }
         const customAck = citation.custom_citation || '';
+        let versionSelected = false;
         // Handle Zenodo DOI - check for version picker
         if (citation.zenodo_doi) {
             let versionPicker = document.getElementById(`${key}-version-picker`);
@@ -882,9 +883,9 @@ async function updateCitationDisplay() {
                 const selectedVersion = versionSelect?.value;
                 const chosenVersionDoi = versionSelect?.selectedOptions[0]?.getAttribute('data-doi');
                 if (selectedVersion && chosenVersionDoi) {
+                    versionSelected = true;
                     // Update acknowledgement with version-specific citation
                     const newTag = `${key}_${selectedVersion.replace(/\./g, '')}`;
-                    // eslint-disable-next-line no-useless-assignment
                     acknowledgement += ` \\citep{${newTag}}`;
                     // Get BibTeX from version picker
                     const versionBibtex = versionPicker.getAttribute('data-bibtex') || '';
@@ -895,7 +896,10 @@ async function updateCitationDisplay() {
                         customAcksToAdd.push(highlightLatex(customAck));
                     }
                 }
-                else {
+            }
+            // If no version selected (or no Zenodo DOI), handle normally
+            if (!versionSelected) {
+                if (citation.zenodo_doi) {
                     // Version picker exists but no version selected yet
                     acknowledgement += '\\footnote{{TODO}: Need to choose a version to cite!!}';
                     if (customAck) {
@@ -905,15 +909,14 @@ async function updateCitationDisplay() {
                         ackToAdd.push(highlightLatex(acknowledgement));
                     }
                 }
-            }
-            else {
-                // No version picker - show TODO message
-                acknowledgement += '\\footnote{{TODO}: Need to choose a version to cite!!}';
-                if (customAck) {
-                    customAcksToAdd.push(highlightLatex(customAck + '\\footnote{{TODO}: Need to choose a version to cite!!}'));
-                }
                 else {
-                    ackToAdd.push(highlightLatex(acknowledgement));
+                    // No Zenodo DOI - use regular tags
+                    if (customAck) {
+                        customAcksToAdd.push(highlightLatex(customAck));
+                    }
+                    else {
+                        ackToAdd.push(highlightLatex(acknowledgement));
+                    }
                 }
             }
         }
@@ -925,14 +928,16 @@ async function updateCitationDisplay() {
                 ackToAdd.push(highlightLatex(acknowledgement));
             }
         }
-        // Add BibTeX entries (only if not already added from version picker)
-        for (const tag of tags) {
-            if (tag && bibtexTable[tag] && !bibsToAdd.some(b => b.includes(tag))) {
-                bibsToAdd.push(highlightBibtex(bibtexTable[tag]));
+        // Add BibTeX entries (skip if version selected - version BibTeX already added)
+        if (!versionSelected) {
+            for (const tag of tags) {
+                if (tag && bibtexTable[tag] && !bibsToAdd.some(b => b.includes(tag))) {
+                    bibsToAdd.push(highlightBibtex(bibtexTable[tag]));
+                }
             }
-        }
-        if (citation.extra_bibtex) {
-            bibsToAdd.push(highlightBibtex(citation.extra_bibtex));
+            if (citation.extra_bibtex) {
+                bibsToAdd.push(highlightBibtex(citation.extra_bibtex));
+            }
         }
     }
     // Build acknowledgement text
