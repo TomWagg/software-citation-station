@@ -2665,5 +2665,32 @@
         "zenodo_doi": "10.5281/zenodo.17650928",
         "custom_citation": "",
         "dependencies": []
-    }
+    },
+    "SciScore.com": {
+    "tags": [],
+    "logo": "img/SciScore.com.png",
+    "language": "multiple",
+    "category": "transparency checker",
+    "keywords": [
+        "see RRID record: n2t.net/RRID:SCR_016251.json \"keywords\":[{\"keyword\":\"mine\"}",
+        "{\"keyword\":\"text\"}",
+        "{\"keyword\":\"method\"}",
+        "{\"keyword\":\"journal\"}",
+        "{\"keyword\":\"paper\"}",
+        "{\"keyword\":\"article\"}",
+        "{\"keyword\":\"research\"}",
+        "{\"keyword\":\"science\"}",
+        "{\"keyword\":\"biomedicine\"}",
+        "{\"keyword\":\"neuroscience\"}",
+        "{\"keyword\":\"scicrunch\"}",
+        "{\"keyword\":\"nif\"}",
+        "{\"keyword\":\"ASWG\"}]"
+    ],
+    "description": "Text-mining software that reviews methods sections of scientific articles. It provides a numerical score to represent the \\\"reproducibility\\\" of the article's research.\"",
+    "link": "DOI: 10.2196/37324",
+    "attribution_link": "https://n2t.net/RRID:SCR_016251",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": []
+}
 }
