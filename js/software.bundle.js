@@ -1,7 +1,7 @@
 /**
  * Software Citation Station - Frontend Bundle
  * Generated automatically by bundle-frontend.js
- * Build time: 2026-04-16T03:37:57.340Z
+ * Build time: 2026-04-16T03:52:24.957Z
  */
 
 (function() {
@@ -380,12 +380,16 @@ class FrontendDataProvider {
  */
 function parseBibtexFrontend(bibtexText) {
     const bibtexTable = {};
-    const bibtexRe = /@\w*{(?<tag>.*?)(?=,)/gms;
-    let match;
-    while ((match = bibtexRe.exec(bibtexText)) !== null) {
-        const tag = match.groups?.tag?.trim();
-        if (tag) {
-            bibtexTable[tag] = match[0];
+    // Split by @ to get individual entries, then reconstruct
+    const entries = bibtexText.split(/(?=@\w)/);
+    for (const entry of entries) {
+        if (!entry.trim())
+            continue;
+        // Extract tag from first line: @type{tag,
+        const tagMatch = entry.match(/@\w*\{([^,]+),/);
+        if (tagMatch) {
+            const tag = tagMatch[1].trim();
+            bibtexTable[tag] = entry.trim();
         }
     }
     return bibtexTable;

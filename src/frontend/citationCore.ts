@@ -112,13 +112,18 @@ export class FrontendDataProvider {
  */
 export function parseBibtexFrontend(bibtexText: string): Record<string, string> {
   const bibtexTable: Record<string, string> = {};
-  const bibtexRe = /@\w*{(?<tag>.*?)(?=,)/gms;
   
-  let match: RegExpExecArray | null;
-  while ((match = bibtexRe.exec(bibtexText)) !== null) {
-    const tag = match.groups?.tag?.trim();
-    if (tag) {
-      bibtexTable[tag] = match[0];
+  // Split by @ to get individual entries, then reconstruct
+  const entries = bibtexText.split(/(?=@\w)/);
+  
+  for (const entry of entries) {
+    if (!entry.trim()) continue;
+    
+    // Extract tag from first line: @type{tag,
+    const tagMatch = entry.match(/@\w*\{([^,]+),/);
+    if (tagMatch) {
+      const tag = tagMatch[1].trim();
+      bibtexTable[tag] = entry.trim();
     }
   }
   
