@@ -716,6 +716,9 @@ window.addEventListener('DOMContentLoaded', () => {
                 // auto select the latest version for each version picker that isn't hidden
                 if (this.id === "latest_version") {
                     document.querySelectorAll(".version-picker:not(.hide) .version-select").forEach(function(select) {
+                        if (select.classList.contains("hide")) {
+                            return;
+                        }
                         select.value = select.children[1].value;
                         select.dispatchEvent(new Event('change'));
                     });
