@@ -10,6 +10,7 @@ import { CitationEngine } from "./citationEngine";
 import { CitationOutput } from "./citationTypes";
 import { RemoteDataProvider, DEFAULT_BASE_URL } from "./remoteData";
 import { parseEnvironmentFile, expandDependencies } from "./shared";
+import { getZenodoVersionInfo } from "./zenodoVersions";
 
 type OutputFormat = "text" | "json";
 type Command = "list" | "show" | "cite" | "parse";
@@ -240,25 +241,42 @@ async function main(): Promise<void> {
       expandedPackages = expandDependencies(parsed.packages, citations, { autoExpand: true });
     }
 
+    // Resolve packages to latest versions
+    const packagesWithVersions = await Promise.all(expandedPackages.map(async (pkg) => {
+      const citation = citations[pkg];
+      if (citation?.zenodo_doi) {
+        try {
+          // Fetch latest version from cached data or Zenodo
+          const versions = await getZenodoVersionInfo(citation.zenodo_doi);
+          const latestVersion = versions.length > 0 ? versions[0].version : 'unknown';
+          return `${pkg}==${latestVersion}`;
+        } catch {
+          return `${pkg} (latest: unknown)`;
+        }
+      } else if (citation) {
+        // No Zenodo - just show package name
+        return pkg;
+      } else {
+        // Unknown package
+        return `${pkg} (unknown)`;
+      }
+    }));
+
     if (flags.format === "json") {
       console.log(JSON.stringify({
         source: parsed.source,
         pythonVersion: parsed.pythonVersion,
         packages: parsed.packages,
-        expandedPackages: flags.autoDeps ? expandedPackages : undefined
+        expandedPackages: flags.autoDeps ? expandedPackages : undefined,
+        packagesWithVersions: packagesWithVersions
       }, null, 2));
     } else {
       console.log(`Source: ${parsed.source}`);
       if (parsed.pythonVersion) {
         console.log(`Python version: ${parsed.pythonVersion}`);
       }
-      console.log(`\nPackages (${parsed.packages.length}):`);
-      console.log(parsed.packages.sort().join("\n"));
-      
-      if (flags.autoDeps && expandedPackages.length > parsed.packages.length) {
-        console.log(`\nExpanded with dependencies (${expandedPackages.length}):`);
-        console.log(expandedPackages.sort().join("\n"));
-      }
+      console.log(`\nPackages (${packagesWithVersions.length}):`);
+      console.log(packagesWithVersions.sort().join("\n"));
     }
     return;
   }
