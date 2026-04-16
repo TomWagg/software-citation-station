@@ -6,8 +6,10 @@
     "scs": "dist/cli.js"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "test:e2e": "playwright test",
+    "lint": "eslint src/ __tests__/ --ext .ts",
+    "lint:fix": "eslint src/ __tests__/ --ext .ts --fix",
     "build": "tsc",
     "build:frontend": "tsc -p tsconfig.frontend.json && node scripts/bundle-frontend.js",
     "build:timestamp": "node scripts/generate-timestamp.js",
@@ -16,13 +18,22 @@
     "cli": "node dist/cli.js"
   },
   "devDependencies": {
+    "@eslint/js": "10.0.1",
     "@playwright/test": "^1.40.0",
     "@types/jest": "^29.5.11",
     "@types/node": "^20.10.6",
     "@types/semver": "^7.7.1",
+    "@typescript-eslint/eslint-plugin": "8.58.2",
+    "@typescript-eslint/parser": "8.58.2",
+    "eslint": "10.2.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-jest": "29.15.2",
     "jest": "^29.7.0",
+    "jest-environment-jsdom": "30.3.0",
+    "jest-html-reporter": "4.4.0",
     "ts-jest": "^29.1.1",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "typescript-eslint": "8.58.2"
   },
   "jest": {
     "preset": "ts-jest",
@@ -30,7 +41,18 @@
     "testMatch": [
       "**/__tests__/**/*.test.ts",
       "!**/__tests__/e2e/**/*.test.ts"
-    ]
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "!src/**/*.d.ts",
+      "!src/frontend/software.ts"
+    ],
+    "coverageReporters": [
+      "text",
+      "text-summary",
+      "html"
+    ],
+    "coverageDirectory": "coverage"
   },
   "dependencies": {
     "semver": "^7.7.3"

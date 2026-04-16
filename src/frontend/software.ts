@@ -328,7 +328,7 @@ function handleSoftwareClick(btn: HTMLButtonElement): void {
 /**
  * Create version picker for a package with Zenodo DOI
  */
-async function createVersionPicker(packageName: string, conceptDoi: string): Promise<void> {
+export async function createVersionPicker(packageName: string, conceptDoi: string): Promise<void> {
   const versionPickerId = `${packageName}-version-picker`;
   let versionPicker = document.getElementById(versionPickerId);
   
@@ -413,7 +413,7 @@ async function createVersionPicker(packageName: string, conceptDoi: string): Pro
 /**
  * Fetch versions from Zenodo API and populate dropdown
  */
-async function populateVersions(
+export async function populateVersions(
   packageName: string,
   conceptDoi: string,
   versionSelect: HTMLSelectElement | null
@@ -491,7 +491,7 @@ async function populateVersions(
 /**
  * Fetch BibTeX from Zenodo API
  */
-async function fetchZenodoBibtex(doi: string): Promise<string> {
+export async function fetchZenodoBibtex(doi: string): Promise<string> {
   const url = `https://zenodo.org/api/records/${doi}`;
   try {
     const response = await fetch(url, {
