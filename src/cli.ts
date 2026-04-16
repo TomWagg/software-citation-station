@@ -462,16 +462,57 @@ async function main(): Promise<void> {
       throw new Error(`Package "${packageName}" already exists in the database.`);
     }
 
+    // Validate required fields
+    const requiredFields = {
+      name: packageName,
+      link: flags.link,
+      description: flags.description,
+      attributionLink: flags.attributionLink,
+      language: flags.language || "python",
+      category: flags.category || "general"
+    };
+
+    const missingRequired = [];
+    if (!requiredFields.link) missingRequired.push("--link");
+    if (!requiredFields.description) missingRequired.push("--description");
+    if (!requiredFields.attributionLink) missingRequired.push("--attribution-link");
+
+    if (missingRequired.length > 0 && flags.format !== "json") {
+      console.log(`
+=== Submission Template for "${packageName}" ===
+
+Missing required fields: ${missingRequired.join(", ")}
+
+Required fields for submission:
+  --link              Documentation/project URL
+  --description       Short description (max 200 chars)
+  --attribution-link  URL with citation instructions
+
+Optional fields:
+  --zenodo-doi        Zenodo concept DOI (all versions)
+  --language          Programming language (default: python)
+  --category          Category (default: general)
+  --tags              Comma-separated BibTeX citation tags
+
+Generate complete template with:
+  scs submit ${packageName} --link "https://..." --description "..." --attribution-link "https://..."
+
+Or generate JSON template to fill in manually:
+  scs submit ${packageName} --json
+`);
+      return;
+    }
+
     // Build template with provided parameters
     const template = {
       name: packageName,
-      language: flags.language || "python",
-      category: flags.category || "general",
-      description: flags.description || "TODO: Add description",
-      link: flags.link || "TODO: Add project URL",
-      attribution_link: flags.attributionLink || "TODO: Add attribution/citation URL",
-      zenodo_doi: flags.zenodoDoi || "TODO: Add Zenodo concept DOI (e.g., 10.5281/zenodo.XXXXX)",
-      tags: flags.tags ? flags.tags.split(',').map(t => t.trim()) : ["TODO_add_citation_key"],
+      language: requiredFields.language,
+      category: requiredFields.category,
+      description: requiredFields.description || "TODO: Add description",
+      link: requiredFields.link || "TODO: Add project URL",
+      attribution_link: requiredFields.attributionLink || "TODO: Add attribution/citation URL",
+      zenodo_doi: flags.zenodoDoi || "",
+      tags: flags.tags ? flags.tags.split(',').map(t => t.trim()) : [],
       logo: "",
       logo_background: false,
       keywords: [],
@@ -480,44 +521,31 @@ async function main(): Promise<void> {
     };
 
     if (flags.format === "json") {
-      console.log(JSON.stringify(template, null, 2));
+      console.log(JSON.stringify({ [packageName]: template }, null, 2));
     } else {
       console.log(`
 === Submission Template for "${packageName}" ===
 
-Copy this JSON template and fill in the details:
+Copy this JSON template and add to data/citations.json:
 
 {
   "${packageName}": ${JSON.stringify(template, null, 4).replace(/\n/g, '\n  ')}
 }
 
-Required fields:
-  - name: Package name (filled in)
-  - language: Programming language (default: python)
-  - category: Category (default: general)
-  - description: Brief description of the software
-  - link: Project homepage URL
-  - attribution_link: URL with citation instructions
-  - zenodo_doi: Zenodo concept DOI (get from zenodo.org)
-  - tags: Citation keys for BibTeX entries (comma-separated)
-
-Optional fields:
-  - logo: Path to logo image (e.g., "img/package.png")
-  - logo_background: true if logo needs white background
-  - keywords: Array of search keywords
-  - custom_citation: Custom LaTeX citation if needed
-  - extra_bibtex: Additional BibTeX entries
+Then add BibTeX entries to data/bibtex.bib with keys matching the tags.
 
 Submit by creating a PR to:
   https://github.com/tomwagg/software-citation-station
 
-Or contact the maintainers for assistance.
-
 Example usage:
-  scs submit mypackage --description "My awesome package" \\
+  scs submit mypackage \\
     --link "https://github.com/user/mypackage" \\
+    --description "My awesome package for doing things" \\
+    --attribution-link "https://github.com/user/mypackage#citation" \\
     --zenodo-doi "10.5281/zenodo.123456" \\
-    --language python --category data
+    --language python \\
+    --category data \\
+    --tags "mypackage,2024paper"
 `);
     }
     return;
