@@ -4,6 +4,7 @@ Changelog
 # v1.5
 - Feat: New button for toggling whether to auto-add dependencies
 - Feat: New button for uploading a .txt or .yml/.yaml and parse to auto-add packages from a pip freeze or conda env export call
+- Feat: Categories and languages are now defined as lists/arrays so that each software can have multiple, this is also possible on the submission form
 
 # v1.4
 - Bug fix: Zenodo reduced their page limit to 100, so we implemented pagination internally to avoid crashing when asking for Zenodo versions
