@@ -239,7 +239,11 @@ export async function initSoftwareCitationStation(): Promise<void> {
       }
 
       // Setup click handler
-      btn.addEventListener('click', () => handleSoftwareClick(btn));
+      btn.addEventListener('click', () => {
+        handleSoftwareClick(btn).catch(error => {
+          console.error('Error handling software click:', error);
+        });
+      });
     }
 
     // Populate category and language selects
@@ -279,7 +283,7 @@ export async function initSoftwareCitationStation(): Promise<void> {
 /**
  * Handle software button click
  */
-function handleSoftwareClick(btn: HTMLButtonElement): void {
+async function handleSoftwareClick(btn: HTMLButtonElement): Promise<void> {
   btn.classList.toggle('active');
 
   if (!btn.classList.contains('active')) {
@@ -328,7 +332,7 @@ function handleSoftwareClick(btn: HTMLButtonElement): void {
   }
 
   // Update acknowledgements and BibTeX
-  updateCitationDisplay();
+  await updateCitationDisplay();
   
   // Create version picker if software has Zenodo DOI
   const citation = citations[btn.getAttribute('data-key')!];
@@ -411,7 +415,7 @@ export async function createVersionPicker(packageName: string, conceptDoi: strin
           versionPicker.setAttribute('data-selected-doi', selectedDoi);
           
           // Update citation display
-          updateCitationDisplay();
+          await updateCitationDisplay();
         }
       }
     });
@@ -498,7 +502,7 @@ export async function fetchZenodoBibtex(doi: string): Promise<string> {
 /**
  * Update the citation display (acknowledgements and BibTeX)
  */
-function updateCitationDisplay(): void {
+async function updateCitationDisplay(): Promise<void> {
   const ack = document.getElementById('acknowledgement');
   const bibtexBox = document.getElementById('bibtex');
   const activeButtons = document.querySelectorAll('.software-button.active');
@@ -515,7 +519,7 @@ function updateCitationDisplay(): void {
   const customAcksToAdd: string[] = [];
   const bibsToAdd: string[] = [];
 
-  activeButtons.forEach(btn => {
+  for (const btn of Array.from(activeButtons)) {
     const key = btn.getAttribute('data-key')!;
     const citation = citations[key];
     const tags = citation.tags || [];
@@ -529,7 +533,13 @@ function updateCitationDisplay(): void {
 
     // Handle Zenodo DOI - check for version picker
     if (citation.zenodo_doi) {
-      const versionPicker = document.getElementById(`${key}-version-picker`);
+      let versionPicker = document.getElementById(`${key}-version-picker`);
+
+      // Create version picker if it doesn't exist
+      if (!versionPicker) {
+        await createVersionPicker(key, citation.zenodo_doi);
+        versionPicker = document.getElementById(`${key}-version-picker`);
+      }
 
       if (versionPicker && versionPicker.hasAttribute('data-bibtex')) {
         // User has selected a version
@@ -588,7 +598,7 @@ function updateCitationDisplay(): void {
     if (citation.extra_bibtex) {
       bibsToAdd.push(highlightBibtex(citation.extra_bibtex));
     }
-  });
+  }
 
   // Build acknowledgement text
   ack.innerHTML = '';
@@ -668,14 +678,14 @@ function setupEventListeners(): void {
   // Clear all software
   const clearBtn = document.getElementById('software-clear');
   if (clearBtn) {
-    clearBtn.addEventListener('click', () => {
+    clearBtn.addEventListener('click', async () => {
       const buttons = document.querySelectorAll('.software-button.active');
       buttons.forEach(btn => {
         btn.classList.remove('active');
         const vp = document.getElementById(`${btn.getAttribute('data-key')}-version-picker`);
         if (vp) vp.classList.add('hide');
       });
-      updateCitationDisplay();
+      await updateCitationDisplay();
     });
   }
 

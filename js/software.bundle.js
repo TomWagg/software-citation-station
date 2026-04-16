@@ -1,7 +1,7 @@
 /**
  * Software Citation Station - Frontend Bundle
  * Generated automatically by bundle-frontend.js
- * Build time: 2026-04-16T04:05:00.679Z
+ * Build time: 2026-04-16T04:10:07.023Z
  */
 
 (function() {
@@ -616,7 +616,11 @@ async function initSoftwareCitationStation() {
                 depToggleBox.appendChild(depToggle);
             }
             // Setup click handler
-            btn.addEventListener('click', () => handleSoftwareClick(btn));
+            btn.addEventListener('click', () => {
+                handleSoftwareClick(btn).catch(error => {
+                    console.error('Error handling software click:', error);
+                });
+            });
         }
         // Populate category and language selects
         for (const cat of [...categories].sort()) {
@@ -651,7 +655,7 @@ async function initSoftwareCitationStation() {
 /**
  * Handle software button click
  */
-function handleSoftwareClick(btn) {
+async function handleSoftwareClick(btn) {
     btn.classList.toggle('active');
     if (!btn.classList.contains('active')) {
         const vp = document.getElementById(`${btn.getAttribute('data-key')}-version-picker`);
@@ -692,7 +696,7 @@ function handleSoftwareClick(btn) {
         }
     }
     // Update acknowledgements and BibTeX
-    updateCitationDisplay();
+    await updateCitationDisplay();
     // Create version picker if software has Zenodo DOI
     const citation = citations[btn.getAttribute('data-key')];
     if (citation?.zenodo_doi) {
@@ -766,7 +770,7 @@ async function createVersionPicker(packageName, conceptDoi) {
                     versionPicker.setAttribute('data-bibtex', bibtex);
                     versionPicker.setAttribute('data-selected-doi', selectedDoi);
                     // Update citation display
-                    updateCitationDisplay();
+                    await updateCitationDisplay();
                 }
             }
         });
@@ -841,7 +845,7 @@ async function fetchZenodoBibtex(doi) {
 /**
  * Update the citation display (acknowledgements and BibTeX)
  */
-function updateCitationDisplay() {
+async function updateCitationDisplay() {
     const ack = document.getElementById('acknowledgement');
     const bibtexBox = document.getElementById('bibtex');
     const activeButtons = document.querySelectorAll('.software-button.active');
@@ -855,7 +859,7 @@ function updateCitationDisplay() {
     const ackToAdd = [];
     const customAcksToAdd = [];
     const bibsToAdd = [];
-    activeButtons.forEach(btn => {
+    for (const btn of Array.from(activeButtons)) {
         const key = btn.getAttribute('data-key');
         const citation = citations[key];
         const tags = citation.tags || [];
@@ -866,7 +870,12 @@ function updateCitationDisplay() {
         const customAck = citation.custom_citation || '';
         // Handle Zenodo DOI - check for version picker
         if (citation.zenodo_doi) {
-            const versionPicker = document.getElementById(`${key}-version-picker`);
+            let versionPicker = document.getElementById(`${key}-version-picker`);
+            // Create version picker if it doesn't exist
+            if (!versionPicker) {
+                await createVersionPicker(key, citation.zenodo_doi);
+                versionPicker = document.getElementById(`${key}-version-picker`);
+            }
             if (versionPicker && versionPicker.hasAttribute('data-bibtex')) {
                 // User has selected a version
                 const versionSelect = versionPicker.querySelector('.version-select');
@@ -925,7 +934,7 @@ function updateCitationDisplay() {
         if (citation.extra_bibtex) {
             bibsToAdd.push(highlightBibtex(citation.extra_bibtex));
         }
-    });
+    }
     // Build acknowledgement text
     ack.innerHTML = '';
     if (ackToAdd.length > 0) {
@@ -993,7 +1002,7 @@ function setupEventListeners() {
     // Clear all software
     const clearBtn = document.getElementById('software-clear');
     if (clearBtn) {
-        clearBtn.addEventListener('click', () => {
+        clearBtn.addEventListener('click', async () => {
             const buttons = document.querySelectorAll('.software-button.active');
             buttons.forEach(btn => {
                 btn.classList.remove('active');
@@ -1001,7 +1010,7 @@ function setupEventListeners() {
                 if (vp)
                     vp.classList.add('hide');
             });
-            updateCitationDisplay();
+            await updateCitationDisplay();
         });
     }
     // File upload
