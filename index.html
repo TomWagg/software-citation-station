@@ -117,9 +117,8 @@
                                                 <option value="-">Select version</option>
                                             </select>
                                             <button type="button" class="btn btn-outline-secondary btn-sm mt-2 feature-btn hide">
-                                                <i class="fa fa-list-check"></i> select features
+                                                <i class="fa fa-list-check"></i> select features<span class="feature-count"></span>
                                             </button>
-                                            <div class="feature-summary mt-1" style="font-size: 0.7rem"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -259,7 +258,7 @@
                                             <i class="fa fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="If your software package has specific text required for its citation then enter it here as LaTeX. See <code>COMPAS</code> or <code>MESA</code> for examples." data-bs-html="true"></i>
                                         </label>
                                         <div class="alert alert-warning py-1 px-2 mb-1" id="feature-custom-ack-warning" style="font-size: 0.7rem">
-                                            <i class="fa fa-exclamation-triangle"></i> <strong>Warning:</strong> custom acknowledgement will override citations for any features or sub-packages. Please include these directly in the custom acknowledgement if required.
+                                            <i class="fa fa-exclamation-triangle"></i> <strong>Warning:</strong> custom acknowledgement will override citations for any sub-packages. Please include these directly in the custom acknowledgement if required. Selected features are appended to the custom acknowledgement automatically.
                                         </div>
                                         <textarea class="form-control" id="new-software-custom-acknowledgement" placeholder="LaTeX (e.g. 'This software wants to specifically cite \citet{thispackage} in this way.')"></textarea>
                                     </div>
