@@ -1,7 +1,7 @@
 /**
  * Software Citation Station - Frontend Bundle
  * Generated automatically by bundle-frontend.js
- * Build time: 2026-04-15T23:39:10.973Z
+ * Build time: 2026-04-16T00:03:21.985Z
  */
 
 (function() {
@@ -677,6 +677,173 @@ function handleSoftwareClick(btn) {
     }
     // Update acknowledgements and BibTeX
     updateCitationDisplay();
+    // Create version picker if software has Zenodo DOI
+    const citation = citations[btn.getAttribute('data-key')];
+    if (citation?.zenodo_doi) {
+        createVersionPicker(btn.getAttribute('data-key'), citation.zenodo_doi);
+    }
+}
+/**
+ * Create version picker for a package with Zenodo DOI
+ */
+async function createVersionPicker(packageName, conceptDoi) {
+    const versionPickerId = `${packageName}-version-picker`;
+    let versionPicker = document.getElementById(versionPickerId);
+    // Don't create if already exists
+    if (versionPicker) {
+        versionPicker.classList.remove('hide');
+        return;
+    }
+    // Get template
+    const template = document.getElementById('version-picker-template');
+    if (!template)
+        return;
+    // Clone template
+    versionPicker = template.cloneNode(true);
+    versionPicker.id = versionPickerId;
+    versionPicker.classList.remove('hide');
+    versionPicker.setAttribute('data-loaded', 'false');
+    // Set card title
+    const cardTitle = versionPicker.querySelector('.card-title');
+    if (cardTitle) {
+        cardTitle.textContent = packageName;
+    }
+    // Handle logo
+    const citation = citations[packageName];
+    const logoImg = versionPicker.querySelector('.software-logo');
+    if (citation?.logo && citation.logo !== '') {
+        logoImg.src = citation.logo;
+        logoImg.alt = `${packageName} logo`;
+        if (citation.logo_background) {
+            logoImg.classList.add('bg-white', 'p-1');
+        }
+    }
+    else {
+        // Remove logo and add text
+        logoImg?.remove();
+        const cardBody = versionPicker.querySelector('.card-body');
+        if (cardBody) {
+            const textEl = document.createElement('span');
+            textEl.className = 'software-no-logo-text';
+            textEl.textContent = packageName;
+            const titleEl = cardBody.querySelector('.card-title');
+            if (titleEl) {
+                cardBody.insertBefore(textEl, titleEl);
+            }
+        }
+    }
+    // Add to version list
+    const versionList = document.getElementById('version-list');
+    if (versionList) {
+        versionList.appendChild(versionPicker);
+    }
+    // Setup version select change handler
+    const versionSelect = versionPicker.querySelector('.version-select');
+    if (versionSelect) {
+        versionSelect.addEventListener('change', async () => {
+            const selectedDoi = versionSelect.value;
+            if (selectedDoi && selectedDoi !== '-') {
+                // Fetch BibTeX for selected version
+                const bibtex = await fetchZenodoBibtex(selectedDoi);
+                if (bibtex) {
+                    // Update data attributes
+                    versionPicker.setAttribute('data-bibtex', bibtex);
+                    versionPicker.setAttribute('data-selected-doi', selectedDoi);
+                    // Update citation display
+                    updateCitationDisplay();
+                }
+            }
+        });
+    }
+    // Fetch and populate versions
+    await populateVersions(packageName, conceptDoi, versionSelect);
+    versionPicker.setAttribute('data-loaded', 'true');
+}
+/**
+ * Fetch versions from Zenodo API and populate dropdown
+ */
+async function populateVersions(packageName, conceptDoi, versionSelect) {
+    if (!versionSelect)
+        return;
+    const pageSize = 25;
+    const baseUrl = `https://zenodo.org/api/records?q=conceptdoi:"${conceptDoi}"&all_versions=true&size=${pageSize}`;
+    const versionAndDoi = [];
+    const versionsSoFar = new Set();
+    let expectedVersions = 100000;
+    let page = 1;
+    let nBadVersions = 0;
+    try {
+        while (versionAndDoi.length + nBadVersions < expectedVersions && page <= 40) {
+            const url = `${baseUrl}&page=${page}`;
+            const response = await fetch(url);
+            // Handle rate limiting
+            if (response.status === 429) {
+                const waitTime = 60000; // 60 seconds
+                console.warn(`Rate limited. Waiting ${waitTime}ms...`);
+                await new Promise(resolve => setTimeout(resolve, waitTime));
+                continue;
+            }
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.json();
+            expectedVersions = data.hits.total;
+            for (const hit of data.hits.hits) {
+                const version = hit.metadata.version;
+                if (version && version !== undefined && !versionsSoFar.has(version)) {
+                    versionAndDoi.push({ version, doi: String(hit.id) });
+                    versionsSoFar.add(version);
+                }
+                else {
+                    nBadVersions++;
+                }
+            }
+            page++;
+        }
+        // Populate dropdown
+        for (const { version, doi } of versionAndDoi) {
+            const option = document.createElement('option');
+            option.value = doi;
+            option.textContent = version;
+            versionSelect.appendChild(option);
+        }
+        // Hide waiter, show select
+        const waiter = versionSelect.parentElement?.querySelector('.waiter');
+        if (waiter) {
+            waiter.classList.add('hide');
+        }
+        versionSelect.classList.remove('hide');
+        // Auto-select latest if that option is active
+        const latestVersionBtn = document.getElementById('latest_version');
+        if (latestVersionBtn?.classList.contains('active') && versionAndDoi.length > 0) {
+            versionSelect.value = versionAndDoi[0].doi;
+            versionSelect.dispatchEvent(new Event('change'));
+        }
+    }
+    catch (error) {
+        console.error('Error fetching versions:', error);
+    }
+}
+/**
+ * Fetch BibTeX from Zenodo API
+ */
+async function fetchZenodoBibtex(doi) {
+    const url = `https://zenodo.org/api/records/${doi}`;
+    try {
+        const response = await fetch(url, {
+            headers: {
+                'Accept': 'application/x-bibtex'
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`Failed to fetch BibTeX: ${response.status}`);
+        }
+        return await response.text();
+    }
+    catch (error) {
+        console.error('Error fetching BibTeX:', error);
+        return '';
+    }
 }
 /**
  * Update the citation display (acknowledgements and BibTeX)
@@ -704,15 +871,47 @@ function updateCitationDisplay() {
             acknowledgement += ` \\citep{${tags.join(',')}}`;
         }
         const customAck = citation.custom_citation || '';
-        // Handle Zenodo DOI
+        // Handle Zenodo DOI - check for version picker
         if (citation.zenodo_doi) {
-            // TODO: Version picker integration
-            acknowledgement += '\\footnote{{TODO}: Need to choose a version to cite!!}';
-            if (customAck) {
-                customAcksToAdd.push(highlightLatex(customAck + '\\footnote{{TODO}: Need to choose a version to cite!!}'));
+            const versionPicker = document.getElementById(`${key}-version-picker`);
+            if (versionPicker && versionPicker.hasAttribute('data-bibtex')) {
+                // User has selected a version
+                const versionSelect = versionPicker.querySelector('.version-select');
+                const selectedVersion = versionSelect?.value;
+                const chosenVersionDoi = versionSelect?.selectedOptions[0]?.getAttribute('data-doi');
+                if (selectedVersion && chosenVersionDoi) {
+                    // Update acknowledgement with version-specific citation
+                    const newTag = `${key}_${selectedVersion.replace(/\./g, '')}`;
+                    acknowledgement += ` \\citep{${newTag}}`;
+                    // Get BibTeX from version picker
+                    const versionBibtex = versionPicker.getAttribute('data-bibtex') || '';
+                    if (versionBibtex) {
+                        bibsToAdd.push(highlightBibtex(versionBibtex));
+                    }
+                    if (customAck) {
+                        customAcksToAdd.push(highlightLatex(customAck));
+                    }
+                }
+                else {
+                    // Version picker exists but no version selected yet
+                    acknowledgement += '\\footnote{{TODO}: Need to choose a version to cite!!}';
+                    if (customAck) {
+                        customAcksToAdd.push(highlightLatex(customAck + '\\footnote{{TODO}: Need to choose a version to cite!!}'));
+                    }
+                    else {
+                        ackToAdd.push(highlightLatex(acknowledgement));
+                    }
+                }
             }
             else {
-                ackToAdd.push(highlightLatex(acknowledgement));
+                // No version picker - show TODO message
+                acknowledgement += '\\footnote{{TODO}: Need to choose a version to cite!!}';
+                if (customAck) {
+                    customAcksToAdd.push(highlightLatex(customAck + '\\footnote{{TODO}: Need to choose a version to cite!!}'));
+                }
+                else {
+                    ackToAdd.push(highlightLatex(acknowledgement));
+                }
             }
         }
         else {
@@ -723,9 +922,9 @@ function updateCitationDisplay() {
                 ackToAdd.push(highlightLatex(acknowledgement));
             }
         }
-        // Add BibTeX entries
+        // Add BibTeX entries (only if not already added from version picker)
         for (const tag of tags) {
-            if (tag && bibtexTable[tag]) {
+            if (tag && bibtexTable[tag] && !bibsToAdd.some(b => b.includes(tag))) {
                 bibsToAdd.push(highlightBibtex(bibtexTable[tag]));
             }
         }
