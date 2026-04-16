@@ -1,7 +1,7 @@
 /**
  * Software Citation Station - Frontend Bundle
  * Generated automatically by bundle-frontend.js
- * Build time: 2026-04-16T01:50:03.241Z
+ * Build time: 2026-04-16T01:58:07.230Z
  */
 
 (function() {
@@ -426,6 +426,12 @@ function capitalize(str) {
     if (!str)
         return str;
     return str.charAt(0).toUpperCase() + str.slice(1);
+}
+/**
+ * Convert rem to pixels
+ */
+function convertRemToPixels(rem) {
+    return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
 }
 /**
  * Highlight LaTeX syntax for display

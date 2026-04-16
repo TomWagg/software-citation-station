@@ -39,6 +39,13 @@ export function capitalize(str: string): string {
 }
 
 /**
+ * Convert rem to pixels
+ */
+export function convertRemToPixels(rem: number): number {
+  return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+}
+
+/**
  * Highlight LaTeX syntax for display
  */
 function highlightLatex(latex: string): string {
