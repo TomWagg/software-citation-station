@@ -76,21 +76,26 @@ Promise.all([
         btn.id = "";
 
         // track all unique categories and languages
-        const cat = capitalise(citations[key]["category"]);
-        btn.setAttribute("data-category", cat);
-        categories.add(cat);
+        const cat = citations[key]["category"];
+        if (Array.isArray(cat)) {
+            btn.setAttribute("data-category", cat.map(x => capitalise(x)).join(", "));
+            for (let x of cat) {
+                categories.add(capitalise(x));
+            }
+        } else {
+            btn.setAttribute("data-category", capitalise(cat));
+            categories.add(capitalise(cat));
+        }
 
         const lang = citations[key]["language"];
-
-        if (typeof(lang) === "string") {
-            const lang_string = capitalise(lang);
-            btn.setAttribute("data-language", lang_string)
-            languages.add(lang_string);
-        } else {
-            btn.setAttribute("data-language", lang.map(x => capitalise(x)).join(", "))
+        if (Array.isArray(lang)) {
+            btn.setAttribute("data-language", lang.map(x => capitalise(x)).join(", "));
             for (let x of lang) {
                 languages.add(capitalise(x));
             }
+        } else {
+            btn.setAttribute("data-language", capitalise(lang));
+            languages.add(capitalise(lang));
         }
 
         // if the logo is missing then remove the image and add a text element instead
@@ -562,7 +567,6 @@ Promise.all([
     const new_software_category = document.getElementById("new-software-category");
     const new_software_language = document.getElementById("new-software-language");
     if (new_software_category.children.length == 0) {
-        new_software_category.appendChild(create_option("-", "Select category"));
         for (let i = 0; i < category_select.options.length; i++) {
             if (category_select.options[i].value === "all") {
                 continue;
@@ -570,10 +574,9 @@ Promise.all([
             new_software_category.appendChild(create_option(category_select.options[i].value,
                 category_select.options[i].innerText));
         }
-        new_software_category.appendChild(create_option("new", "New category"));
+        new_software_category.appendChild(create_option("new", "New category..."));
     }
     if (new_software_language.children.length == 0) {
-        new_software_language.appendChild(create_option("-", "Select language"));
         for (let i = 0; i < language_select.options.length; i++) {
             if (language_select.options[i].value === "all") {
                 continue;
@@ -581,7 +584,7 @@ Promise.all([
             new_software_language.appendChild(create_option(language_select.options[i].value,
                 language_select.options[i].innerText));
         }
-        new_software_language.appendChild(create_option("new", "New language"));
+        new_software_language.appendChild(create_option("new", "New language..."));
     }
 
     // hide the loading overlay
@@ -745,7 +748,8 @@ window.addEventListener('DOMContentLoaded', () => {
     // reveal the new category/language inputs if "new" is selected in the dropdown
     document.querySelectorAll("#new-software-category, #new-software-language").forEach(el => {
         el.addEventListener('change', function() {
-            if (this.value === "new") {
+            const selected = Array.from(this.selectedOptions).map(o => o.value);
+            if (selected.includes("new")) {
                 this.nextElementSibling.classList.remove("hide");
                 this.nextElementSibling.focus();
             } else {
@@ -969,24 +973,26 @@ function handle_search() {
         // check if the language matches the button's language
         const lang_string = btn.getAttribute("data-language").toLowerCase();
         let matches_lang = false;
-
-        // check if the language is a list of languages
-        if (lang_string.includes(",")) {
-            // split the languages and check if the current language is in the list
-            const langs = lang_string.split(",");
-            for (let lang of langs) {
-                if (lang.trim() === language) {
-                    matches_lang = true;
-                }
+        const langs = lang_string.split(",");
+        for (let lang of langs) {
+            if (lang.trim() === language) {
+                matches_lang = true;
             }
-        } else {
-            // otherwise, just check if the language matches
-            matches_lang = lang_string === language;
+        }
+
+        // check if the category matches the button's category
+        const cat_string = btn.getAttribute("data-category").toLowerCase();
+        let matches_cat = false;
+        const cats = cat_string.split(",");
+        for (let cat of cats) {
+            if (cat.trim() === category) {
+                matches_cat = true;
+            }
         }
 
         // combine all of the search criteria
         const matches_search = ((btn_key.includes(search) || btn_keywords.includes(search))
-                                && (category === "all" || btn.getAttribute("data-category").toLowerCase() === category)
+                                && (category === "all" || matches_cat)
                                 && (language === "all" || matches_lang));
         if (matches_search) {
             all_hidden = false;
@@ -1477,20 +1483,21 @@ function validate_new_software_form() {
         }
     }
 
-    // check the category and language selects. Both should not have value of "-", and if they have a value of "new" then the next input should not be empty
+    // check the category and language selects. At least one option must be selected, and if "new" is selected the text input must not be empty
     for (let select of form.querySelectorAll("#new-software-category, #new-software-language")) {
+        const selected = Array.from(select.selectedOptions).map(o => o.value);
         const select_new_input = select.nextElementSibling;
-        if (select.value === "-") {
-            select.setCustomValidity("Please select a category/language.");
-            select_new_input.setCustomValidity("Please select a category/language.");
+        if (selected.length === 0) {
+            select.setCustomValidity("Please select at least one option.");
+            select_new_input.setCustomValidity("Please select at least one option.");
             select.parentElement.querySelector(".invalid-feedback").innerHTML = "No value selected.";
-        } else if (select.value === "new" && select.nextElementSibling.value.trim() === "") {
+        } else if (selected.includes("new") && select_new_input.value.trim() === "") {
             select.setCustomValidity("Please enter a new category/language.");
             select_new_input.setCustomValidity("Please enter a new category/language.");
             select.parentElement.querySelector(".invalid-feedback").innerHTML = "New value not entered.";
         } else {
             select.setCustomValidity("");
-            select.nextElementSibling.setCustomValidity("");
+            select_new_input.setCustomValidity("");
         }
     }
 
@@ -1521,13 +1528,18 @@ function validate_new_software_form() {
         if (valid) {
             let json = {}
 
-            let language = form.querySelector("#new-software-language").value.trim();
-            if (language === "new") {
-                language = form.querySelector("#new-software-language-new").value.trim();
+            const selectedLanguages = Array.from(form.querySelector("#new-software-language").selectedOptions).map(o => o.value);
+            let language = selectedLanguages.filter(v => v !== "new");
+            if (selectedLanguages.includes("new")) {
+                const newLang = form.querySelector("#new-software-language-new").value.trim();
+                if (newLang) language.push(newLang);
             }
-            let category = form.querySelector("#new-software-category").value.trim();
-            if (category === "new") {
-                category = form.querySelector("#new-software-category-new").value.trim();
+
+            const selectedCategories = Array.from(form.querySelector("#new-software-category").selectedOptions).map(o => o.value);
+            let category = selectedCategories.filter(v => v !== "new");
+            if (selectedCategories.includes("new")) {
+                const newCat = form.querySelector("#new-software-category-new").value.trim();
+                if (newCat) category.push(newCat);
             }
 
             const dep_toggles = form.querySelectorAll("#new-software-dependencies .dependency-toggle.text-bg-primary")
