@@ -16,7 +16,7 @@ interface Citations {
   [packageName: string]: PackageInfo;
 }
 
-async function fetchAllVersions() {
+export async function fetchAllVersions(): Promise<{ processed: number; skipped: number; failed: number }> {
   // Read citations.json
   const citationsPath = path.join(__dirname, '..', 'data', 'citations.json');
   const citationsData = fs.readFileSync(citationsPath, 'utf-8');
@@ -49,11 +49,11 @@ async function fetchAllVersions() {
     try {
       console.log(`Fetching versions for ${packageName} (DOI: ${zenodoDoi})...`);
       const versions = await getZenodoVersionInfo(zenodoDoi);
-      
+
       // Save to individual JSON file
       const outputPath = path.join(outputDir, `${packageName}.json`);
       fs.writeFileSync(outputPath, JSON.stringify(versions, null, 2), 'utf-8');
-      
+
       console.log(`  ✓ Saved ${versions.length} versions for ${packageName}`);
       processed++;
 
@@ -62,7 +62,7 @@ async function fetchAllVersions() {
       await new Promise(resolve => setTimeout(resolve, RATE_LIMIT_DELAY_MS));
     } catch (error) {
       console.error(`  ✗ Failed to fetch versions for ${packageName}:`, error);
-      throw error;
+      failed++;
     }
   }
 
@@ -70,16 +70,19 @@ async function fetchAllVersions() {
   console.log(`  Processed: ${processed}`);
   console.log(`  Skipped (no DOI): ${skipped}`);
   console.log(`  Failed: ${failed}`);
-  
-  // Exit with error code if any packages failed to fetch
-  if (failed > 0) {
-    console.error(`\nERROR: ${failed} package(s) failed to fetch. Exiting with error code.`);
-    process.exit(1);
-  }
+
+  return { processed, skipped, failed };
 }
 
-// Run the script
-fetchAllVersions().catch(error => {
-  console.error('Fatal error:', error);
-  process.exit(1);
-});
+// Run the script if executed directly
+if (require.main === module) {
+  fetchAllVersions().then(result => {
+    if (result.failed > 0) {
+      console.error(`\nERROR: ${result.failed} package(s) failed to fetch. Exiting with error code.`);
+      process.exit(1);
+    }
+  }).catch(error => {
+    console.error('Fatal error:', error);
+    process.exit(1);
+  });
+}

@@ -62,7 +62,6 @@ export function parseRequirementsTxt(content: string): ParsedEnvironment {
 export function parseCondaEnvYaml(content: string): ParsedEnvironment {
   const packages: string[] = [];
   let pythonVersion: string | undefined;
-  let inPipSection = false;
   let inDependenciesSection = false;
 
   const lines = content.split('\n');
@@ -71,7 +70,6 @@ export function parseCondaEnvYaml(content: string): ParsedEnvironment {
     // Check for section headers
     if (line.startsWith('dependencies:')) {
       inDependenciesSection = true;
-      inPipSection = false;
       continue;
     }
 
@@ -79,14 +77,12 @@ export function parseCondaEnvYaml(content: string): ParsedEnvironment {
       // Check for pip subsection
       const pipMatch = line.match(/^\s+- pip:\s*$/);
       if (pipMatch) {
-        inPipSection = true;
         continue;
       }
 
       // Check if we're leaving the dependencies section
       if (line.match(/^\w/)) {
         inDependenciesSection = false;
-        inPipSection = false;
         continue;
       }
 

@@ -3,13 +3,11 @@
  * Ported from js/software.js to TypeScript with shared module reuse
  */
 
-import { initDarkMode } from './darkMode';
 import { FrontendDataProvider, parseBibtexFrontend } from './citationCore';
-import { CitationPackage, ZenodoVersion } from '../citationTypes';
-import { expandDependencies } from '../shared/dependencyResolver';
-import { parseEnvironmentFile } from '../shared/fileParser';
+import { CitationPackage } from '../citationTypes';
 
 // Constants
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const BASE_ISSUE_TEXT = `# TODO before submitting
 
 - [ ] Attach or link a logo (preferably square, no background)
@@ -20,10 +18,6 @@ const BASE_ISSUE_TEXT = `# TODO before submitting
 **Delete this list before submitting the issue!**
 
 # Citation information\n`;
-
-const BADGE_HTML = `<a href="https://www.tomwagg.com/software-citation-station/?auto-select=PACKAGENAME">
-    <img src="https://img.shields.io/badge/Cite-PACKAGENAME-blue" />
-</a>`;
 
 // Global state
 let citations: Record<string, CitationPackage> = {};
@@ -165,7 +159,7 @@ export async function initSoftwareCitationStation(): Promise<void> {
     const languages = new Set<string>();
 
     // Sort keys: frequently_used first, then alphabetically
-    let sortedKeys = Object.keys(citations).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+    const sortedKeys = Object.keys(citations).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
     sortedKeys.sort((a, b) => {
       const aFreq = citations[a].frequently_used ?? false;
       const bFreq = citations[b].frequently_used ?? false;
@@ -574,6 +568,7 @@ function updateCitationDisplay(): void {
         if (selectedVersion && chosenVersionDoi) {
           // Update acknowledgement with version-specific citation
           const newTag = `${key}_${selectedVersion.replace(/\./g, '')}`;
+          // eslint-disable-next-line no-useless-assignment
           acknowledgement += ` \\citep{${newTag}}`;
 
           // Get BibTeX from version picker
@@ -810,8 +805,9 @@ function handleFileUpload(event: Event): void {
   reader.onload = (e) => {
     const content = e.target?.result as string;
     const filename = file.name.toLowerCase();
-    
+
     // Parse based on file type
+    // eslint-disable-next-line no-useless-assignment
     let parsedSoftwares: { key: string; version: string }[] = [];
     if (filename.endsWith('.txt')) {
       parsedSoftwares = parsePipFreeze(content);
@@ -1043,7 +1039,7 @@ export async function validateNewSoftwareForm(): Promise<boolean> {
 
   // Check URL fields and add https:// if missing
   for (const input of form.querySelectorAll<HTMLInputElement>("input[type='url']")) {
-    let url = input.value.trim();
+    const url = input.value.trim();
     if (url.startsWith('www.') && !url.startsWith('http://') && !url.startsWith('https://')) {
       input.value = 'https://' + url;
     }

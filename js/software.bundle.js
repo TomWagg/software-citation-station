@@ -1,7 +1,7 @@
 /**
  * Software Citation Station - Frontend Bundle
  * Generated automatically by bundle-frontend.js
- * Build time: 2026-04-16T02:26:24.047Z
+ * Build time: 2026-04-16T03:08:17.729Z
  */
 
 (function() {
@@ -152,27 +152,23 @@ function parseRequirementsTxt(content) {
 function parseCondaEnvYaml(content) {
     const packages = [];
     let pythonVersion;
-    let inPipSection = false;
     let inDependenciesSection = false;
     const lines = content.split('\n');
     for (const line of lines) {
         // Check for section headers
         if (line.startsWith('dependencies:')) {
             inDependenciesSection = true;
-            inPipSection = false;
             continue;
         }
         if (inDependenciesSection) {
             // Check for pip subsection
             const pipMatch = line.match(/^\s+- pip:\s*$/);
             if (pipMatch) {
-                inPipSection = true;
                 continue;
             }
             // Check if we're leaving the dependencies section
             if (line.match(/^\w/)) {
                 inDependenciesSection = false;
-                inPipSection = false;
                 continue;
             }
             // Parse package entries (start with -)
@@ -402,6 +398,7 @@ function parseBibtexFrontend(bibtexText) {
  * Ported from js/software.js to TypeScript with shared module reuse
  */
 // Constants
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const BASE_ISSUE_TEXT = `# TODO before submitting
 
 - [ ] Attach or link a logo (preferably square, no background)
@@ -412,9 +409,6 @@ const BASE_ISSUE_TEXT = `# TODO before submitting
 **Delete this list before submitting the issue!**
 
 # Citation information\n`;
-const BADGE_HTML = `<a href="https://www.tomwagg.com/software-citation-station/?auto-select=PACKAGENAME">
-    <img src="https://img.shields.io/badge/Cite-PACKAGENAME-blue" />
-</a>`;
 // Global state
 let citations = {};
 let bibtexTable = {};
@@ -539,7 +533,7 @@ async function initSoftwareCitationStation() {
         const categories = new Set();
         const languages = new Set();
         // Sort keys: frequently_used first, then alphabetically
-        let sortedKeys = Object.keys(citations).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+        const sortedKeys = Object.keys(citations).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
         sortedKeys.sort((a, b) => {
             const aFreq = citations[a].frequently_used ?? false;
             const bFreq = citations[b].frequently_used ?? false;
@@ -900,6 +894,7 @@ function updateCitationDisplay() {
                 if (selectedVersion && chosenVersionDoi) {
                     // Update acknowledgement with version-specific citation
                     const newTag = `${key}_${selectedVersion.replace(/\./g, '')}`;
+                    // eslint-disable-next-line no-useless-assignment
                     acknowledgement += ` \\citep{${newTag}}`;
                     // Get BibTeX from version picker
                     const versionBibtex = versionPicker.getAttribute('data-bibtex') || '';
@@ -1118,6 +1113,7 @@ function handleFileUpload(event) {
         const content = e.target?.result;
         const filename = file.name.toLowerCase();
         // Parse based on file type
+        // eslint-disable-next-line no-useless-assignment
         let parsedSoftwares = [];
         if (filename.endsWith('.txt')) {
             parsedSoftwares = parsePipFreeze(content);
@@ -1330,7 +1326,7 @@ async function validateNewSoftwareForm() {
     loader?.classList.remove('hide');
     // Check URL fields and add https:// if missing
     for (const input of form.querySelectorAll("input[type='url']")) {
-        let url = input.value.trim();
+        const url = input.value.trim();
         if (url.startsWith('www.') && !url.startsWith('http://') && !url.startsWith('https://')) {
             input.value = 'https://' + url;
         }

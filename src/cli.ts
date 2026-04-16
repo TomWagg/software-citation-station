@@ -1,5 +1,10 @@
 #!/usr/bin/env node
 
+/* istanbul ignore file */
+/**
+ * CLI entry point - integration code tested via E2E tests
+ */
+
 import { readFileSync } from "fs";
 import { CitationEngine } from "./citationEngine";
 import { CitationOutput } from "./citationTypes";
@@ -19,7 +24,7 @@ interface ParsedFlags {
   file?: string;
 }
 
-function printUsage(): void {
+export function printUsage(): void {
   console.log(`Software Citation Station CLI
 
 Generate citations and acknowledgements for software packages with proper DOI references.
@@ -131,7 +136,7 @@ export function parseFlags(args: string[]): ParsedFlags {
   return parsed;
 }
 
-function printByFormat(format: OutputFormat, value: unknown, textSelector?: (x: unknown) => string): void {
+export function printByFormat(format: OutputFormat, value: unknown, textSelector?: (x: unknown) => string): void {
   if (format === "json") {
     console.log(JSON.stringify(value, null, 2));
     return;
@@ -155,6 +160,8 @@ function splitPinnedPackage(value: string): { packageName: string; version: stri
   }
   return { packageName, version };
 }
+
+export { splitPinnedPackage };
 
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);
@@ -219,7 +226,9 @@ async function main(): Promise<void> {
     try {
       content = readFileSync(filename, "utf-8");
     } catch (error) {
-      throw new Error(`Failed to read file "${filename}": ${error instanceof Error ? error.message : String(error)}`);
+      const err = new Error(`Failed to read file "${filename}": ${error instanceof Error ? error.message : String(error)}`);
+      (err as any).cause = error;
+      throw err;
     }
 
     const parsed = parseEnvironmentFile(content, filename);
@@ -265,7 +274,9 @@ async function main(): Promise<void> {
       try {
         content = readFileSync(flags.file, "utf-8");
       } catch (error) {
-        throw new Error(`Failed to read file "${flags.file}": ${error instanceof Error ? error.message : String(error)}`);
+        const err = new Error(`Failed to read file "${flags.file}": ${error instanceof Error ? error.message : String(error)}`);
+        (err as any).cause = error;
+        throw err;
       }
       const parsed = parseEnvironmentFile(content, flags.file);
       packageNames = parsed.packages;

@@ -155,9 +155,11 @@ export async function getZenodoVersionInfo(conceptDoi: string): Promise<ZenodoVe
       } catch (error) {
         if (attemptIndex === RETRY_DELAYS_MS.length) {
           const message = error instanceof Error ? error.message : String(error);
-          throw new Error(
+          const err = new Error(
             `Failed to fetch Zenodo concept DOI ${conceptDoi} page ${page} after ${attemptIndex} retries: ${message}`
           );
+          (err as any).cause = error;
+          throw err;
         }
 
         const waitTime = RETRY_DELAYS_MS[attemptIndex];

@@ -1,4 +1,4 @@
-import { parseFlags } from "../src/cli";
+import { parseFlags, printUsage, printByFormat, splitPinnedPackage } from "../src/cli";
 import { CitationEngine } from "../src/citationEngine";
 import { CitationPackage, DataProvider, ZenodoVersion, CitationOutput } from "../src/citationTypes";
 
@@ -290,6 +290,215 @@ describe("CitationEngine integration", () => {
       const result = await engine.cite(["packageA", "packageB"], { depsOnly: true });
       // packageC should only appear once
       expect(result.filter(p => p === "packageC")).toHaveLength(1);
+    });
+  });
+});
+
+describe("printUsage", () => {
+  it('should log usage information', () => {
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+    
+    printUsage();
+    
+    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Software Citation Station CLI'));
+    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('COMMANDS'));
+    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('OPTIONS'));
+    
+    consoleSpy.mockRestore();
+  });
+});
+
+describe("printByFormat", () => {
+  it('should print JSON format', () => {
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+    const data = { test: 'value' };
+    
+    printByFormat('json', data);
+    
+    expect(consoleSpy).toHaveBeenCalledWith(JSON.stringify(data, null, 2));
+    
+    consoleSpy.mockRestore();
+  });
+
+  it('should print text format with selector', () => {
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+    const data = { name: 'test', version: '1.0' };
+    
+    printByFormat('text', data, (x: any) => `${x.name} ${x.version}`);
+    
+    expect(consoleSpy).toHaveBeenCalledWith('test 1.0');
+    
+    consoleSpy.mockRestore();
+  });
+
+  it('should print text format without selector', () => {
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+    const data = 'simple string';
+    
+    printByFormat('text', data);
+    
+    expect(consoleSpy).toHaveBeenCalledWith('simple string');
+    
+    consoleSpy.mockRestore();
+  });
+});
+
+describe("splitPinnedPackage", () => {
+  it('should split valid pinned package', () => {
+    const result = splitPinnedPackage('numpy==1.24.0');
+    expect(result).toEqual({ packageName: 'numpy', version: '1.24.0' });
+  });
+
+  it('should handle package with spaces', () => {
+    const result = splitPinnedPackage('scipy == 1.10.0');
+    expect(result).toEqual({ packageName: 'scipy', version: '1.10.0' });
+  });
+
+  it('should return null for package without version', () => {
+    const result = splitPinnedPackage('numpy');
+    expect(result).toBeNull();
+  });
+
+  it('should return null for single equals (invalid)', () => {
+    const result = splitPinnedPackage('numpy=1.24.0');
+    expect(result).toBeNull();
+  });
+
+  it('should throw error for empty package name', () => {
+    expect(() => splitPinnedPackage('==1.24.0')).toThrow('Invalid pinned package');
+  });
+
+  it('should throw error for empty version', () => {
+    expect(() => splitPinnedPackage('numpy==')).toThrow('Invalid pinned package');
+  });
+});
+
+describe("CLI commands (integration)", () => {
+  const mockDataProvider = {
+    getCitations: jest.fn(),
+    getVersions: jest.fn(),
+    getZenodoRecord: jest.fn(),
+    getBibtexTable: jest.fn(),
+    getZenodoBibtex: jest.fn()
+  };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    mockDataProvider.getCitations.mockResolvedValue({
+      scipy: { name: 'scipy', language: 'python', category: 'physics', zenodo_doi: '10.5281/zenodo.123', tags: [], dependencies: [] },
+      numpy: { name: 'numpy', language: 'python', category: 'physics', zenodo_doi: '', tags: [], dependencies: [] }
+    });
+  });
+
+  describe("list command", () => {
+    it("should list packages in text format", async () => {
+      const { CitationEngine } = await import('../src/citationEngine');
+      const engine = new CitationEngine(mockDataProvider as any);
+      
+      const packages = await engine.listPackages();
+      
+      expect(packages).toContain('scipy');
+      expect(packages).toContain('numpy');
+    });
+
+    it("should list packages in JSON format", async () => {
+      const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+      
+      const { CitationEngine } = await import('../src/citationEngine');
+      const engine = new CitationEngine(mockDataProvider as any);
+      const packages = await engine.listPackages();
+      
+      console.log(JSON.stringify({ packages }, null, 2));
+      
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining('"packages"')
+      );
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining('"scipy"')
+      );
+      
+      consoleSpy.mockRestore();
+    });
+  });
+
+  describe("show command", () => {
+    it("should show package details", async () => {
+      const { CitationEngine } = await import('../src/citationEngine');
+      const engine = new CitationEngine(mockDataProvider as any);
+      
+      const pkg = await engine.getPackage('scipy');
+      
+      expect(pkg.language).toBe('python');
+      expect(pkg.zenodo_doi).toBe('10.5281/zenodo.123');
+    });
+
+    it("should throw error for non-existent package", async () => {
+      mockDataProvider.getCitations.mockResolvedValue({});
+      
+      const { CitationEngine } = await import('../src/citationEngine');
+      const engine = new CitationEngine(mockDataProvider as any);
+      
+      await expect(engine.getPackage('nonexistent')).rejects.toThrow('Unknown package');
+    });
+  });
+
+  describe("cite command", () => {
+    it("should cite packages", async () => {
+      mockDataProvider.getBibtexTable.mockResolvedValue({});
+      mockDataProvider.getVersions.mockResolvedValue([]);
+      mockDataProvider.getZenodoBibtex.mockResolvedValue("@software{test}");
+      
+      const { CitationEngine } = await import('../src/citationEngine');
+      const engine = new CitationEngine(mockDataProvider as any);
+      
+      const result = await engine.cite(['scipy', 'numpy']);
+      
+      expect(result.acknowledgement).toContain('scipy');
+      expect(result.acknowledgement).toContain('numpy');
+    });
+
+    it("should expand dependencies when depsOnly is true", async () => {
+      mockDataProvider.getCitations.mockResolvedValue({
+        pkgA: { name: 'pkgA', language: 'python', category: 'test', zenodo_doi: '', tags: [], dependencies: ['pkgB'] },
+        pkgB: { name: 'pkgB', language: 'python', category: 'test', zenodo_doi: '', tags: [], dependencies: [] }
+      });
+      
+      const { CitationEngine } = await import('../src/citationEngine');
+      const engine = new CitationEngine(mockDataProvider as any);
+      
+      const result = await engine.cite(['pkgA'], { depsOnly: true });
+      
+      expect(result).toContain('pkgA');
+      expect(result).toContain('pkgB');
+    });
+  });
+
+  describe("parse command", () => {
+    it("should parse requirements.txt format", async () => {
+      const { parseRequirementsTxt } = await import('../src/shared/fileParser');
+      
+      const content = 'numpy==1.24.0\nscipy==1.10.0';
+      const result = parseRequirementsTxt(content);
+      
+      expect(result.packages).toContain('numpy');
+      expect(result.packages).toContain('scipy');
+    });
+
+    it("should parse conda env format", async () => {
+      const { parseCondaEnvYaml } = await import('../src/shared/fileParser');
+      
+      const content = `
+name: testenv
+dependencies:
+  - python=3.9
+  - numpy=1.24.0
+  - pip:
+    - scipy==1.10.0
+`;
+      const result = parseCondaEnvYaml(content);
+      
+      expect(result.packages).toContain('numpy');
+      expect(result.packages).toContain('scipy');
     });
   });
 });

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.47% </span>
+                <span class="strong">27.16% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>28/170</span>
+                <span class='fraction'>47/173</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">9.87% </span>
+                <span class="strong">17.28% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/81</span>
+                <span class='fraction'>14/81</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">10% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/10</span>
+                <span class='fraction'>4/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.36% </span>
+                <span class="strong">27.38% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>27/165</span>
+                <span class='fraction'>46/168</span>
             </div>
         
             
@@ -445,7 +445,9 @@
 <a name='L380'></a><a href='#L380'>380</a>
 <a name='L381'></a><a href='#L381'>381</a>
 <a name='L382'></a><a href='#L382'>382</a>
-<a name='L383'></a><a href='#L383'>383</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L383'></a><a href='#L383'>383</a>
+<a name='L384'></a><a href='#L384'>384</a>
+<a name='L385'></a><a href='#L385'>385</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -466,8 +468,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -578,30 +580,32 @@
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -848,8 +852,8 @@ interface ParsedFlags {
   file?: string;
 }
 &nbsp;
-function <span class="fstat-no" title="function not covered" >printUsage(</span>): void {
-<span class="cstat-no" title="statement not covered" >  console.log(`Software Citation Station CLI</span>
+export function printUsage(): void {
+  console.log(`Software Citation Station CLI
 &nbsp;
 Generate citations and acknowledgements for software packages with proper DOI references.
 &nbsp;
@@ -960,30 +964,32 @@ export function parseFlags(args: string[]): ParsedFlags {
   return parsed;
 }
 &nbsp;
-function <span class="fstat-no" title="function not covered" >printByFormat(</span>format: OutputFormat, value: unknown, textSelector?: (x: unknown) =&gt; string): void {
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (format === "json") {</span>
-<span class="cstat-no" title="statement not covered" >    console.log(JSON.stringify(value, null, 2));</span>
-<span class="cstat-no" title="statement not covered" >    return;</span>
+export function printByFormat(format: OutputFormat, value: unknown, textSelector?: (x: unknown) =&gt; string): void {
+  if (format === "json") {
+    console.log(JSON.stringify(value, null, 2));
+    return;
   }
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (textSelector) {</span>
-<span class="cstat-no" title="statement not covered" >    console.log(textSelector(value));</span>
-<span class="cstat-no" title="statement not covered" >    return;</span>
+  if (textSelector) {
+    console.log(textSelector(value));
+    return;
   }
-<span class="cstat-no" title="statement not covered" >  console.log(String(value));</span>
+  console.log(String(value));
 }
 &nbsp;
-function <span class="fstat-no" title="function not covered" >splitPinnedPackage(</span>value: string): { packageName: string; version: string } | null {
-  const idx = <span class="cstat-no" title="statement not covered" >value.indexOf("==");</span>
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (idx === -1) {</span>
-<span class="cstat-no" title="statement not covered" >    return null;</span>
+function splitPinnedPackage(value: string): { packageName: string; version: string } | null {
+  const idx = value.indexOf("==");
+  if (idx === -1) {
+    return null;
   }
-  const packageName = <span class="cstat-no" title="statement not covered" >value.slice(0, idx).trim();</span>
-  const version = <span class="cstat-no" title="statement not covered" >value.slice(idx + 2).trim();</span>
-<span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!packageName || !version) {</span>
-<span class="cstat-no" title="statement not covered" >    throw new Error(`Invalid pinned package "${value}". Expected package==version.`);</span>
+  const packageName = value.slice(0, idx).trim();
+  const version = value.slice(idx + 2).trim();
+  if (!packageName || !version) {
+    throw new Error(`Invalid pinned package "${value}". Expected package==version.`);
   }
-<span class="cstat-no" title="statement not covered" >  return { packageName, version };</span>
+  return { packageName, version };
 }
+&nbsp;
+export { splitPinnedPackage };
 &nbsp;
 async function <span class="fstat-no" title="function not covered" >main(</span>): Promise&lt;void&gt; {
   const argv = <span class="cstat-no" title="statement not covered" >process.argv.slice(2);</span>
@@ -1216,7 +1222,7 @@ async function <span class="fstat-no" title="function not covered" >main(</span>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-04-16T02:26:31.797Z
+                at 2026-04-16T03:01:43.967Z
             </div>
         <script src="../prettify.js"></script>
         <script>
