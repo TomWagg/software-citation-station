@@ -288,9 +288,10 @@ Promise.all([
                 }
 
                 // build feature sentence separately so it isn't folded into the comma-joined software list
+                let feature_sentence = "";
                 if (selected_feature_data.length > 0) {
                     const feature_parts = selected_feature_data.map(f =>
-                        `\\texttt{${f.name}} \\citep{${f.tags.join(",")}}`
+                        `\\textit{${f.name}} \\citep{${f.tags.join(",")}}`
                     );
                     let feature_list;
                     if (feature_parts.length === 1) {
@@ -300,9 +301,7 @@ Promise.all([
                     } else {
                         feature_list = feature_parts.slice(0, -1).join(", ") + ", and " + feature_parts[feature_parts.length - 1];
                     }
-                    feature_sentences_to_add.push(
-                        highlight_latex(`The following features of \\texttt{${software_name}} were used: ${feature_list}.`)
-                    );
+                    feature_sentence = highlight_latex(`The following features of \\texttt{${software_name}} were used: ${feature_list}.`);
                     // add feature bibtex entries
                     for (const f of selected_feature_data) {
                         for (const tag of f.tags) {
@@ -447,9 +446,8 @@ Promise.all([
                                 <pre class="card-title">${btn_key}</pre>
                                 <div class="card-controls">
                                     <button type="button" class="btn btn-outline-secondary btn-sm feature-btn">
-                                        <i class="fa fa-list-check"></i> select features
+                                        <i class="fa fa-list-check"></i> select features<span class="feature-count"></span>
                                     </button>
-                                    <div class="feature-summary mt-1" style="font-size: 0.7rem"></div>
                                 </div>
                             </div>
                         </div>`;
@@ -461,10 +459,17 @@ Promise.all([
                 }
 
                 if (custom_ack != "") {
-                    custom_acks_to_add.push(highlight_latex(custom_ack));
+                    let combined = highlight_latex(custom_ack);
+                    if (feature_sentence !== "") {
+                        combined += " " + feature_sentence;
+                    }
+                    custom_acks_to_add.push(combined);
                 } else {
                     // otherwise use the regular acknowledgement
                     ack_to_add.push(highlight_latex(new_ack))
+                    if (feature_sentence !== "") {
+                        feature_sentences_to_add.push(feature_sentence);
+                    }
                 }
 
                 // same for the bibtex
@@ -791,11 +796,9 @@ window.addEventListener('DOMContentLoaded', () => {
         });
         picker.setAttribute("data-selected-features", selected.join(","));
 
-        const summary = picker.querySelector(".feature-summary");
+        const count_el = picker.querySelector(".feature-btn .feature-count");
         const total = document.querySelectorAll("#features-modal-checkboxes .form-check-input").length;
-        summary.innerHTML = selected.length > 5
-            ? `<span class="text-muted">${selected.length}/${total} features selected</span>`
-            : selected.map(s => `<span class="badge text-bg-secondary me-1">${s}</span>`).join("");
+        count_el.textContent = ` (${selected.length}/${total})`;
 
         bootstrap.Modal.getInstance(modal_el).hide();
 
@@ -1404,6 +1407,10 @@ function attach_feature_btn(picker_el, key, feature_tags_data) {
     if (feature_btn.dataset.wired) return;  // already wired up
     feature_btn.dataset.wired = "true";
     feature_btn.classList.remove("hide");
+
+    const total = Object.keys(feature_tags_data).length;
+    const selected_count = (picker_el.getAttribute("data-selected-features") || "").split(",").filter(Boolean).length;
+    feature_btn.querySelector(".feature-count").textContent = ` (${selected_count}/${total})`;
 
     feature_btn.addEventListener('click', function() {
         const modal_el = document.getElementById("features-modal");
