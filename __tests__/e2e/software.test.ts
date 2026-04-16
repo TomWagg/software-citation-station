@@ -155,16 +155,16 @@ astropy==5.3.4`;
 
   test('version picker should appear after file upload', async ({ page }) => {
     await page.goto('/');
-    
+
     // Wait for software list to load
     await page.waitForSelector('.software-button:not(#software-btn-template)', { state: 'visible', timeout: 10000 });
-    
+
     // Create a test requirements.txt file with specific versions
     const requirementsContent = `scipy==1.10.0
 numpy==1.24.0`;
-    
+
     const testFile = Buffer.from(requirementsContent);
-    
+
     // Upload file
     const fileInput = page.locator('#file-upload');
     await fileInput.setInputFiles({
@@ -172,25 +172,70 @@ numpy==1.24.0`;
       mimeType: 'text/plain',
       buffer: testFile
     });
-    
+
     // Wait for processing and version picker to load from Zenodo API
     await page.waitForTimeout(3000);
-    
+
     // Check that scipy button is active
     const scipyBtn = page.locator('.software-button[data-key="scipy"]');
     await expect(scipyBtn).toHaveClass(/active/);
-    
+
     // Check that version picker appears for scipy
     const versionPicker = page.locator('#scipy-version-picker');
     await expect(versionPicker).toBeVisible();
-    
+
     // Check that version select has options loaded (not just the default "-")
     const versionSelect = versionPicker.locator('.version-select');
     await expect(versionSelect).toBeVisible();
-    
+
     // Count options - should have more than just the placeholder
     const optionCount = await versionSelect.locator('option').count();
     expect(optionCount).toBeGreaterThan(1);
+  });
+
+  test('selecting version should remove TODO footnote from acknowledgement', async ({ page }) => {
+    await page.goto('/');
+
+    // Wait for software list to load
+    await page.waitForSelector('.software-button:not(#software-btn-template)', { state: 'visible', timeout: 10000 });
+
+    // Click scipy (which has Zenodo DOI)
+    const scipyBtn = page.locator('.software-button[data-key="scipy"]');
+    await scipyBtn.click();
+    await expect(scipyBtn).toHaveClass(/active/);
+
+    // Wait for version picker to appear
+    const versionPicker = page.locator('#scipy-version-picker');
+    await expect(versionPicker).toBeVisible();
+
+    // Wait for versions to load
+    await page.waitForTimeout(2000);
+
+    // Select a version from the dropdown using selectOption
+    const versionSelect = versionPicker.locator('.version-select');
+    await expect(versionSelect).toBeVisible();
+    
+    // Get the second option value (first real version, not the placeholder)
+    const options = await versionSelect.locator('option').all();
+    if (options.length > 1) {
+      const secondOptionValue = await options[1].getAttribute('value');
+      
+      if (secondOptionValue) {
+        // Use selectOption instead of clicking the option directly
+        await versionSelect.selectOption(secondOptionValue);
+        
+        // Wait for citation to update
+        await page.waitForTimeout(1000);
+
+        // Check acknowledgement - should NOT contain TODO footnote
+        const ackBox = page.locator('#acknowledgement');
+        const ackText = await ackBox.textContent();
+        
+        // Should have scipy citation without TODO footnote
+        expect(ackText).toMatch(/scipy/);
+        expect(ackText).not.toMatch(/TODO.*choose a version/);
+      }
+    }
   });
 
   // TODO: Re-enable when version picker is implemented

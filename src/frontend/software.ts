@@ -331,14 +331,14 @@ async function handleSoftwareClick(btn: HTMLButtonElement): Promise<void> {
     }
   }
 
-  // Update acknowledgements and BibTeX
-  await updateCitationDisplay();
-  
   // Create version picker if software has Zenodo DOI
   const citation = citations[btn.getAttribute('data-key')!];
   if (citation?.zenodo_doi) {
-    createVersionPicker(btn.getAttribute('data-key')!, citation.zenodo_doi);
+    await createVersionPicker(btn.getAttribute('data-key')!, citation.zenodo_doi);
   }
+
+  // Update acknowledgements and BibTeX
+  await updateCitationDisplay();
 }
 
 /**
@@ -406,14 +406,17 @@ export async function createVersionPicker(packageName: string, conceptDoi: strin
   if (versionSelect) {
     versionSelect.addEventListener('change', async () => {
       const selectedDoi = versionSelect.value;
+      console.log('Version selected:', selectedDoi);
       if (selectedDoi && selectedDoi !== '-') {
         // Fetch BibTeX for selected version
         const bibtex = await fetchZenodoBibtex(selectedDoi);
+        console.log('BibTeX fetched:', bibtex ? 'yes' : 'no');
         if (bibtex) {
           // Update data attributes
           versionPicker.setAttribute('data-bibtex', bibtex);
           versionPicker.setAttribute('data-selected-doi', selectedDoi);
-          
+          console.log('data-bibtex attribute set');
+
           // Update citation display
           await updateCitationDisplay();
         }
@@ -545,11 +548,15 @@ async function updateCitationDisplay(): Promise<void> {
       if (versionPicker && versionPicker.hasAttribute('data-bibtex')) {
         // User has selected a version
         const versionSelect = versionPicker.querySelector('.version-select') as HTMLSelectElement;
-        const selectedVersion = versionSelect?.value;
-        const chosenVersionDoi = versionSelect?.selectedOptions[0]?.getAttribute('data-doi');
+        const selectedDoi = versionSelect?.value; // The DOI is stored in the option's value
 
-        if (selectedVersion && chosenVersionDoi) {
+        if (selectedDoi && selectedDoi !== '-') {
           versionSelected = true;
+          
+          // Get the version number from the selected option text
+          const selectedOption = versionSelect?.selectedOptions[0];
+          const selectedVersion = selectedOption?.textContent || selectedDoi;
+          
           // Update acknowledgement with version-specific citation
           const newTag = `${key}_${selectedVersion.replace(/\./g, '')}`;
           acknowledgement += ` \\citep{${newTag}}`;
@@ -563,6 +570,9 @@ async function updateCitationDisplay(): Promise<void> {
           if (customAck) {
             customAcksToAdd.push(highlightLatex(customAck));
           }
+          
+          // Add the acknowledgement to the array
+          ackToAdd.push(highlightLatex(acknowledgement));
         }
       }
 
