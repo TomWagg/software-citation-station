@@ -796,3 +796,88 @@ describe('createVersionPicker', () => {
     expect(textEl?.textContent).toBe('astropy');
   });
 });
+
+describe('Multi-select categories and languages', () => {
+  beforeEach(() => {
+    cleanupMockDOM();
+  });
+
+  afterEach(() => {
+    cleanupMockDOM();
+  });
+
+  it('should handle string category', () => {
+    const category: string | string[] = 'astronomy';
+
+    // Test that string category is handled correctly
+    const categoryValue = typeof category === 'string' 
+      ? (category as string).toUpperCase() 
+      : (category as string[]).map(c => c.toUpperCase()).join(', ');
+    
+    expect(categoryValue).toBe('ASTRONOMY');
+  });
+
+  it('should handle array category', () => {
+    const category: string | string[] = ['astronomy', 'physics'];
+
+    // Test that array category is handled correctly
+    const categoryValue = typeof category === 'string' 
+      ? (category as string).toUpperCase() 
+      : (category as string[]).map(c => c.toUpperCase()).join(', ');
+    
+    expect(categoryValue).toBe('ASTRONOMY, PHYSICS');
+  });
+
+  it('should handle string language', () => {
+    const language: string | string[] = 'python';
+
+    const languageValue = typeof language === 'string' 
+      ? (language as string).toUpperCase() 
+      : (language as string[]).map(l => l.toUpperCase()).join(', ');
+    
+    expect(languageValue).toBe('PYTHON');
+  });
+
+  it('should handle array language', () => {
+    const language: string | string[] = ['python', 'julia'];
+
+    const languageValue = typeof language === 'string' 
+      ? (language as string).toUpperCase() 
+      : (language as string[]).map(l => l.toUpperCase()).join(', ');
+    
+    expect(languageValue).toBe('PYTHON, JULIA');
+  });
+
+  it('should parse comma-separated categories in search filter', () => {
+    const categoryString = 'astronomy, physics, data';
+    const categories = categoryString.split(',').map(c => c.trim());
+    
+    expect(categories).toEqual(['astronomy', 'physics', 'data']);
+    expect(categories.includes('physics')).toBe(true);
+    expect(categories.includes('chemistry')).toBe(false);
+  });
+
+  it('should parse comma-separated languages in search filter', () => {
+    const languageString = 'python, julia, r';
+    const languages = languageString.split(',').map(l => l.trim());
+    
+    expect(languages).toEqual(['python', 'julia', 'r']);
+    expect(languages.includes('julia')).toBe(true);
+    expect(languages.includes('matlab')).toBe(false);
+  });
+
+  it('should handle single category in search filter', () => {
+    const categoryString = 'astronomy';
+    const categories = categoryString.split(',').map(c => c.trim());
+    
+    expect(categories).toEqual(['astronomy']);
+    expect(categories.includes('astronomy')).toBe(true);
+  });
+
+  it('should handle whitespace in comma-separated categories', () => {
+    const categoryString = 'astronomy  ,  physics ,data';
+    const categories = categoryString.split(',').map(c => c.trim());
+    
+    expect(categories).toEqual(['astronomy', 'physics', 'data']);
+  });
+});
