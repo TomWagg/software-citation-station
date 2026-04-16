@@ -12,7 +12,7 @@ import { RemoteDataProvider, DEFAULT_BASE_URL } from "./remoteData";
 import { parseEnvironmentFile, expandDependencies } from "./shared";
 
 type OutputFormat = "text" | "json";
-type Command = "list" | "show" | "cite" | "parse" | "submit";
+type Command = "list" | "show" | "cite" | "submit";
 
 interface ParsedFlags {
   format: OutputFormat;
@@ -45,7 +45,6 @@ COMMANDS
   list                      List all available packages
   show <package>            Show details about a specific package
   cite <package...>         Generate citations for packages
-  parse <file>              Parse requirements.txt or conda env file
   submit <package>          Generate submission template for new package
 
 GLOBAL OPTIONS
@@ -131,28 +130,6 @@ EXAMPLES
   Show dependencies only:
     scs cite scipy --deps
     scs cite scipy numpy --deps --json
-`);
-}
-
-export function printParseHelp(): void {
-  console.log(`scs parse - Parse requirements file and show packages
-
-USAGE
-  scs parse <file> [options]
-
-ARGUMENTS
-  file                      Requirements.txt or conda environment file
-
-OPTIONS
-  --json                    Output in JSON format
-  --auto-deps               Expand with dependencies (default: enabled)
-  --no-auto-deps            Disable automatic dependency expansion
-  --help, -h                Show this help message
-
-EXAMPLES
-  scs parse requirements.txt
-  scs parse environment.yaml --json
-  scs parse requirements.txt --no-auto-deps
 `);
 }
 
@@ -327,11 +304,8 @@ async function main(): Promise<void> {
       case "show":
         printShowHelp();
         break;
-      case "cite":
+            case "cite":
         printCiteHelp();
-        break;
-      case "parse":
-        printParseHelp();
         break;
       case "submit":
         printSubmitHelp();
@@ -387,75 +361,6 @@ async function main(): Promise<void> {
     return;
   }
 
-  if (command === "parse") {
-    const filename = flags.positional[0] || flags.file;
-    if (!filename) {
-      throw new Error("parse requires a filename.");
-    }
-
-    let content: string;
-    try {
-      content = readFileSync(filename, "utf-8");
-    } catch (error) {
-      const err = new Error(`Failed to read file "${filename}": ${error instanceof Error ? error.message : String(error)}`);
-      (err as any).cause = error;
-      throw err;
-    }
-
-    const parsed = parseEnvironmentFile(content, filename);
-    const citations = await dataProvider.getCitations();
-
-    // Expand dependencies if auto-deps is enabled
-    let expandedPackages = parsed.packages;
-    if (flags.autoDeps) {
-      expandedPackages = expandDependencies(parsed.packages, citations, { autoExpand: true });
-    }
-
-    // Resolve packages to latest versions from cached data on server
-    const baseUrl = process.env.SCS_BASE_URL ?? DEFAULT_BASE_URL;
-    const packagesWithVersions = await Promise.all(expandedPackages.map(async (pkg) => {
-      const citation = citations[pkg];
-      if (citation?.zenodo_doi) {
-        try {
-          // Fetch cached version data from server (fast!)
-          const url = `${baseUrl}/data/zenodo-versions/${encodeURIComponent(pkg)}.json`;
-          const response = await fetch(url);
-          if (response.ok) {
-            const versions = await response.json() as ZenodoVersion[];
-            const latestVersion = versions.length > 0 ? versions[0].version : 'unknown';
-            return `${pkg}==${latestVersion}`;
-          }
-        } catch {
-          // Fall through to show package name only
-        }
-        return pkg;
-      } else if (citation) {
-        // No Zenodo - just show package name
-        return pkg;
-      } else {
-        // Unknown package
-        return `${pkg} (unknown)`;
-      }
-    }));
-
-    if (flags.format === "json") {
-      console.log(JSON.stringify({
-        source: parsed.source,
-        pythonVersion: parsed.pythonVersion,
-        packages: parsed.packages,
-        expandedPackages: flags.autoDeps ? expandedPackages : undefined,
-        packagesWithVersions: packagesWithVersions
-      }, null, 2));
-    } else {
-      console.log(`Source: ${parsed.source}`);
-      if (parsed.pythonVersion) {
-        console.log(`Python version: ${parsed.pythonVersion}`);
-      }
-      console.log(`\nPackages (${packagesWithVersions.length}):`);
-      console.log(packagesWithVersions.sort().join("\n"));
-    }
-    return;
-  }
 
   if (command === "cite") {
     let packageNames: string[] = [];

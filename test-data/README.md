@@ -20,13 +20,6 @@ A sample conda environment export file. Contains both conda packages and pip pac
 
 ### Using the CLI
 ```bash
-# Parse and show packages
-scs parse test-data/requirements.txt
-scs parse test-data/environment.yaml
-
-# Parse with JSON output
-scs parse test-data/requirements.txt --json
-
 # Cite all packages from file
 scs cite --file test-data/requirements.txt
 scs cite --file test-data/environment.yaml

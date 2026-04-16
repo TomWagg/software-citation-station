@@ -1,4 +1,5 @@
 
+
 .DS_Store
 
 *.synctex.gz
@@ -8,4 +9,6 @@
 # Node.js
 node_modules/
 dist/
+
+# Test coverage
 coverage/

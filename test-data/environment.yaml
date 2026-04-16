@@ -4,7 +4,6 @@
 # Usage:
 #   Website: Click "Upload and Parse File" and select this file
 #   CLI: scs cite --file test-data/environment.yaml
-#        scs parse test-data/environment.yaml
 
 name: scs-test-env
 channels:

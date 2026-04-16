@@ -473,32 +473,3 @@ describe("CLI commands (integration)", () => {
     });
   });
 
-  describe("parse command", () => {
-    it("should parse requirements.txt format", async () => {
-      const { parseRequirementsTxt } = await import('../src/shared/fileParser');
-      
-      const content = 'numpy==1.24.0\nscipy==1.10.0';
-      const result = parseRequirementsTxt(content);
-      
-      expect(result.packages).toContain('numpy');
-      expect(result.packages).toContain('scipy');
-    });
-
-    it("should parse conda env format", async () => {
-      const { parseCondaEnvYaml } = await import('../src/shared/fileParser');
-      
-      const content = `
-name: testenv
-dependencies:
-  - python=3.9
-  - numpy=1.24.0
-  - pip:
-    - scipy==1.10.0
-`;
-      const result = parseCondaEnvYaml(content);
-      
-      expect(result.packages).toContain('numpy');
-      expect(result.packages).toContain('scipy');
-    });
-  });
-});

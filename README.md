@@ -61,10 +61,6 @@ scs cite scipy==1.10.0 numpy==1.24.0   # Specific versions
 scs cite scipy --ack                    # Acknowledgement only
 scs cite scipy --bibtex                 # BibTeX only
 scs cite scipy --deps                   # Show dependencies
-
-# Parse files
-scs parse requirements.txt
-scs parse environment.yaml --json
 scs cite --file requirements.txt        # Cite from file
 
 # Options
@@ -77,7 +73,6 @@ scs cite scipy --no-auto-deps           # Disable auto-dependencies
 npm run cli -- list
 npm run cli -- show scipy
 npm run cli -- cite scipy numpy
-npm run cli -- parse requirements.txt
 ```
 
 ---
