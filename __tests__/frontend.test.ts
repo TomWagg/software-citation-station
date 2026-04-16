@@ -754,7 +754,6 @@ describe('createVersionPicker', () => {
 
     // Create first version picker
     await createVersionPicker('scipy', '10.5281/zenodo.595738');
-    const firstPicker = document.getElementById('scipy-version-picker');
 
     // Try to create again
     await createVersionPicker('scipy', '10.5281/zenodo.595738');

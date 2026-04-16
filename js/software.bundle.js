@@ -1,7 +1,7 @@
 /**
  * Software Citation Station - Frontend Bundle
  * Generated automatically by bundle-frontend.js
- * Build time: 2026-04-16T00:03:21.985Z
+ * Build time: 2026-04-16T01:36:22.584Z
  */
 
 (function() {
@@ -552,13 +552,24 @@ async function initSoftwareCitationStation() {
             btn.setAttribute('data-keywords', citation.keywords?.join(',') || '');
             btn.setAttribute('data-pypi-name', citation.pypi_name || '');
             btn.setAttribute('data-dependencies', citation.dependencies?.join(',') || '');
-            btn.setAttribute('data-category', capitalize(citation.category));
+            // Handle category (can be string or array)
+            const cat = citation.category;
+            if (Array.isArray(cat)) {
+                btn.setAttribute('data-category', cat.map(c => capitalize(c)).join(', '));
+            }
+            else {
+                btn.setAttribute('data-category', capitalize(cat));
+            }
+            // Handle language (can be string or array)
             const lang = citation.language;
-            if (typeof lang === 'string') {
+            if (Array.isArray(lang)) {
+                btn.setAttribute('data-language', lang.map(l => capitalize(l)).join(', '));
+            }
+            else if (typeof lang === 'string') {
                 btn.setAttribute('data-language', capitalize(lang));
             }
             else {
-                btn.setAttribute('data-language', lang.map(l => capitalize(l)).join(', '));
+                btn.setAttribute('data-language', '');
             }
             btn.querySelector('.software-name').innerHTML = `<pre>${key}</pre>`;
             btn.id = '';
@@ -1056,8 +1067,18 @@ function handleSearch() {
         const language = btn.getAttribute('data-language') || '';
         const keywords = btn.getAttribute('data-keywords')?.toLowerCase() || '';
         const matchesSearch = !searchTerm || name.includes(searchTerm) || keywords.includes(searchTerm);
-        const matchesCategory = selectedCategory === 'all' || category === selectedCategory;
-        const matchesLanguage = selectedLanguage === 'all' || language.includes(selectedLanguage);
+        // Check if category matches (supports multiple categories)
+        let matchesCategory = selectedCategory === 'all';
+        if (!matchesCategory) {
+            const categories = category.split(',').map(c => c.trim());
+            matchesCategory = categories.includes(selectedCategory);
+        }
+        // Check if language matches (supports multiple languages)
+        let matchesLanguage = selectedLanguage === 'all';
+        if (!matchesLanguage) {
+            const languages = language.split(',').map(l => l.trim());
+            matchesLanguage = languages.includes(selectedLanguage);
+        }
         if (matchesSearch && matchesCategory && matchesLanguage) {
             btn.classList.remove('hide');
             visibleCount++;

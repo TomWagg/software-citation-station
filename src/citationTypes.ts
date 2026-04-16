@@ -3,7 +3,7 @@ export interface CitationPackage {
   logo: string;
   logo_background?: boolean;
   language: string | string[];
-  category: string;
+  category: string | string[];
   keywords: string[];
   description: string;
   link: string;
