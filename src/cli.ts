@@ -38,76 +38,176 @@ export function printUsage(): void {
 Generate citations and acknowledgements for software packages with proper DOI references.
 
 USAGE
-  scs <command> [options] [arguments]
+  scs <command> [options]
+  scs <command> --help    Show help for specific command
 
 COMMANDS
-  list                        List all available packages
-  show <package>              Show details about a specific package
-  cite <package...>           Generate citations for one or more packages
-  parse <file>                Parse requirements.txt or conda env file
-  submit <package>            Generate submission template for a new package
+  list                      List all available packages
+  show <package>            Show details about a specific package
+  cite <package...>         Generate citations for packages
+  parse <file>              Parse requirements.txt or conda env file
+  submit <package>          Generate submission template for new package
+
+GLOBAL OPTIONS
+  --json                    Output in JSON format
+  --help, -h                Show this help message
+
+Run 'scs <command> --help' for command-specific options and examples.
+
+MORE INFORMATION
+  Full documentation at: https://www.tomwagg.com/software-citation-station/
+  `);
+}
+
+export function printListHelp(): void {
+  console.log(`scs list - List all available packages
+
+USAGE
+  scs list [options]
 
 OPTIONS
-  --acknowledgement, --ack    Output only acknowledgement text
-  --bibtex                    Output only BibTeX citation
-  --deps                      Output only dependencies
-  --no-auto-deps              Disable automatic dependency expansion
-  --json                      Output in JSON format (default: plain text)
-  --file, -f                  Parse packages from file (requirements.txt or conda env.yaml)
-  --help, -h                  Show this help message
-
-SUBMIT OPTIONS
-  --description               Package description
-  --link                      Project homepage URL
-  --attribution-link          URL with citation instructions
-  --zenodo-doi                Zenodo concept DOI
-  --language                  Programming language (default: python)
-  --category                  Category (default: general)
-  --tags                      Comma-separated citation tags
-
-  By default, 'scs cite' shows package list (with inferred dependencies),
-  acknowledgement, and BibTeX citation. Use these flags to output only one
-  specific format.
+  --json                    Output in JSON format
+  --help, -h                Show this help message
 
 EXAMPLES
-  List all available packages:
-    scs list
-    scs list --json
+  scs list
+  scs list --json
+`);
+}
 
-  Show package list with dependencies:
-    scs cite scipy --deps
-    scs cite scipy numpy --deps --json
+export function printShowHelp(): void {
+  console.log(`scs show - Show details about a specific package
 
-  Show package details:
-    scs show scipy
-    scs show numpy --json
+USAGE
+  scs show <package> [options]
 
-  Generate citations (latest versions):
+ARGUMENTS
+  package                   Name of the package to show
+
+OPTIONS
+  --json                    Output in JSON format
+  --help, -h                Show this help message
+
+EXAMPLES
+  scs show scipy
+  scs show numpy --json
+`);
+}
+
+export function printCiteHelp(): void {
+  console.log(`scs cite - Generate citations for software packages
+
+USAGE
+  scs cite <package...> [options]
+  scs cite --file <file> [options]
+
+ARGUMENTS
+  package                   Package names (can include versions: scipy==1.10.0)
+
+OPTIONS
+  --acknowledgement, --ack  Output only acknowledgement text
+  --bibtex                  Output only BibTeX citation
+  --deps                    Output only dependencies
+  --no-auto-deps            Disable automatic dependency expansion
+  --json                    Output in JSON format
+  --file, -f                Parse packages from file
+  --help, -h                Show this help message
+
+EXAMPLES
+  Cite packages (latest versions):
     scs cite scipy numpy
     scs cite scipy --ack
     scs cite scipy --bibtex
     scs cite scipy --json
 
-  Generate citations (specific versions):
+  Cite specific versions:
     scs cite scipy==1.10.0 numpy==1.24.0
     scs cite scipy==1.10.0 --bibtex
 
-  Parse requirements file and cite:
-    scs parse requirements.txt
-    scs parse environment.yaml --json
+  Cite from file:
     scs cite --file requirements.txt
     scs cite -f environment.yaml --deps
 
-  Disable auto-dependency expansion:
-    scs cite scipy --no-auto-deps
+  Show dependencies only:
+    scs cite scipy --deps
+    scs cite scipy numpy --deps --json
+`);
+}
 
-ENVIRONMENT VARIABLES
-  SCS_BASE_URL    Custom base URL for data
-                  (default: ${DEFAULT_BASE_URL})
+export function printParseHelp(): void {
+  console.log(`scs parse - Parse requirements file and show packages
 
-MORE INFORMATION
-  Full documentation at: https://www.tomwagg.com/software-citation-station/
-  `);
+USAGE
+  scs parse <file> [options]
+
+ARGUMENTS
+  file                      Requirements.txt or conda environment file
+
+OPTIONS
+  --json                    Output in JSON format
+  --auto-deps               Expand with dependencies (default: enabled)
+  --no-auto-deps            Disable automatic dependency expansion
+  --help, -h                Show this help message
+
+EXAMPLES
+  scs parse requirements.txt
+  scs parse environment.yaml --json
+  scs parse requirements.txt --no-auto-deps
+`);
+}
+
+export function printSubmitHelp(): void {
+  console.log(`scs submit - Generate submission template for a new package
+
+USAGE
+  scs submit <package-name> [options]
+
+ARGUMENTS
+  package-name              Name of the package to submit
+
+OPTIONS
+  --description             Package description (required)
+  --link                    Project homepage URL (required)
+  --attribution-link        URL with citation instructions (required)
+  --zenodo-doi              Zenodo concept DOI for all versions
+  --language                Programming language (default: python)
+  --category                Category (default: general)
+  --tags                    Comma-separated citation tags
+  --json                    Output JSON only (default: shows formatted template)
+  --help, -h                Show this help message
+
+REQUIRED FIELDS
+  --link, --description, and --attribution-link must be provided.
+  Without these, a template with placeholders will be shown.
+
+EXAMPLES
+  Generate interactive template:
+    scs submit mypackage
+
+  Generate JSON template:
+    scs submit mypackage --json
+
+  Submit with all required fields:
+    scs submit mypackage \\
+      --link "https://github.com/user/mypackage" \\
+      --description "My awesome package" \\
+      --attribution-link "https://github.com/user/mypackage#citation"
+
+  Submit with all options:
+    scs submit mypackage \\
+      --link "https://github.com/user/mypackage" \\
+      --description "My awesome package" \\
+      --attribution-link "https://github.com/user/mypackage#citation" \\
+      --zenodo-doi "10.5281/zenodo.123456" \\
+      --language python \\
+      --category data \\
+      --tags "mypackage,2024paper"
+
+OUTPUT
+  The command generates a JSON template for adding to data/citations.json.
+  Submit by creating a PR to:
+  https://github.com/tomwagg/software-citation-station
+`);
 }
 
 export function parseFlags(args: string[]): ParsedFlags {
@@ -217,6 +317,31 @@ async function main(): Promise<void> {
   }
 
   const command = argv[0] as Command;
+  
+  // Check for command-specific help
+  if (argv.includes("--help") || argv.includes("-h")) {
+    switch (command) {
+      case "list":
+        printListHelp();
+        break;
+      case "show":
+        printShowHelp();
+        break;
+      case "cite":
+        printCiteHelp();
+        break;
+      case "parse":
+        printParseHelp();
+        break;
+      case "submit":
+        printSubmitHelp();
+        break;
+      default:
+        printUsage();
+    }
+    process.exit(0);
+  }
+
   const flags = parseFlags(argv.slice(1));
   const baseUrl = process.env.SCS_BASE_URL ?? DEFAULT_BASE_URL;
   const dataProvider = new RemoteDataProvider(baseUrl);
