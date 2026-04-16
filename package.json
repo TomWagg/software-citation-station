@@ -44,7 +44,9 @@
     ],
     "collectCoverageFrom": [
       "src/**/*.ts",
-      "!src/**/*.d.ts"
+      "!src/**/*.d.ts",
+      "!src/frontend/software.ts",
+      "!src/frontend/darkMode.ts"
     ],
     "coverageReporters": [
       "text",

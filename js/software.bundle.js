@@ -1,7 +1,7 @@
 /**
  * Software Citation Station - Frontend Bundle
  * Generated automatically by bundle-frontend.js
- * Build time: 2026-04-16T01:58:07.230Z
+ * Build time: 2026-04-16T02:26:24.047Z
  */
 
 (function() {
@@ -684,7 +684,8 @@ function handleSoftwareClick(btn) {
                 toast.querySelector('.main-package').textContent = btn.getAttribute('data-key');
                 toast.querySelector('.dependencies').textContent = previouslyUnselected.join(', ');
                 document.getElementById('toaster')?.appendChild(toast);
-                const bsToast = new window.bootstrap.Toast(toast);
+                // Use Bootstrap's Toast API
+                const bsToast = window.bootstrap.Toast.getOrCreateInstance(toast);
                 bsToast.show();
                 toast.addEventListener('hidden.bs.toast', () => {
                     toast.remove();
@@ -1211,7 +1212,7 @@ function handleFileUpload(event) {
                         toast.querySelector('.main-package').textContent = file.name;
                         toast.querySelector('.dependencies').textContent = `${selectedCount} packages selected${missingSoftwares.length > 0 ? `, ${missingSoftwares.length} missing` : ''}`;
                         document.getElementById('toaster')?.appendChild(toast);
-                        const bsToast = new window.bootstrap.Toast(toast);
+                        const bsToast = window.bootstrap.Toast.getOrCreateInstance(toast);
                         bsToast.show();
                         toast.addEventListener('hidden.bs.toast', () => {
                             toast.remove();
@@ -1312,7 +1313,7 @@ function showToastNotification(title, body, type, isHtml = true) {
     </div>
   `;
     toastContainer.appendChild(toast);
-    const bsToast = new window.bootstrap.Toast(toast);
+    const bsToast = window.bootstrap.Toast.getOrCreateInstance(toast);
     bsToast.show();
     toast.addEventListener('hidden.bs.toast', () => {
         toast.remove();

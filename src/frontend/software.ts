@@ -321,10 +321,11 @@ function handleSoftwareClick(btn: HTMLButtonElement): void {
         toast.querySelector('.main-package')!.textContent = btn.getAttribute('data-key')!;
         toast.querySelector('.dependencies')!.textContent = previouslyUnselected.join(', ');
         document.getElementById('toaster')?.appendChild(toast);
-        
-        const bsToast = new (window as any).bootstrap.Toast(toast);
+
+        // Use Bootstrap's Toast API
+        const bsToast = (window as any).bootstrap.Toast.getOrCreateInstance(toast);
         bsToast.show();
-        
+
         toast.addEventListener('hidden.bs.toast', () => {
           toast.remove();
         });
@@ -915,7 +916,7 @@ function handleFileUpload(event: Event): void {
             toast.querySelector('.dependencies')!.textContent = `${selectedCount} packages selected${missingSoftwares.length > 0 ? `, ${missingSoftwares.length} missing` : ''}`;
             document.getElementById('toaster')?.appendChild(toast);
 
-            const bsToast = new (window as any).bootstrap.Toast(toast);
+            const bsToast = (window as any).bootstrap.Toast.getOrCreateInstance(toast);
             bsToast.show();
 
             toast.addEventListener('hidden.bs.toast', () => {
@@ -1022,7 +1023,7 @@ function showToastNotification(title: string, body: string, type: string, isHtml
   `;
 
   toastContainer.appendChild(toast);
-  const bsToast = new (window as any).bootstrap.Toast(toast);
+  const bsToast = (window as any).bootstrap.Toast.getOrCreateInstance(toast);
   bsToast.show();
 
   toast.addEventListener('hidden.bs.toast', () => {
