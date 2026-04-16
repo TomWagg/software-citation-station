@@ -26,7 +26,9 @@
     <a href="https://arxiv.org/abs/2406.04405">this link</a>.
 </p>
 
-## CLI Installation
+## CLI
+
+### Installation
 
 The Software Citation Station CLI (`scs`) can be installed globally:
 
@@ -49,7 +51,7 @@ After installation, you can use the `scs` command from anywhere:
 scs --help
 ```
 
-## CLI Usage
+### Commands
 
 ```bash
 # List all available packages
@@ -64,59 +66,26 @@ scs show numpy --json
 scs cite scipy numpy
 scs cite scipy --acknowledgement
 scs cite scipy --bibtex
+scs cite scipy --json
 
 # Generate citations (specific versions)
 scs cite scipy==1.10.0 numpy==1.24.0
+scs cite scipy==1.10.0 --bibtex
 
 # Show dependencies
 scs cite scipy --deps
 scs cite scipy numpy --deps --json
-```
 
-### Development
+# Parse environment files
+scs parse requirements.txt
+scs parse environment.yaml --json
 
-This project uses TypeScript for both backend (CLI) and frontend (website). The codebase is organized to share common logic between the CLI and website, eliminating duplication.
+# Cite from file
+scs cite --file requirements.txt
+scs cite -f environment.yaml --deps
 
-### Project Structure
-
-```
-src/
-├── shared/              # Shared modules used by both CLI and frontend
-│   ├── fileParser.ts    # Parse requirements.txt and conda env files
-│   ├── dependencyResolver.ts  # Auto-expand package dependencies
-│   └── index.ts         # Shared module exports
-├── cli/
-│   └── cli.ts           # CLI entry point
-├── frontend/
-│   ├── software.ts      # Main website UI logic
-│   ├── darkMode.ts      # Dark mode toggle
-│   └── citationCore.ts  # Frontend citation data provider
-└── *.ts                 # Other backend modules (citationEngine, bibtex, etc.)
-```
-
-### Setup
-
-```bash
-# Install dependencies
-npm install
-
-# Build everything (backend + frontend)
-npm run build:all
-
-# Or build separately:
-npm run build          # Backend TypeScript only
-npm run build:frontend # Frontend TypeScript bundle
-npm run build:timestamp # Generate build timestamp
-```
-
-### Testing
-
-```bash
-# Run all tests
-npm test
-
-# Run tests with coverage
-npm test -- --coverage
+# Disable auto-dependency expansion
+scs cite scipy --no-auto-deps
 ```
 
 ### Testing the CLI during development
@@ -131,6 +100,53 @@ npm run cli -- parse requirements.txt
 npm run cli -- cite --file environment.yaml
 ```
 
+## Development
+
+This project uses TypeScript for both backend (CLI) and frontend (website). The codebase is organized to share common logic between the CLI and website, eliminating duplication.
+
+### Project Structure
+
+```
+src/
+├── shared/              # Shared modules used by both CLI and frontend
+│   ├── fileParser.ts    # Parse requirements.txt and conda env files
+│   ├── dependencyResolver.ts  # Auto-expand package dependencies
+│   └── index.ts         # Shared module exports
+├── frontend/
+│   ├── software.ts      # Main website UI logic
+│   ├── darkMode.ts      # Dark mode toggle
+│   └── citationCore.ts  # Frontend citation data provider
+├── cli.ts               # CLI entry point
+├── citationEngine.ts    # Citation generation logic
+├── remoteData.ts        # Remote data provider
+├── bibtex.ts            # BibTeX utilities
+└── citationTypes.ts     # TypeScript interfaces
+```
+
+### Setup
+
+```bash
+# Install dependencies
+npm install
+
+# Build everything (backend + frontend)
+npm run build:all
+
+# Or build separately:
+npm run build          # Backend TypeScript (CLI)
+npm run build:frontend # Frontend TypeScript bundle
+```
+
+### Testing
+
+```bash
+# Run all tests
+npm test
+
+# Run tests with coverage
+npm test -- --coverage
+```
+
 ### Local Development for Website
 
 For local testing of the website:
@@ -139,46 +155,15 @@ For local testing of the website:
 # Build the frontend
 npm run build:frontend
 
-# Option 1: Use a simple HTTP server
+# Serve with a local HTTP server
 npx http-server .
-
-# Option 2: Use Python's built-in server
+# or
 python -m http.server 8000
 ```
 
-Then open `http://localhost:8000` (or the port shown) in your browser.
+Then open `http://localhost:8000` in your browser.
 
-**Note:** The frontend loads data from `data/` directory and expects to be served from a web server (not `file://` protocol) due to CORS restrictions.
-
-### CLI Commands
-
-The CLI (`scs`) supports the following commands:
-
-```bash
-# List packages
-scs list
-scs list --json
-
-# Show package details
-scs show scipy
-scs show numpy --json
-
-# Generate citations
-scs cite scipy numpy           # Latest versions, auto-expand dependencies
-scs cite scipy --ack           # Acknowledgement only
-scs cite scipy --bibtex        # BibTeX only
-scs cite scipy==1.10.0         # Specific version
-scs cite scipy --no-auto-deps  # Disable auto-dependency expansion
-
-# Parse environment files
-scs parse requirements.txt     # Show packages from pip freeze
-scs parse environment.yaml     # Show packages from conda env export
-scs parse requirements.txt --json --no-auto-deps
-
-# Cite from file
-scs cite --file requirements.txt
-scs cite -f environment.yaml --deps
-```
+**Note:** The frontend requires a web server (not `file://` protocol) due to CORS restrictions.
 
 ### Build Scripts
 
@@ -186,30 +171,24 @@ scs cite -f environment.yaml --deps
 |--------|-------------|
 | `npm run build` | Build backend TypeScript (CLI) |
 | `npm run build:frontend` | Build and bundle frontend TypeScript |
-| `npm run build:timestamp` | Generate build timestamp file |
 | `npm run build:all` | Build everything |
 | `npm test` | Run Jest tests |
+| `npm run lint` | Run ESLint |
 | `npm run cli` | Run CLI without global install |
 | `npm run fetch-versions` | Fetch Zenodo versions cache |
 
-### GitHub Actions Workflows
+### GitHub Actions
 
 The project uses GitHub Actions for:
 
-1. **Run Unit Tests** (`test.yml`) - Runs on every push and PR
-2. **Deploy to GitHub Pages** (`deploy.yml`) - Builds and deploys the website on push to main
-3. **Fetch Zenodo Versions** (`fetch-zenodo-versions.yml`) - Daily update of version cache
-4. **Tidy BibTeX** (`bibtex-tidy.yml`) - Auto-format BibTeX files
-
-The deployment workflow:
-- Builds backend TypeScript
-- Builds and bundles frontend TypeScript to `dist/software.js`
-- Generates `dist/build-timestamp.json` with build time
-- Deploys the entire repository to GitHub Pages
+1. **Unit Tests** - Runs on every push and PR
+2. **E2E Tests** - Playwright browser tests
+3. **Deploy to GitHub Pages** - Builds and deploys on push to main
+4. **Fetch Zenodo Versions** - Daily update of version cache (upstream only)
 
 ### Adding Tests
 
-Tests are in `__tests__/` directory using Jest and ts-jest:
+Tests use Jest and are in `__tests__/`:
 
 ```bash
 # Run specific test file
@@ -218,5 +197,3 @@ npm test -- cli.test.ts
 # Run tests matching a pattern
 npm test -- --testNamePattern="CLI flag"
 ```
-
-When adding new shared modules, create corresponding test files in `__tests__/shared/`.
