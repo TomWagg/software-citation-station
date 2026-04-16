@@ -5,6 +5,10 @@
   "bin": {
     "scs": "dist/cli.js"
   },
+  "files": [
+    "dist/",
+    "data/"
+  ],
   "scripts": {
     "test": "jest --coverage",
     "test:e2e": "playwright test",
