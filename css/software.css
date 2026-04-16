@@ -301,6 +301,14 @@ body.dark #bibtex-wrapper:after {
     color: #85b12a;
 }
 
+.bibtex-type {
+    color: #c7265f;
+}
+
+.bibtex-field {
+    color: #85b12a;
+}
+
 .latex-command {
     color: #c7265f;
 }
