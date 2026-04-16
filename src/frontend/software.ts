@@ -423,7 +423,7 @@ export async function createVersionPicker(packageName: string, conceptDoi: strin
 }
 
 /**
- * Fetch versions from Zenodo API and populate dropdown
+ * Load versions from cached JSON and populate dropdown
  */
 export async function populateVersions(
   packageName: string,
@@ -431,57 +431,29 @@ export async function populateVersions(
   versionSelect: HTMLSelectElement | null
 ): Promise<void> {
   if (!versionSelect) return;
-  
-  const pageSize = 25;
-  const baseUrl = `https://zenodo.org/api/records?q=conceptdoi:"${conceptDoi}"&all_versions=true&size=${pageSize}`;
-  
-  const versionAndDoi: Array<{ version: string; doi: string }> = [];
-  const versionsSoFar = new Set<string>();
-  
-  let expectedVersions = 100000;
-  let page = 1;
-  let nBadVersions = 0;
-  
+
   try {
-    while (versionAndDoi.length + nBadVersions < expectedVersions && page <= 40) {
-      const url = `${baseUrl}&page=${page}`;
-      const response = await fetch(url);
-      
-      // Handle rate limiting
-      if (response.status === 429) {
-        const waitTime = 60000; // 60 seconds
-        console.warn(`Rate limited. Waiting ${waitTime}ms...`);
-        await new Promise(resolve => setTimeout(resolve, waitTime));
-        continue;
-      }
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      
-      const data = await response.json();
-      expectedVersions = data.hits.total;
-      
-      for (const hit of data.hits.hits) {
-        const version = hit.metadata.version;
-        if (version && version !== undefined && !versionsSoFar.has(version)) {
-          versionAndDoi.push({ version, doi: String(hit.id) });
-          versionsSoFar.add(version);
-        } else {
-          nBadVersions++;
-        }
-      }
-      page++;
+    // Fetch cached version data
+    const response = await fetch(`data/zenodo-versions/${encodeURIComponent(packageName)}.json`);
+    
+    if (!response.ok) {
+      console.warn(`No cached version data for ${packageName}`);
+      versionSelect.classList.remove('hide');
+      const waiter = versionSelect.parentElement?.querySelector('.waiter');
+      if (waiter) waiter.classList.add('hide');
+      return;
     }
     
-    // Populate dropdown
+    const versionAndDoi = await response.json() as Array<{ version: string; doi: string }>;
+
+    // Populate dropdown (already sorted from cache)
     for (const { version, doi } of versionAndDoi) {
       const option = document.createElement('option');
       option.value = doi;
       option.textContent = version;
       versionSelect.appendChild(option);
     }
-    
+
     // Hide waiter, show select
     const waiter = versionSelect.parentElement?.querySelector('.waiter');
     if (waiter) {

@@ -573,20 +573,15 @@ describe('populateVersions', () => {
     cleanupMockDOM();
   });
 
-  it('should populate version select with Zenodo API data', async () => {
-    const mockZenodoResponse = {
-      hits: {
-        total: 2,
-        hits: [
-          { id: 123, metadata: { version: '1.0.0' } },
-          { id: 456, metadata: { version: '1.1.0' } }
-        ]
-      }
-    };
+  it('should populate version select from cached JSON', async () => {
+    const mockCachedVersions = [
+      { version: '1.0.0', doi: '10.5281/zenodo.123' },
+      { version: '1.1.0', doi: '10.5281/zenodo.456' }
+    ];
 
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
-      json: () => Promise.resolve(mockZenodoResponse)
+      json: () => Promise.resolve(mockCachedVersions)
     });
 
     const versionSelect = document.createElement('select');
@@ -595,62 +590,41 @@ describe('populateVersions', () => {
 
     await populateVersions('testpkg', '10.5281/zenodo.test', versionSelect);
 
-    expect(fetch).toHaveBeenCalledWith(
-      expect.stringContaining('zenodo.org/api/records?q=conceptdoi:"10.5281/zenodo.test"')
-    );
-    
+    expect(fetch).toHaveBeenCalledWith('data/zenodo-versions/testpkg.json');
+
     // Should have added 2 version options plus the default
     expect(versionSelect.options.length).toBe(3);
-    expect(versionSelect.options[1].value).toBe('123');
+    expect(versionSelect.options[1].value).toBe('10.5281/zenodo.123');
     expect(versionSelect.options[1].textContent).toBe('1.0.0');
-    expect(versionSelect.options[2].value).toBe('456');
+    expect(versionSelect.options[2].value).toBe('10.5281/zenodo.456');
     expect(versionSelect.options[2].textContent).toBe('1.1.0');
   });
 
-  it('should handle rate limiting (429)', async () => {
-    const mockZenodoResponse = {
-      hits: {
-        total: 1,
-        hits: [{ id: 123, metadata: { version: '1.0.0' } }]
-      }
-    };
-
-    // First request gets rate limited, second succeeds
-    (global.fetch as jest.Mock)
-      .mockResolvedValueOnce({ status: 429 })
-      .mockResolvedValueOnce({
-        ok: true,
-        json: () => Promise.resolve(mockZenodoResponse)
-      });
+  it('should handle missing cached file gracefully', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: false,
+      status: 404
+    });
 
     const versionSelect = document.createElement('select');
+    versionSelect.className = 'version-select hide';
     versionSelect.innerHTML = '<option value="-">Select version</option>';
-
-    // Skip the actual wait time by mocking setTimeout
-    jest.spyOn(global, 'setTimeout').mockImplementation((cb: any) => {
-      cb();
-      return 0 as any;
-    });
 
     await populateVersions('testpkg', '10.5281/zenodo.test', versionSelect);
 
-    expect(fetch).toHaveBeenCalledTimes(2);
-    expect(versionSelect.options.length).toBe(2);
-    
-    jest.restoreAllMocks();
-  }, 10000);
+    // Should not add any options, just show the select
+    expect(versionSelect.options.length).toBe(1);
+    expect(versionSelect.classList.contains('hide')).toBe(false);
+  });
 
   it('should hide waiter and show select after loading', async () => {
-    const mockZenodoResponse = {
-      hits: {
-        total: 1,
-        hits: [{ id: 123, metadata: { version: '1.0.0' } }]
-      }
-    };
+    const mockCachedVersions = [
+      { version: '1.0.0', doi: '10.5281/zenodo.123' }
+    ];
 
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
-      json: () => Promise.resolve(mockZenodoResponse)
+      json: () => Promise.resolve(mockCachedVersions)
     });
 
     const container = document.createElement('div');
@@ -658,7 +632,7 @@ describe('populateVersions', () => {
     waiter.className = 'waiter';
     const versionSelect = document.createElement('select');
     versionSelect.className = 'version-select hide';
-    
+
     container.appendChild(waiter);
     container.appendChild(versionSelect);
 
