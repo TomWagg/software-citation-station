@@ -88,7 +88,7 @@
         ],
         "description": "The astropy package contains key functionality and common tools needed for performing astronomy and astrophysics with Python.",
         "link": "https://docs.astropy.org/en/stable/",
-        "zenodo_doi": "",
+        "zenodo_doi": "10.5281/zenodo.4670728",
         "attribution_link": "https://www.astropy.org/acknowledging.html",
         "custom_citation": "",
         "dependencies": [
@@ -303,15 +303,7 @@
         "custom_citation": ""
     },
     "COMPAS": {
-        "tags": [
-            "COMPAS",
-            "Barrett2018",
-            "Broekgaarden2019",
-            "Neijssel2019",
-            "Stevenson2019",
-            "Chattopadhyay2020",
-            "Riley2021"
-        ],
+        "tags": ["COMPAS"],
         "logo": "img/COMPAS.png",
         "language": [
             "c++"
@@ -328,9 +320,29 @@
         "description": "Compact Object Mergers: Population Astrophysics and Statistics (COMPAS) combines tools for statistical analysis and model selection with rapid population synthesis, allowing inferences to be made about the details of stellar and binary evolution.",
         "link": "https://compas.science/docs",
         "zenodo_doi": "",
+        "custom_citation": "",
         "attribution_link": "https://compas.readthedocs.io/en/latest/pages/how-to-cite.html",
-        "custom_citation": "Simulations in this paper made use of the COMPAS rapid binary population synthesis code (version X.Y.Z\\footnote{TODO: Update version number}), which is freely available at \\url{http://github.com/TeamCOMPAS/COMPAS} \\citep{COMPAS}. Model of gravitational wave selection effects based on \\citet{Barrett2018}. The STROOPWAFEL adaptive importance sampling algorithm is from \\citet{Broekgaarden2019}. Integration over cosmic star formation history outlined in \\citep{Neijssel2019}. COMPAS' model of (pulsational) pair instability supernova is from \\citet{Stevenson2019}. Pulsar spin and magnetic field evolution is from \\citet{Chattopadhyay2020}. Model of chemically homogeneous evolution is from \\citet{Riley2021}.",
-        "extra_bibtex": "@PREAMBLE{{\\providecommand{\\noopsort}[1]{}}}"
+        "extra_bibtex": "@PREAMBLE{{\\providecommand{\\noopsort}[1]{}}}",
+        "feature_tags": [
+            {
+                "Gravitational wave selection effects": ["Barrett2018"]
+            },
+            {
+                "STROOPWAFEL adaptive importance sampling algorithm": ["Broekgaarden2019"]
+            },
+            {
+                "Integration over cosmic star formation history": ["Neijssel2019"]
+            },
+            {
+                "Model of (pulsational) pair instability supernova": ["Stevenson2019"]
+            },
+            {
+                "Pulsar spin and magnetic field evolution": ["Chattopadhyay2020"]
+            },
+            {
+                "Model of chemically homogeneous evolution": ["Riley2021"]
+            }
+        ]
     },
     "COSMIC": {
         "tags": [
@@ -687,7 +699,21 @@
         "link": "https://camels.readthedocs.io/en/latest/",
         "zenodo_doi": "",
         "attribution_link": "https://camels.readthedocs.io/en/latest/citation.html",
-        "custom_citation": "This work made use of \\citet{CAMELS_presentation} \\footnote{TODO: If you use data from CAMELS-SAM please consider citing the CMD paper  \\citet{CMD} If you use data from CAMELS-SAM please consider citing the CAMELS-SAM paper \\citet{CAMELS-SAM}}"
+        "custom_citation": "",
+        "feature_tags": [
+            {
+                "CAMELS-SAM": ["CAMELS-SAM"]
+            },
+            {
+                "CAMELS Photometry": ["CAMELS-Photometry"]
+            },
+            {
+                "CAMELS Multifield Dataset": ["CAMELS-Multifield-Dataset"]
+            },
+            {
+                "CAMELS zoomGZ": ["CAMELS-zoomGZ"]
+            }
+        ]
     },
     "JAX": {
         "tags": [
@@ -934,7 +960,12 @@
         "link": "https://tardis-sn.github.io/",
         "attribution_link": "https://tardis-sn.github.io/credits/",
         "zenodo_doi": "10.5281/zenodo.592480",
-        "custom_citation": "This research made use of \\textsc{Tardis}, a community-developed software package for spectral synthesis in supernovae \\citep{2014MNRAS.440..387K, kerzendorf_wolfgang_2019_2590539}. The development of \\textsc{Tardis} received support from the Google Summer of Code initiative and from ESA\u2019s Summer of Code in Space program. \\textsc{Tardis} makes extensive use of Astropy \\citep{astropy:2013, astropy:2018, astropy:2022} and PyNE \\url{https://pyne.io/}. The Spectral modeling of type II supernovae is from \\citet{2019A&A...621A..29V}.\\footnote{TODO: remove astropy if already cited, remove 'The Spectral modeling of type II supernovae' if not used}. ",
+        "custom_citation": "This research made use of \\textsc{Tardis}, a community-developed software package for spectral synthesis in supernovae \\citep{2014MNRAS.440..387K, kerzendorf_wolfgang_2019_2590539}. The development of \\textsc{Tardis} received support from the Google Summer of Code initiative and from ESA’s Summer of Code in Space program. \\textsc{Tardis} makes extensive use of PyNE \\url{https://pyne.io/}.",
+        "feature_tags": [
+            {
+                "Spectral modeling of type II supernovae": ["2019A&A...621A..29V"]
+            }
+        ],
         "dependencies": [
             "astropy"
         ]
@@ -1134,7 +1165,7 @@
         "link": "https://arepo-code.org/",
         "attribution_link": "https://gitlab.mpcdf.mpg.de/vrs/arepo",
         "zenodo_doi": "",
-        "custom_citation": "A description of the numerical algorithms employed by the Arepo code is given in the original code papers \\citep{2010MNRAS.401..791S,2011MNRAS.418.1392P,2013MNRAS.432..176P,2016MNRAS.455.1134P} and the release paper of the public version \\citep{2020ApJS..248...32W}.",
+        "custom_citation": "This work uses Arepo. A description of the numerical algorithms employed by the Arepo code is given in the original code papers \\citep{2010MNRAS.401..791S,2011MNRAS.418.1392P,2013MNRAS.432..176P,2016MNRAS.455.1134P} and the release paper of the public version \\citep{2020ApJS..248...32W}.",
         "dependencies": []
     },
     "REBOUND": {
@@ -1490,7 +1521,15 @@
         "link": "https://umap-learn.readthedocs.io/",
         "attribution_link": "https://github.com/lmcinnes/umap?tab=readme-ov-file#citation",
         "zenodo_doi": "",
-        "custom_citation": "This research made use of \\texttt{umap-learn} \\citep{mcinnes2018umap-software, 2018arXivUMAP}\\footnote{{TODO}: include the following if used: the densMAP algorithm \\citep{NBC2020} and the Parametric UMAP algorithm \\citep{SMG2020}.}",
+        "custom_citation": "",
+        "feature_tags": [
+            {
+                "densMAP algorithm": ["NBC2020"]
+            },
+            {
+                "Parametric UMAP algorithm": ["SMG2020"]
+            }
+        ],
         "dependencies": [
             "numpy",
             "scipy",
@@ -2396,7 +2435,16 @@
         "link": "https://gaiaunlimited.readthedocs.io/en/latest/",
         "attribution_link": "https://gaiaunlimited.readthedocs.io/en/latest/citation.html",
         "zenodo_doi": "",
-        "custom_citation": "This work made use of the Gaia selection function tools from \\texttt{gaiaunlimited} \\citep{Castro-Ginard+2023:2023A&A...677A..37C, Cantat-Gaudin+2023:2023A&A...669A..55C, Boubert+2021:2021MNRAS.501.2954B, Boubert+2020:2020MNRAS.497.4246B, Everall+2022:2022MNRAS.509.6205E}\\footnote{TODO: Include the relevant subset of these citations following instructions here: \\url{https://gaiaunlimited.readthedocs.io/en/latest/citation.html}}.",
+        "custom_citation": "This work made use of the Gaia selection function tools from \\texttt{gaiaunlimited}.",
+        "feature_tags": [
+            {
+                "Subset selection function": ["Castro-Ginard+2023:2023A&A...677A..37C"],
+                "Empirical DR3 survey selection function": ["Cantat-Gaudin+2023:2023A&A...669A..55C"],
+                "Gaia scanning law (version dr2_cog3)": ["Boubert+2021:2021MNRAS.501.2954B"],
+                "Survey scanning law (DR2)": ["Boubert+2020:2020MNRAS.497.4246B"],
+                "Survey scanning law (EDR3)": ["Everall+2022:2022MNRAS.509.6205E"]
+            }
+        ],        
         "dependencies": [
             "numpy",
             "scipy",
@@ -3173,9 +3221,7 @@
         "tags": [
             "pyfstat",
             "Keitel:2021xeq",
-            "Ashton:2018ure",
-            "Keitel:2018pxz",
-            "Ashton:2018qth"
+            "Ashton:2018ure"
         ],
         "logo": "img/PyFstat.png",
         "language": [
@@ -3198,7 +3244,13 @@
         "link": "https://pyfstat.readthedocs.io/",
         "attribution_link": "https://github.com/PyFstat/PyFstat/blob/master/README.md#citing-this-work",
         "zenodo_doi": "10.5281/zenodo.3967045",
-        "custom_citation": "This paper made use of the \\textsc{PyFstat} package \\citep{pyfstat,Keitel:2021xeq,Ashton:2018ure} \\footnote{{TODO}: Optionally, if using transient signal features please also cite \\citet{Keitel:2018pxz} and for glitch-robust searches please also cite \\citet{Ashton:2018qth} . See \\url{https://github.com/PyFstat/PyFstat/blob/master/README.md#citing-this-work} for details.}",
+        "custom_citation": "",
+        "feature_tags": [
+            {
+                "Transient signal features": ["Keitel:2018pxz"],
+                "Glitch-robust search features": ["Ashton:2018qth"]
+            }
+        ],
         "dependencies": [
             "matplotlib",
             "numpy",
