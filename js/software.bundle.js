@@ -1,7 +1,7 @@
 /**
  * Software Citation Station - Frontend Bundle
  * Generated automatically by bundle-frontend.js
- * Build time: 2026-04-16T04:38:00.869Z
+ * Build time: 2026-04-16T05:21:02.952Z
  */
 
 (function() {
@@ -556,21 +556,25 @@ async function initSoftwareCitationStation() {
             btn.setAttribute('data-keywords', citation.keywords?.join(',') || '');
             btn.setAttribute('data-pypi-name', citation.pypi_name || '');
             btn.setAttribute('data-dependencies', citation.dependencies?.join(',') || '');
-            // Handle category (can be string or array)
+            // Handle category (can be string or array) and add to Set
             const cat = citation.category;
             if (Array.isArray(cat)) {
                 btn.setAttribute('data-category', cat.map(c => capitalize(c)).join(', '));
+                cat.forEach(c => categories.add(capitalize(c)));
             }
             else {
                 btn.setAttribute('data-category', capitalize(cat));
+                categories.add(capitalize(cat));
             }
-            // Handle language (can be string or array)
+            // Handle language (can be string or array) and add to Set
             const lang = citation.language;
             if (Array.isArray(lang)) {
                 btn.setAttribute('data-language', lang.map(l => capitalize(l)).join(', '));
+                lang.forEach(l => languages.add(capitalize(l)));
             }
             else if (typeof lang === 'string') {
                 btn.setAttribute('data-language', capitalize(lang));
+                languages.add(capitalize(lang));
             }
             else {
                 btn.setAttribute('data-language', '');
