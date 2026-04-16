@@ -464,7 +464,7 @@ Optional fields:
   - extra_bibtex: Additional BibTeX entries
 
 Submit by creating a PR to:
-  https://github.com/zonca/software-citation-station
+  https://github.com/tomwagg/software-citation-station
 
 Or contact the maintainers for assistance.
 `);
