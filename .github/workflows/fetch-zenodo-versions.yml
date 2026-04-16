@@ -4,11 +4,12 @@ on:
   schedule:
     # Run every day at 6:00 AM UTC
     - cron: '0 6 * * *'
-  pull_request:
   workflow_dispatch: # Allow manual triggering
 
 jobs:
   fetch-versions:
+    # Only run on upstream repository, not on forks
+    if: github.repository == 'TomWagg/software-citation-station'
     runs-on: ubuntu-latest
     permissions:
       contents: write  # Required to commit and push changes
