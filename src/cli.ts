@@ -7,13 +7,12 @@
 
 import { readFileSync } from "fs";
 import { CitationEngine } from "./citationEngine";
-import { CitationOutput } from "./citationTypes";
+import { CitationOutput, ZenodoVersion } from "./citationTypes";
 import { RemoteDataProvider, DEFAULT_BASE_URL } from "./remoteData";
 import { parseEnvironmentFile, expandDependencies } from "./shared";
-import { getZenodoVersionInfo } from "./zenodoVersions";
 
 type OutputFormat = "text" | "json";
-type Command = "list" | "show" | "cite" | "parse";
+type Command = "list" | "show" | "cite" | "parse" | "submit";
 
 interface ParsedFlags {
   format: OutputFormat;
@@ -38,6 +37,7 @@ COMMANDS
   show <package>              Show details about a specific package
   cite <package...>           Generate citations for one or more packages
   parse <file>                Parse requirements.txt or conda env file
+  submit <package>            Generate submission template for a new package
 
 OPTIONS
   --acknowledgement, --ack    Output only acknowledgement text
@@ -241,18 +241,24 @@ async function main(): Promise<void> {
       expandedPackages = expandDependencies(parsed.packages, citations, { autoExpand: true });
     }
 
-    // Resolve packages to latest versions
+    // Resolve packages to latest versions from cached data on server
+    const baseUrl = process.env.SCS_BASE_URL ?? DEFAULT_BASE_URL;
     const packagesWithVersions = await Promise.all(expandedPackages.map(async (pkg) => {
       const citation = citations[pkg];
       if (citation?.zenodo_doi) {
         try {
-          // Fetch latest version from cached data or Zenodo
-          const versions = await getZenodoVersionInfo(citation.zenodo_doi);
-          const latestVersion = versions.length > 0 ? versions[0].version : 'unknown';
-          return `${pkg}==${latestVersion}`;
+          // Fetch cached version data from server (fast!)
+          const url = `${baseUrl}/data/zenodo-versions/${encodeURIComponent(pkg)}.json`;
+          const response = await fetch(url);
+          if (response.ok) {
+            const versions = await response.json() as ZenodoVersion[];
+            const latestVersion = versions.length > 0 ? versions[0].version : 'unknown';
+            return `${pkg}==${latestVersion}`;
+          }
         } catch {
-          return `${pkg} (latest: unknown)`;
+          // Fall through to show package name only
         }
+        return pkg;
       } else if (citation) {
         // No Zenodo - just show package name
         return pkg;
@@ -396,6 +402,73 @@ async function main(): Promise<void> {
     const citedPackages = citationOutput.packages.map(p => p.name).sort();
     console.log(`Packages (${citedPackages.length}): ${citedPackages.join(", ")}`);
     console.log(`\n${citationOutput.acknowledgement}\n\n${citationOutput.bibtex}`);
+    return;
+  }
+
+  if (command === "submit") {
+    const packageName = flags.positional[0];
+    if (!packageName) {
+      throw new Error("submit requires a package name: scs submit <package-name>");
+    }
+
+    // Check if package already exists
+    const citations = await dataProvider.getCitations();
+    if (citations[packageName]) {
+      throw new Error(`Package "${packageName}" already exists in the database.`);
+    }
+
+    // Generate submission template
+    const template = {
+      name: packageName,
+      language: "python", // default, user should update
+      category: "general", // default, user should update
+      description: "TODO: Add description",
+      link: "TODO: Add project URL",
+      attribution_link: "TODO: Add attribution/citation URL",
+      zenodo_doi: "TODO: Add Zenodo concept DOI (e.g., 10.5281/zenodo.XXXXX)",
+      tags: [`TODO_add_citation_key`],
+      logo: "",
+      logo_background: false,
+      keywords: [],
+      custom_citation: "",
+      extra_bibtex: ""
+    };
+
+    if (flags.format === "json") {
+      console.log(JSON.stringify(template, null, 2));
+    } else {
+      console.log(`
+=== Submission Template for "${packageName}" ===
+
+Copy this JSON template and fill in the details:
+
+{
+  "${packageName}": ${JSON.stringify(template, null, 4).replace(/\n/g, '\n  ')}
+}
+
+Required fields:
+  - name: Package name (filled in)
+  - language: Programming language (python, julia, etc.)
+  - category: Category (data, viz, ml, etc.)
+  - description: Brief description of the software
+  - link: Project homepage URL
+  - attribution_link: URL with citation instructions
+  - zenodo_doi: Zenodo concept DOI (get from zenodo.org)
+  - tags: Citation keys for BibTeX entries
+
+Optional fields:
+  - logo: Path to logo image (e.g., "img/package.png")
+  - logo_background: true if logo needs white background
+  - keywords: Array of search keywords
+  - custom_citation: Custom LaTeX citation if needed
+  - extra_bibtex: Additional BibTeX entries
+
+Submit by creating a PR to:
+  https://github.com/zonca/software-citation-station
+
+Or contact the maintainers for assistance.
+`);
+    }
     return;
   }
 
