@@ -173,8 +173,8 @@ numpy==1.24.0`;
       buffer: testFile
     });
     
-    // Wait for processing
-    await page.waitForTimeout(2000);
+    // Wait for processing and version picker to load from Zenodo API
+    await page.waitForTimeout(3000);
     
     // Check that scipy button is active
     const scipyBtn = page.locator('.software-button[data-key="scipy"]');
