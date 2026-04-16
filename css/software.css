@@ -234,6 +234,9 @@ body.dark #bibtex {
     background-color: white;
     color: black;
     font-size: 16px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 
     --bg: rgb(255, 255, 255);
     --bgTrans: rgba(255, 255, 255, 0);

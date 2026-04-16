@@ -53,19 +53,9 @@ function highlightLatex(latex: string): string {
  * Highlight BibTeX for display
  */
 function highlightBibtex(bibtex: string): string {
-  // Match @type{key, format
-  const match = bibtex.match(/^(@\w+)\{([^,]+),/);
-  if (match) {
-    const type = match[1];
-    const key = match[2];
-    const rest = bibtex.slice(type.length + key.length + 2); // +2 for { and ,
-    return `<span class="bibtex-type">${type}</span>{<span class="bibtex-key">${key}</span>,${rest}`;
-  }
-  
-  // Fallback for non-standard formats
-  return bibtex
-    .replace(/@\w+/g, '<span class="bibtex-type">$&</span>')
-    .replace(/\b\w+\s*=/g, '<span class="bibtex-field">$&</span>');
+  // Simple approach: just wrap @type and key with spans
+  // Match patterns like: @article{key, or @software{key,
+  return bibtex.replace(/(@\w+)\{([^,]+),/g, '<span class="bibtex-type">$1</span>{<span class="bibtex-key">$2</span>,');
 }
 
 /**
