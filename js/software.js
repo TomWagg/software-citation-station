@@ -1,9 +1,6 @@
+import { parseBibtex, collectDependencies, generateAcknowledgment, generateBibtex, fetchZenodoBibtex, getZenodoVersionInfo, parseFeatureTags, parsePackageInput, bibtex_re, latex_re } from "./citationCore.js";
 // bibtex regular expression to extract the tags
 const bibtex_re = /@\w*{(?<tag>.*)(?=\,)/gmi;
-
-// latex regular expression to extract each command and arguments
-const latex_re = /(?<command>\\[^\\{]*)\{(?<args>[^\}]*)\}/gmi;
-
 // starting text for new GitHub issues for new software
 const base_issue_text = `# TODO before submitting
 
@@ -27,7 +24,7 @@ Promise.all([
     fetch('data/bibtex.bib').then(x => x.text())
 ]).then(([citations, bibtex_text]) => {
     // parse the bibtex file
-    let bibtex_table = parse_bibtex(bibtex_text);
+    let bibtex_table = parseBibtex(bibtex_text);
 
     // grab the relevant elements from the DOM
     const template_btn = document.getElementById('software-btn-template');
@@ -201,7 +198,7 @@ Promise.all([
                 if (auto_add_deps) {
 
                     // if the package has dependencies, find all of them and select them
-                    const deps = collect_dependencies(new Set(), this.getAttribute("data-key"));
+                    const deps = collectDependencies(new Set(), this.getAttribute("data-key"));
                     let previously_unselected = [];
                     for (let dep of deps) {
                         const dep_btn = document.querySelector(`.software-button[data-key="${dep}"]`);
@@ -262,7 +259,7 @@ Promise.all([
 
                 // collect selected feature citations (kept separate from main tags)
                 const feature_tags_raw = citations[btn_key]["feature_tags"];
-                const feature_tags_data = feature_tags_raw !== undefined ? parse_feature_tags(feature_tags_raw) : undefined;
+                const feature_tags_data = feature_tags_raw !== undefined ? parseFeatureTags(feature_tags_raw) : undefined;
                 let selected_feature_data = [];
                 if (feature_tags_data !== undefined) {
                     const picker_el = document.getElementById(`${btn_key}-version-picker`);
@@ -346,7 +343,7 @@ Promise.all([
                         // (cheating by just clicking twice)
                         vp.querySelector(".version-select").addEventListener('change', function() {
                             if (this.value !== "-") {
-                                fetch_zenodo_bibtex(this.value).then((bibtex) => {
+                                fetchZenodoBibtex(this.value).then((bibtex) => {
                                     // replace bibtex tag using regular expression
                                     bibtex = bibtex.replace(bibtex_re, "@software{" + btn.getAttribute("data-key") + "_" + this.value);
                                     vp.setAttribute("data-bibtex", bibtex);
@@ -357,7 +354,7 @@ Promise.all([
                         });
 
                         // update the version picker with available versions
-                        get_zenodo_version_info_cached(
+                        getZenodoVersionInfo_cached_local(
                             btn.getAttribute("data-key"),
                             citations[btn.getAttribute("data-key")]["zenodo_doi"],
                             vp
@@ -519,7 +516,7 @@ Promise.all([
             bibtex_box.innerHTML = bibs_to_add.join("\n\n");
 
             // add the bibtex for the software citation station from Zenodo
-            fetch_zenodo_bibtex("13225526").then((bibtex) => {
+            fetchZenodoBibtex("13225526").then((bibtex) => {
                 if (!bibtex_box.innerHTML.includes("software-citation-station-zenodo")) {
                     const tag = bibtex.split("{")[1].split(",")[0];
                     bibtex = bibtex.replace(tag, "software-citation-station-zenodo");
@@ -1067,7 +1064,7 @@ function validate_feature_bibtex(textarea) {
         return true;
     }
 
-    const parsed = parse_bibtex(val);
+    const parsed = parseBibtex(val);
     if (Object.keys(parsed).length === 0) {
         textarea.classList.add('is-invalid');
         textarea.classList.remove('is-valid');
@@ -1100,37 +1097,6 @@ function validate_all_feature_bibtexes() {
 }
 
 // parse the bibtex file into a dictionary of tags and entries
-function parse_bibtex(bibtex_text) {
-    let bibtex_obj = {};
-    while ((match = bibtex_re.exec(bibtex_text)) != null) {
-        bibtex_obj[match.groups["tag"]] = isolate_bibtex_entry(bibtex_text, match.index);
-    }
-    return bibtex_obj
-}
-
-// isolate a bibtex entry based on closing curly braces
-function isolate_bibtex_entry(s, start) {
-    let braces = 0;
-    let cursor = start;
-    let not_opened = true;
-    while (braces > 0 || not_opened) {
-        if (s[cursor] == "{") {
-            braces += 1
-            not_opened = false
-        } else if (s[cursor] == "}") {
-            braces -= 1
-        }
-        cursor += 1
-    }
-    return s.slice(start, cursor)
-}
-
-
-// highlight the latex command and arguments with some simple syntax highlighting
-function highlight_latex(s) {
-    return s.replace(latex_re, function(match, command, args) {
-        if (command == "\\footnote") {
-            return '<span class="latex-command">' + command + '</span>{' + args + "}";
         } else {
             return '<span class="latex-command">' + command + '</span>{<span class="latex-refs">' + args + "</span>}";
         }
@@ -1191,7 +1157,7 @@ const animateCSS = (node, animation, prefix = 'animate__') =>
 });
 
 // Function to fetch records from Zenodo API
-async function get_zenodo_version_info(concept_doi, vp) {
+async function getZenodoVersionInfo(concept_doi, vp) {
     // Build the complete URL with the query parameter for concept DOI
     const PAGE_SIZE = 25;
     const base_url = `https://zenodo.org/api/records?q=conceptdoi:"${concept_doi}"&all_versions=true&size=${PAGE_SIZE}`;
@@ -1211,207 +1177,6 @@ async function get_zenodo_version_info(concept_doi, vp) {
             // NOTE: THIS ASSUMES NO SOFTWARE HAS MORE THAN 1000 (40 * 25) VERSIONS, CHANGE IF NECESSARY
             if (page > 40) {
                 console.warn(`Exceeded 40 pages of results for concept DOI ${concept_doi}. Stopping further requests to avoid rate limiting.`);
-                console.log(`Fetched ${version_and_doi.length} versions so far.`);
-                console.log(version_and_doi)
-                break;
-            }
-
-            // make the API request with the Accept header for BibTeX format
-            const response = await fetch(url);
-
-            // check if it's a 429 (too many requests) error
-            if (response.status === 429) {
-                const rateLimitResetHeader = response.headers.get('x-ratelimit-reset');
-                let waitTime = 60000;     // default wait time of 60 seconds
-                if (rateLimitResetHeader) {
-                    const resetTimeInMilliseconds = parseInt(rateLimitResetHeader, 10) * 1000;
-                    const currentTime = Date.now();
-                    waitTime = Math.max(0, resetTimeInMilliseconds - currentTime);
-                }
-                console.warn(`Received 429 Too Many Requests response. Retrying after ${waitTime}ms...`);
-                await new Promise(resolve => setTimeout(resolve, waitTime));
-                continue;   // retry the same page
-            }
-            
-            // check if the response is OK (status code 200-299)
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            
-            const data = await response.json();
-
-            // update the expected versions based on the total hits
-            expected_versions = data.hits.total;
-
-            for (let hit of data.hits.hits) {
-                if (!versions_so_far.has(hit.metadata.version) && hit.metadata.version !== undefined) {
-                    version_and_doi.push({"version": hit.metadata.version, "doi": hit.id})
-                    versions_so_far.add(hit.metadata.version)
-                } else {
-                    n_bad_versions += 1;
-                }
-            }
-            page += 1;
-        }
-
-        const select = vp.querySelector(".version-select")
-        for (let i = 0; i < version_and_doi.length; i++) {
-            let opt = document.createElement("option")
-            opt.value = version_and_doi[i].doi;
-            opt.innerText = version_and_doi[i].version;
-            select.appendChild(opt);
-        }
-
-        vp.querySelector(".waiter").classList.add("hide");
-        vp.querySelector(".version-select").classList.remove("hide");
-
-        // if user just wants to select the latest version then do it
-        if (document.getElementById("latest_version").classList.contains("active")) {
-            select.value = version_and_doi[0].doi;
-            select.dispatchEvent(new Event('change'));
-        }
-    } catch (error) {
-        // Handle errors
-        console.error('Error fetching records:', error);
-    }
-}
-
-// Function to get Zenodo version info from cached files
-async function get_zenodo_version_info_cached(package_name, concept_doi, vp) {
-    try {
-        // Fetch the cached version data for this package
-        const response = await fetch(`data/zenodo-versions/${package_name}.json`);
-        
-        // If file doesn't exist, fall back to the API
-        if (!response.ok) {
-            console.warn(`No cached version data found for ${package_name}, falling back to API`);
-            return get_zenodo_version_info(concept_doi, vp);
-        }
-        
-        const version_and_doi = await response.json();
-
-        // Populate the version picker
-        const select = vp.querySelector(".version-select");
-        for (let i = 0; i < version_and_doi.length; i++) {
-            let opt = document.createElement("option");
-            opt.value = version_and_doi[i].doi;
-            opt.innerText = version_and_doi[i].version;
-            select.appendChild(opt);
-        }
-
-        vp.querySelector(".waiter").classList.add("hide");
-        vp.querySelector(".version-select").classList.remove("hide");
-
-        // if user just wants to select the latest version then do it
-        if (document.getElementById("latest_version").classList.contains("active")) {
-            select.value = version_and_doi[0].doi;
-            select.dispatchEvent(new Event('change'));
-        }
-    } catch (error) {
-        // Handle errors
-        console.error('Error loading cached version data:', error);
-    }
-}
-
-async function validate_zenodo_doi(concept_doi) {
-    // don't bother if the DOI is empty
-    if (concept_doi === "") {
-        return [-1, concept_doi];
-    }
-
-    const PAGE_SIZE = 100;
-
-    // build the url and make the request
-    const url = `https://zenodo.org/api/records?q=conceptdoi:"${concept_doi}"&all_versions=true&size=${PAGE_SIZE}`;
-    const response = await fetch(url);
-    if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    
-    // grab the data from the response in JSON format
-    const data = await response.json();
-
-    // if we didn't find anything then maybe the user entered a specific version DOI accidentally
-    if (data.hits.hits.length === 0) {
-        // retry by searching for the DOI assuming it's not a concept DOI
-        const url = `https://zenodo.org/api/records?q=doi:"${concept_doi}"&all_versions=true&size=${PAGE_SIZE}`;
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const data = await response.json();
-
-        // if we found only one result then we can assume it's the correct one, retry with that as the concept DOI
-        if (data.hits.hits.length === 1) {
-            return await validate_zenodo_doi(data.hits.hits[0].conceptdoi);
-        } else {
-            // otherwise we can't find the DOI, failed
-            return [0, concept_doi];
-        }
-
-    } else {
-        return [data.hits.hits.length, concept_doi];
-    }
-}
-
-// Function to fetch records from Zenodo API
-async function fetch_zenodo_bibtex(doi) {
-    // Build the complete URL with the query parameter for concept DOI
-    const url = `https://zenodo.org/api/records/${doi}`;
-    try {
-        // Make the API request with the Accept header for BibTeX format
-        const response = await fetch(url, {
-            headers: {
-                'Accept': 'application/x-bibtex'
-            }
-        });
-        
-        // Check if the response is OK (status code 200-299)
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        
-        // Get the text response (BibTeX format)
-        const data = await response.text();
-        return data;
-    } catch (error) {
-        console.error('Error fetching records:', error);
-    }
-}
-
-function sort_version_pickers() {
-    /* Sort version picker cards by setting CSS flexbox order:
-       version-only (1), feature-only (2), both (3).
-       Using style.order rather than DOM re-appending means the sort is
-       idempotent and survives the btn.click()/btn.click() update pattern
-       without causing visible jumps. */
-    const pickers = document.querySelectorAll(".version-picker:not(#version-picker-template)");
-    for (const el of pickers) {
-        if (el.id.endsWith("-feature-picker")) {
-            el.style.order = 2;
-        } else {
-            const feature_btn = el.querySelector(".feature-btn");
-            el.style.order = (feature_btn && !feature_btn.classList.contains("hide")) ? 3 : 1;
-        }
-    }
-}
-
-function parse_feature_tags(arr) {
-    /* Convert [{name: "tag"}, ...] to a flat {name: "tag"} lookup object */
-    const out = {};
-    for (const item of arr) {
-        const k = Object.keys(item)[0];
-        out[k] = item[k];
-    }
-    return out;
-}
-
-function attach_feature_btn(picker_el, key, feature_tags_data) {
-    /* Show the feature button on a picker card and wire up the modal */
-    const feature_btn = picker_el.querySelector(".feature-btn");
-    if (feature_btn === null) return;
-    if (feature_btn.dataset.wired) return;  // already wired up
-    feature_btn.dataset.wired = "true";
     feature_btn.classList.remove("hide");
 
     feature_btn.addEventListener('click', function() {
@@ -1473,7 +1238,7 @@ function validate_new_software_form() {
         bibtex_field.setCustomValidity("");
         bibtex_field.parentElement.querySelector(".valid-feedback").innerHTML = "No BibTeX provided.";
     } else {
-        bibtex = parse_bibtex(bibtex_field.value.trim());
+        bibtex = parseBibtex(bibtex_field.value.trim());
         if (Object.keys(bibtex).length === 0) {
             bibtex_field.setCustomValidity("Invalid field.");
         } else {
@@ -1560,7 +1325,7 @@ function validate_new_software_form() {
                 if (sp.name !== "") {
                     const all_tags = [];
                     for (const bibtex of sp.bibtexes) {
-                        all_tags.push(...Object.keys(parse_bibtex(bibtex)));
+                        all_tags.push(...Object.keys(parseBibtex(bibtex)));
                     }
                     feature_tags_out.push({ [sp.name]: all_tags });
                 }
@@ -1612,43 +1377,12 @@ function validate_new_software_form() {
             }
 
             document.getElementById("copy-new-software").setAttribute("data-copy-text", copy_text);
-        }
-        form.classList.add('was-validated');
-        loader.classList.add("hide");
-    });
-
-    return false;
-}
-
-function collect_dependencies(dep_set, id) {
-    // recursively gather dependencies for a given software package
-    const software_btn = document.querySelector(`.software-button[data-key='${id}']`)
-    if (software_btn === null) {
-        return dep_set;
-    }
-    const new_deps = software_btn.getAttribute("data-dependencies");
-
-    if (new_deps !== "") {
-        for (let dep of new_deps.split(",")) {
-            if (!dep_set.has(dep)) {
-                dep_set.add(dep);
-                dep_set.add(...collect_dependencies(dep_set, dep));
-            }
-        }
-    }
-    return dep_set;
-}
-
-
-function handle_file_upload(file, type) {
-    // start reading a new file
-    const reader = new FileReader();
     reader.onload = function(e) {
         // parse based on the file type
         const content = e.target.result;
         let parsed_softwares = [];
         if (type === "txt") {
-            parsed_softwares = parse_pip_freeze(content);
+            parsed_softwares = parsePipFreeze(content);
         } else if (type === "yml" || type === "yaml") {
             parsed_softwares = parse_conda_env(content);
         } else {
@@ -1738,7 +1472,7 @@ function handle_file_upload(file, type) {
     reader.readAsText(file);
 }
 
-function parse_pip_freeze(content) {
+function parsePipFreeze(content) {
     // parse the output of pip freeze to get package names
     let softwares = [];
     const lines = content.split("\n");
@@ -1812,5 +1546,46 @@ function toast_notification(header, body, type="", autohide=true, delay=5000) {
     // remove the toast from the DOM after it hides
     toast.addEventListener('hidden.bs.toast', function() {
         toast.remove();
+    });
+}
+async function getZenodoVersionInfo_cached_local(package_name, concept_doi, vp) {
+    try {
+        const response = await fetch(`data/zenodo-versions/${package_name}.json`);
+        let version_and_doi;
+        if (!response.ok) {
+            console.warn(`No cached version data found for ${package_name}, falling back to API`);
+            version_and_doi = await getZenodoVersionInfo(concept_doi);
+        } else {
+            version_and_doi = await response.json();
+        }
+
+        const select = vp.querySelector(".version-select");
+        for (let i = 0; i < version_and_doi.length; i++) {
+            let opt = document.createElement("option");
+            opt.value = version_and_doi[i].doi;
+            opt.innerText = version_and_doi[i].version;
+            select.appendChild(opt);
+        }
+
+        vp.querySelector(".waiter").classList.add("hide");
+        vp.querySelector(".version-select").classList.remove("hide");
+
+        if (document.getElementById("latest_version").classList.contains("active")) {
+            select.value = version_and_doi[0].doi;
+            select.dispatchEvent(new Event('change'));
+        }
+    } catch (error) {
+        console.error('Error loading version data:', error);
+    }
+}
+
+// highlight the latex command and arguments with some simple syntax highlighting
+function highlight_latex(s) {
+    return s.replace(latex_re, function(match, command, args) {
+        if (command == "\\footnote") {
+            return '<span class="latex-command">' + command + '</span>{' + args + "}";
+        } else {
+            return '<span class="latex-command">' + command + '</span>{<span class="latex-refs">' + args + "</span>}";
+        }
     });
 }
