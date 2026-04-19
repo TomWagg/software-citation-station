@@ -1,10 +1,18 @@
-// bibtex regular expression to extract the tags
+/**
+ * Regular expression to extract the tags from BibTeX.
+ */
 export const bibtex_re = /@\w*{(?<tag>.*)(?=\,)/gmi;
 
-// latex regular expression to extract each command and arguments
+/**
+ * Regular expression to extract each LaTeX command and arguments.
+ */
 export const latex_re = /(?<command>\\[^\\{]*)\{(?<args>[^\}]*)\}/gmi;
 
-// parse the bibtex file into a dictionary of tags and entries
+/**
+ * Parse the bibtex file into a dictionary of tags and entries.
+ * @param {string} bibtex_text - The raw BibTeX text.
+ * @returns {Object} A map of tag to BibTeX entry.
+ */
 export function parseBibtex(bibtex_text) {
     let bibtex_obj = {};
     let match;
@@ -13,159 +21,132 @@ export function parseBibtex(bibtex_text) {
     while ((match = bibtex_re.exec(bibtex_text)) != null) {
         bibtex_obj[match.groups["tag"]] = isolateBibtexEntry(bibtex_text, match.index);
     }
-    return bibtex_obj
+    return bibtex_obj;
 }
 
-// isolate a bibtex entry based on closing curly braces
+/**
+ * Isolate a bibtex entry based on closing curly braces.
+ * @param {string} s - The text containing the BibTeX entry.
+ * @param {number} start - The starting index of the entry.
+ * @returns {string} The isolated BibTeX entry.
+ */
 export function isolateBibtexEntry(s, start) {
     let braces = 0;
     let cursor = start;
     let not_opened = true;
     while (braces > 0 || not_opened) {
         if (s[cursor] == "{") {
-            braces += 1
-            not_opened = false
+            braces += 1;
+            not_opened = false;
         } else if (s[cursor] == "}") {
-            braces -= 1
+            braces -= 1;
         }
-        cursor += 1
+        cursor += 1;
     }
-    return s.slice(start, cursor)
+    return s.slice(start, cursor);
 }
 
-// recursively gather dependencies for a given software package
-export function collectDependencies(dep_set, id) {
-    // recursively gather dependencies for a given software package
-    const software_btn = document.querySelector(\`.software-button[data-key='\${id}']\`)
-    if (software_btn === null) {
-        return dep_set;
-    }
-    const new_deps = software_btn.getAttribute("data-dependencies");
-
-    if (new_deps !== "") {
-        for (let dep of new_deps.split(",")) {
-            if (!dep_set.has(dep)) {
-                dep_set.add(dep);
-                dep_set.add(...collectDependencies(dep_set, dep));
-            }
+/**
+ * Recursively gather dependencies for a given software package.
+ * @param {Set<string>} depSet - The set to store dependencies.
+ * @param {string} packageKey - The key of the package to collect dependencies for.
+ * @param {Object} citationsData - The full citations data object.
+ * @returns {Set<string>} The updated dependency set.
+ */
+export function collectDependencies(depSet, packageKey, citationsData) {
+    const entry = citationsData[packageKey];
+    if (!entry) return depSet;
+    const dependencies = entry.dependencies || [];
+    for (let dep of dependencies) {
+        if (!depSet.has(dep)) {
+            depSet.add(dep);
+            collectDependencies(depSet, dep, citationsData);
         }
     }
-    return dep_set;
+    return depSet;
 }
 
-// Function to fetch records from Zenodo API
+/**
+ * Function to fetch records from Zenodo API.
+ * @param {string} doi - The record DOI.
+ * @returns {Promise<string>} The BibTeX string from Zenodo.
+ */
 export async function fetchZenodoBibtex(doi) {
-    // Build the complete URL with the query parameter for concept DOI
     const url = \`https://zenodo.org/api/records/\${doi}\`;
     try {
-        // Make the API request with the Accept header for BibTeX format
         const response = await fetch(url, {
             headers: {
                 'Accept': 'application/x-bibtex'
             }
         });
-        
-        // Check if the response is OK (status code 200-299)
         if (!response.ok) {
             throw new Error(\`HTTP error! Status: \${response.status}\`);
         }
-        
-        // Get the text response (BibTeX format)
-        const data = await response.text();
-        return data;
+        return await response.text();
     } catch (error) {
         console.error('Error fetching records:', error);
+        throw error;
     }
 }
 
-// Function to fetch records from Zenodo API
-export async function getZenodoVersionInfo(concept_doi, vp) {
-    // Build the complete URL with the query parameter for concept DOI
+/**
+ * Function to fetch version info from Zenodo API.
+ * @param {string} concept_doi - The concept DOI of the software.
+ * @returns {Promise<Array<{version: string, doi: string}>>} List of versions and their record DOIs.
+ */
+export async function getZenodoVersionInfo(concept_doi) {
     const PAGE_SIZE = 25;
     const base_url = \`https://zenodo.org/api/records?q=conceptdoi:"\${concept_doi}"&all_versions=true&size=\${PAGE_SIZE}\`;
     try {
-        // keep track of which versions we've seen so far
-        let version_and_doi = []
-        let versions_so_far = new Set()
-
-        // start with an absurd number of expected versions to enter the loop
+        let version_and_doi = [];
+        let versions_so_far = new Set();
         let expected_versions = 100000;
         let n_bad_versions = 0;
         let page = 1;
 
         while (version_and_doi.length + n_bad_versions < expected_versions) {
             let url = base_url + \`&page=\${page}\`;
+            if (page > 40) break;
 
-            // NOTE: THIS ASSUMES NO SOFTWARE HAS MORE THAN 1000 (40 * 25) VERSIONS, CHANGE IF NECESSARY
-            if (page > 40) {
-                console.warn(\`Exceeded 40 pages of results for concept DOI \${concept_doi}. Stopping further requests to avoid rate limiting.\`);
-                console.log(\`Fetched \${version_and_doi.length} versions so far.\`);
-                console.log(version_and_doi)
-                break;
-            }
-
-            // make the API request with the Accept header for BibTeX format
             const response = await fetch(url);
-
-            // check if it's a 429 (too many requests) error
             if (response.status === 429) {
                 const rateLimitResetHeader = response.headers.get('x-ratelimit-reset');
-                let waitTime = 60000;     // default wait time of 60 seconds
+                let waitTime = 60000;
                 if (rateLimitResetHeader) {
                     const resetTimeInMilliseconds = parseInt(rateLimitResetHeader, 10) * 1000;
-                    const currentTime = Date.now();
-                    waitTime = Math.max(0, resetTimeInMilliseconds - currentTime);
+                    waitTime = Math.max(0, resetTimeInMilliseconds - Date.now());
                 }
-                console.warn(\`Received 429 Too Many Requests response. Retrying after \${waitTime}ms...\`);
                 await new Promise(resolve => setTimeout(resolve, waitTime));
-                continue;   // retry the same page
+                continue;
             }
-            
-            // check if the response is OK (status code 200-299)
-            if (!response.ok) {
-                throw new Error(\`HTTP error! Status: \${response.status}\`);
-            }
+            if (!response.ok) throw new Error(\`HTTP error! Status: \${response.status}\`);
             
             const data = await response.json();
-
-            // update the expected versions based on the total hits
             expected_versions = data.hits.total;
 
             for (let hit of data.hits.hits) {
                 if (!versions_so_far.has(hit.metadata.version) && hit.metadata.version !== undefined) {
-                    version_and_doi.push({"version": hit.metadata.version, "doi": hit.id})
-                    versions_so_far.add(hit.metadata.version)
+                    version_and_doi.push({"version": hit.metadata.version, "doi": hit.id});
+                    versions_so_far.add(hit.metadata.version);
                 } else {
                     n_bad_versions += 1;
                 }
             }
             page += 1;
         }
-
-        const select = vp.querySelector(".version-select")
-        for (let i = 0; i < version_and_doi.length; i++) {
-            let opt = document.createElement("option")
-            opt.value = version_and_doi[i].doi;
-            opt.innerText = version_and_doi[i].version;
-            select.appendChild(opt);
-        }
-
-        vp.querySelector(".waiter").classList.add("hide");
-        vp.querySelector(".version-select").classList.remove("hide");
-
-        // if user just wants to select the latest version then do it
-        if (document.getElementById("latest_version").classList.contains("active")) {
-            select.value = version_and_doi[0].doi;
-            select.dispatchEvent(new Event('change'));
-        }
+        return version_and_doi;
     } catch (error) {
-        // Handle errors
         console.error('Error fetching records:', error);
+        throw error;
     }
 }
 
+/**
+ * Convert feature_tags array to lookup object.
+ * @param {Array} arr - The feature_tags array.
+ * @returns {Object} A map of feature name to tags array.
+ */
 export function parseFeatureTags(arr) {
-    /* Convert [{name: "tag"}, ...] to a flat {name: "tag"} lookup object */
     const out = {};
     for (const item of arr) {
         const k = Object.keys(item)[0];
@@ -174,11 +155,166 @@ export function parseFeatureTags(arr) {
     return out;
 }
 
-export function parsePackageInput(line) {
-    line = line.trim();
-    if (line === "" || line.startsWith("#")) {
-        return null;
+/**
+ * Parse package name, version and features from a string.
+ * @param {string} packageString - e.g. "numpy", "astropy==6.0.1", "astropy[fitting,io]"
+ * @returns {Object} Parsed package info {name, version, features}.
+ */
+export function parsePackageInput(packageString) {
+    const match = packageString.match(/^([^=\[\]]+)(?:==([^\[\]]+))?(?:\[([^\]]+)\])?$/);
+    if (!match) return { name: packageString.trim().toLowerCase() };
+    
+    const name = match[1].trim().toLowerCase();
+    const version = match[2] ? match[2].trim() : undefined;
+    const features = match[3] ? match[3].split(",").map(f => f.trim()) : undefined;
+    
+    return { name, version, features };
+}
+
+/**
+ * Generate LaTeX acknowledgment string.
+ * @param {string[]} selectedPackages - List of selected package keys.
+ * @param {Object} citationsData - Full citations.json data.
+ * @param {Object} featureSelections - Map of packageKey -> selectedFeatures[].
+ * @param {Map<string, Object>} zenodoBibtexMap - Map of packageKey -> {bibtex, tag}.
+ * @returns {string} The generated LaTeX acknowledgment.
+ */
+export function generateAcknowledgment(selectedPackages, citationsData, featureSelections = {}, zenodoBibtexMap = new Map()) {
+    if (selectedPackages.length === 0) return "";
+
+    let acks = [];
+    let customAcks = [];
+    let featureSentences = [];
+
+    for (const key of selectedPackages) {
+        const entry = citationsData[key];
+        if (!entry) continue;
+
+        let tags = [...(entry.tags || [])];
+        const zenodoInfo = zenodoBibtexMap.get(key);
+        let zenodoTag = zenodoInfo ? zenodoInfo.tag : null;
+
+        let pkgAck = \`\\\\texttt{\${key}}\`;
+        let mainTags = [...tags];
+        if (zenodoTag) {
+            mainTags.push(zenodoTag);
+        }
+        
+        if (mainTags.length > 0) {
+            pkgAck += \` \\\\citep{\${mainTags.join(",")}}\`;
+        } else if (entry.zenodo_doi && !zenodoTag) {
+            pkgAck += "\\\\footnote{{TODO}: Need to choose a version to cite!!}";
+        }
+        acks.push(pkgAck);
+
+        let customAck = entry.custom_citation || "";
+        if (customAck) {
+            if (zenodoTag) {
+                if (customAck.includes("\\\\citep")) {
+                     let open_braces = 0;
+                     const citepIdx = customAck.indexOf("\\\\citep");
+                     for (let i = citepIdx + 6; i < customAck.length; i++) {
+                         if (customAck[i] == "{") {
+                             open_braces += 1;
+                         } else if (customAck[i] == "}") {
+                             open_braces -= 1;
+                         }
+                         if (open_braces == 0) {
+                             customAck = customAck.slice(0, i) + "," + zenodoTag + customAck.slice(i);
+                             break;
+                         }
+                     }
+                } else {
+                     if (customAck.endsWith(".")) customAck = customAck.slice(0, -1);
+                     customAck += \` \\\\citep{\${zenodoTag}}.\`;
+                }
+            } else if (entry.zenodo_doi) {
+                customAck += "\\\\footnote{{TODO}: Need to choose a version to cite!!}";
+            }
+            customAcks.push(customAck);
+        }
+
+        const selectedFeatures = featureSelections[key] || [];
+        if (selectedFeatures.length > 0 && entry.feature_tags) {
+            const featureTagsLookup = parseFeatureTags(entry.feature_tags);
+            const featureParts = selectedFeatures.map(f => {
+                const fTags = featureTagsLookup[f] || [];
+                return \`\\\\texttt{\${f}} \\\\citep{\${fTags.join(",")}}\`;
+            });
+            
+            let featureList;
+            if (featureParts.length === 1) {
+                featureList = featureParts[0];
+            } else if (featureParts.length === 2) {
+                featureList = featureParts[0] + " and " + featureParts[1];
+            } else {
+                featureList = featureParts.slice(0, -1).join(", ") + ", and " + featureParts[featureParts.length - 1];
+            }
+            featureSentences.push(\`The following features of \\\\texttt{\${key}} were used: \${featureList}.\`);
+        }
     }
-    const [key, version] = line.split("==");
-    return {name: key.toLowerCase(), version: version};
+
+    let result = "This research made use of ";
+    if (acks.length === 1) {
+        result += acks[0];
+    } else if (acks.length === 2) {
+        result += acks[0] + " and " + acks[1];
+    } else {
+        result += acks.slice(0, -1).join(", ") + ", and " + acks[acks.length - 1];
+    }
+    result += ".";
+
+    if (customAcks.length > 0) {
+        result += " " + customAcks.join(" ");
+    }
+    
+    if (featureSentences.length > 0) {
+        result += " " + featureSentences.join(" ");
+    }
+
+    return result;
+}
+
+/**
+ * Generate BibTeX string for selected packages.
+ * @param {string[]} selectedPackages - List of selected package keys.
+ * @param {Object} citationsData - Full citations.json data.
+ * @param {Object} bibtexTable - Map of tag to BibTeX entry.
+ * @param {Object} featureSelections - Map of packageKey -> selectedFeatures[].
+ * @param {Map<string, Object>} zenodoBibtexMap - Map of packageKey -> {bibtex, tag}.
+ * @returns {string} The combined BibTeX entries.
+ */
+export function generateBibtex(selectedPackages, citationsData, bibtexTable, featureSelections = {}, zenodoBibtexMap = new Map()) {
+    let bibs = [];
+    
+    for (const key of selectedPackages) {
+        const entry = citationsData[key];
+        if (!entry) continue;
+
+        for (const tag of (entry.tags || [])) {
+            if (bibtexTable[tag]) {
+                bibs.push(bibtexTable[tag]);
+            }
+        }
+
+        const zenodoInfo = zenodoBibtexMap.get(key);
+        if (zenodoInfo && zenodoInfo.bibtex) {
+            bibs.push(zenodoInfo.bibtex);
+        }
+
+        const selectedFeatures = featureSelections[key] || [];
+        if (selectedFeatures.length > 0 && entry.feature_tags) {
+            const featureTagsLookup = parseFeatureTags(entry.feature_tags);
+            for (const f of selectedFeatures) {
+                const fTags = featureTagsLookup[f] || [];
+                for (const tag of fTags) {
+                    if (bibtexTable[tag]) {
+                        bibs.push(bibtexTable[tag]);
+                    }
+                }
+            }
+        }
+    }
+
+    return [...new Set(bibs)].join("\n\n");
 }
