@@ -1,0 +1,11 @@
+export const bibtex_re: RegExp;
+export const latex_re: RegExp;
+export function parseBibtex(bibtex_text: string): Record<string, string>;
+export function isolateBibtexEntry(s: string, start: number): string;
+export function collectDependencies(depSet: Set<string>, packageKey: string, citationsData: any): Set<string>;
+export function fetchZenodoBibtex(doi: string): Promise<string>;
+export function getZenodoVersionInfo(concept_doi: string): Promise<Array<{version: string, doi: string}>>;
+export function parseFeatureTags(arr: any[]): Record<string, string[]>;
+export function parsePackageInput(packageString: string): { name: string, version?: string, features?: string[] };
+export function generateAcknowledgment(selectedPackages: string[], citationsData: any, featureSelections?: any, zenodoBibtexMap?: Map<string, any>): string;
+export function generateBibtex(selectedPackages: string[], citationsData: any, bibtexTable: any, featureSelections?: any, zenodoBibtexMap?: Map<string, any>): string;
