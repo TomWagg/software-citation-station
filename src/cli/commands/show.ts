@@ -28,8 +28,8 @@ export const showCommand = new Command('show')
       console.log(`Attribution: ${entry.attribution_link}`);
       if (entry.zenodo_doi) {
         console.log(`Zenodo DOI: ${entry.zenodo_doi}`);
-        const versions = await getZenodoVersionInfoCached(match, entry.zenodo_doi);
-        console.log(`Available Versions: ${versions.map(v => v.version).join(', ')}`);
+        const versionData = await getZenodoVersionInfoCached(match, entry.zenodo_doi);
+        console.log(`Available Versions: ${versionData.versions.map(v => v.version).join(', ')}`);
       }
 
     } catch (error: any) {

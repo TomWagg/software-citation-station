@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 import { fetchCitations, fetchBibtex } from '../dataFetcher.js';
-import { getVersionDoi, fetchZenodoBibtexLive } from '../zenodoFetcher.js';
+import { getZenodoBibtexInfo } from '../zenodoFetcher.js';
 // @ts-ignore
 import { parsePackageInput, collectDependencies, generateAcknowledgment, generateBibtex, parseBibtex } from '../../../js/citationCore.js';
 import { Citations, CitationOutput } from '../types.js';
@@ -47,12 +47,11 @@ export const citeCommand = new Command('cite')
 
         // Handle versioned Zenodo citation
         if (parsed.version && citations[match].zenodo_doi) {
-          const recordId = await getVersionDoi(match, citations[match].zenodo_doi, parsed.version);
-          if (recordId) {
-            const zenodoBibtex = await fetchZenodoBibtexLive(recordId, match);
-            zenodoBibtexMap.set(match, { 
-              bibtex: zenodoBibtex, 
-              tag: `${match}_${recordId}` 
+          const zenodoInfo = await getZenodoBibtexInfo(match, parsed.version, citations[match].zenodo_doi, options.refreshCache);
+          if (zenodoInfo) {
+            zenodoBibtexMap.set(match, {
+              bibtex: zenodoInfo.bibtex,
+              tag: zenodoInfo.tag
             });
           } else {
             console.warn(`Warning: Version "${parsed.version}" for package "${match}" not found on Zenodo. Using base citation.`);

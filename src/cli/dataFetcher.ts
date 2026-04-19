@@ -57,7 +57,7 @@ export async function fetchCitations(refresh = false): Promise<Record<string, an
     if (!response.ok) {
         throw new Error(`Failed to fetch citations: ${response.statusText}`);
     }
-    const data = await response.json();
+    const data = await response.json() as Record<string, any>;
 
     const cacheData: CachedData<Record<string, any>> = {
         fetchedAt: new Date().toISOString(),
