@@ -1,6 +1,4 @@
 import { parseBibtex, collectDependencies, generateAcknowledgment, generateBibtex, fetchZenodoBibtex, getZenodoVersionInfo, parseFeatureTags, parsePackageInput, bibtex_re, latex_re } from "./citationCore.js";
-// bibtex regular expression to extract the tags
-const bibtex_re = /@\w*{(?<tag>.*)(?=\,)/gmi;
 // starting text for new GitHub issues for new software
 const base_issue_text = `# TODO before submitting
 
