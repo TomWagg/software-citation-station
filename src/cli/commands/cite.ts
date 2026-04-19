@@ -79,7 +79,7 @@ export const citeCommand = new Command('cite')
           timestamp: new Date().toISOString(),
           dependencies: Object.fromEntries(
             selectedPackageKeys.map(k => [k, Array.from(collectDependencies(new Set<string>(), k, citations)).sort()])
-          ),
+          ) as any,
           acknowledgments: acknowledgment,
           bibtex: bibtex
         };

@@ -1,4 +1,4 @@
-import { shouldRefreshCache } from '../../src/cli/dataFetcher';
+import { shouldRefreshCache } from '../../src/cli/dataFetcher.js';
 
 describe('dataFetcher', () => {
   describe('shouldRefreshCache', () => {

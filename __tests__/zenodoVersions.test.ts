@@ -2,7 +2,7 @@
  * Comprehensive unit tests for Zenodo version fetching functionality
  */
 
-import { compareVersions, getZenodoVersionInfo } from '../src/zenodoVersions';
+import { compareVersions, getZenodoVersionInfo } from '../src/zenodoVersions.js';
 
 function mockedFetch(): jest.Mock {
   return global.fetch as jest.Mock;

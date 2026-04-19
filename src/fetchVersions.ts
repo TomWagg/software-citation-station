@@ -5,7 +5,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { getZenodoVersionInfo } from './zenodoVersions';
+import { getZenodoVersionInfo } from './zenodoVersions.js';
 
 interface PackageInfo {
   zenodo_doi: string;

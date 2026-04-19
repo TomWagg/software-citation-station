@@ -2,11 +2,12 @@
   "name": "software-citation-station",
   "version": "1.0.0",
   "description": "Software citation station with Zenodo version caching",
+  "type": "module",
   "bin": {
     "scs": "./dist/cli/index.js"
   },
   "scripts": {
-    "test": "jest",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "build": "tsc",
     "fetch-versions": "node dist/fetchVersions.js",
     "scs": "node dist/cli/index.js"
@@ -20,8 +21,18 @@
     "typescript": "^5.3.3"
   },
   "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node",
+    "extensionsToTreatAsEsm": [".ts"],
+    "moduleNameMapper": {
+      "^(\\.{1,2}\/.*)\\.js$": "$1"
+    },
+    "transform": {
+      "^.+\\.tsx?$": [
+        "ts-jest",
+        {
+          "useESM": true
+        }
+      ]
+    },
     "testMatch": [
       "**/__tests__/**/*.test.[jt]s"
     ]

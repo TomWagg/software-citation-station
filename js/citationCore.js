@@ -72,7 +72,7 @@ export function collectDependencies(depSet, packageKey, citationsData) {
  * @returns {Promise<string>} The BibTeX string from Zenodo.
  */
 export async function fetchZenodoBibtex(doi) {
-    const url = \`https://zenodo.org/api/records/\${doi}\`;
+    const url = `https://zenodo.org/api/records/${doi}`;
     try {
         const response = await fetch(url, {
             headers: {
@@ -80,7 +80,7 @@ export async function fetchZenodoBibtex(doi) {
             }
         });
         if (!response.ok) {
-            throw new Error(\`HTTP error! Status: \${response.status}\`);
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
         return await response.text();
     } catch (error) {
@@ -96,7 +96,7 @@ export async function fetchZenodoBibtex(doi) {
  */
 export async function getZenodoVersionInfo(concept_doi) {
     const PAGE_SIZE = 25;
-    const base_url = \`https://zenodo.org/api/records?q=conceptdoi:"\${concept_doi}"&all_versions=true&size=\${PAGE_SIZE}\`;
+    const base_url = `https://zenodo.org/api/records?q=conceptdoi:"${concept_doi}"&all_versions=true&size=${PAGE_SIZE}`;
     try {
         let version_and_doi = [];
         let versions_so_far = new Set();
@@ -105,7 +105,7 @@ export async function getZenodoVersionInfo(concept_doi) {
         let page = 1;
 
         while (version_and_doi.length + n_bad_versions < expected_versions) {
-            let url = base_url + \`&page=\${page}\`;
+            let url = base_url + `&page=${page}`;
             if (page > 40) break;
 
             const response = await fetch(url);
@@ -119,7 +119,7 @@ export async function getZenodoVersionInfo(concept_doi) {
                 await new Promise(resolve => setTimeout(resolve, waitTime));
                 continue;
             }
-            if (!response.ok) throw new Error(\`HTTP error! Status: \${response.status}\`);
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             
             const data = await response.json();
             expected_versions = data.hits.total;
@@ -194,25 +194,25 @@ export function generateAcknowledgment(selectedPackages, citationsData, featureS
         const zenodoInfo = zenodoBibtexMap.get(key);
         let zenodoTag = zenodoInfo ? zenodoInfo.tag : null;
 
-        let pkgAck = \`\\\\texttt{\${key}}\`;
+        let pkgAck = `\\texttt{${key}}`;
         let mainTags = [...tags];
         if (zenodoTag) {
             mainTags.push(zenodoTag);
         }
         
         if (mainTags.length > 0) {
-            pkgAck += \` \\\\citep{\${mainTags.join(",")}}\`;
+            pkgAck += ` \\citep{${mainTags.join(",")}}`;
         } else if (entry.zenodo_doi && !zenodoTag) {
-            pkgAck += "\\\\footnote{{TODO}: Need to choose a version to cite!!}";
+            pkgAck += "\\footnote{{TODO}: Need to choose a version to cite!!}";
         }
         acks.push(pkgAck);
 
         let customAck = entry.custom_citation || "";
         if (customAck) {
             if (zenodoTag) {
-                if (customAck.includes("\\\\citep")) {
+                if (customAck.includes("\\citep")) {
                      let open_braces = 0;
-                     const citepIdx = customAck.indexOf("\\\\citep");
+                     const citepIdx = customAck.indexOf("\\citep");
                      for (let i = citepIdx + 6; i < customAck.length; i++) {
                          if (customAck[i] == "{") {
                              open_braces += 1;
@@ -226,10 +226,10 @@ export function generateAcknowledgment(selectedPackages, citationsData, featureS
                      }
                 } else {
                      if (customAck.endsWith(".")) customAck = customAck.slice(0, -1);
-                     customAck += \` \\\\citep{\${zenodoTag}}.\`;
+                     customAck += ` \\citep{${zenodoTag}}.`;
                 }
             } else if (entry.zenodo_doi) {
-                customAck += "\\\\footnote{{TODO}: Need to choose a version to cite!!}";
+                customAck += "\\footnote{{TODO}: Need to choose a version to cite!!}";
             }
             customAcks.push(customAck);
         }
@@ -239,7 +239,7 @@ export function generateAcknowledgment(selectedPackages, citationsData, featureS
             const featureTagsLookup = parseFeatureTags(entry.feature_tags);
             const featureParts = selectedFeatures.map(f => {
                 const fTags = featureTagsLookup[f] || [];
-                return \`\\\\texttt{\${f}} \\\\citep{\${fTags.join(",")}}\`;
+                return `\\texttt{${f}} \\citep{${fTags.join(",")}}`;
             });
             
             let featureList;
@@ -250,7 +250,7 @@ export function generateAcknowledgment(selectedPackages, citationsData, featureS
             } else {
                 featureList = featureParts.slice(0, -1).join(", ") + ", and " + featureParts[featureParts.length - 1];
             }
-            featureSentences.push(\`The following features of \\\\texttt{\${key}} were used: \${featureList}.\`);
+            featureSentences.push(`The following features of \\texttt{${key}} were used: ${featureList}.`);
         }
     }
 

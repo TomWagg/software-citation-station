@@ -1,55 +1,60 @@
-import fs from 'fs';
-import path from 'path';
-import { getCacheDir, shouldRefreshCache } from './dataFetcher.js';
-// @ts-ignore
-import { getZenodoVersionInfo, fetchZenodoBibtex, bibtex_re } from '../../js/citationCore.js';
+import { fetchZenodoBibtex, getZenodoVersionInfo } from '../../js/citationCore.js';
+import { getCachedDataPath, shouldRefreshCache } from './dataFetcher.js';
+import type { CachedVersionData, ZenodoBibtexInfo } from './types.js';
 
-export interface ZenodoVersion {
-  version: string;
-  doi: string;
-}
+export async function getZenodoVersionInfoCached(packageName: string, conceptDoi: string, refresh = false): Promise<CachedVersionData> {
+    const cachePath = getCachedDataPath(`zenodo-versions/${packageName}.json`);
+    const cacheDir = cachePath.substring(0, cachePath.lastIndexOf('/'));
 
-export async function getZenodoVersionInfoCached(packageName: string, conceptDoi: string): Promise<ZenodoVersion[]> {
-    const versionsDir = path.join(getCacheDir(), 'zenodo-versions');
-    if (!fs.existsSync(versionsDir)) {
-        fs.mkdirSync(versionsDir, { recursive: true });
-    }
-    
-    const cachePath = path.join(versionsDir, `${packageName}.json`);
-    
-    if (fs.existsSync(cachePath)) {
-        const cachedData = JSON.parse(fs.readFileSync(cachePath, 'utf8'));
-        if (!shouldRefreshCache(cachedData.fetchedAt)) {
-            return cachedData.versions;
+    if (!refresh) {
+        try {
+            const cached = await import('fs').then(fs => fs.readFileSync(cachePath, 'utf-8'));
+            const parsed = JSON.parse(cached) as CachedVersionData;
+            if (!shouldRefreshCache(parsed.fetchedAt)) {
+                return parsed;
+            }
+        } catch (error) {
+            console.debug(`No cached version data found for ${packageName}`);
         }
     }
-    
-    console.error(`Fetching Zenodo versions for ${packageName}...`);
+
+    console.log(`Fetching Zenodo versions for ${packageName}...`);
     const versions = await getZenodoVersionInfo(conceptDoi);
-    const dataToCache = {
+
+    const cacheData: CachedVersionData = {
         fetchedAt: new Date().toISOString(),
-        versions: versions
+        versions
     };
-    fs.writeFileSync(cachePath, JSON.stringify(dataToCache, null, 2));
-    return versions;
-}
 
-export async function fetchZenodoBibtexLive(recordId: string, packageName: string): Promise<string> {
-    let bibtex = await fetchZenodoBibtex(recordId);
-    // Apply tag replacement as in software.js
-    if (bibtex) {
-        bibtex = bibtex.replace(bibtex_re, `@software{${packageName}_${recordId}`);
+    const fs = await import('fs');
+    if (!await import('fs').then(fs => fs.existsSync(cacheDir))) {
+        await import('fs').then(fs => fs.mkdirSync(cacheDir, { recursive: true }));
     }
-    return bibtex;
+    await import('fs').then(fs => fs.writeFileSync(cachePath, JSON.stringify(cacheData, null, 2)));
+
+    return cacheData;
 }
 
-export async function getVersionDoi(packageName: string, conceptDoi: string, version: string): Promise<string | null> {
-    const versions = await getZenodoVersionInfoCached(packageName, conceptDoi);
-    const v = version.toLowerCase();
-    const match = versions.find((item: ZenodoVersion) => 
-        item.version.toLowerCase() === v || 
-        item.version.toLowerCase() === 'v' + v ||
-        'v' + item.version.toLowerCase() === v
-    );
-    return match ? match.doi : null;
+export async function fetchZenodoBibtexLive(recordId: string): Promise<string> {
+    return await fetchZenodoBibtex(recordId);
+}
+
+export function getVersionDoi(packageName: string, version: string, cachedData: CachedVersionData): string | undefined {
+    const versionData = cachedData.versions.find(v => v.version === version || v.version === `v${version}`);
+    return versionData?.doi;
+}
+
+export async function getZenodoBibtexInfo(packageName: string, version: string, conceptDoi: string, refresh = false): Promise<ZenodoBibtexInfo | undefined> {
+    const cachedData = await getZenodoVersionInfoCached(packageName, conceptDoi, refresh);
+    const recordId = getVersionDoi(packageName, version, cachedData);
+
+    if (!recordId) {
+        console.warn(`Version ${version} not found for ${packageName}`);
+        return undefined;
+    }
+
+    const bibtex = await fetchZenodoBibtexLive(recordId);
+    const tag = `${packageName}_${version}`;
+
+    return { bibtex, tag, version };
 }
