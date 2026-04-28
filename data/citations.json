@@ -3532,5 +3532,25 @@
         "zenodo_doi": "",
         "custom_citation": "",
         "dependencies": []
-    }
+    },
+    "CUDA.jl": {
+    "tags": [
+        "besard2018juliagpu",
+        "besard2019prototyping"
+    ],
+    "logo": "https://cuda.juliagpu.org/stable/assets/logo.png",
+    "language": [
+        "Julia"
+    ],
+    "category": [
+        "Computing"
+    ],
+    "keywords": [],
+    "description": "The CUDA.jl package is the main programming interface for working with NVIDIA CUDA GPUs using Julia.",
+    "link": "https://juliagpu.org/backends/cuda/",
+    "attribution_link": "https://cuda.juliagpu.org/stable/#Supporting-and-Citing",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": []
+}
 }
