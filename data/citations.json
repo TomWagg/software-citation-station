@@ -1,9 +1,15 @@
 {
     "python": {
-        "tags": ["python"],
+        "tags": [
+            "python"
+        ],
         "logo": "img/python.png",
-        "language": "python",
-        "category": "general",
+        "language": [
+            "python"
+        ],
+        "category": [
+            "general"
+        ],
         "keywords": [],
         "description": "A high-level, general-purpose interpreted programming language.",
         "link": "https://docs.python.org/3/",
@@ -14,11 +20,17 @@
         "frequently_used": true
     },
     "numpy": {
-        "tags": ["numpy"],
+        "tags": [
+            "numpy"
+        ],
         "logo": "img/numpy.svg",
         "logo_background": true,
-        "language": "python",
-        "category": "general",
+        "language": [
+            "python"
+        ],
+        "category": [
+            "general"
+        ],
         "keywords": [],
         "description": "The fundamental package for scientific computing with Python",
         "link": "https://numpy.org/doc/stable/",
@@ -31,11 +43,21 @@
         "frequently_used": true
     },
     "matplotlib": {
-        "tags": ["Hunter:2007"],
+        "tags": [
+            "Hunter:2007"
+        ],
         "logo": "img/matplotlib.webp",
-        "language": "python",
-        "category": "visualisation",
-        "keywords": ["plotting", "figures", "graphs"],
+        "language": [
+            "python"
+        ],
+        "category": [
+            "visualisation"
+        ],
+        "keywords": [
+            "plotting",
+            "figures",
+            "graphs"
+        ],
         "description": "Matplotlib is a comprehensive library for creating static, animated, and interactive visualizations in Python. Matplotlib makes easy things easy and hard things possible.",
         "link": "https://matplotlib.org/",
         "zenodo_doi": "",
@@ -48,14 +70,25 @@
         "frequently_used": true
     },
     "astropy": {
-        "tags": ["astropy:2013", "astropy:2018", "astropy:2022"],
+        "tags": [
+            "astropy:2013",
+            "astropy:2018",
+            "astropy:2022"
+        ],
         "logo": "img/astropy.png",
-        "language": "python",
-        "category": "general",
-        "keywords": ["astronomy", "astrophysics"],
+        "language": [
+            "python"
+        ],
+        "category": [
+            "general"
+        ],
+        "keywords": [
+            "astronomy",
+            "astrophysics"
+        ],
         "description": "The astropy package contains key functionality and common tools needed for performing astronomy and astrophysics with Python.",
         "link": "https://docs.astropy.org/en/stable/",
-        "zenodo_doi": "",
+        "zenodo_doi": "10.5281/zenodo.4670728",
         "attribution_link": "https://www.astropy.org/acknowledging.html",
         "custom_citation": "",
         "dependencies": [
@@ -67,10 +100,16 @@
         "frequently_used": true
     },
     "scipy": {
-        "tags": ["2020SciPy-NMeth"],
+        "tags": [
+            "2020SciPy-NMeth"
+        ],
         "logo": "img/scipy.svg",
-        "language": "python",
-        "category": "general",
+        "language": [
+            "python"
+        ],
+        "category": [
+            "general"
+        ],
         "keywords": [],
         "description": "Fundamental algorithms for scientific computing in Python",
         "link": "https://docs.scipy.org/doc/scipy/reference/",
@@ -84,11 +123,20 @@
         "frequently_used": true
     },
     "pandas": {
-        "tags": ["mckinney-proc-scipy-2010"],
+        "tags": [
+            "mckinney-proc-scipy-2010"
+        ],
         "logo": "img/pandas.svg",
-        "language": "python",
-        "category": "Data Handling",
-        "keywords": ["dataframes", "data manipulation"],
+        "language": [
+            "python"
+        ],
+        "category": [
+            "Data Handling"
+        ],
+        "keywords": [
+            "dataframes",
+            "data manipulation"
+        ],
         "description": "pandas is an open source, BSD-licensed library providing high-performance, easy-to-use data structures and data analysis tools for the Python programming language.",
         "link": "https://pandas.pydata.org/docs/",
         "zenodo_doi": "10.5281/zenodo.3509134",
@@ -101,11 +149,21 @@
         "frequently_used": true
     },
     "seaborn": {
-        "tags": ["Waskom2021"],
+        "tags": [
+            "Waskom2021"
+        ],
         "logo": "img/seaborn.svg",
-        "language": "python",
-        "category": "visualisation",
-        "keywords": ["plotting", "figures", "graphs"],
+        "language": [
+            "python"
+        ],
+        "category": [
+            "visualisation"
+        ],
+        "keywords": [
+            "plotting",
+            "figures",
+            "graphs"
+        ],
         "description": "Seaborn is a Python data visualization library based on matplotlib. It provides a high-level interface for drawing attractive and informative statistical graphics.",
         "link": "https://seaborn.pydata.org/",
         "zenodo_doi": "",
@@ -117,12 +175,20 @@
             "pandas"
         ]
     },
-    "ADS":{
+    "ADS": {
         "tags": [],
         "logo": "https://ui.adsabs.harvard.edu/help/img/bbb_assets/ads_partial_logo_dark_background.svg",
-        "language": "java",
-        "category": "library",
-        "keywords": ["library", "references", "papers"],
+        "language": [
+            "java"
+        ],
+        "category": [
+            "library"
+        ],
+        "keywords": [
+            "library",
+            "references",
+            "papers"
+        ],
         "description": "The SAO/NASA Astrophysics Data System (ADS) is a digital library portal for researchers in astronomy and physics, operated by the Smithsonian Astrophysical Observatory (SAO) under a NASA grant.",
         "link": "https://ui.adsabs.harvard.edu/about/",
         "zenodo_doi": "",
@@ -131,11 +197,22 @@
         "frequently_used": true
     },
     "legwork": {
-        "tags": ["LEGWORK_joss", "LEGWORK_apjs"],
+        "tags": [
+            "LEGWORK_joss",
+            "LEGWORK_apjs"
+        ],
         "logo": "img/legwork.png",
-        "language": "python",
-        "category": "gravitational waves",
-        "keywords": ["LISA", "double compact objects", "inspiral"],
+        "language": [
+            "python"
+        ],
+        "category": [
+            "gravitational waves"
+        ],
+        "keywords": [
+            "LISA",
+            "double compact objects",
+            "inspiral"
+        ],
         "description": "LEGWORK (LISA Evolution and Gravitational Wave ORbit Kit) is a python package designed to calculate signal-to-noise ratios for GWs emitted from inspiraling binary systems that are potentially observable by LISA.",
         "link": "https://legwork.readthedocs.io/en/stable/",
         "zenodo_doi": "10.5281/zenodo.5821187",
@@ -153,15 +230,47 @@
         ]
     },
     "MESA": {
-        "tags": ["Paxton2011", "Paxton2013", "Paxton2015", "Paxton2018", "Paxton2019", "Jermyn2023",
-                 "Rogers2002", "Saumon1995", "Irwin2004", "Timmes2000", "Potekhin2010", "Jermyn2021",
-                 "Iglesias1993", "Iglesias1996", "Ferguson2005", "Poutanen2017", "Cassisi2007", "Blouin2020",
-                 "Cyburt2010", "Angulo1999", "Fuller1985", "Oda1994", "Langanke2000", "Chugunov2007",
-                 "Itoh1996", "Eggleton1983", "Ritter1988"],
+        "tags": [
+            "Paxton2011",
+            "Paxton2013",
+            "Paxton2015",
+            "Paxton2018",
+            "Paxton2019",
+            "Jermyn2023",
+            "Rogers2002",
+            "Saumon1995",
+            "Irwin2004",
+            "Timmes2000",
+            "Potekhin2010",
+            "Jermyn2021",
+            "Iglesias1993",
+            "Iglesias1996",
+            "Ferguson2005",
+            "Poutanen2017",
+            "Cassisi2007",
+            "Blouin2020",
+            "Cyburt2010",
+            "Angulo1999",
+            "Fuller1985",
+            "Oda1994",
+            "Langanke2000",
+            "Chugunov2007",
+            "Itoh1996",
+            "Eggleton1983",
+            "Ritter1988"
+        ],
         "logo": "img/mesa.png",
-        "language": "fortran",
-        "category": "stars",
-        "keywords": ["stellar evolution", "stellar structure", "stellar astrophysics"],
+        "language": [
+            "fortran"
+        ],
+        "category": [
+            "stars"
+        ],
+        "keywords": [
+            "stellar evolution",
+            "stellar structure",
+            "stellar astrophysics"
+        ],
         "description": "Modules for Experiments in Stellar Astrophysics (MESA) is an open-source 1D stellar evolution code.",
         "link": "http://mesa.sourceforge.net/",
         "zenodo_doi": "",
@@ -169,11 +278,24 @@
         "custom_citation": "This work uses Modules for Experiments in Stellar Astrophysics \\citep[MESA][]{Paxton2011, Paxton2013, Paxton2015, Paxton2018, Paxton2019, Jermyn2023}. The MESA EOS is a blend of the OPAL \\citep{Rogers2002}, SCVH \\citep{Saumon1995}, FreeEOS \\citep{Irwin2004}, HELM \\citep{Timmes2000}, PC \\citep{Potekhin2010}, and Skye \\citep{Jermyn2021} EOSes. Radiative opacities are primarily from OPAL \\citep{Iglesias1993, Iglesias1996}, with low-temperature data from \\citet{Ferguson2005} and the high-temperature, Compton-scattering dominated regime by \\citet{Poutanen2017}.  Electron conduction opacities are from \\citet{Cassisi2007} and \\citet{Blouin2020}. Nuclear reaction rates are from JINA REACLIB \\citep{Cyburt2010}, NACRE \\citep{Angulo1999} and additional tabulated weak reaction rates \\citet{Fuller1985, Oda1994, Langanke2000}.  Screening is included via the prescription of \\citet{Chugunov2007}. Thermal neutrino loss rates are from \\citet{Itoh1996}. Roche lobe radii in binary systems are computed using the fit of \\citet{Eggleton1983}.  Mass transfer rates in Roche lobe overflowing binary systems are determined following the prescription of \\citet{Ritter1988}.\\footnote{Note this is only valid for the default settings of MESA, adjust as necessary for custom settings used.}"
     },
     "gyre": {
-        "tags": ["Townsend+2013", "Townsend+2018", "Goldstein+2020", "Sun+2023"],
+        "tags": [
+            "Townsend+2013",
+            "Townsend+2018",
+            "Goldstein+2020",
+            "Sun+2023"
+        ],
         "logo": "img/gyre.webp",
-        "language": "python",
-        "category": "stars",
-        "keywords": ["asteroseismology", "stellar oscillations", "stellar pulsations"],
+        "language": [
+            "python"
+        ],
+        "category": [
+            "stars"
+        ],
+        "keywords": [
+            "asteroseismology",
+            "stellar oscillations",
+            "stellar pulsations"
+        ],
         "description": "GYRE is a stellar oscillation code. Given an input stellar model, GYRE calculates the eigenfrequencies and eigenfunctions for the normal oscillation modes of the model.",
         "link": "https://gyre.readthedocs.io/en/stable/",
         "zenodo_doi": "",
@@ -181,29 +303,70 @@
         "custom_citation": ""
     },
     "COMPAS": {
-        "tags": ["COMPAS", "Barrett2018", "Broekgaarden2019", "Neijssel2019", "Stevenson2019", "Chattopadhyay2020", "Riley2021"],
+        "tags": ["COMPAS"],
         "logo": "img/COMPAS.png",
-        "language": "c++",
-        "category": "population synthesis",
-        "keywords": ["population synthesis", "binary stars", "double compact objects", "gravitational waves"],
+        "language": [
+            "c++"
+        ],
+        "category": [
+            "population synthesis"
+        ],
+        "keywords": [
+            "population synthesis",
+            "binary stars",
+            "double compact objects",
+            "gravitational waves"
+        ],
         "description": "Compact Object Mergers: Population Astrophysics and Statistics (COMPAS) combines tools for statistical analysis and model selection with rapid population synthesis, allowing inferences to be made about the details of stellar and binary evolution.",
         "link": "https://compas.science/docs",
         "zenodo_doi": "",
+        "custom_citation": "",
         "attribution_link": "https://compas.readthedocs.io/en/latest/pages/how-to-cite.html",
-        "custom_citation": "Simulations in this paper made use of the COMPAS rapid binary population synthesis code (version X.Y.Z\\footnote{TODO: Update version number}), which is freely available at \\url{http://github.com/TeamCOMPAS/COMPAS} \\citep{COMPAS}. Model of gravitational wave selection effects based on \\citet{Barrett2018}. The STROOPWAFEL adaptive importance sampling algorithm is from \\citet{Broekgaarden2019}. Integration over cosmic star formation history outlined in \\citep{Neijssel2019}. COMPAS' model of (pulsational) pair instability supernova is from \\citet{Stevenson2019}. Pulsar spin and magnetic field evolution is from \\citet{Chattopadhyay2020}. Model of chemically homogeneous evolution is from \\citet{Riley2021}.",
-        "extra_bibtex": "@PREAMBLE{{\\providecommand{\\noopsort}[1]{}}}"
+        "extra_bibtex": "@PREAMBLE{{\\providecommand{\\noopsort}[1]{}}}",
+        "feature_tags": [
+            {
+                "Gravitational wave selection effects": ["Barrett2018"]
+            },
+            {
+                "STROOPWAFEL adaptive importance sampling algorithm": ["Broekgaarden2019"]
+            },
+            {
+                "Integration over cosmic star formation history": ["Neijssel2019"]
+            },
+            {
+                "Model of (pulsational) pair instability supernova": ["Stevenson2019"]
+            },
+            {
+                "Pulsar spin and magnetic field evolution": ["Chattopadhyay2020"]
+            },
+            {
+                "Model of chemically homogeneous evolution": ["Riley2021"]
+            }
+        ]
     },
     "COSMIC": {
-        "tags": ["Breivik2020"],
+        "tags": [
+            "Breivik2020"
+        ],
         "logo": "img/cosmic.png",
-        "language": "python",
-        "category": "population synthesis",
-        "keywords": ["population synthesis", "binary stars", "double compact objects", "gravitational waves"],
+        "language": [
+            "python"
+        ],
+        "category": [
+            "population synthesis"
+        ],
+        "keywords": [
+            "population synthesis",
+            "binary stars",
+            "double compact objects",
+            "gravitational waves"
+        ],
         "description": "COSMIC (Compact Object Synthesis and Monte Carlo Investigation Code) is a rapid binary population synthesis suite with a special focus of generating compact binary populations.",
         "link": "https://cosmic-popsynth.github.io/docs/",
         "zenodo_doi": "10.5281/zenodo.3382152",
         "attribution_link": "https://github.com/COSMIC-PopSynth/COSMIC/blob/develop/README.md",
         "custom_citation": "",
+        "pypi-name": "cosmic-popsynth",
         "dependencies": [
             "python",
             "numpy",
@@ -218,11 +381,21 @@
         ]
     },
     "gala": {
-        "tags": ["gala_JOSS"],
+        "tags": [
+            "gala_JOSS"
+        ],
         "logo": "img/gala.png",
-        "language": "python",
-        "category": "galactic dynamics",
-        "keywords": ["dynamics", "galaxy", "potential"],
+        "language": [
+            "python"
+        ],
+        "category": [
+            "galactic dynamics"
+        ],
+        "keywords": [
+            "dynamics",
+            "galaxy",
+            "potential"
+        ],
         "description": "gala is an Astropy-affiliated Python package that aims to provide efficient tools for performing common tasks needed in Galactic Dynamics research.",
         "link": "http://gala.adrian.pw/",
         "zenodo_doi": "10.5281/zenodo.593786",
@@ -236,11 +409,21 @@
         ]
     },
     "showyourwork": {
-        "tags": ["Luger2021"],
+        "tags": [
+            "Luger2021"
+        ],
         "logo": "img/showyourwork.png",
-        "language": "latex",
-        "category": "Manuscript preparation",
-        "keywords": ["latex", "paper with code", "workflow management"],
+        "language": [
+            "latex"
+        ],
+        "category": [
+            "Manuscript preparation"
+        ],
+        "keywords": [
+            "latex",
+            "paper with code",
+            "workflow management"
+        ],
         "description": "Showyourwork! is a workflow management tool for open source scientific articles.",
         "link": "https://show-your.work/en/latest/",
         "zenodo_doi": "",
@@ -248,11 +431,22 @@
         "custom_citation": ""
     },
     "emcee": {
-        "tags": ["emcee-Foreman-Mackey-2013"],
+        "tags": [
+            "emcee-Foreman-Mackey-2013"
+        ],
         "logo": "img/emcee.png",
-        "language": "python",
-        "category": "statistics",
-        "keywords": ["MCMC", "statistics", "sampling", "markov chain"],
+        "language": [
+            "python"
+        ],
+        "category": [
+            "statistics"
+        ],
+        "keywords": [
+            "MCMC",
+            "statistics",
+            "sampling",
+            "markov chain"
+        ],
         "description": "emcee is a stable, well tested Python implementation of the affine-invariant ensemble sampler for Markov chain Monte Carlo (MCMC) proposed by Goodman & Weare (2010).",
         "link": "https://emcee.readthedocs.io/",
         "zenodo_doi": "10.5281/zenodo.1297476",
@@ -265,11 +459,22 @@
         ]
     },
     "corner.py": {
-        "tags": ["corner-Foreman-Mackey-2016"],
+        "tags": [
+            "corner-Foreman-Mackey-2016"
+        ],
         "logo": "img/corner.png",
-        "language": "python",
-        "category": "statistics",
-        "keywords": ["corner", "statistics", "plotting", "histogram"],
+        "language": [
+            "python"
+        ],
+        "category": [
+            "statistics"
+        ],
+        "keywords": [
+            "corner",
+            "statistics",
+            "plotting",
+            "histogram"
+        ],
         "description": "corner.py is a Python module that uses matplotlib to visualize multidimensional samples using a scatterplot matrix.",
         "link": "https://corner.readthedocs.io/en/latest/",
         "zenodo_doi": "10.5281/zenodo.591491",
@@ -280,11 +485,22 @@
         ]
     },
     "astroBlend": {
-        "tags": ["AstroBlend:2016"],
+        "tags": [
+            "AstroBlend:2016"
+        ],
         "logo": "img/AstroBlend.png",
-        "language": "python",
-        "category": "visualisation",
-        "keywords": ["blender", "visualization", "plotting", "yt"],
+        "language": [
+            "python"
+        ],
+        "category": [
+            "visualisation"
+        ],
+        "keywords": [
+            "blender",
+            "visualization",
+            "plotting",
+            "yt"
+        ],
         "description": " Combine artistic 3D models with computational astrophysics datasets and win the internet.",
         "link": "https://www.astroblend.com/getstarted.html",
         "zenodo_doi": "",
@@ -292,11 +508,23 @@
         "custom_citation": ""
     },
     "Jupyter": {
-        "tags": ["2007CSE.....9c..21P", "kluyver2016jupyter"],
+        "tags": [
+            "2007CSE.....9c..21P",
+            "kluyver2016jupyter"
+        ],
         "logo": "img/jupyter.png",
-        "language": "python",
-        "category": "general",
-        "keywords": ["jupyter", "notebook", "plotting", "coding"],
+        "language": [
+            "python"
+        ],
+        "category": [
+            "general"
+        ],
+        "keywords": [
+            "jupyter",
+            "notebook",
+            "plotting",
+            "coding"
+        ],
         "description": "Free software, open standards, and web services for interactive computing across all programming languages",
         "link": "https://jupyter.org/",
         "zenodo_doi": "",
@@ -308,11 +536,22 @@
         "frequently_used": true
     },
     "h5py": {
-        "tags": ["collette_python_hdf5_2014"],
+        "tags": [
+            "collette_python_hdf5_2014"
+        ],
         "logo": "img/HDF5.png",
-        "language": "python",
-        "category": "Data Handling",
-        "keywords": ["Data Handling", "data analysis", "plotting", "coding"],
+        "language": [
+            "python"
+        ],
+        "category": [
+            "Data Handling"
+        ],
+        "keywords": [
+            "Data Handling",
+            "data analysis",
+            "plotting",
+            "coding"
+        ],
         "description": "The h5py package is a Pythonic interface to the HDF5 binary data format.",
         "link": "https://docs.h5py.org/en/stable/",
         "zenodo_doi": "10.5281/zenodo.594310",
@@ -324,11 +563,23 @@
         ]
     },
     "ChaNGa": {
-        "tags": ["Jetley2008", "Jetley2010", "Menon2015"],
+        "tags": [
+            "Jetley2008",
+            "Jetley2010",
+            "Menon2015"
+        ],
         "logo": "",
-        "language": "c++",
-        "category": "n-body",
-        "keywords": ["n-body", "galaxy formation", "galaxy evolution"],
+        "language": [
+            "c++"
+        ],
+        "category": [
+            "n-body"
+        ],
+        "keywords": [
+            "n-body",
+            "galaxy formation",
+            "galaxy evolution"
+        ],
         "description": "ChaNGa (Charm N-body GrAvity solver) is a code to perform collisionless N-body simulations.",
         "link": "https://github.com/N-BodyShop/changa/wiki",
         "zenodo_doi": "",
@@ -336,11 +587,24 @@
         "custom_citation": ""
     },
     "FIRE-2": {
-        "tags": ["Wetzel2023", "Hopkins2015", "Hopkins2018a"],
+        "tags": [
+            "Wetzel2023",
+            "Hopkins2015",
+            "Hopkins2018a"
+        ],
         "logo": "img/FIRE.png",
-        "language": "C",
-        "category": "n-body",
-        "keywords": ["n-body", "galaxy formation", "galaxy evolution", "feedback"],
+        "language": [
+            "C"
+        ],
+        "category": [
+            "n-body"
+        ],
+        "keywords": [
+            "n-body",
+            "galaxy formation",
+            "galaxy evolution",
+            "feedback"
+        ],
         "description": "The FIRE: Feedback In Realistic Environments project seeks to develop and explore cosmological simulations of galaxy formation that directly resolve the interstellar medium of individual galaxies while capturing their cosmological environment.",
         "link": "http://flathub.flatironinstitute.org/fire",
         "zenodo_doi": "",
@@ -348,11 +612,22 @@
         "custom_citation": "We use simulations from the FIRE-2 public data release \\citep{Wetzel2023}. The FIRE-2 cosmological zoom-in simulations of galaxy formation are part of the Feedback In Realistic Environments (FIRE) project, generated using the Gizmo code \\citep{Hopkins2015} and the FIRE-2 physics model \\citep{Hopkins2018a}."
     },
     "stella": {
-        "tags": ["Feinstein2020"],
+        "tags": [
+            "Feinstein2020"
+        ],
         "logo": "img/stella.png",
-        "language": "python",
-        "category": "stars",
-        "keywords": ["flares", "stellar activity", "machine learning", "neural networks"],
+        "language": [
+            "python"
+        ],
+        "category": [
+            "stars"
+        ],
+        "keywords": [
+            "flares",
+            "stellar activity",
+            "machine learning",
+            "neural networks"
+        ],
         "description": "stella is a Python package to create and train a neural network to identify stellar flares.",
         "link": "https://github.com/afeinstein20/stella",
         "zenodo_doi": "",
@@ -372,11 +647,21 @@
         ]
     },
     "GWFish": {
-        "tags": ["DupletsaHarms2023"],
+        "tags": [
+            "DupletsaHarms2023"
+        ],
         "logo": "img/gwfish-1.png",
-        "language": "python",
-        "category": "gravitational waves",
-        "keywords": ["gravitational waves", "fisher", "black holes"],
+        "language": [
+            "python"
+        ],
+        "category": [
+            "gravitational waves"
+        ],
+        "keywords": [
+            "gravitational waves",
+            "fisher",
+            "black holes"
+        ],
         "description": "Simulation of gravitational-wave detector networks with Fisher-matrix PE",
         "link": "https://github.com/janosch314/GWFish",
         "zenodo_doi": "",
@@ -393,23 +678,59 @@
         ]
     },
     "CAMELS": {
-        "tags": [ "CAMELS_presentation", "CAMELS_DR1", "CAMELS_DR2"],
+        "tags": [
+            "CAMELS_presentation",
+            "CAMELS_DR1",
+            "CAMELS_DR2"
+        ],
         "logo": "img/CAMELS.png",
-        "language": "python",
-        "category": "population synthesis",
-        "keywords": ["CAMELS", "cosmology simulations", "galaxies"],
+        "language": [
+            "python"
+        ],
+        "category": [
+            "population synthesis"
+        ],
+        "keywords": [
+            "CAMELS",
+            "cosmology simulations",
+            "galaxies"
+        ],
         "description": "CAMELS stands for Cosmology and Astrophysics with MachinE Learning Simulations, and it is a project that aims at building bridges between cosmology and astrophysics through numerical simulations and machine learning.",
         "link": "https://camels.readthedocs.io/en/latest/",
         "zenodo_doi": "",
         "attribution_link": "https://camels.readthedocs.io/en/latest/citation.html",
-        "custom_citation": "This work made use of \\citet{CAMELS_presentation} \\footnote{TODO: If you use data from CAMELS-SAM please consider citing the CMD paper  \\citet{CMD} If you use data from CAMELS-SAM please consider citing the CAMELS-SAM paper \\citet{CAMELS-SAM}}"
+        "custom_citation": "",
+        "feature_tags": [
+            {
+                "CAMELS-SAM": ["CAMELS-SAM"]
+            },
+            {
+                "CAMELS Photometry": ["CAMELS-Photometry"]
+            },
+            {
+                "CAMELS Multifield Dataset": ["CAMELS-Multifield-Dataset"]
+            },
+            {
+                "CAMELS zoomGZ": ["CAMELS-zoomGZ"]
+            }
+        ]
     },
     "JAX": {
-        "tags": [ "jax2018github"],
+        "tags": [
+            "jax2018github"
+        ],
         "logo": "img/jax.png",
-        "language": "python",
-        "category": "computing",
-        "keywords": ["jax", "computing", "AI"],
+        "language": [
+            "python"
+        ],
+        "category": [
+            "computing"
+        ],
+        "keywords": [
+            "jax",
+            "computing",
+            "AI"
+        ],
         "description": "JAX is a Python library for accelerator-oriented array computation and program transformation, designed for high-performance numerical computing and large-scale machine learning.",
         "link": "https://github.com/google/jax?tab=readme-ov-file",
         "zenodo_doi": "",
@@ -417,11 +738,21 @@
         "custom_citation": ""
     },
     "Cython": {
-        "tags": [ "cython:2011"],
+        "tags": [
+            "cython:2011"
+        ],
         "logo": "img/cython.png",
-        "language": "python",
-        "category": "computing",
-        "keywords": ["C++", "computing", "python"],
+        "language": [
+            "python"
+        ],
+        "category": [
+            "computing"
+        ],
+        "keywords": [
+            "C++",
+            "computing",
+            "python"
+        ],
         "description": "Cython is a Python language extension that allows explicit type declarations and is compiled directly to C. As such, it addresses Python's large overhead for numerical loops and the difficulty of efficiently using existing C and Fortran code, which Cython can interact with natively.",
         "link": "https://github.com/cython/cython?tab=readme-ov-file",
         "zenodo_doi": "",
@@ -429,11 +760,21 @@
         "custom_citation": ""
     },
     "scikit-image": {
-        "tags": [ "scikit-image"],
+        "tags": [
+            "scikit-image"
+        ],
         "logo": "img/scikit-image.png",
-        "language": "python",
-        "category": "visualisation",
-        "keywords": ["python", "computing", "visualization"],
+        "language": [
+            "python"
+        ],
+        "category": [
+            "visualisation"
+        ],
+        "keywords": [
+            "python",
+            "computing",
+            "visualization"
+        ],
         "description": "scikit-image is a collection of algorithms for image processing. ",
         "link": "https://scikit-image.org/",
         "zenodo_doi": "",
@@ -445,11 +786,22 @@
         ]
     },
     "scikit-learn": {
-        "tags": [ "scikit-learn", "sklearn_api"],
+        "tags": [
+            "scikit-learn",
+            "sklearn_api"
+        ],
         "logo": "img/scikit-learn.png",
-        "language": "python",
-        "category": "machine learning",
-        "keywords": ["python", "computing", "machine learning"],
+        "language": [
+            "python"
+        ],
+        "category": [
+            "machine learning"
+        ],
+        "keywords": [
+            "python",
+            "computing",
+            "machine learning"
+        ],
         "description": "scikit-learn is a Python module for machine learning built on top of SciPy and is distributed under the 3-Clause BSD license. ",
         "link": "https://scikit-learn.org/stable/",
         "zenodo_doi": "10.5281/zenodo.591564",
@@ -461,12 +813,22 @@
         ]
     },
     "Numba": {
-        "tags": [ "numba:2015"],
+        "tags": [
+            "numba:2015"
+        ],
         "logo": "img/numba.png",
         "logo_background": true,
-        "language": "python",
-        "category": "computing",
-        "keywords": ["machine learning", "computing", "python"],
+        "language": [
+            "python"
+        ],
+        "category": [
+            "computing"
+        ],
+        "keywords": [
+            "machine learning",
+            "computing",
+            "python"
+        ],
         "description": "Numba is an open source JIT compiler that translates a subset of Python and NumPy code into fast machine code.",
         "link": "https://numba.pydata.org/",
         "zenodo_doi": "10.5281/zenodo.4343230",
@@ -476,12 +838,24 @@
             "numpy"
         ]
     },
-    "IRAF":{
-        "tags": ["1993ASPC...52..173T", "1986SPIE..627..733T"],
+    "IRAF": {
+        "tags": [
+            "1993ASPC...52..173T",
+            "1986SPIE..627..733T"
+        ],
         "logo": "img/IRAF.png",
-        "language": "C",
-        "category": "imaging",
-        "keywords": ["imaging", "data reduction", "observations", "images"],
+        "language": [
+            "C"
+        ],
+        "category": [
+            "imaging"
+        ],
+        "keywords": [
+            "imaging",
+            "data reduction",
+            "observations",
+            "images"
+        ],
         "description": "IRAF is the Image Reduction and Analysis Facility, a general purpose software system for the reduction and analysis of astronomical data.",
         "link": "https://iraf-community.github.io/",
         "zenodo_doi": "",
@@ -489,11 +863,20 @@
         "custom_citation": ""
     },
     "julia": {
-        "tags": ["bezanson2017julia"],
+        "tags": [
+            "bezanson2017julia"
+        ],
         "logo": "img/julia.png",
-        "language": "julia",
-        "category": "general",
-        "keywords": ["programming", "computing"],
+        "language": [
+            "julia"
+        ],
+        "category": [
+            "general"
+        ],
+        "keywords": [
+            "programming",
+            "computing"
+        ],
         "description": "The Julia programming language is a flexible dynamic language, appropriate for scientific and numerical computing, with performance comparable to traditional statically-typed languages.",
         "link": "https://docs.julialang.org/en/v1/",
         "zenodo_doi": "",
@@ -505,14 +888,18 @@
             "2018ascl.soft12013L"
         ],
         "logo": "",
-        "language": "Python",
-        "category": "Data Handling",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Data Handling"
+        ],
         "keywords": [
             "photometry",
             " Kepler",
             " TESS"
         ],
-        "description": "Lightkurve offers a user-friendly way to analyze time series data on the brightness of planets, stars, and galaxies. The package is focused on supporting science with NASA’s Kepler and TESS.",
+        "description": "Lightkurve offers a user-friendly way to analyze time series data on the brightness of planets, stars, and galaxies. The package is focused on supporting science with NASA\u2019s Kepler and TESS.",
         "link": "https://docs.lightkurve.org/",
         "attribution_link": "https://docs.lightkurve.org/about/citing.html",
         "zenodo_doi": "10.5281/zenodo.1181928",
@@ -534,8 +921,12 @@
             "Stone2020"
         ],
         "logo": "img/athena-pp.png",
-        "language": "C++",
-        "category": "Computing",
+        "language": [
+            "C++"
+        ],
+        "category": [
+            "Computing"
+        ],
         "keywords": [
             "GRMHD",
             "adaptive mesh refinement",
@@ -554,8 +945,12 @@
             "kerzendorf_wolfgang_2019_2590539"
         ],
         "logo": "img/tardis.png",
-        "language": "Python",
-        "category": "Transients",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Transients"
+        ],
         "keywords": [
             "supernova",
             "spectral modelling",
@@ -565,7 +960,12 @@
         "link": "https://tardis-sn.github.io/",
         "attribution_link": "https://tardis-sn.github.io/credits/",
         "zenodo_doi": "10.5281/zenodo.592480",
-        "custom_citation": "This research made use of \\textsc{Tardis}, a community-developed software package for spectral synthesis in supernovae \\citep{2014MNRAS.440..387K, kerzendorf_wolfgang_2019_2590539}. The development of \\textsc{Tardis} received support from the Google Summer of Code initiative and from ESA’s Summer of Code in Space program. \\textsc{Tardis} makes extensive use of Astropy \\citep{astropy:2013, astropy:2018, astropy:2022} and PyNE \\url{https://pyne.io/}. The Spectral modeling of type II supernovae is from \\citet{2019A&A...621A..29V}.\\footnote{TODO: remove astropy if already cited, remove 'The Spectral modeling of type II supernovae' if not used}. ",
+        "custom_citation": "This research made use of \\textsc{Tardis}, a community-developed software package for spectral synthesis in supernovae \\citep{2014MNRAS.440..387K, kerzendorf_wolfgang_2019_2590539}. The development of \\textsc{Tardis} received support from the Google Summer of Code initiative and from ESA’s Summer of Code in Space program. \\textsc{Tardis} makes extensive use of PyNE \\url{https://pyne.io/}.",
+        "feature_tags": [
+            {
+                "Spectral modeling of type II supernovae": ["2019A&A...621A..29V"]
+            }
+        ],
         "dependencies": [
             "astropy"
         ]
@@ -575,8 +975,12 @@
             "2020JOSS....5.2004V"
         ],
         "logo": "img/CMasher.png",
-        "language": "Python",
-        "category": "Visualisation",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Visualisation"
+        ],
         "keywords": [
             "colormap",
             "python",
@@ -598,8 +1002,12 @@
             "schwimmbad"
         ],
         "logo": "",
-        "language": "Python",
-        "category": "Multiprocessing",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Multiprocessing"
+        ],
         "keywords": [
             "multiprocessing",
             "parallelization"
@@ -616,8 +1024,12 @@
     "tqdm": {
         "tags": [],
         "logo": "img/tqdm.gif",
-        "language": "Python",
-        "category": "Data Handling",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Data Handling"
+        ],
         "keywords": [
             "progress bar"
         ],
@@ -630,11 +1042,15 @@
             "python"
         ]
     },
-    "tensorflow" : {
+    "tensorflow": {
         "tags": [],
         "logo": "img/tensorflow.png",
-        "language": "Python",
-        "category": "Machine Learning",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Machine Learning"
+        ],
         "keywords": [
             "machine learning",
             "deep learning",
@@ -657,8 +1073,12 @@
             "2019AJ....157...98G"
         ],
         "logo": "img/astropy.png",
-        "language": "Python",
-        "category": "Data Handling",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Data Handling"
+        ],
         "keywords": [
             "data retrieval",
             "astronomy",
@@ -675,10 +1095,16 @@
         ]
     },
     "Bokeh": {
-        "tags": ["Bokeh"],
+        "tags": [
+            "Bokeh"
+        ],
         "logo": "img/bokeh.png",
-        "language": "Python",
-        "category": "Visualisation",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Visualisation"
+        ],
         "keywords": [
             "interactive",
             "plotting",
@@ -697,8 +1123,12 @@
     "sympy": {
         "tags": [],
         "logo": "img/sympy.png",
-        "language": "Python",
-        "category": "Computing",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Computing"
+        ],
         "keywords": [
             "symbolic computation",
             "mathematics",
@@ -724,26 +1154,32 @@
             "2020ApJS..248...32W"
         ],
         "logo": "img/Arepo.png",
-        "language": "C",
-        "category": "N-body",
+        "language": [
+            "C"
+        ],
+        "category": [
+            "N-body"
+        ],
         "keywords": [],
         "description": "AREPO is a massively parallel code for gravitational n-body systems and hydrodynamics, both on Newtonian as well as cosmological background.",
         "link": "https://arepo-code.org/",
         "attribution_link": "https://gitlab.mpcdf.mpg.de/vrs/arepo",
         "zenodo_doi": "",
-        "custom_citation": "A description of the numerical algorithms employed by the Arepo code is given in the original code papers \\citep{2010MNRAS.401..791S,2011MNRAS.418.1392P,2013MNRAS.432..176P,2016MNRAS.455.1134P} and the release paper of the public version \\citep{2020ApJS..248...32W}.",
+        "custom_citation": "This work uses Arepo. A description of the numerical algorithms employed by the Arepo code is given in the original code papers \\citep{2010MNRAS.401..791S,2011MNRAS.418.1392P,2013MNRAS.432..176P,2016MNRAS.455.1134P} and the release paper of the public version \\citep{2020ApJS..248...32W}.",
         "dependencies": []
     },
     "REBOUND": {
         "tags": [
-            "2012A&A...537A.128R" 
+            "2012A&A...537A.128R"
         ],
         "logo": "img/REBOUND.png",
         "language": [
             "Python",
             "C"
         ],
-        "category": "N-body",
+        "category": [
+            "N-body"
+        ],
         "keywords": [
             "whfast",
             "ias15",
@@ -762,9 +1198,14 @@
             "R_manual"
         ],
         "logo": "img/R.png",
-        "language": "R",
-        "category": "Statistics",
-        "keywords": ["statistics",
+        "language": [
+            "R"
+        ],
+        "category": [
+            "Statistics"
+        ],
+        "keywords": [
+            "statistics",
             "r"
         ],
         "description": "The R statistical programming language.",
@@ -779,8 +1220,12 @@
             "sunpy_community2020"
         ],
         "logo": "img/sunpy.png",
-        "language": "Python",
-        "category": "Solar Physics",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Solar Physics"
+        ],
         "keywords": [
             "solar physics",
             "solar",
@@ -807,8 +1252,12 @@
             "2018ApJS..239...35D"
         ],
         "logo": "img/Colossus.png",
-        "language": "Python",
-        "category": "General",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "General"
+        ],
         "keywords": [
             "cosmology",
             "dark matter",
@@ -828,8 +1277,12 @@
             "2023ascl.soft01012T"
         ],
         "logo": "img/XGA.png",
-        "language": "Python",
-        "category": "X-ray Astrophysics",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "X-ray Astrophysics"
+        ],
         "keywords": [
             "astronomy",
             "sas",
@@ -865,8 +1318,12 @@
             "Pasha2023"
         ],
         "logo": "https://github.com/pysersic/pysersic/blob/main/misc/pysersic.png?raw=true",
-        "language": "Python",
-        "category": "General",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "General"
+        ],
         "keywords": [
             "profile fitting",
             "galaxy morphology",
@@ -891,8 +1348,12 @@
             "wolf-etal-2020-transformers"
         ],
         "logo": "img/hf-logo.svg",
-        "language": "Python",
-        "category": "Machine Learning",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Machine Learning"
+        ],
         "keywords": [
             "nlp",
             "machine-learning",
@@ -925,8 +1386,12 @@
             "leaver-fay_rosetta3_2011"
         ],
         "logo": "https://avatars.githubusercontent.com/u/3856847",
-        "language": "C++",
-        "category": "Biochemistry",
+        "language": [
+            "C++"
+        ],
+        "category": [
+            "Biochemistry"
+        ],
         "keywords": [
             "proteins",
             "peptides",
@@ -954,8 +1419,12 @@
             "2015Luridiana_aap573"
         ],
         "logo": "",
-        "language": "Python",
-        "category": "Interstellar Medium",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Interstellar Medium"
+        ],
         "keywords": [
             "emission lines",
             "nebulae",
@@ -981,8 +1450,12 @@
             "Kritos:2022ggc"
         ],
         "logo": "img/Rapster.png",
-        "language": "Python",
-        "category": "Population Synthesis",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Population Synthesis"
+        ],
         "keywords": [
             "binary black hole mergers",
             "dynamical formation",
@@ -1000,8 +1473,12 @@
             "sarti-etal-2023-inseq"
         ],
         "logo": "https://inseq.org/en/latest/_static/inseq_logo.png",
-        "language": "Python",
-        "category": "Machine Learning",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Machine Learning"
+        ],
         "keywords": [
             "interpretability",
             "explainable ai",
@@ -1027,8 +1504,12 @@
             "2018arXivUMAP"
         ],
         "logo": "img/umap-learn.png",
-        "language": "Python",
-        "category": "Visualisation",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Visualisation"
+        ],
         "keywords": [
             "visualization",
             "machine-learning",
@@ -1040,7 +1521,15 @@
         "link": "https://umap-learn.readthedocs.io/",
         "attribution_link": "https://github.com/lmcinnes/umap?tab=readme-ov-file#citation",
         "zenodo_doi": "",
-        "custom_citation": "This research made use of \\texttt{umap-learn} \\citep{mcinnes2018umap-software, 2018arXivUMAP}\\footnote{{TODO}: include the following if used: the densMAP algorithm \\citep{NBC2020} and the Parametric UMAP algorithm \\citep{SMG2020}.}",
+        "custom_citation": "",
+        "feature_tags": [
+            {
+                "densMAP algorithm": ["NBC2020"]
+            },
+            {
+                "Parametric UMAP algorithm": ["SMG2020"]
+            }
+        ],
         "dependencies": [
             "numpy",
             "scipy",
@@ -1055,8 +1544,12 @@
             "bingham2019pyro"
         ],
         "logo": "img/numpyro.png",
-        "language": "Python",
-        "category": "Library",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Library"
+        ],
         "keywords": [],
         "description": "\"NumPyro is a lightweight probabilistic programming library that provides a NumPy backend for Pyro. We rely on JAX for automatic differentiation and JIT compilation to GPU / CPU.\"",
         "link": "https://num.pyro.ai/en/stable/",
@@ -1070,8 +1563,12 @@
             "2015ApJS..216...29B"
         ],
         "logo": "img/galpy.png",
-        "language": "Python",
-        "category": "Galactic Dynamics",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Galactic Dynamics"
+        ],
         "keywords": [
             "galaxies",
             "galactic dynamics",
@@ -1097,8 +1594,12 @@
             "karamanis2020ensemble"
         ],
         "logo": "img/zeus.png",
-        "language": "Python",
-        "category": "Statistics",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Statistics"
+        ],
         "keywords": [
             "mcmc",
             "Bayesian inference",
@@ -1126,8 +1627,12 @@
             "karamanis2022pocomc"
         ],
         "logo": "img/pocoMC.png",
-        "language": "Python",
-        "category": "Statistics",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Statistics"
+        ],
         "keywords": [
             "Bayesian inference",
             "sampling",
@@ -1155,8 +1660,12 @@
             "gammapy:2023"
         ],
         "logo": "img/Gammapy.png",
-        "language": "Python",
-        "category": "Gamma-ray astrophysics",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Gamma-ray astrophysics"
+        ],
         "keywords": [
             "Astronomy",
             "Gamma-rays",
@@ -1189,8 +1698,12 @@
             "abid2019gradio"
         ],
         "logo": "img/Gradio.png",
-        "language": "Python",
-        "category": "Visualisation",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Visualisation"
+        ],
         "keywords": [
             "python",
             "data-science",
@@ -1216,8 +1729,12 @@
             "Berlok_Paicos_A_Python_2024"
         ],
         "logo": "",
-        "language": "Python",
-        "category": "Visualisation",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Visualisation"
+        ],
         "keywords": [
             "Arepo"
         ],
@@ -1242,8 +1759,12 @@
             "2005ApJ...622..759G"
         ],
         "logo": "img/healpy.jpeg",
-        "language": "Python",
-        "category": "Data Handling",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Data Handling"
+        ],
         "keywords": [
             "pixel",
             "healpix",
@@ -1268,8 +1789,12 @@
             "bilby_paper_2"
         ],
         "logo": "img/Bilby.jpeg",
-        "language": "Python",
-        "category": "Gravitational Waves",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Gravitational Waves"
+        ],
         "keywords": [],
         "description": "Bilby: a user-friendly Bayesian inference library.",
         "link": "https://bilby-dev.github.io/bilby/index.html",
@@ -1289,9 +1814,13 @@
         "tags": [
             "valli_longterm_2024"
         ],
-    "logo": "img/spindler.png",
-        "language": "Python",
-        "category": "General",
+        "logo": "img/spindler.png",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "General"
+        ],
         "keywords": [
             "circumbinary disk",
             "supermassive black hole binary",
@@ -1315,8 +1844,12 @@
             "2002A&A...385..337T"
         ],
         "logo": "img/ramses.svg",
-        "language": "Fortran",
-        "category": "Galactic Dynamics",
+        "language": [
+            "Fortran"
+        ],
+        "category": [
+            "Galactic Dynamics"
+        ],
         "keywords": [],
         "description": "Ramses is an open source code to model astrophysical systems, featuring self-gravitating, magnetised, compressible, radiative fluid flows. It is based on the Adaptive Mesh Refinement (AMR) technique.",
         "link": "https://ramses-organisation.readthedocs.io/en/latest/",
@@ -1331,8 +1864,12 @@
             "astroMLText"
         ],
         "logo": "img/astroML.png",
-        "language": "Python",
-        "category": "Machine Learning",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Machine Learning"
+        ],
         "keywords": [],
         "description": "AstroML is a Python module for machine learning and data mining.",
         "link": "https://www.astroml.org/",
@@ -1352,13 +1889,17 @@
         "tags": [],
         "logo": "img/rubin_sim.svg",
         "logo_background": "true",
-        "language": "Python",
-        "category": "Simulations",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Simulations"
+        ],
         "keywords": [
             "lsst",
             "rubin"
         ],
-        "description": "A package for helping simulate and evaluate the performance of Rubin C. Observatory’s Legacy Survey of Space and Time (the LSST).",
+        "description": "A package for helping simulate and evaluate the performance of Rubin C. Observatory\u2019s Legacy Survey of Space and Time (the LSST).",
         "link": "https://rubin-sim.lsst.io/",
         "attribution_link": "https://github.com/lsst/rubin_sim",
         "zenodo_doi": "10.5281/zenodo.7087822",
@@ -1370,8 +1911,12 @@
     "Pydantic": {
         "tags": [],
         "logo": "img/pydantic.png",
-        "language": "Python",
-        "category": "Data Handling",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Data Handling"
+        ],
         "keywords": [
             "python",
             "validation",
@@ -1390,8 +1935,12 @@
     "Photutils": {
         "tags": [],
         "logo": "img/Photutils.svg",
-        "language": "Python",
-        "category": "Imaging",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Imaging"
+        ],
         "keywords": [
             "python",
             "astronomy",
@@ -1419,14 +1968,18 @@
             "2022AJ....163..202G"
         ],
         "logo": "img/PetroFit.svg",
-        "language": "Python",
-        "category": "Imaging",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Imaging"
+        ],
         "keywords": [
             "sersic",
             "petrosian",
             "petrofit"
         ],
-        "description": "Python package for calculating Petrosian properties and fitting galaxy light profiles.  PetroFit includes tools for Petrosian profiling and image model  fitting (Sérsic etc.).",
+        "description": "Python package for calculating Petrosian properties and fitting galaxy light profiles.  PetroFit includes tools for Petrosian profiling and image model  fitting (S\u00e9rsic etc.).",
         "link": "https://petrofit.readthedocs.io/en/latest/",
         "attribution_link": "https://petrofit.readthedocs.io/en/latest/citing.html",
         "zenodo_doi": "10.5281/zenodo.6040780",
@@ -1444,8 +1997,12 @@
             "2020ApJ...904...74G"
         ],
         "logo": "img/FLEET.png",
-        "language": "Python",
-        "category": "Transients",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Transients"
+        ],
         "keywords": [
             "Transients",
             "Supernovae",
@@ -1472,8 +2029,12 @@
             "2017ascl.soft10006G"
         ],
         "logo": "img/MOSFiT.png",
-        "language": "Python",
-        "category": "Transients",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Transients"
+        ],
         "keywords": [
             "Transients",
             "Light Curves",
@@ -1502,8 +2063,12 @@
             "Brasseur+2019:2019ascl.soft05007B"
         ],
         "logo": "img/AstroCut.png",
-        "language": "Python",
-        "category": "Data Handling",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Data Handling"
+        ],
         "keywords": [
             "TESS",
             "lightcurve"
@@ -1523,8 +2088,12 @@
             "Feinstein+2019:2019PASP..131i4502F"
         ],
         "logo": "img/eleanor.gif",
-        "language": "Python",
-        "category": "Data Handling",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Data Handling"
+        ],
         "keywords": [
             "TESS",
             "lightcurve"
@@ -1548,8 +2117,12 @@
             "1988igbo.conf..443S"
         ],
         "logo": "",
-        "language": "Fortran",
-        "category": "Photometry",
+        "language": [
+            "Fortran"
+        ],
+        "category": [
+            "Photometry"
+        ],
         "keywords": [
             "old school",
             "photometric modeling",
@@ -1568,8 +2141,12 @@
             "Wainer_AJ"
         ],
         "logo": "img/elk.png",
-        "language": "Python",
-        "category": "Stars",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Stars"
+        ],
         "keywords": [],
         "description": "This package allows you to download, correct, analyze and visualize integrated light curves from TESS FFI data.",
         "link": "https://elk.readthedocs.io/en/latest/",
@@ -1589,8 +2166,12 @@
             "sarin_redback"
         ],
         "logo": "img/redback.png",
-        "language": "Python",
-        "category": "Transients",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Transients"
+        ],
         "keywords": [
             "inference",
             "transient"
@@ -1611,8 +2192,12 @@
             "2014SPIE.9143E..3XP"
         ],
         "logo": "img/webbpsf.png",
-        "language": "Python",
-        "category": "Imaging",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Imaging"
+        ],
         "keywords": [
             "JWST",
             "Roman",
@@ -1638,8 +2223,12 @@
         ],
         "logo": "img/agama.png",
         "logo_background": "true",
-        "language": "C++",
-        "category": "Galactic Dynamics",
+        "language": [
+            "C++"
+        ],
+        "category": [
+            "Galactic Dynamics"
+        ],
         "keywords": [
             "galactic dynamics",
             "galpy",
@@ -1658,8 +2247,12 @@
             "James:1975dr"
         ],
         "logo": "https://scikit-hep.org/iminuit/_images/iminuit_logo.svg",
-        "language": "Python",
-        "category": "Statistics",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Statistics"
+        ],
         "keywords": [
             "fitting"
         ],
@@ -1677,8 +2270,12 @@
             "arviz_2019"
         ],
         "logo": "img/arviz.png",
-        "language": "Python",
-        "category": "Statistics",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Statistics"
+        ],
         "keywords": [],
         "description": "ArviZ is a Python package for exploratory analysis of Bayesian models. It serves as a backend-agnostic tool for diagnosing and visualizing Bayesian inference.",
         "link": "https://python.arviz.org",
@@ -1699,8 +2296,12 @@
             "pytables"
         ],
         "logo": "img/PyTables.png",
-        "language": "Python",
-        "category": "Data Handling",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Data Handling"
+        ],
         "keywords": [],
         "description": "'A package for managing hierarchical datasets and designed to efficiently and easily cope with extremely large amounts of data.'",
         "link": "https://www.pytables.org/",
@@ -1718,8 +2319,12 @@
             "2017MNRAS.470.4739S"
         ],
         "logo": "img/SEVN.png",
-        "language": "C++",
-        "category": "Population Synthesis",
+        "language": [
+            "C++"
+        ],
+        "category": [
+            "Population Synthesis"
+        ],
         "keywords": [],
         "description": "SEVN (Stellar EVolution for N-body) is a rapid binary population synthesis code.",
         "link": "https://sevncodes.gitlab.io/sevn/index.html",
@@ -1733,8 +2338,12 @@
             "Morton+2015:2015ascl.soft03010M"
         ],
         "logo": "",
-        "language": "Python",
-        "category": "Photometry",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Photometry"
+        ],
         "keywords": [
             "isochrones",
             "stellar models",
@@ -1757,8 +2366,12 @@
             "2018JOSS....3..695M"
         ],
         "logo": "",
-        "language": "Python",
-        "category": "Photometry",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Photometry"
+        ],
         "keywords": [
             "dust",
             "extinction",
@@ -1782,8 +2395,12 @@
             "pynbody"
         ],
         "logo": "img/pynbody.svg",
-        "language": "Python",
-        "category": "N-body",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "N-body"
+        ],
         "keywords": [],
         "description": "an analysis package for astrophysical N-body and Smooth Particle Hydrodynamics simulations",
         "link": "https://pynbody.readthedocs.io/latest/",
@@ -1804,8 +2421,12 @@
             "Everall+2022:2022MNRAS.509.6205E"
         ],
         "logo": "",
-        "language": "Python",
-        "category": "Data Handling",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Data Handling"
+        ],
         "keywords": [
             "Gaia",
             "selection function"
@@ -1814,7 +2435,16 @@
         "link": "https://gaiaunlimited.readthedocs.io/en/latest/",
         "attribution_link": "https://gaiaunlimited.readthedocs.io/en/latest/citation.html",
         "zenodo_doi": "",
-        "custom_citation": "This work made use of the Gaia selection function tools from \\texttt{gaiaunlimited} \\citep{Castro-Ginard+2023:2023A&A...677A..37C, Cantat-Gaudin+2023:2023A&A...669A..55C, Boubert+2021:2021MNRAS.501.2954B, Boubert+2020:2020MNRAS.497.4246B, Everall+2022:2022MNRAS.509.6205E}\\footnote{TODO: Include the relevant subset of these citations following instructions here: \\url{https://gaiaunlimited.readthedocs.io/en/latest/citation.html}}.",
+        "custom_citation": "This work made use of the Gaia selection function tools from \\texttt{gaiaunlimited}.",
+        "feature_tags": [
+            {
+                "Subset selection function": ["Castro-Ginard+2023:2023A&A...677A..37C"],
+                "Empirical DR3 survey selection function": ["Cantat-Gaudin+2023:2023A&A...669A..55C"],
+                "Gaia scanning law (version dr2_cog3)": ["Boubert+2021:2021MNRAS.501.2954B"],
+                "Survey scanning law (DR2)": ["Boubert+2020:2020MNRAS.497.4246B"],
+                "Survey scanning law (EDR3)": ["Everall+2022:2022MNRAS.509.6205E"]
+            }
+        ],        
         "dependencies": [
             "numpy",
             "scipy",
@@ -1832,8 +2462,12 @@
         ],
         "logo": "img/NetworkX.png",
         "logo_background": "true",
-        "language": "Python",
-        "category": "Computing",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Computing"
+        ],
         "keywords": [],
         "description": "NetworkX is a Python package for the creation, manipulation, and study of the structure, dynamics, and functions of complex networks.",
         "link": "https://networkx.org/",
@@ -1848,8 +2482,12 @@
             "Tzanidakis+2023:2023ApJ...955...69T"
         ],
         "logo": "img/GaiaAlertsPy.png",
-        "language": "Python",
-        "category": "Data Handling",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Data Handling"
+        ],
         "keywords": [
             "Gaia"
         ],
@@ -1870,8 +2508,12 @@
         ],
         "logo": "img/cobaya.webp",
         "logo_background": "true",
-        "language": "Python",
-        "category": "Statistics",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Statistics"
+        ],
         "keywords": [],
         "description": "A general-purpose Bayesian analysis code aimed at models with complex internal interdependencies.",
         "link": "https://cobaya.readthedocs.io/en/latest/",
@@ -1891,8 +2533,12 @@
             "hoyer2017xarray"
         ],
         "logo": "img/xarray.png",
-        "language": "Python",
-        "category": "Data Handling",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Data Handling"
+        ],
         "keywords": [
             "xarray"
         ],
@@ -1901,7 +2547,10 @@
         "attribution_link": "https://docs.xarray.dev/en/latest/getting-started-guide/faq.html#how-should-i-cite-xarray",
         "zenodo_doi": "10.5281/zenodo.598201",
         "custom_citation": "",
-        "dependencies": ["numpy", "pandas"]
+        "dependencies": [
+            "numpy",
+            "pandas"
+        ]
     },
     "NMMA": {
         "tags": [
@@ -1909,8 +2558,12 @@
             "2024ascl.soft02001P"
         ],
         "logo": "img/NMMA.svg",
-        "language": "Python",
-        "category": "Parameter Estimation",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Parameter Estimation"
+        ],
         "keywords": [
             "multimessenger",
             "multi-messenger",
@@ -1940,8 +2593,12 @@
             "2019A&A...622A..64B"
         ],
         "logo": "img/Galpynamics.png",
-        "language": "Python",
-        "category": "Galactic Dynamics",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Galactic Dynamics"
+        ],
         "keywords": [],
         "description": "Python module to estimate the potential of spheroidal and disc galactic components.\nIt includes methods to self-consistely estimate the scale height of discs.",
         "link": "https://gitlab.com/iogiul/galpynamics",
@@ -1958,8 +2615,12 @@
             "2023AJ....165...71H"
         ],
         "logo": "img/tglc.jpg",
-        "language": "Python",
-        "category": "Photometry",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Photometry"
+        ],
         "keywords": [
             "TESS",
             "Light Curve",
@@ -1987,8 +2648,12 @@
             "2022JOSS....7.3882S"
         ],
         "logo": "",
-        "language": "Python",
-        "category": "Simulations",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Simulations"
+        ],
         "keywords": [],
         "description": "Python framework for scientific simulations.",
         "link": "https://simframe.readthedocs.io/",
@@ -2008,8 +2673,12 @@
             "2011ApJS..192....9T"
         ],
         "logo": "img/yt.svg",
-        "language": "Python",
-        "category": "Visualisation",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Visualisation"
+        ],
         "keywords": [
             "visualization",
             "python",
@@ -2041,8 +2710,12 @@
             "naima"
         ],
         "logo": "",
-        "language": "Python",
-        "category": "Gamma-ray Astrophysics",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Gamma-ray Astrophysics"
+        ],
         "keywords": [
             "mcmc",
             "gamma-ray",
@@ -2070,8 +2743,12 @@
             "Lewis:2019xzd"
         ],
         "logo": "",
-        "language": "Python",
-        "category": "Parameter Estimation",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Parameter Estimation"
+        ],
         "keywords": [],
         "description": "GetDist is a Python package for analysing and plotting Monte Carlo (or other) samples.",
         "link": "https://getdist.readthedocs.io/en/latest/index.html",
@@ -2089,8 +2766,12 @@
             "plotly"
         ],
         "logo": "img/plotly.png",
-        "language": "Python",
-        "category": "Visualisation",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Visualisation"
+        ],
         "keywords": [
             "data visualization",
             "plotting"
@@ -2107,8 +2788,12 @@
             "Gordon+2024:2024JOSS....9.7023G"
         ],
         "logo": "img/dust_extinction.png",
-        "language": "Python",
-        "category": "Interstellar Medium",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Interstellar Medium"
+        ],
         "keywords": [
             "dust",
             "extinction",
@@ -2130,8 +2815,12 @@
             "DBLP:journals/corr/abs-0903-4875"
         ],
         "logo": "img/FLASH.jpg",
-        "language": "Fortran",
-        "category": "Simulations",
+        "language": [
+            "Fortran"
+        ],
+        "category": [
+            "Simulations"
+        ],
         "keywords": [
             "multiphysics",
             "simulation",
@@ -2151,8 +2840,12 @@
             "2015ApJ...814...63M"
         ],
         "logo": "",
-        "language": "Fortran",
-        "category": "Transients",
+        "language": [
+            "Fortran"
+        ],
+        "category": [
+            "Transients"
+        ],
         "keywords": [
             "supernova",
             "light curve"
@@ -2169,8 +2862,12 @@
             "2005ASPC..347...29T"
         ],
         "logo": "img/TOPCAT.png",
-        "language": "Java",
-        "category": "Data Handling",
+        "language": [
+            "Java"
+        ],
+        "category": [
+            "Data Handling"
+        ],
         "keywords": [],
         "description": "Tool for OPerations on Catalogues And Tables (TOPCAT) is an interactive graphical viewer and editor for tabular data.",
         "link": "http://www.starlink.ac.uk/topcat/",
@@ -2185,8 +2882,12 @@
             "cogsworth:apjs"
         ],
         "logo": "img/cogsworth.png",
-        "language": "Python",
-        "category": "Population Synthesis",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Population Synthesis"
+        ],
         "keywords": [
             "population synthesis",
             "stellar evolution",
@@ -2213,9 +2914,19 @@
             "Quokka"
         ],
         "logo": "https://avatars.githubusercontent.com/u/118950435?s=200&v=4",
-        "language": "C++",
-        "category": "Simulations",
-        "keywords": ["AMR", "GPU", "CUDA", "ROCm", "hydrodynamics"],
+        "language": [
+            "C++"
+        ],
+        "category": [
+            "Simulations"
+        ],
+        "keywords": [
+            "AMR",
+            "GPU",
+            "CUDA",
+            "ROCm",
+            "hydrodynamics"
+        ],
         "description": "Two-moment AMR radiation hydrodynamics (with self-gravity, particles, and chemistry) on CPUs/GPUs for astrophysics",
         "link": "https://github.com/quokka-astro/quokka",
         "attribution_link": "https://quokka-astro.github.io/quokka/citation/",
@@ -2224,11 +2935,14 @@
         "dependencies": []
     },
     "BibQuest": {
-        "tags": [
-        ],
+        "tags": [],
         "logo": "img/bibquest.png",
-        "language": "Python",
-        "category": "Manuscript Preparation",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Manuscript Preparation"
+        ],
         "keywords": [
             "bibtex",
             "biblatex",
@@ -2248,8 +2962,12 @@
     "veeper": {
         "tags": [],
         "logo": "",
-        "language": "Python",
-        "category": "Interstellar Medium",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Interstellar Medium"
+        ],
         "keywords": [],
         "description": "Tools for generating and fitting Voigt profiles of absorption lines.",
         "link": "https://github.com/jnburchett/veeper/",
@@ -2263,8 +2981,12 @@
             "ge2018t"
         ],
         "logo": "img/turingjl.png",
-        "language": "Julia",
-        "category": "Parameter Estimation",
+        "language": [
+            "Julia"
+        ],
+        "category": [
+            "Parameter Estimation"
+        ],
         "keywords": [
             "probabilistic modeling",
             "bayesian inference",
@@ -2276,13 +2998,19 @@
         "attribution_link": "https://github.com/TuringLang/Turing.jl/blob/main/CITATION.bib",
         "zenodo_doi": "",
         "custom_citation": "",
-        "dependencies": ["julia"]
+        "dependencies": [
+            "julia"
+        ]
     },
     "STAN": {
         "tags": [],
         "logo": "img/STAN.png",
-        "language": "STAN",
-        "category": "Statistics",
+        "language": [
+            "STAN"
+        ],
+        "category": [
+            "Statistics"
+        ],
         "keywords": [
             "Statistics",
             "Bayesian Inference",
@@ -2304,8 +3032,12 @@
             "2021MNRAS.504..983M"
         ],
         "logo": "img/pion.png",
-        "language": "C++",
-        "category": "Computational Fluid Dynamics",
+        "language": [
+            "C++"
+        ],
+        "category": [
+            "Computational Fluid Dynamics"
+        ],
         "keywords": [
             "hydrodynamics",
             "magnetohydrodynamics",
@@ -2325,8 +3057,12 @@
             "DiTeodoro+2015"
         ],
         "logo": "img/bbarolo.jpg",
-        "language": "C++",
-        "category": "Galactic Dynamics",
+        "language": [
+            "C++"
+        ],
+        "category": [
+            "Galactic Dynamics"
+        ],
         "keywords": [],
         "description": "A software to derive the kinematics of disk galaxies through 3D tilted-ring models.",
         "link": "https://bbarolo.readthedocs.io/en/latest/",
@@ -2340,8 +3076,12 @@
             "Reynolds_2025"
         ],
         "logo": "img/reLAISS.png",
-        "language": "Python",
-        "category": "Transients",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Transients"
+        ],
         "keywords": [
             "similarity search",
             "anomaly detection",
@@ -2362,11 +3102,15 @@
             "python"
         ]
     },
-    "Pröst": {
+    "Pr\u00f6st": {
         "tags": [],
         "logo": "img/prost.png",
-        "language": "Python",
-        "category": "Transients",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Transients"
+        ],
         "keywords": [
             "host galaxy association"
         ],
@@ -2389,8 +3133,13 @@
             "swiglal"
         ],
         "logo": "img/LALSuite.png",
-        "language": ["C", "Python"],
-        "category": "Gravitational Waves",
+        "language": [
+            "C",
+            "Python"
+        ],
+        "category": [
+            "Gravitational Waves"
+        ],
         "keywords": [
             "gravitational wave",
             "data analysis",
@@ -2425,8 +3174,12 @@
             "Stein:2019mop"
         ],
         "logo": "",
-        "language": "Python",
-        "category": "Gravitational Waves",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Gravitational Waves"
+        ],
         "keywords": [],
         "description": "A Python package for calculating Kerr quasinormal modes, separation constants, and spherical-spheroidal mixing coefficients",
         "link": "https://qnm.readthedocs.io/",
@@ -2444,8 +3197,12 @@
     "jwst": {
         "tags": [],
         "logo": "img/jwst.png",
-        "language": "Python",
-        "category": "Data Handling",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Data Handling"
+        ],
         "keywords": [],
         "description": "The STScI science calibration pipeline for data from the James Webb Space Telescope",
         "link": "https://jwst-pipeline.readthedocs.io/en/latest/",
@@ -2464,13 +3221,15 @@
         "tags": [
             "pyfstat",
             "Keitel:2021xeq",
-            "Ashton:2018ure",
-            "Keitel:2018pxz",
-            "Ashton:2018qth"
+            "Ashton:2018ure"
         ],
         "logo": "img/PyFstat.png",
-        "language": "Python",
-        "category": "Gravitational Waves",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Gravitational Waves"
+        ],
         "keywords": [
             "astrophysics",
             "data analysis",
@@ -2485,7 +3244,13 @@
         "link": "https://pyfstat.readthedocs.io/",
         "attribution_link": "https://github.com/PyFstat/PyFstat/blob/master/README.md#citing-this-work",
         "zenodo_doi": "10.5281/zenodo.3967045",
-        "custom_citation": "This paper made use of the \\textsc{PyFstat} package \\citep{pyfstat,Keitel:2021xeq,Ashton:2018ure} \\footnote{{TODO}: Optionally, if using transient signal features please also cite \\citet{Keitel:2018pxz} and for glitch-robust searches please also cite \\citet{Ashton:2018qth} . See \\url{https://github.com/PyFstat/PyFstat/blob/master/README.md#citing-this-work} for details.}",
+        "custom_citation": "",
+        "feature_tags": [
+            {
+                "Transient signal features": ["Keitel:2018pxz"],
+                "Glitch-robust search features": ["Ashton:2018qth"]
+            }
+        ],
         "dependencies": [
             "matplotlib",
             "numpy",
@@ -2506,8 +3271,12 @@
             "2025arXiv250801102G"
         ],
         "logo": "img/cloudy.jpg",
-        "language": "C++",
-        "category": "General",
+        "language": [
+            "C++"
+        ],
+        "category": [
+            "General"
+        ],
         "keywords": [],
         "description": "Cloudy is an ab initio spectral synthesis code designed to model a wide range of interstellar \"clouds\", from H II regions and planetary nebulae, to Active Galactic Nuclei.",
         "link": "https://gitlab.nublado.org/cloudy/cloudy",
@@ -2522,8 +3291,12 @@
             "2023ApJS..264...45F"
         ],
         "logo": "img/posydon.png",
-        "language": "Python",
-        "category": "Population Synthesis",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Population Synthesis"
+        ],
         "keywords": [],
         "description": "POSYDON is a next-generation single and binary-star population synthesis code incorporating full stellar structure and evolution modeling with the use of MESA.",
         "link": "https://posydon.org",
@@ -2545,8 +3318,12 @@
             "2016ApJS..222....8D"
         ],
         "logo": "img/MIST.jpg",
-        "language": "Fortran",
-        "category": "Stars",
+        "language": [
+            "Fortran"
+        ],
+        "category": [
+            "Stars"
+        ],
         "keywords": [],
         "description": "Isochrone tool based on MESA with a large grids of single-star stellar evolutionary models extending across all evolutionary phases for all relevant masses & metallicities",
         "link": "https://waps.cfa.harvard.edu/MIST/index.html",
@@ -2562,8 +3339,12 @@
             "Huang2022"
         ],
         "logo": "img/Magrathea.jpg",
-        "language": "C++",
-        "category": "Planet and Exoplanet",
+        "language": [
+            "C++"
+        ],
+        "category": [
+            "Planet and Exoplanet"
+        ],
         "keywords": [],
         "description": "A planet structure code which considers the case of fully differentiated interiors.",
         "link": "https://github.com/Huang-CL/Magrathea",
@@ -2577,8 +3358,12 @@
             "DanischKrumbiegel2021"
         ],
         "logo": "img/Makie.jl.svg",
-        "language": "Julia",
-        "category": "Data Handling",
+        "language": [
+            "Julia"
+        ],
+        "category": [
+            "Data Handling"
+        ],
         "keywords": [],
         "description": "A plotting library for Julia that is both reactive and useful for making publication-quality plots.",
         "link": "https://docs.makie.org/stable/",
@@ -2594,8 +3379,12 @@
             "rozet2022zuko"
         ],
         "logo": "img/Zuko.svg",
-        "language": "Python",
-        "category": "Machine Learning",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Machine Learning"
+        ],
         "keywords": [],
         "description": "Zuko is a Python package that implements normalizing flows in PyTorch.",
         "link": "https://zuko.readthedocs.io/stable/",
@@ -2611,8 +3400,12 @@
             "pyia"
         ],
         "logo": "",
-        "language": "Python",
-        "category": "Data Handling",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Data Handling"
+        ],
         "keywords": [
             "gaia"
         ],
@@ -2633,8 +3426,12 @@
             "2015AJ....150...92B"
         ],
         "logo": "img/GalPaK3D.png",
-        "language": "Python",
-        "category": "Galactic Dynamics",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Galactic Dynamics"
+        ],
         "keywords": [],
         "description": "A forward disk modelling tool",
         "link": "https://galpak3d.univ-lyon1.fr/",
@@ -2654,8 +3451,12 @@
             "Agrawal+2023:2023MNRAS.525..933A"
         ],
         "logo": "img/METISSE.png",
-        "language": "Fortran",
-        "category": "Stars",
+        "language": [
+            "Fortran"
+        ],
+        "category": [
+            "Stars"
+        ],
         "keywords": [
             "interpolation"
         ],
@@ -2666,31 +3467,70 @@
         "custom_citation": "",
         "dependencies": []
     },
-    "SciScore.com": {
-    "tags": [],
-    "logo": "img/SciScore.com.png",
-    "language": "multiple",
-    "category": "transparency checker",
-    "keywords": [
-        "see RRID record: n2t.net/RRID:SCR_016251.json \"keywords\":[{\"keyword\":\"mine\"}",
-        "{\"keyword\":\"text\"}",
-        "{\"keyword\":\"method\"}",
-        "{\"keyword\":\"journal\"}",
-        "{\"keyword\":\"paper\"}",
-        "{\"keyword\":\"article\"}",
-        "{\"keyword\":\"research\"}",
-        "{\"keyword\":\"science\"}",
-        "{\"keyword\":\"biomedicine\"}",
-        "{\"keyword\":\"neuroscience\"}",
-        "{\"keyword\":\"scicrunch\"}",
-        "{\"keyword\":\"nif\"}",
-        "{\"keyword\":\"ASWG\"}]"
-    ],
-    "description": "Text-mining software that reviews methods sections of scientific articles. It provides a numerical score to represent the \\\"reproducibility\\\" of the article's research.\"",
-    "link": "DOI: 10.2196/37324",
-    "attribution_link": "https://n2t.net/RRID:SCR_016251",
-    "zenodo_doi": "",
-    "custom_citation": "",
-    "dependencies": []
-}
+    "Kokkos": {
+        "tags": [
+            "9485033"
+        ],
+        "logo": "https://avatars2.githubusercontent.com/u/10199860?s=200&v=4",
+        "language": [
+            "C++"
+        ],
+        "category": [
+            "Computing"
+        ],
+        "keywords": [
+            "performance portability",
+            "parallelism"
+        ],
+        "description": "A hardware agnostic framework for on-node parallelism.",
+        "link": "https://kokkos.org/kokkos-core-wiki/index.html",
+        "attribution_link": "https://kokkos.org/kokkos-core-wiki/citation.html",
+        "zenodo_doi": "10.5281/zenodo.17635197",
+        "custom_citation": "",
+        "dependencies": []
+    },
+    "Parthenon": {
+        "tags": [
+            "parthenon"
+        ],
+        "logo": "",
+        "language": [
+            "C++"
+        ],
+        "category": [
+            "Computing"
+        ],
+        "keywords": [
+            "performance portability",
+            "adaptive mesh refinement"
+        ],
+        "description": "A performance portable block-structured adaptive mesh refinement framework for building physics applications.",
+        "link": "https://parthenon-hpc-lab.github.io/parthenon/develop/index.html",
+        "attribution_link": "https://github.com/parthenon-hpc-lab/parthenon/",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "Kokkos"
+        ]
+    },
+    "CASA": {
+        "tags": [
+            "2022PASP..134k4501C"
+        ],
+        "logo": "img/CASA.png",
+        "language": [
+            "C++",
+            "Python"
+        ],
+        "category": [
+            "General"
+        ],
+        "keywords": [],
+        "description": "The CASA software can process data from both single-dish and aperture-synthesis telescopes. It is the primary data processing software for ALMA and the VLA.",
+        "link": "https://casadocs.readthedocs.io/en/latest/notebooks/introduction.html",
+        "attribution_link": "https://casa.nrao.edu/index_docs.shtml",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": []
+    }
 }

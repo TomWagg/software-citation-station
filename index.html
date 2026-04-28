@@ -45,7 +45,7 @@
         <div class="container-fluid mt-4 mb-5">
             <div class="row align-items-center">
                 <div class="col-2 pe-0">
-                    <img id="main-logo" src="img/software-citation-station-no-circle-blue.png" class="img-fluid" />
+                    <img id="main-logo" src="img/software-citation-station-no-circle-blue.png" alt="Software Citation Station logo" class="img-fluid" />
                 </div>
                 <div class="col-10 col-md-10">
                     <div class="display-3 fw-bold">The Software Citation Station</div>
@@ -58,29 +58,34 @@
                     <div id="software-selection" class="rounded-box">
                         <div class="header-number">1</div>
                         <h3 class="header-title">
-                            Select the software <button class="btn" id="expand" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Expand"><i class="fa fa-arrow-right"></i></button>
+                            Select the software <button class="btn" id="expand" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Expand" alt="Select software"><i class="fa fa-arrow-right"></i></button>
                         </h3>
                         <p class="header-desc">Use the buttons below to select the software that you used in your research. Right-click each for more information about the software</p>
                         <div class="input-group mb-1">
-                            <input id="software-search" type="text" class="form-control" placeholder="Search for software" />
+                            <input id="software-search" type="text" class="form-control" placeholder="Search for software"/>
+                            <label for="software-search" />
                             <button class="btn btn-primary" id="software-search-clear" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Clear search"><i class="fa fa-times"></i></button>
                         </div>
                         <div class="input-group mb-1">
                             <select class="form-select" id="software-category">
                                 <option value="all">All categories</option>
+                                <label for="software-category" />
                             </select>
                             <select class="form-select" id="software-language">
                                 <option value="all">All languages</option>
+                                <label for="software-language" />
                             </select>
                             <button class="btn btn-primary" id="software-filter-clear" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Clear filters"><i class="fa fa-times"></i></button>
                         </div>
-                        <div class="btn-toolbar justify-content-center" role="toolbar">
-                            <div class="btn-group me-2 mb-3" role="group">
-                                <button class="btn btn-primary" id="software-clear">Clear selections</button>
-                            </div>
+                        <div class="text-center mb-4">
+                            <!-- add toggle button for whether to auto-add dependencies -->
+                            <button class="btn btn-primary active" id="auto-deps-toggle" data-bs-toggle="button">Auto-add dependencies</button>
+                            <button class="btn btn-primary" id="software-clear">Clear selections</button>
+                            <button class="btn btn-primary" id="file-upload-go" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Use this button to upload a .txt or .yml file (with output from <code>pip freeze > requirements.txt</code> or <code>conda env export > environment.yml</code>)" data-bs-html="true"><i class="fa fa-upload"></i> Upload and Parse File</button>
+                            <input type="file" class="hide" id="file-upload">
                         </div>
                         <div id="software-list" class="text-center shadow-scroll">
-                            <button id="software-btn-template" class="btn btn-primary hide me-2 software-button mb-2"><img class="software-logo me-1" src="img/python.png" /><span class="software-name">Software name</span></button>
+                            <button id="software-btn-template" class="btn btn-primary hide me-2 software-button mb-2"><img class="software-logo me-1" src="img/python.png" alt="python logo" /><span class="software-name">Software name</span></button>
                             <p id="software-loading">Loading software list <i class="fa fa-spinner fa-spin"></i></p>
                         </div>
                         <p id="software-search-empty" class="hide">Your search doesn't match any of the software in our list - perhaps this is an opportunity for you to <a id="new-software-from-search" href="#" class="link text-decoration-underline" style="font-weight: bold">contribute a new software package to our list</a>? Absolutely no need to own or contribute to the package, we appreciate submissions from users of packages too!</p>
@@ -89,9 +94,9 @@
                 <div id="right-col" class="col-12 col-lg-6">
                     <div id="version-box" class="rounded-box">
                         <div class="header-number">2</div>
-                        <h3 class="header-title">Choose your versions</h3>
+                        <h3 class="header-title">Choose your versions/features</h3>
                         <p class="header-desc mb-1">
-                            Choose the versions of the software that you've used
+                            Choose the versions and features of the software that you've used
                             <i class="fa fa-question-circle ms-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="<b>Why do I need to select a specific version?</b><br>Citing the exact version increases the <i>reproducibility of your work</i> and ensures you <i>credit all authors who contributed</i> to the code, even if they contributed after the release of the original citation." data-bs-html="true"></i>
                         </p>
                         <div class="justify-content-center text-center">
@@ -106,10 +111,15 @@
                                     <div class="card-body">
                                         <img class="software-logo" src="" />
                                         <pre class="card-title">NAME HERE</pre>
-                                        <div class="card-text waiter">Getting versions <i class="fa fa-spinner fa-spin"></i></div>
-                                        <select class="form-select form-select-sm version-select hide">
-                                            <option value="-">Select version</option>
-                                        </select>
+                                        <div class="card-controls">
+                                            <div class="card-text waiter">Getting versions <i class="fa fa-spinner fa-spin"></i></div>
+                                            <select class="form-select form-select-sm version-select hide">
+                                                <option value="-">Select version</option>
+                                            </select>
+                                            <button type="button" class="btn btn-outline-secondary btn-sm mt-2 feature-btn hide">
+                                                <i class="fa fa-list-check"></i> select features<span class="feature-count"></span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -159,7 +169,7 @@
                     </div>
                     <p class="mb-0">
                         Or, if you'd like it formatted in a nifty little badge like this one,
-                        <a href="https://www.tomwagg.com/software-citation-station/?auto-select=PACKAGENAME"> <img src="https://img.shields.io/badge/Cite-PACKAGENAME-blue" /> </a>, click <a href="#" id="cite-badge" class="btn btn-primary" style="font-size: 0.7rem; padding: 0.2rem">this button</a> to copy some HTML that does that!
+                        <a href="https://www.tomwagg.com/software-citation-station/?auto-select=PACKAGENAME"> <img src="https://img.shields.io/badge/Cite-PACKAGENAME-blue" alt="GitHub badge" /> </a>, click <a href="#" id="cite-badge" class="btn btn-primary" style="font-size: 0.7rem; padding: 0.2rem">this button</a> to copy some HTML that does that!
                     </p>
                 </div>
             </div>
@@ -183,11 +193,11 @@
 
                     <div class="d-md-flex justify-content-center mt-3">
                         <div class="headshot-box me-md-3" data-href="https://www.tomwagg.com/">
-                            <img src="img/tom.png" class="rounded-circle m-auto headshot" />
+                            <img src="img/tom.png" class="rounded-circle m-auto headshot" alt="Tom headshot" />
                             <p class="fs-5">Tom Wagg</p>
                         </div>
                         <div class="headshot-box" data-href="https://www.broekgaarden.nl/floor/wordpress/">
-                            <img src="img/floor.jpeg" class="rounded-circle m-auto headshot" />
+                            <img src="img/floor.jpeg" class="rounded-circle m-auto headshot" alt="Floor headshot" />
                             <p class="fs-5">Floor Broekgaarden</p>
                         </div>
                     </div>
@@ -236,7 +246,7 @@
                                 <div class="col-12 col-md-6">
                                     <div class="form-control-box mb-2">
                                         <label for="new-software-bibtex" class="form-label">BibTeX</label>
-                                        <textarea class="form-control" id="new-software-bibtex" placeholder="Paste all BibTeX to be cited"></textarea>
+                                        <textarea class="form-control" id="new-software-bibtex" rows="6" placeholder="Paste all BibTeX to be cited"></textarea>
                                         <div class="valid-feedback"></div>
                                         <div class="invalid-feedback">That doesn't seem to be valid BibTeX.</div>
                                     </div>
@@ -247,6 +257,9 @@
                                             Custom acknowledgement (in LaTeX)
                                             <i class="fa fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="If your software package has specific text required for its citation then enter it here as LaTeX. See <code>COMPAS</code> or <code>MESA</code> for examples." data-bs-html="true"></i>
                                         </label>
+                                        <div class="alert alert-warning py-1 px-2 mb-1" id="feature-custom-ack-warning" style="font-size: 0.7rem">
+                                            <i class="fa fa-exclamation-triangle"></i> <strong>Warning:</strong> custom acknowledgement will override citations for any sub-packages. Please include these directly in the custom acknowledgement if required. Selected features are appended to the custom acknowledgement automatically.
+                                        </div>
                                         <textarea class="form-control" id="new-software-custom-acknowledgement" placeholder="LaTeX (e.g. 'This software wants to specifically cite \citet{thispackage} in this way.')"></textarea>
                                     </div>
                                 </div>
@@ -273,24 +286,33 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row mb-2">
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" id="open-subpackages-modal">
+                                        <i class="fa fa-plus"></i> Add citations for features/options/sub-packages
+                                    </button>
+                                    <i class="fa fa-question-circle ms-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Use this when there are additional citations that should be included when specific functionality/features/options of this software are used." data-bs-html="true"></i>
+                                    <div id="subpackage-summary" class="mt-1"></div>
+                                </div>
+                            </div>
                             <h6 class="fw-bold">Additional metadata</h6>
                             <div class="row">
                                 <div class="col-12 col-md-6">
                                     <div class="form-control-box required mb-2">
-                                        <label for="new-software-language" class="form-label">Language</label>
+                                        <label for="new-software-language" class="form-label">Language <small class="text-muted fw-normal">(Ctrl/Cmd+click for multiple)</small></label>
                                         <div class="input-group">
-                                            <select class="form-select form-select-sm" id="new-software-language"></select>
-                                            <input type="text" class="form-control hide" id="new-software-language-new" />
+                                            <select class="form-select form-select-sm" id="new-software-language" multiple size="4"></select>
+                                            <input type="text" class="form-control hide mt-1" id="new-software-language-new" placeholder="Enter new language" />
                                             <div class="invalid-feedback">That doesn't seem to be a valid language.</div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="form-control-box required mb-2">
-                                        <label for="new-software-category" class="form-label">Category</label>
+                                        <label for="new-software-category" class="form-label">Category <small class="text-muted fw-normal">(Ctrl/Cmd+click for multiple)</small></label>
                                         <div class="input-group">
-                                            <select class="form-select form-select-sm" id="new-software-category"></select>
-                                            <input type="text" class="form-control hide" id="new-software-category-new" />
+                                            <select class="form-select form-select-sm" id="new-software-category" multiple size="4"></select>
+                                            <input type="text" class="form-control hide mt-1" id="new-software-category-new" placeholder="Enter new category" />
                                             <div class="invalid-feedback">That doesn't seem to be a valid category.</div>
                                         </div>
                                     </div>
@@ -344,9 +366,70 @@
                 </div>
             </div>
         </div>
+        <!-- Feature selection modal -->
+        <div class="modal fade" id="features-modal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold">Select Features</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-muted" style="font-size: 0.8rem">Select the features/options/sub-packages you used. Their citations will be added to your acknowledgement and BibTeX.</p>
+                        <div id="features-modal-checkboxes"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="save-features">Apply</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sub-packages citation modal -->
+        <div class="modal fade" id="subpackages-modal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold">Add citations for features/options/sub-packages</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body" style="font-size: 0.7rem">
+                        <p class="text-muted">Add each feature/option/sub-package name and its corresponding BibTeX. Click <strong>+</strong> to add more entries.</p>
+                        <div id="subpackage-entries">
+                            <div class="subpackage-entry border rounded p-2 mb-2">
+                                <div class="d-flex justify-content-end mb-1">
+                                    <button type="button" class="btn btn-outline-danger btn-sm clear-subpackage"><i class="fa fa-times"></i></button>
+                                </div>
+                                <div class="mb-1">
+                                    <label class="form-label">Feature/option/sub-package name</label>
+                                    <input type="text" class="form-control subpackage-name" placeholder="e.g. numpy.fft" />
+                                </div>
+                                <div class="subpackage-bibtex-group">
+                                    <div class="d-flex align-items-center mb-1">
+                                        <label class="form-label mb-0 me-2">BibTeX</label>
+                                        <button type="button" class="btn btn-outline-success btn-sm add-bibtex-field" style="font-size: 0.6rem"><i class="fa fa-plus"></i> add another citation for feature</button>
+                                    </div>
+                                    <textarea class="form-control subpackage-bibtex" rows="3" placeholder="Paste BibTeX here"></textarea>
+                                    <div class="bibtex-feedback mb-1" style="font-size: 0.65rem"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-outline-primary btn-sm mt-1" id="add-subpackage-entry">
+                            <i class="fa fa-plus"></i> add another feature
+                        </button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="save-subpackages">Save citations</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div id="details" class="details-no-close card text-center hide" style="width: 18rem; z-index: 100">
             <div class="card-body details-no-close">
-                <img src="img/python.png" class="m-auto details-logo" style="max-height: 100px; max-width: 18rem" />
+                <img src="img/python.png" class="m-auto details-logo" alt="Python logo" style="max-height: 100px; max-width: 18rem" />
                 <h5 class="card-title fw-bold details-name">Python</h5>
                 <p class="card-text details-desc">A high-level, general-purpose interpreted programming language.</p>
                 <div><i class="fa fa-list"></i> <span class="details-category me-3">General</span> <i class="fa fa-language"></i> <span class="details-language">Python</span></div>
@@ -363,8 +446,8 @@
             <div id="toast-template" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
                     <img src="img/software-citation-station-no-circle-blue.png" class="rounded me-2" style="max-height: 25px" />
-                    <strong class="me-auto">Dependencies added</strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    <strong class="toast-header-title">Dependencies added</strong>
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
                 <div class="toast-body">Additional dependencies of <code class="main-package">PACKAGE</code> automatically selected: <code class="dependencies">DEPENDENCIES</code></div>
             </div>

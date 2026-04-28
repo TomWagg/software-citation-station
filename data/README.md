@@ -17,5 +17,6 @@ The following is a description of the possible fields in the ``citations.json`` 
         "custom_citation": "",          # [OPTIONAL] A custom citation statement to override the default
         "dependencies": [],             # [OPTIONAL] A list of package names currently on the site on which this package depends
         "frequently_used": false        # [OPTIONAL] Whether this package is frequently used by the community (default: false)
+        "pypi_name": ""                 # [OPTIONAL] The name of the software on PyPI if it's different from the PACKAGE_NAME (only applicable for Python package)
     },
 ```

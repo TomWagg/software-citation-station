@@ -7,6 +7,7 @@
     --primary-light-dm: #5791a7;
     --primary-light-dm-rgb: 87, 145, 167;
     --primary-dark: #186280;
+    --link-color: #005eff;
 }
 
 body,
@@ -33,7 +34,7 @@ body {
 
 a,
 a.nav-link {
-    color: var(--primary);
+    color: var(--link-color);
     text-decoration: none;
     transition: 0.3s;
 }
@@ -325,12 +326,33 @@ pre {
     --bs-tooltip-max-width: 18rem;
 }
 
+.version-card {
+    height: 100%;
+}
+
+.version-card .card-controls {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .version-button {
     font-size: 0.8rem;
     font-weight: bold;
 }
 
 .version-select {
+    font-size: 0.7rem;
+}
+
+.feature-btn {
+    font-size: 0.7rem;
+}
+
+#subpackages-modal .form-control,
+#subpackages-modal .form-label,
+#subpackages-modal .btn-sm {
     font-size: 0.7rem;
 }
 

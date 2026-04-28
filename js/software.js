@@ -18,7 +18,7 @@ const base_issue_text = `# TODO before submitting
 
 // cite badge HTML
 const badge_html = `<a href="https://www.tomwagg.com/software-citation-station/?auto-select=PACKAGENAME">
-    <img src="https://img.shields.io/badge/Cite-PACKAGENAME-blue" />
+    <img src="https://img.shields.io/badge/Cite-PACKAGENAME-blue" alt="GitHub badge" />
 </a>`
 
 // Fetch the citation data and populate the software list
@@ -65,6 +65,7 @@ Promise.all([
         btn.setAttribute("data-key", key)
         btn.setAttribute("data-tags", citations[key]["tags"].join(","))
         btn.setAttribute("data-keywords", citations[key]["keywords"].join(","))
+        btn.setAttribute("data-pypi-name", citations[key]["pypi-name"] || "")
 
         if (citations[key].hasOwnProperty("dependencies")) {
             btn.setAttribute("data-dependencies", citations[key]["dependencies"].join(","))
@@ -75,21 +76,26 @@ Promise.all([
         btn.id = "";
 
         // track all unique categories and languages
-        const cat = capitalise(citations[key]["category"]);
-        btn.setAttribute("data-category", cat);
-        categories.add(cat);
+        const cat = citations[key]["category"];
+        if (Array.isArray(cat)) {
+            btn.setAttribute("data-category", cat.map(x => capitalise(x)).join(", "));
+            for (let x of cat) {
+                categories.add(capitalise(x));
+            }
+        } else {
+            btn.setAttribute("data-category", capitalise(cat));
+            categories.add(capitalise(cat));
+        }
 
         const lang = citations[key]["language"];
-
-        if (typeof(lang) === "string") {
-            const lang_string = capitalise(lang);
-            btn.setAttribute("data-language", lang_string)
-            languages.add(lang_string);
-        } else {
-            btn.setAttribute("data-language", lang.map(x => capitalise(x)).join(", "))
+        if (Array.isArray(lang)) {
+            btn.setAttribute("data-language", lang.map(x => capitalise(x)).join(", "));
             for (let x of lang) {
                 languages.add(capitalise(x));
             }
+        } else {
+            btn.setAttribute("data-language", capitalise(lang));
+            languages.add(capitalise(lang));
         }
 
         // if the logo is missing then remove the image and add a text element instead
@@ -101,6 +107,7 @@ Promise.all([
             btn.insertBefore(el, btn.querySelector(".software-name"));
         } else {
             btn.querySelector(".software-logo").src = citations[key]["logo"];
+            btn.querySelector(".software-logo").alt = citations[key] + " logo";
 
             // if the logo needs a white background then add the relevant classes
             if (citations[key]["logo_background"]) {
@@ -181,38 +188,44 @@ Promise.all([
             // toggle the active class
             this.classList.toggle("active");
 
-            // if the button is now un-selected then hide the version picker if it exists
+            // if the button is now un-selected then hide the version/feature picker if it exists
             if (!this.classList.contains("active")) {
                 const vp = document.getElementById(`${this.getAttribute("data-key")}-version-picker`);
                 if (vp !== null) {
                     vp.classList.add("hide");
                 }
             } else {
-                // if the package has dependencies, find all of them and select them
-                const deps = collect_dependencies(new Set(), this.getAttribute("data-key"));
-                let previously_unselected = [];
-                for (let dep of deps) {
-                    const dep_btn = document.querySelector(`.software-button[data-key="${dep}"]`);
-                    if (dep_btn !== null && !dep_btn.classList.contains("active")) {
-                        previously_unselected.push(dep);
-                        dep_btn.classList.add("active");
+                // check whether the user wants to automatically add dependencies
+                const auto_add_deps = document.getElementById("auto-deps-toggle").classList.contains("active");
+
+                if (auto_add_deps) {
+
+                    // if the package has dependencies, find all of them and select them
+                    const deps = collect_dependencies(new Set(), this.getAttribute("data-key"));
+                    let previously_unselected = [];
+                    for (let dep of deps) {
+                        const dep_btn = document.querySelector(`.software-button[data-key="${dep}"]`);
+                        if (dep_btn !== null && !dep_btn.classList.contains("active")) {
+                            previously_unselected.push(dep);
+                            dep_btn.classList.add("active");
+                        }
                     }
-                }
 
-                // if we've selected any new dependencies then post a toast
-                if (previously_unselected.length > 0) {
-                    // post a toast letting the user know we've selected them
-                    let toast = document.getElementById("toast-template").cloneNode(true);
-                    toast.querySelector(".toast-body .main-package").innerText = this.getAttribute("data-key");
-                    toast.querySelector(".toast-body .dependencies").innerText = previously_unselected.join(", ");
-                    document.getElementById("toaster").appendChild(toast);
+                    // if we've selected any new dependencies then post a toast
+                    if (previously_unselected.length > 0) {
+                        // post a toast letting the user know we've selected them
+                        let toast = document.getElementById("toast-template").cloneNode(true);
+                        toast.querySelector(".toast-body .main-package").innerText = this.getAttribute("data-key");
+                        toast.querySelector(".toast-body .dependencies").innerText = previously_unselected.join(", ");
+                        document.getElementById("toaster").appendChild(toast);
 
-                    bootstrap.Toast.getOrCreateInstance(toast).show();
+                        bootstrap.Toast.getOrCreateInstance(toast).show();
 
-                    // remove the toast once it's hidden
-                    toast.addEventListener('hidden.bs.toast', () => {
-                        toast.remove();
-                    })                      
+                        // remove the toast once it's hidden
+                        toast.addEventListener('hidden.bs.toast', () => {
+                            toast.remove();
+                        })
+                    }
                 }
             }
 
@@ -223,6 +236,7 @@ Promise.all([
             let ack_to_add = [];
             let custom_acks_to_add = [];
             let bibs_to_add = [];
+            let feature_sentences_to_add = [];
 
             // remove any old download buttons
             document.querySelectorAll(".download-button:not(.hide)").forEach(function(btn) {
@@ -242,13 +256,59 @@ Promise.all([
 
             // loop through all active buttons and add the relevant information
             active_buttons.forEach(function(btn) {
+                const btn_key = btn.getAttribute("data-key");
                 // get the tags for the current button
                 let btn_tags = btn.getAttribute("data-tags").split(",");
 
+                // collect selected feature citations (kept separate from main tags)
+                const feature_tags_raw = citations[btn_key]["feature_tags"];
+                const feature_tags_data = feature_tags_raw !== undefined ? parse_feature_tags(feature_tags_raw) : undefined;
+                let selected_feature_data = [];
+                if (feature_tags_data !== undefined) {
+                    const picker_el = document.getElementById(`${btn_key}-version-picker`);
+                    if (picker_el !== null) {
+                        const selected_features = (picker_el.getAttribute("data-selected-features") || "").split(",").filter(Boolean);
+                        for (const feature of selected_features) {
+                            const tags = feature_tags_data[feature];
+                            if (tags && tags.length > 0) {
+                                selected_feature_data.push({ name: feature, tags });
+                            }
+                        }
+                    }
+                }
+
+                // deduplicate main tags only
+                btn_tags = [...new Set(btn_tags)];
+
                 // add the acknowledgement and do some simple latex syntax highlighting
-                let new_ack = "\\texttt{" + btn.querySelector(".software-name").innerText + "}";
+                const software_name = btn.querySelector(".software-name").innerText;
+                let new_ack = "\\texttt{" + software_name + "}";
                 if (btn_tags.length > 0 && btn_tags[0] !== "") {
-                    new_ack += " \\citep{" + btn_tags.join(",") + "}"
+                    new_ack += " \\citep{" + btn_tags.join(",") + "}";
+                }
+
+                // build feature sentence separately so it isn't folded into the comma-joined software list
+                if (selected_feature_data.length > 0) {
+                    const feature_parts = selected_feature_data.map(f =>
+                        `\\texttt{${f.name}} \\citep{${f.tags.join(",")}}`
+                    );
+                    let feature_list;
+                    if (feature_parts.length === 1) {
+                        feature_list = feature_parts[0];
+                    } else if (feature_parts.length === 2) {
+                        feature_list = feature_parts[0] + " and " + feature_parts[1];
+                    } else {
+                        feature_list = feature_parts.slice(0, -1).join(", ") + ", and " + feature_parts[feature_parts.length - 1];
+                    }
+                    feature_sentences_to_add.push(
+                        highlight_latex(`The following features of \\texttt{${software_name}} were used: ${feature_list}.`)
+                    );
+                    // add feature bibtex entries
+                    for (const f of selected_feature_data) {
+                        for (const tag of f.tags) {
+                            if (bibtex_table[tag]) bibs_to_add.push(highlight_bibtex(bibtex_table[tag]));
+                        }
+                    }
                 }
 
                 // check if the software has a custom acknowledgement
@@ -265,6 +325,9 @@ Promise.all([
                         vp.id = `${btn.getAttribute("data-key")}-version-picker`;
                         vp.classList.remove("hide");
                         vp.querySelector(".card-title").innerText = btn.getAttribute("data-key");
+
+                        // store in the html data that it hasn't fully loaded yet
+                        vp.setAttribute("data-loaded", "false");
                         
                         // if the software has no logo then remove the image and add a text element instead
                         if (citations[btn.getAttribute("data-key")]["logo"] === "") {
@@ -276,6 +339,7 @@ Promise.all([
                             card_body.insertBefore(el, card_body.querySelector(".card-title"));
                         } else {
                             vp.querySelector(".software-logo").src = citations[btn.getAttribute("data-key")]["logo"];
+                            vp.querySelector(".software-logo").alt = citations[btn.getAttribute("data-key")] + " logo";
                         }
 
                         // if the dropdown value is changed then trigger an update to the bibtex
@@ -293,8 +357,19 @@ Promise.all([
                         });
 
                         // update the version picker with available versions
-                        get_zenodo_version_info_cached(btn.getAttribute("data-key"), vp);
+                        get_zenodo_version_info_cached(
+                            btn.getAttribute("data-key"),
+                            citations[btn.getAttribute("data-key")]["zenodo_doi"],
+                            vp
+                        ).then(() => {
+                            vp.setAttribute("data-loaded", "true");
+                        });
                         document.getElementById("version-list").appendChild(vp);
+
+                        // if the software has feature_tags, show and wire up the feature button
+                        if (feature_tags_data !== undefined) {
+                            attach_feature_btn(vp, btn_key, feature_tags_data);
+                        }
 
                         // make a note that the user needs to select a version
                         new_ack += "\\footnote{{TODO}: Need to choose a version to cite!!}"
@@ -305,14 +380,24 @@ Promise.all([
                         // otherwise just show the version picker if it's hidden
                         version_picker.classList.remove("hide");
 
+                        // attach the feature button if not already done (idempotent)
+                        if (feature_tags_data !== undefined) {
+                            attach_feature_btn(version_picker, btn_key, feature_tags_data);
+                        }
+
                         // if you've selected a version then update the citation
                         if (version_picker.hasAttribute("data-bibtex")) {
                             const chosen_version = version_picker.querySelector(".version-select").value;
                             const new_tag = btn.getAttribute("data-key") + "_" + chosen_version
-                            if (new_ack.includes("citep")) {
-                                new_ack = new_ack.slice(0, -1) + "," + new_tag + "}";
+                            if (new_ack.includes("\\citep{")) {
+                                // insert zenodo tag into the first \citep{} (the main software citation)
+                                const citep_idx = new_ack.indexOf("\\citep{");
+                                const close_idx = new_ack.indexOf("}", citep_idx);
+                                new_ack = new_ack.slice(0, close_idx) + "," + new_tag + new_ack.slice(close_idx);
                             } else {
-                                new_ack += " \\citep{" + new_tag + "}";
+                                // no existing citep — insert one right after \texttt{name}
+                                const texttt_end = new_ack.indexOf("}") + 1;
+                                new_ack = new_ack.slice(0, texttt_end) + " \\citep{" + new_tag + "}" + new_ack.slice(texttt_end);
                             }
 
                             // remove the final period if it exists
@@ -350,6 +435,38 @@ Promise.all([
                     }
                 }
 
+                // for non-zenodo software with feature_tags, create or show a feature-only picker card
+                let picker = document.getElementById(`${btn.getAttribute("data-key")}-version-picker`);
+                if (zenodo_doi === "" && feature_tags_data !== undefined && picker === null) {
+                    let picker = document.getElementById("version-picker-template").cloneNode(true);
+                    picker.id = `${btn.getAttribute("data-key")}-version-picker`;
+                    picker.classList.remove("hide");
+                    picker.setAttribute("data-loaded", "true");
+                    picker.querySelector(".waiter").classList.add("hide");
+                    picker.querySelector(".card-title").innerText = btn.getAttribute("data-key");
+                    picker.querySelector(".version-select").classList.add("hide");
+                    picker.querySelector(".feature-btn").classList.remove("hide");
+
+                    // if the software has no logo then remove the image and add a text element instead
+                    if (citations[btn.getAttribute("data-key")]["logo"] === "") {
+                        picker.querySelector(".software-logo").remove();
+                        let el = document.createElement("span");
+                        el.className = "software-no-logo-text";
+                        el.innerText = btn.getAttribute("data-key");
+                        const card_body = picker.querySelector(".card-body");
+                        card_body.insertBefore(el, card_body.querySelector(".card-title"));
+                    } else {
+                        picker.querySelector(".software-logo").src = citations[btn.getAttribute("data-key")]["logo"];
+                        picker.querySelector(".software-logo").alt = citations[btn.getAttribute("data-key")] + " logo";
+                    }
+
+                    attach_feature_btn(picker, btn_key, feature_tags_data);
+
+                    document.getElementById("version-list").appendChild(picker);
+                } else if (picker !== null) {
+                    picker.classList.remove("hide");
+                }
+
                 if (custom_ack != "") {
                     custom_acks_to_add.push(highlight_latex(custom_ack));
                 } else {
@@ -371,6 +488,9 @@ Promise.all([
                 }
             });
 
+            // sort version pickers: version-only first, then feature-only, then both
+            sort_version_pickers();
+
             // clear the acknowledgement
             ack.innerHTML = "";
 
@@ -382,6 +502,9 @@ Promise.all([
 
                 // add add acknowledgements, joining them with commas and adding an "and" before the last one
                 ack.innerHTML += ack_to_add.slice(0, -1).join(', ') + (ack_to_add.length > 2 ? ',' : '') + (ack_to_add.length > 1 ? ' and ' : '') + ack_to_add.slice(-1) + '.';
+                if (feature_sentences_to_add.length > 0) {
+                    ack.innerHTML += " " + feature_sentences_to_add.join(" ");
+                }
             }
 
             // add the custom acknowledgements (with extra space between them and the main acknowledgements)
@@ -444,7 +567,6 @@ Promise.all([
     const new_software_category = document.getElementById("new-software-category");
     const new_software_language = document.getElementById("new-software-language");
     if (new_software_category.children.length == 0) {
-        new_software_category.appendChild(create_option("-", "Select category"));
         for (let i = 0; i < category_select.options.length; i++) {
             if (category_select.options[i].value === "all") {
                 continue;
@@ -452,10 +574,9 @@ Promise.all([
             new_software_category.appendChild(create_option(category_select.options[i].value,
                 category_select.options[i].innerText));
         }
-        new_software_category.appendChild(create_option("new", "New category"));
+        new_software_category.appendChild(create_option("new", "New category..."));
     }
     if (new_software_language.children.length == 0) {
-        new_software_language.appendChild(create_option("-", "Select language"));
         for (let i = 0; i < language_select.options.length; i++) {
             if (language_select.options[i].value === "all") {
                 continue;
@@ -463,7 +584,7 @@ Promise.all([
             new_software_language.appendChild(create_option(language_select.options[i].value,
                 language_select.options[i].innerText));
         }
-        new_software_language.appendChild(create_option("new", "New language"));
+        new_software_language.appendChild(create_option("new", "New language..."));
     }
 
     // hide the loading overlay
@@ -574,11 +695,6 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    fetch_zenodo_bibtex("13225526").then((bibtex) => {
-        console.log(bibtex);
-        console.log(bibtex.split("{")[1].split(",")[0]);
-    })
-
     // setup the tooltips for each of the software packages
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
@@ -600,6 +716,9 @@ window.addEventListener('DOMContentLoaded', () => {
                 // auto select the latest version for each version picker that isn't hidden
                 if (this.id === "latest_version") {
                     document.querySelectorAll(".version-picker:not(.hide) .version-select").forEach(function(select) {
+                        if (select.classList.contains("hide")) {
+                            return;
+                        }
                         select.value = select.children[1].value;
                         select.dispatchEvent(new Event('change'));
                     });
@@ -632,7 +751,8 @@ window.addEventListener('DOMContentLoaded', () => {
     // reveal the new category/language inputs if "new" is selected in the dropdown
     document.querySelectorAll("#new-software-category, #new-software-language").forEach(el => {
         el.addEventListener('change', function() {
-            if (this.value === "new") {
+            const selected = Array.from(this.selectedOptions).map(o => o.value);
+            if (selected.includes("new")) {
                 this.nextElementSibling.classList.remove("hide");
                 this.nextElementSibling.focus();
             } else {
@@ -665,6 +785,126 @@ window.addEventListener('DOMContentLoaded', () => {
         validate_new_software_form();
         e.preventDefault();
         e.stopPropagation();
+    });
+
+    // feature selection modal (main page)
+    document.getElementById("save-features").addEventListener('click', function() {
+        const modal_el = document.getElementById("features-modal");
+        const picker_id = modal_el.getAttribute("data-picker-id");
+        const key = modal_el.getAttribute("data-key");
+        const picker = document.getElementById(picker_id);
+
+        const selected = [];
+        document.querySelectorAll("#features-modal-checkboxes .form-check-input:checked").forEach(cb => {
+            selected.push(cb.value);
+        });
+        picker.setAttribute("data-selected-features", selected.join(","));
+
+        const count_el = picker.querySelector(".feature-btn .feature-count");
+        const total = document.querySelectorAll("#features-modal-checkboxes .form-check-input").length;
+        count_el.textContent = ` (${selected.length}/${total})`;
+
+        bootstrap.Modal.getInstance(modal_el).hide();
+
+        // trigger citation recalculation
+        const btn = document.querySelector(`.software-button[data-key="${key}"]`);
+        btn.click();
+        btn.click();
+    });
+
+    // sub-packages modal
+
+    document.getElementById("open-subpackages-modal").addEventListener('click', function() {
+        const modal = new bootstrap.Modal(document.getElementById("subpackages-modal"));
+        modal.show();
+    });
+
+    function add_bibtex_field(entry) {
+        const group = entry.querySelector(".subpackage-bibtex-group");
+        const wrapper = document.createElement("div");
+        wrapper.className = "mb-1";
+        wrapper.innerHTML = `<div class="d-flex align-items-start">
+                <textarea class="form-control subpackage-bibtex me-1" rows="3" placeholder="Paste BibTeX here"></textarea>
+                <button type="button" class="btn btn-outline-danger btn-sm remove-bibtex-field"><i class="fa fa-minus"></i></button>
+            </div>
+            <div class="bibtex-feedback" style="font-size: 0.65rem"></div>`;
+        wrapper.querySelector(".remove-bibtex-field").addEventListener('click', function() {
+            wrapper.remove();
+        });
+        group.appendChild(wrapper);
+    }
+
+    function setup_entry(entry) {
+        const remove_btn = entry.querySelector(".remove-subpackage");
+        if (remove_btn) {
+            remove_btn.addEventListener('click', function() { entry.remove(); });
+        }
+        const clear_btn = entry.querySelector(".clear-subpackage");
+        if (clear_btn) {
+            clear_btn.addEventListener('click', function() {
+                entry.querySelector(".subpackage-name").value = "";
+                // remove any dynamically added bibtex fields, leaving only the first
+                entry.querySelectorAll(".subpackage-bibtex-group .d-flex.align-items-start").forEach(el => el.remove());
+                // reset the original textarea and its feedback
+                const textarea = entry.querySelector(".subpackage-bibtex");
+                textarea.value = "";
+                textarea.classList.remove("is-valid", "is-invalid");
+                const feedback = entry.querySelector(".bibtex-feedback");
+                if (feedback) feedback.innerHTML = "";
+            });
+        }
+        entry.querySelector(".add-bibtex-field").addEventListener('click', function() {
+            add_bibtex_field(entry);
+        });
+    }
+
+    // wire up the static first entry
+    setup_entry(document.querySelector("#subpackage-entries .subpackage-entry"));
+
+    document.getElementById("add-subpackage-entry").addEventListener('click', function() {
+        const container = document.getElementById("subpackage-entries");
+        const entry = document.createElement("div");
+        entry.className = "subpackage-entry border rounded p-2 mb-2";
+        entry.innerHTML = `
+            <div class="d-flex justify-content-end mb-1">
+                <button type="button" class="btn btn-outline-danger btn-sm remove-subpackage"><i class="fa fa-times"></i></button>
+            </div>
+            <div class="mb-1">
+                <label class="form-label">Feature/option/sub-package name</label>
+                <input type="text" class="form-control subpackage-name" placeholder="e.g. numpy.fft" />
+            </div>
+            <div class="subpackage-bibtex-group">
+                <div class="d-flex align-items-center mb-1">
+                    <label class="form-label mb-0 me-2">BibTeX</label>
+                    <button type="button" class="btn btn-outline-success btn-sm add-bibtex-field" style="font-size: 0.6rem"><i class="fa fa-plus"></i> add another citation for feature</button>
+                </div>
+                <textarea class="form-control subpackage-bibtex" rows="3" placeholder="Paste BibTeX here"></textarea>
+                <div class="bibtex-feedback mb-1" style="font-size: 0.65rem"></div>
+            </div>`;
+        container.appendChild(entry);
+        setup_entry(entry);
+    });
+
+    document.getElementById("save-subpackages").addEventListener('click', function() {
+        // validate each feature BibTeX field before allowing the modal to close
+        let all_valid = true;
+        document.querySelectorAll("#subpackage-entries .subpackage-bibtex").forEach(function(textarea) {
+            if (!validate_feature_bibtex(textarea)) {
+                all_valid = false;
+            }
+        });
+        if (!all_valid) return;
+
+        const subpackages = collect_subpackages();
+        const summary = document.getElementById("subpackage-summary");
+        if (subpackages.length > 0) {
+            const badges = subpackages.map(sp => `<span class="badge text-bg-secondary me-1">${sp.name || "(unnamed)"}</span>`).join("");
+            summary.innerHTML = `<small class="text-muted">Sub-packages saved: ${badges}</small>`;
+        } else {
+            summary.innerHTML = "";
+        }
+
+        bootstrap.Modal.getInstance(document.getElementById("subpackages-modal")).hide();
     });
 
     // as the new name is changed, update the link for searching Zenodo
@@ -702,6 +942,22 @@ window.addEventListener('DOMContentLoaded', () => {
         // copy the bibtex to the clipboard
         navigator.clipboard.writeText(badge_html);
     });
+
+    document.getElementById("file-upload-go").addEventListener('click', function() {
+        const file_input = document.getElementById("file-upload");
+        file_input.click();
+    });
+    
+    document.getElementById("file-upload").addEventListener('change', function() {
+        const file = this.files[0];
+        if (file.name.endsWith(".txt")) {
+            handle_file_upload(file, 'txt');
+        } else if (file.name.endsWith(".yml") || file.name.endsWith(".yaml")) {
+            handle_file_upload(file, 'yml');
+        } else {
+            toast_notification("Error", "Unsupported file type. Please upload a .txt, .yml, or .yaml file.", "danger");
+        }
+    });
 });
 
 // handle the searching/filtering of software packages
@@ -720,24 +976,26 @@ function handle_search() {
         // check if the language matches the button's language
         const lang_string = btn.getAttribute("data-language").toLowerCase();
         let matches_lang = false;
-
-        // check if the language is a list of languages
-        if (lang_string.includes(",")) {
-            // split the languages and check if the current language is in the list
-            const langs = lang_string.split(",");
-            for (let lang of langs) {
-                if (lang.trim() === language) {
-                    matches_lang = true;
-                }
+        const langs = lang_string.split(",");
+        for (let lang of langs) {
+            if (lang.trim() === language) {
+                matches_lang = true;
             }
-        } else {
-            // otherwise, just check if the language matches
-            matches_lang = lang_string === language;
+        }
+
+        // check if the category matches the button's category
+        const cat_string = btn.getAttribute("data-category").toLowerCase();
+        let matches_cat = false;
+        const cats = cat_string.split(",");
+        for (let cat of cats) {
+            if (cat.trim() === category) {
+                matches_cat = true;
+            }
         }
 
         // combine all of the search criteria
         const matches_search = ((btn_key.includes(search) || btn_keywords.includes(search))
-                                && (category === "all" || btn.getAttribute("data-category").toLowerCase() === category)
+                                && (category === "all" || matches_cat)
                                 && (language === "all" || matches_lang));
         if (matches_search) {
             all_hidden = false;
@@ -783,6 +1041,62 @@ function capitalise(string) {
 // change units between rem and pixels
 function convertRemToPixels(rem) {    
     return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+}
+
+// validate a single feature bibtex textarea, showing inline feedback
+// mirrors the same logic as the main BibTeX field validation
+function validate_feature_bibtex(textarea) {
+    const val = textarea.value.trim();
+
+    // the feedback element sits after the textarea (static entries) or after
+    // the .d-flex row that wraps the textarea + remove button (dynamic entries)
+    const flex_parent = textarea.parentElement.classList.contains('d-flex') ? textarea.parentElement : null;
+    const anchor = flex_parent || textarea;
+
+    let feedback = anchor.nextElementSibling;
+    if (!feedback || !feedback.classList.contains('bibtex-feedback')) {
+        feedback = document.createElement('div');
+        feedback.className = 'bibtex-feedback';
+        feedback.style.fontSize = '0.65rem';
+        anchor.insertAdjacentElement('afterend', feedback);
+    }
+
+    if (val === "") {
+        textarea.classList.remove('is-invalid', 'is-valid');
+        feedback.innerHTML = "";
+        return true;
+    }
+
+    const parsed = parse_bibtex(val);
+    if (Object.keys(parsed).length === 0) {
+        textarea.classList.add('is-invalid');
+        textarea.classList.remove('is-valid');
+        feedback.innerHTML = "<span class='text-danger'>Invalid BibTeX.</span>";
+        return false;
+    } else {
+        textarea.classList.add('is-valid');
+        textarea.classList.remove('is-invalid');
+        const tags = Object.keys(parsed).map(k => `<span class='badge text-bg-success'>${k}</span>`).join(" ");
+        feedback.innerHTML = "Tags detected: " + tags;
+        return true;
+    }
+}
+
+// validate all feature bibtex textareas; opens the modal and flags
+// #subpackage-summary if any are invalid; returns true if all valid
+function validate_all_feature_bibtexes() {
+    let all_valid = true;
+    for (const textarea of document.querySelectorAll("#subpackage-entries .subpackage-bibtex")) {
+        if (!validate_feature_bibtex(textarea)) {
+            all_valid = false;
+        }
+    }
+    if (!all_valid) {
+        document.getElementById("subpackage-summary").innerHTML =
+            '<small class="text-danger">Fix invalid BibTeX in feature citations before submitting.</small>';
+        bootstrap.Modal.getOrCreateInstance(document.getElementById("subpackages-modal")).show();
+    }
+    return all_valid;
 }
 
 // parse the bibtex file into a dictionary of tags and entries
@@ -963,7 +1277,7 @@ async function get_zenodo_version_info(concept_doi, vp) {
 }
 
 // Function to get Zenodo version info from cached files
-async function get_zenodo_version_info_cached(package_name, vp) {
+async function get_zenodo_version_info_cached(package_name, concept_doi, vp) {
     try {
         // Fetch the cached version data for this package
         const response = await fetch(`data/zenodo-versions/${package_name}.json`);
@@ -971,11 +1285,7 @@ async function get_zenodo_version_info_cached(package_name, vp) {
         // If file doesn't exist, fall back to the API
         if (!response.ok) {
             console.warn(`No cached version data found for ${package_name}, falling back to API`);
-            if (!citations[package_name]) {
-                throw new Error(`Package ${package_name} not found in citations`);
-            }
-            const zenodo_doi = citations[package_name]["zenodo_doi"];
-            return get_zenodo_version_info(zenodo_doi, vp);
+            return get_zenodo_version_info(concept_doi, vp);
         }
         
         const version_and_doi = await response.json();
@@ -1069,6 +1379,75 @@ async function fetch_zenodo_bibtex(doi) {
     }
 }
 
+function sort_version_pickers() {
+    /* Sort version picker cards by setting CSS flexbox order:
+       version-only (1), feature-only (2), both (3).
+       Using style.order rather than DOM re-appending means the sort is
+       idempotent and survives the btn.click()/btn.click() update pattern
+       without causing visible jumps. */
+    const pickers = document.querySelectorAll(".version-picker:not(#version-picker-template)");
+    for (const el of pickers) {
+        if (el.id.endsWith("-feature-picker")) {
+            el.style.order = 2;
+        } else {
+            const feature_btn = el.querySelector(".feature-btn");
+            el.style.order = (feature_btn && !feature_btn.classList.contains("hide")) ? 3 : 1;
+        }
+    }
+}
+
+function parse_feature_tags(arr) {
+    /* Convert [{name: "tag"}, ...] to a flat {name: "tag"} lookup object */
+    const out = {};
+    for (const item of arr) {
+        const k = Object.keys(item)[0];
+        out[k] = item[k];
+    }
+    return out;
+}
+
+function attach_feature_btn(picker_el, key, feature_tags_data) {
+    /* Show the feature button on a picker card and wire up the modal */
+    const feature_btn = picker_el.querySelector(".feature-btn");
+    if (feature_btn === null) return;
+    if (feature_btn.dataset.wired) return;  // already wired up
+    feature_btn.dataset.wired = "true";
+    feature_btn.classList.remove("hide");
+
+    feature_btn.addEventListener('click', function() {
+        const modal_el = document.getElementById("features-modal");
+        modal_el.setAttribute("data-picker-id", picker_el.id);
+        modal_el.setAttribute("data-key", key);
+
+        const checkboxes_el = document.getElementById("features-modal-checkboxes");
+        checkboxes_el.innerHTML = "";
+        const selected = (picker_el.getAttribute("data-selected-features") || "").split(",").filter(Boolean);
+
+        for (const feature_name of Object.keys(feature_tags_data)) {
+            const div = document.createElement("div");
+            div.className = "form-check";
+            const checked = selected.includes(feature_name) ? "checked" : "";
+            div.innerHTML = `<input class="form-check-input" type="checkbox" value="${feature_name}" id="feature-cb-${feature_name}" ${checked}>
+                <label class="form-check-label" for="feature-cb-${feature_name}">${feature_name}</label>`;
+            checkboxes_el.appendChild(div);
+        }
+
+        bootstrap.Modal.getOrCreateInstance(modal_el).show();
+    });
+}
+
+function collect_subpackages() {
+    const subpackages = [];
+    document.querySelectorAll("#subpackage-entries .subpackage-entry").forEach(function(entry) {
+        const name = entry.querySelector(".subpackage-name").value.trim();
+        const bibtexes = [...entry.querySelectorAll(".subpackage-bibtex")].map(t => t.value.trim()).filter(Boolean);
+        if (name !== "" || bibtexes.length > 0) {
+            subpackages.push({ name, bibtexes });
+        }
+    });
+    return subpackages;
+}
+
 function validate_new_software_form() {
     /* validate the input fields in the new software form */
     let form = document.querySelector(".new-software-form");
@@ -1107,20 +1486,21 @@ function validate_new_software_form() {
         }
     }
 
-    // check the category and language selects. Both should not have value of "-", and if they have a value of "new" then the next input should not be empty
+    // check the category and language selects. At least one option must be selected, and if "new" is selected the text input must not be empty
     for (let select of form.querySelectorAll("#new-software-category, #new-software-language")) {
+        const selected = Array.from(select.selectedOptions).map(o => o.value);
         const select_new_input = select.nextElementSibling;
-        if (select.value === "-") {
-            select.setCustomValidity("Please select a category/language.");
-            select_new_input.setCustomValidity("Please select a category/language.");
+        if (selected.length === 0) {
+            select.setCustomValidity("Please select at least one option.");
+            select_new_input.setCustomValidity("Please select at least one option.");
             select.parentElement.querySelector(".invalid-feedback").innerHTML = "No value selected.";
-        } else if (select.value === "new" && select.nextElementSibling.value.trim() === "") {
+        } else if (selected.includes("new") && select_new_input.value.trim() === "") {
             select.setCustomValidity("Please enter a new category/language.");
             select_new_input.setCustomValidity("Please enter a new category/language.");
             select.parentElement.querySelector(".invalid-feedback").innerHTML = "New value not entered.";
         } else {
             select.setCustomValidity("");
-            select.nextElementSibling.setCustomValidity("");
+            select_new_input.setCustomValidity("");
         }
     }
 
@@ -1147,17 +1527,22 @@ function validate_new_software_form() {
         }
 
         // perform the rest of the validation
-        let valid = form.checkValidity();
+        let valid = form.checkValidity() && validate_all_feature_bibtexes();
         if (valid) {
             let json = {}
 
-            let language = form.querySelector("#new-software-language").value.trim();
-            if (language === "new") {
-                language = form.querySelector("#new-software-language-new").value.trim();
+            const selectedLanguages = Array.from(form.querySelector("#new-software-language").selectedOptions).map(o => o.value);
+            let language = selectedLanguages.filter(v => v !== "new");
+            if (selectedLanguages.includes("new")) {
+                const newLang = form.querySelector("#new-software-language-new").value.trim();
+                if (newLang) language.push(newLang);
             }
-            let category = form.querySelector("#new-software-category").value.trim();
-            if (category === "new") {
-                category = form.querySelector("#new-software-category-new").value.trim();
+
+            const selectedCategories = Array.from(form.querySelector("#new-software-category").selectedOptions).map(o => o.value);
+            let category = selectedCategories.filter(v => v !== "new");
+            if (selectedCategories.includes("new")) {
+                const newCat = form.querySelector("#new-software-category-new").value.trim();
+                if (newCat) category.push(newCat);
             }
 
             const dep_toggles = form.querySelectorAll("#new-software-dependencies .dependency-toggle.text-bg-primary")
@@ -1169,6 +1554,17 @@ function validate_new_software_form() {
             }
 
             const name = form.querySelector("#new-software-name").value.trim();
+            const subpackages = collect_subpackages();
+            const feature_tags_out = [];
+            for (const sp of subpackages) {
+                if (sp.name !== "") {
+                    const all_tags = [];
+                    for (const bibtex of sp.bibtexes) {
+                        all_tags.push(...Object.keys(parse_bibtex(bibtex)));
+                    }
+                    feature_tags_out.push({ [sp.name]: all_tags });
+                }
+            }
             json[name] = {
                 "tags": Object.keys(bibtex),
                 "logo": `img/${name}.png`,
@@ -1181,6 +1577,9 @@ function validate_new_software_form() {
                 "zenodo_doi": form.querySelector("#new-software-doi").value.trim(),
                 "custom_citation": form.querySelector("#new-software-custom-acknowledgement").value.trim(),
                 "dependencies": deps,
+            }
+            if (feature_tags_out.length > 0) {
+                json[name]["feature_tags"] = feature_tags_out;
             }
 
             const cite_string = JSON.stringify(json, null, 4).split('\n').slice(1, -1).map((line) => line.slice(4)).join('\n');
@@ -1199,6 +1598,18 @@ function validate_new_software_form() {
             copy_text += "```\n" + cite_string + "\n```";
             copy_text += "\n\n";
             copy_text += "# BibTeX\n```\n" + bibtex_field.value.trim() + "\n```";
+
+            if (subpackages.length > 0) {
+                copy_text += "\n\n# Feature/sub-package BibTeX";
+                for (const sp of subpackages) {
+                    if (sp.name !== "") {
+                        copy_text += `\n## ${sp.name}`;
+                        for (const bibtex of sp.bibtexes) {
+                            copy_text += `\n\`\`\`\n${bibtex}\n\`\`\``;
+                        }
+                    }
+                }
+            }
 
             document.getElementById("copy-new-software").setAttribute("data-copy-text", copy_text);
         }
@@ -1226,4 +1637,180 @@ function collect_dependencies(dep_set, id) {
         }
     }
     return dep_set;
+}
+
+
+function handle_file_upload(file, type) {
+    // start reading a new file
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        // parse based on the file type
+        const content = e.target.result;
+        let parsed_softwares = [];
+        if (type === "txt") {
+            parsed_softwares = parse_pip_freeze(content);
+        } else if (type === "yml" || type === "yaml") {
+            parsed_softwares = parse_conda_env(content);
+        } else {
+            toast_notification("Error", "Unsupported file type. Please upload a .txt, .yml, or .yaml file.", "");
+            return;
+        }
+
+        // turn off auto-add dependencies if necessary
+        const autoDepsToggle = document.getElementById("auto-deps-toggle");
+        if (autoDepsToggle.classList.contains("active")) {
+            autoDepsToggle.classList.remove("active");
+        }
+
+        // track all intervals
+        let intervals_remaining = [];
+        let missing_softwares = [];
+
+        // go through each software button
+        const software_btns = document.querySelectorAll(".software-button:not(#software-btn-template)");
+        for (let btn of software_btns) {
+            const key = btn.getAttribute("data-key").toLowerCase();
+            const pypi_name = btn.getAttribute("data-pypi-name").toLowerCase();
+
+            // if the key or pypi name matches any of the softwares in the file, click the button to add it
+            for (let software of parsed_softwares) {
+                if (key === software.key || pypi_name === software.key) {
+                    // remove this software from the list of parsed softwares so we don't keep looping over it
+                    parsed_softwares = parsed_softwares.filter((s) => s.key !== software.key);
+
+                    if (!btn.classList.contains("active")) {
+                        btn.click();
+                    }
+
+                    // if the version picker exists, wait for the list to be loaded and then select the correct version if it exists
+                    const vp = document.getElementById(`${btn.getAttribute("data-key")}-version-picker`);
+                    if (vp !== null) {
+                        // wait until the data-loaded attribute is true
+                        const interval = setInterval(() => {
+                            if (vp.getAttribute("data-loaded") === "true") {
+
+                                // select the version that matches (pre-pend a 'v' if necessary)
+                                const select = vp.querySelector(".version-select");
+                                let found_version = false;
+                                for (let opt of select.options) {
+                                    let opt_text = opt.text.toLowerCase().trim();
+                                    let version_from_file = software.version.toLowerCase().trim();
+                                    if (opt_text === version_from_file || opt_text === 'v' + version_from_file) {
+                                        select.value = opt.value;
+                                        select.dispatchEvent(new Event('change'));
+                                        found_version = true;
+                                        break;
+                                    }
+                                }
+
+                                // if we can't find it, make a note of it
+                                if (!found_version) {
+                                    missing_softwares.push(software);
+                                }
+                                clearInterval(interval);
+
+                                // remove interval from remaining intervals list
+                                intervals_remaining = intervals_remaining.filter((i) => i !== interval);
+                            }
+                        }, 500);
+                        intervals_remaining.push(interval);
+                    }
+                }
+            }
+        }
+
+        // once all of the intervals have been cleared
+        const checkIntervals = setInterval(() => {
+            if (intervals_remaining.length === 0) {
+                clearInterval(checkIntervals);
+
+                // if any were missing then let the user know
+                if (missing_softwares.length > 0) {
+                    let body = "<p class='m-0' style='font-size: 0.7rem;'>The following packages and versions are not available on Zenodo: ";
+                    body_softwares = missing_softwares.map((software) => `<code>${software.key}==${software.version}</code>`);
+                    body += body_softwares.join(", ") + "</p>";
+                    toast_notification("Missing versions", body, "", false);
+                }
+            }
+        }, 500);
+
+    };
+    reader.readAsText(file);
+}
+
+function parse_pip_freeze(content) {
+    // parse the output of pip freeze to get package names
+    let softwares = [];
+    const lines = content.split("\n");
+    for (let line of lines) {
+        line = line.trim();
+        if (line === "" || line.startsWith("#")) {
+            continue;
+        }
+        const [key, version] = line.split("==");
+        softwares.push({key: key.toLowerCase(), version: version});
+    }
+    return softwares;
+}
+
+function parse_conda_env(content) {
+    // parse the output of conda env export to get package names
+    let softwares = [];
+    const lines = content.split("\n");
+    let in_deps = false;
+    let in_pip_deps = false;
+    for (let line of lines) {
+        line = line.trim();
+        if (line === "dependencies:") {
+            in_deps = true;
+            continue;
+        }
+        if (in_pip_deps) {
+            if (line.startsWith("- ")) {
+                const dep_line = line.slice(2);
+                const [key, version] = dep_line.split("==");
+                softwares.push({key: key.toLowerCase(), version: version});
+            } else {
+                in_pip_deps = false;
+                break;
+            }
+        } else if (in_deps) {
+            if (line === "- pip:") {
+                in_pip_deps = true;
+                continue;
+            }
+            if (line.startsWith("- ")) {
+                const dep_line = line.slice(2);
+                const [key, version] = dep_line.split("=");
+                softwares.push({key: key.toLowerCase(), version: version});
+            } else {
+                break;
+            }
+        }
+    }
+    return softwares;
+}
+
+function toast_notification(header, body, type="", autohide=true, delay=5000) {
+    const toastContainer = document.getElementById("toaster");
+    const toast = document.getElementById("toast-template").cloneNode(true);
+    toast.classList.remove("hide");
+
+    toast.id = '';
+    toast.querySelector(".toast-body").innerHTML = body;
+
+    // set the background color based on the type of notification
+    if (type !== "") {
+        toast.querySelector(".toast-header").classList.add('bg-' + type);
+    }
+    toast.querySelector(".toast-header-title").innerText = header;
+
+    toastContainer.appendChild(toast);
+    const bsToast = new bootstrap.Toast(toast, {autohide: autohide, delay: delay});
+    bsToast.show();
+
+    // remove the toast from the DOM after it hides
+    toast.addEventListener('hidden.bs.toast', function() {
+        toast.remove();
+    });
 }
