@@ -3552,5 +3552,27 @@
     "zenodo_doi": "",
     "custom_citation": "",
     "dependencies": []
-}
+    },
+    "Korg.jl": {
+        "tags": [
+            "2023AJ....165...68W",
+            "2024AJ....167...83W"
+        ],
+        "logo": "https://ajwheeler.github.io/Korg.jl/stable/assets/logo.svg",
+        "language": [
+            "Julia"
+        ],
+        "category": [
+            "Stars"
+        ],
+        "keywords": [],
+        "description": "Fast 1D LTE stellar spectral synthesis",
+        "link": "https://github.com/ajwheeler/Korg.jl",
+        "attribution_link": "https://ajwheeler.github.io/Korg.jl/stable/#Code-papers-(please-cite-these-if-you-use-Korg):",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "julia"
+        ]
+    }
 }
