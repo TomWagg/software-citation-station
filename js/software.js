@@ -1194,7 +1194,7 @@ const animateCSS = (node, animation, prefix = 'animate__') =>
 async function get_zenodo_version_info(concept_doi, vp) {
     // Build the complete URL with the query parameter for concept DOI
     const PAGE_SIZE = 25;
-    const base_url = `https://zenodo.org/api/records?q=conceptdoi:"${concept_doi}"&all_versions=true&size=${PAGE_SIZE}`;
+    const base_url = `https://zenodo.org/api/records?q=${encodeURIComponent(`conceptdoi:"${concept_doi}"`)}&all_versions=true&size=${PAGE_SIZE}`;
     try {
         // keep track of which versions we've seen so far
         let version_and_doi = []
@@ -1319,10 +1319,10 @@ async function validate_zenodo_doi(concept_doi) {
         return [-1, concept_doi];
     }
 
-    const PAGE_SIZE = 100;
+    const PAGE_SIZE = 25;
 
-    // build the url and make the request
-    const url = `https://zenodo.org/api/records?q=conceptdoi:"${concept_doi}"&all_versions=true&size=${PAGE_SIZE}`;
+    // build the url and make the request. q= value must be URL-encoded — Zenodo rejects raw `:` and `/` with HTTP 400.
+    const url = `https://zenodo.org/api/records?q=${encodeURIComponent(`conceptdoi:"${concept_doi}"`)}&all_versions=true&size=${PAGE_SIZE}`;
     const response = await fetch(url);
     if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -1334,7 +1334,7 @@ async function validate_zenodo_doi(concept_doi) {
     // if we didn't find anything then maybe the user entered a specific version DOI accidentally
     if (data.hits.hits.length === 0) {
         // retry by searching for the DOI assuming it's not a concept DOI
-        const url = `https://zenodo.org/api/records?q=doi:"${concept_doi}"&all_versions=true&size=${PAGE_SIZE}`;
+        const url = `https://zenodo.org/api/records?q=${encodeURIComponent(`doi:"${concept_doi}"`)}&all_versions=true&size=${PAGE_SIZE}`;
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -1510,7 +1510,12 @@ function validate_new_software_form() {
 
     const doi_input = form.querySelector("#new-software-doi");
 
-    validate_zenodo_doi(doi_input.value.trim()).then((results) => {
+    validate_zenodo_doi(doi_input.value.trim()).catch((err) => {
+        console.error("Zenodo DOI validation failed:", err);
+        doi_input.setCustomValidity("Couldn't reach Zenodo to verify the DOI. Please try again in a moment.");
+        doi_input.parentElement.querySelector(".invalid-feedback").innerHTML = "Couldn't reach Zenodo to verify the DOI. Please try again in a moment.";
+        return [0, doi_input.value.trim()];
+    }).then((results) => {
         const [n_versions, real_doi] = results;
 
         // if the DOI has changed then update the input field as well
