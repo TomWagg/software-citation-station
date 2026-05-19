@@ -107,7 +107,7 @@ Promise.all([
             btn.insertBefore(el, btn.querySelector(".software-name"));
         } else {
             btn.querySelector(".software-logo").src = citations[key]["logo"];
-            btn.querySelector(".software-logo").alt = citations[key] + " logo";
+            btn.querySelector(".software-logo").alt = key;
 
             // if the logo needs a white background then add the relevant classes
             if (citations[key]["logo_background"]) {
@@ -339,7 +339,7 @@ Promise.all([
                             card_body.insertBefore(el, card_body.querySelector(".card-title"));
                         } else {
                             vp.querySelector(".software-logo").src = citations[btn.getAttribute("data-key")]["logo"];
-                            vp.querySelector(".software-logo").alt = citations[btn.getAttribute("data-key")] + " logo";
+                            vp.querySelector(".software-logo").alt = btn.getAttribute("data-key");
                         }
 
                         // if the dropdown value is changed then trigger an update to the bibtex
@@ -457,7 +457,7 @@ Promise.all([
                         card_body.insertBefore(el, card_body.querySelector(".card-title"));
                     } else {
                         picker.querySelector(".software-logo").src = citations[btn.getAttribute("data-key")]["logo"];
-                        picker.querySelector(".software-logo").alt = citations[btn.getAttribute("data-key")] + " logo";
+                        picker.querySelector(".software-logo").alt = btn.getAttribute("data-key");
                     }
 
                     attach_feature_btn(picker, btn_key, feature_tags_data);

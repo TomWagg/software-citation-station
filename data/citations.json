@@ -177,7 +177,7 @@
     },
     "ADS": {
         "tags": [],
-        "logo": "https://ui.adsabs.harvard.edu/help/img/bbb_assets/ads_partial_logo_dark_background.svg",
+        "logo": "img/ads.png",
         "language": [
             "java"
         ],
