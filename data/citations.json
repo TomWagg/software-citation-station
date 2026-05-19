@@ -3574,5 +3574,30 @@
         "dependencies": [
             "julia"
         ]
-    }
+    },
+    "gw-eccentricity": {
+    "tags": [
+        "Shaikh:2023ypz",
+        "Shaikh:2025tae"
+    ],
+    "logo": "img/gw-eccentricity.png",
+    "language": [
+        "Python"
+    ],
+    "category": [
+        "Gravitational Waves"
+    ],
+    "keywords": [
+        "gravitational-wave",
+        "eccentricity",
+        "compact binary",
+        "black holes"
+    ],
+    "description": "Defining eccentricity for gravitational wave astronomy",
+    "link": "https://pypi.org/project/gw-eccentricity/",
+    "attribution_link": "https://gw-eccentricity.readthedocs.io/en/latest/readme.html#credits",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": []
+}
 }
