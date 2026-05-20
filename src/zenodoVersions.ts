@@ -127,7 +127,7 @@ const getRecordTimestamp = (candidate: Pick<ZenodoVersionCandidate, 'updated' | 
  */
 export async function getZenodoVersionInfo(conceptDoi: string): Promise<ZenodoVersion[]> {
   const PAGE_SIZE = 25;
-  const baseUrl = `https://zenodo.org/api/records?q=conceptdoi:"${conceptDoi}"&all_versions=true&size=${PAGE_SIZE}`;
+  const baseUrl = `https://zenodo.org/api/records?q=${encodeURIComponent(`conceptdoi:"${conceptDoi}"`)}&all_versions=true&size=${PAGE_SIZE}`;
 
   const versionCandidates = new Map<string, ZenodoVersionCandidate>();
 
