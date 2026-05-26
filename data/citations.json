@@ -3599,5 +3599,29 @@
     "zenodo_doi": "",
     "custom_citation": "",
     "dependencies": []
+},
+"OverCite": {
+    "tags": [
+        "Shariat2026"
+    ],
+    "logo": "img/OverCite.png",
+    "language": [
+        "Java"
+    ],
+    "category": [
+        "Data Handling"
+    ],
+    "keywords": [
+        "citations",
+        "cite"
+    ],
+    "description": "Add citations in LaTeX without leaving the editor",
+    "link": "https://github.com/cheyanneshariat/OverCite",
+    "attribution_link": "https://github.com/cheyanneshariat/OverCite",
+    "zenodo_doi": "10.5281/zenodo.19485159",
+    "custom_citation": "This work made use of \\texttt{OverCite} \\citep{Shariat2026}, an in-editor citation tool for \\LaTeX.",
+    "dependencies": [
+        "ADS"
+    ]
 }
 }
