@@ -3623,5 +3623,42 @@
     "dependencies": [
         "ADS"
     ]
+},
+"orbitize!": {
+    "tags": [
+        "2024JOSS....9.6756B",
+        "2020AJ....159...89B"
+    ],
+    "logo": "img/orbitize!.png",
+    "language": [
+        "C",
+        "Python"
+    ],
+    "category": [
+        "Parameter Estimation",
+        "Planet And Exoplanet",
+        "Statistics",
+        "Visualisation"
+    ],
+    "keywords": [],
+    "description": "An orbit-fitting toolkit for directly-imaged planets and stellar companions.",
+    "link": "https://orbitize.readthedocs.io/en/latest/",
+    "attribution_link": "https://orbitize.readthedocs.io/en/latest/",
+    "zenodo_doi": "zenodo.1475226",
+    "custom_citation": "",
+    "dependencies": [
+        "astropy",
+        "matplotlib",
+        "numpy",
+        "pandas",
+        "python",
+        "scipy",
+        "astroquery",
+        "corner.py",
+        "Cython",
+        "emcee",
+        "h5py",
+        "REBOUND"
+    ]
 }
 }
