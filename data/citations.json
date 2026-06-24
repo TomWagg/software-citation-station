@@ -3660,5 +3660,34 @@
         "h5py",
         "REBOUND"
     ]
+},
+"Bahamas": {
+    "tags": [
+        "2025arXiv250622542P"
+    ],
+    "logo": "img/Bahamas.jpg",
+    "language": [
+        "Python"
+    ],
+    "category": [
+        "Gravitational Waves"
+    ],
+    "keywords": [],
+    "description": "BAHAMAS is a Python package for the inference of stochastic gravitational wave background signals (SGWB) using Hamiltonian Markov Chain Monte Carlo (HMCMC) as implemented in NumPyro.",
+    "link": "https://federicopozzoli.github.io/bahamas/",
+    "attribution_link": "https://github.com/FedericoPozzoli/bahamas/blob/main/CITE.md",
+    "zenodo_doi": "10.5281/zenodo.16087704",
+    "custom_citation": "",
+    "dependencies": [
+        "astropy",
+        "numpy",
+        "python",
+        "scipy",
+        "corner.py",
+        "h5py",
+        "healpy",
+        "JAX",
+        "numpyro"
+    ]
 }
 }
