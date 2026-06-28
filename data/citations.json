@@ -408,6 +408,31 @@
             "Cython"
         ]
     },
+    "ztforce": {
+    "tags": [
+        "Boesky2026_ztforce"
+    ],
+    "logo": "img/ztforce.svg",
+    "language": [
+        "Python"
+    ],
+    "category": [
+        "Computing",
+        "Data Handling",
+        "Photometry"
+    ],
+    "keywords": [],
+    "description": "Forced PSF photometry on ZTF science images.",
+    "link": "https://ztforce.readthedocs.io",
+    "attribution_link": "https://github.com/Adam-Boesky/ztforce#citation",
+    "zenodo_doi": "10.5281/zenodo.20434974",
+    "custom_citation": "",
+    "dependencies": [
+        "numpy",
+        "pandas",
+        "python"
+    ]
+},
     "showyourwork": {
         "tags": [
             "Luger2021"
