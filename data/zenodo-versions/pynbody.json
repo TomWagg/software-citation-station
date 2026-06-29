@@ -60,16 +60,16 @@
     "doi": "14182722"
   },
   {
+    "version": "v2.0.0-beta.11",
+    "doi": "11621683"
+  },
+  {
     "version": "v2.0.0-beta.12",
     "doi": "12730763"
   },
   {
     "version": "v2.0.0-beta.14",
     "doi": "13862651"
-  },
-  {
-    "version": "v2.0.0-beta.11",
-    "doi": "11621683"
   },
   {
     "version": "v2.0.0-beta.4",
@@ -104,16 +104,16 @@
     "doi": "14277378"
   },
   {
-    "version": "v2.0.0-beta.7",
-    "doi": "10988747"
+    "version": "v2.0.0-beta",
+    "doi": "10727594"
   },
   {
     "version": "v2.0.0-beta.10",
     "doi": "11120211"
   },
   {
-    "version": "v2.0.0-beta",
-    "doi": "10727594"
+    "version": "v2.0.0-beta.7",
+    "doi": "10988747"
   },
   {
     "version": "v1.6.0",
