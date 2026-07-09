@@ -269,9 +269,12 @@ Promise.all([
                     if (picker_el !== null) {
                         const selected_features = (picker_el.getAttribute("data-selected-features") || "").split(",").filter(Boolean);
                         for (const feature of selected_features) {
-                            const tags = feature_tags_data[feature];
-                            if (tags && tags.length > 0) {
-                                selected_feature_data.push({ name: feature, tags });
+                            const fdata = feature_tags_data[feature];
+                            // a feature's direct tags produce the "features used"
+                            // sentence; its dependencies are added as separate
+                            // packages (handled at feature-selection time)
+                            if (fdata && fdata.tags && fdata.tags.length > 0) {
+                                selected_feature_data.push({ name: feature, tags: fdata.tags });
                             }
                         }
                     }
@@ -654,6 +657,16 @@ window.addEventListener('DOMContentLoaded', () => {
         if (buttons.length == 0) {
             return;
         }
+        // forget any remembered feature selection so re-adding a package starts
+        // fresh (the picker elements are reused when a package is selected again)
+        buttons.forEach(function(btn) {
+            const vp = document.getElementById(`${btn.getAttribute("data-key")}-version-picker`);
+            if (vp !== null) {
+                vp.removeAttribute("data-selected-features");
+                const count_el = vp.querySelector(".feature-btn .feature-count");
+                if (count_el !== null) count_el.textContent = "";
+            }
+        });
         for (let i = 0; i < buttons.length - 1; i++) {
             buttons[i].classList.remove("active");
             const vp = document.getElementById(`${buttons[i].getAttribute("data-key")}-version-picker`);
@@ -794,11 +807,43 @@ window.addEventListener('DOMContentLoaded', () => {
         const key = modal_el.getAttribute("data-key");
         const picker = document.getElementById(picker_id);
 
+        // only auto-select a feature's dependency packages if the user has the
+        // "Auto-add dependencies" toggle enabled (same gate as package-level deps)
+        const auto_add_deps = document.getElementById("auto-deps-toggle").classList.contains("active");
+
         const selected = [];
+        // packages that the selected features depend on (plus their own
+        // transitive dependencies) get selected like ordinary dependencies
+        const feature_deps = new Set();
         document.querySelectorAll("#features-modal-checkboxes .form-check-input:checked").forEach(cb => {
             selected.push(cb.value);
+            if (!auto_add_deps) return;
+            let deps = [];
+            try { deps = JSON.parse(cb.dataset.dependencies || "[]"); } catch (e) { deps = []; }
+            for (const dep of deps) {
+                feature_deps.add(dep);
+                collect_dependencies(feature_deps, dep);
+            }
         });
         picker.setAttribute("data-selected-features", selected.join(","));
+
+        // select any dependency packages that aren't already selected
+        const newly_selected = [];
+        for (const dep of feature_deps) {
+            const dep_btn = document.querySelector(`.software-button[data-key="${dep}"]`);
+            if (dep_btn !== null && !dep_btn.classList.contains("active")) {
+                newly_selected.push(dep);
+                dep_btn.classList.add("active");
+            }
+        }
+        if (newly_selected.length > 0) {
+            const toast = document.getElementById("toast-template").cloneNode(true);
+            toast.querySelector(".toast-body .main-package").innerText = key;
+            toast.querySelector(".toast-body .dependencies").innerText = newly_selected.join(", ");
+            document.getElementById("toaster").appendChild(toast);
+            bootstrap.Toast.getOrCreateInstance(toast).show();
+            toast.addEventListener('hidden.bs.toast', () => toast.remove());
+        }
 
         const count_el = picker.querySelector(".feature-btn .feature-count");
         const total = document.querySelectorAll("#features-modal-checkboxes .form-check-input").length;
@@ -831,7 +876,9 @@ window.addEventListener('DOMContentLoaded', () => {
         wrapper.querySelector(".remove-bibtex-field").addEventListener('click', function() {
             wrapper.remove();
         });
-        group.appendChild(wrapper);
+        // keep the "add another" button below all the BibTeX fields
+        const add_btn = group.querySelector(".add-bibtex-field");
+        group.insertBefore(wrapper, add_btn);
     }
 
     function setup_entry(entry) {
@@ -843,6 +890,7 @@ window.addEventListener('DOMContentLoaded', () => {
         if (clear_btn) {
             clear_btn.addEventListener('click', function() {
                 entry.querySelector(".subpackage-name").value = "";
+                entry.querySelector(".subpackage-name").classList.remove("is-invalid");
                 // remove any dynamically added bibtex fields, leaving only the first
                 entry.querySelectorAll(".subpackage-bibtex-group .d-flex.align-items-start").forEach(el => el.remove());
                 // reset the original textarea and its feedback
@@ -851,15 +899,34 @@ window.addEventListener('DOMContentLoaded', () => {
                 textarea.classList.remove("is-valid", "is-invalid");
                 const feedback = entry.querySelector(".bibtex-feedback");
                 if (feedback) feedback.innerHTML = "";
+                // reset any selected dependencies
+                set_entry_deps(entry, []);
+                render_selected_deps(entry);
+                const req = entry.querySelector(".feature-requirement-feedback");
+                if (req) req.innerHTML = "";
             });
         }
         entry.querySelector(".add-bibtex-field").addEventListener('click', function() {
             add_bibtex_field(entry);
         });
+        setup_dependency_selector(entry);
     }
 
     // wire up the static first entry
     setup_entry(document.querySelector("#subpackage-entries .subpackage-entry"));
+
+    // close any open dependency dropdowns when clicking outside the panel itself
+    // (its own "select" toggle button is excluded so it can open/close normally)
+    document.addEventListener('click', function(e) {
+        document.querySelectorAll("#subpackage-entries .dependency-dropdown:not(.hide)").forEach(function(panel) {
+            const container = panel.closest(".subpackage-deps");
+            const select_btn = container ? container.querySelector(".select-dependencies") : null;
+            const clicked_toggle = select_btn && select_btn.contains(e.target);
+            if (!panel.contains(e.target) && !clicked_toggle) {
+                panel.classList.add("hide");
+            }
+        });
+    });
 
     document.getElementById("add-subpackage-entry").addEventListener('click', function() {
         const container = document.getElementById("subpackage-entries");
@@ -873,27 +940,28 @@ window.addEventListener('DOMContentLoaded', () => {
                 <label class="form-label">Feature/option/sub-package name</label>
                 <input type="text" class="form-control subpackage-name" placeholder="e.g. numpy.fft" />
             </div>
-            <div class="subpackage-bibtex-group">
+            <div class="subpackage-deps mb-2">
                 <div class="d-flex align-items-center mb-1">
-                    <label class="form-label mb-0 me-2">BibTeX</label>
-                    <button type="button" class="btn btn-outline-success btn-sm add-bibtex-field" style="font-size: 0.6rem"><i class="fa fa-plus"></i> add another citation for feature</button>
+                    <label class="form-label mb-0 me-2">Dependencies</label>
+                    <button type="button" class="btn btn-outline-primary btn-sm select-dependencies" style="font-size: 0.6rem">select</button>
                 </div>
+                <div class="selected-dependencies"></div>
+            </div>
+            <div class="subpackage-bibtex-group">
+                <label class="form-label mb-1">BibTeX (only new entries - do not enter BibTeX of dependencies)</label>
                 <textarea class="form-control subpackage-bibtex" rows="3" placeholder="Paste BibTeX here"></textarea>
                 <div class="bibtex-feedback mb-1" style="font-size: 0.65rem"></div>
-            </div>`;
+                <button type="button" class="btn btn-outline-success btn-sm add-bibtex-field" style="font-size: 0.6rem"><i class="fa fa-plus"></i> add another BibTeX entry for feature</button>
+            </div>
+            <div class="feature-requirement-feedback text-danger mt-1" style="font-size: 0.65rem"></div>`;
         container.appendChild(entry);
         setup_entry(entry);
     });
 
     document.getElementById("save-subpackages").addEventListener('click', function() {
-        // validate each feature BibTeX field before allowing the modal to close
-        let all_valid = true;
-        document.querySelectorAll("#subpackage-entries .subpackage-bibtex").forEach(function(textarea) {
-            if (!validate_feature_bibtex(textarea)) {
-                all_valid = false;
-            }
-        });
-        if (!all_valid) return;
+        // each feature must have a name and at least one valid BibTeX entry or
+        // dependency before allowing the modal to close
+        if (!validate_all_features(false)) return;
 
         const subpackages = collect_subpackages();
         const summary = document.getElementById("subpackage-summary");
@@ -1082,19 +1150,66 @@ function validate_feature_bibtex(textarea) {
     }
 }
 
-// validate all feature bibtex textareas; opens the modal and flags
-// #subpackage-summary if any are invalid; returns true if all valid
-function validate_all_feature_bibtexes() {
+// validate every feature entry: each non-empty feature needs a name and at
+// least one valid BibTeX entry OR at least one selected dependency, and any
+// BibTeX that is provided must be valid. Optionally opens the modal on failure.
+// Returns true if all feature entries are valid.
+function validate_all_features(open_modal_on_error) {
     let all_valid = true;
-    for (const textarea of document.querySelectorAll("#subpackage-entries .subpackage-bibtex")) {
-        if (!validate_feature_bibtex(textarea)) {
+
+    for (const entry of document.querySelectorAll("#subpackage-entries .subpackage-entry")) {
+        const name_input = entry.querySelector(".subpackage-name");
+        const name = name_input.value.trim();
+        const deps = get_entry_deps(entry);
+        const req_feedback = entry.querySelector(".feature-requirement-feedback");
+        if (req_feedback) req_feedback.innerHTML = "";
+
+        // validate each BibTeX field; track whether any valid, non-empty one exists
+        let has_valid_bibtex = false;
+        const bibtex_textareas = [...entry.querySelectorAll(".subpackage-bibtex")];
+        for (const textarea of bibtex_textareas) {
+            const ok = validate_feature_bibtex(textarea);
+            if (!ok) {
+                all_valid = false;
+            } else if (textarea.value.trim() !== "") {
+                has_valid_bibtex = true;
+            }
+        }
+
+        // an entry is only "active" (and thus required to be complete) if it has
+        // any content at all; a wholly empty default entry is simply ignored
+        const is_active = name !== "" || has_valid_bibtex || deps.length > 0
+            || bibtex_textareas.some(t => t.value.trim() !== "");
+        if (!is_active) {
+            name_input.classList.remove("is-invalid");
+            continue;
+        }
+
+        // an active feature must have a name
+        if (name === "") {
+            name_input.classList.add("is-invalid");
             all_valid = false;
+        } else {
+            name_input.classList.remove("is-invalid");
+        }
+
+        // an active feature must have at least one valid BibTeX OR one dependency
+        if (!has_valid_bibtex && deps.length === 0) {
+            all_valid = false;
+            if (req_feedback) {
+                req_feedback.innerHTML = "This feature needs at least one valid BibTeX entry or one selected dependency.";
+            }
         }
     }
+
+    const summary = document.getElementById("subpackage-summary");
     if (!all_valid) {
-        document.getElementById("subpackage-summary").innerHTML =
-            '<small class="text-danger">Fix invalid BibTeX in feature citations before submitting.</small>';
-        bootstrap.Modal.getOrCreateInstance(document.getElementById("subpackages-modal")).show();
+        if (summary) {
+            summary.innerHTML = '<small class="text-danger">Each feature needs a name and at least one valid BibTeX entry or dependency.</small>';
+        }
+        if (open_modal_on_error) {
+            bootstrap.Modal.getOrCreateInstance(document.getElementById("subpackages-modal")).show();
+        }
     }
     return all_valid;
 }
@@ -1397,11 +1512,20 @@ function sort_version_pickers() {
 }
 
 function parse_feature_tags(arr) {
-    /* Convert [{name: "tag"}, ...] to a flat {name: "tag"} lookup object */
+    /* Flatten [{name: {tags, dependencies}}, ...] into a lookup object
+       { name: { tags: [...], dependencies: [...] } }. Each item may contain
+       more than one feature. An array value is treated as the legacy
+       tags-only form. */
     const out = {};
     for (const item of arr) {
-        const k = Object.keys(item)[0];
-        out[k] = item[k];
+        for (const k of Object.keys(item)) {
+            const v = item[k];
+            if (Array.isArray(v)) {
+                out[k] = { tags: v, dependencies: [] };
+            } else {
+                out[k] = { tags: v.tags || [], dependencies: v.dependencies || [] };
+            }
+        }
     }
     return out;
 }
@@ -1429,6 +1553,10 @@ function attach_feature_btn(picker_el, key, feature_tags_data) {
             const checked = selected.includes(feature_name) ? "checked" : "";
             div.innerHTML = `<input class="form-check-input" type="checkbox" value="${feature_name}" id="feature-cb-${feature_name}" ${checked}>
                 <label class="form-check-label" for="feature-cb-${feature_name}">${feature_name}</label>`;
+            // stash the feature's package dependencies so the save handler can
+            // select them without needing the citations object in scope
+            div.querySelector(".form-check-input").dataset.dependencies =
+                JSON.stringify(feature_tags_data[feature_name].dependencies || []);
             checkboxes_el.appendChild(div);
         }
 
@@ -1436,13 +1564,172 @@ function attach_feature_btn(picker_el, key, feature_tags_data) {
     });
 }
 
+// read/write the list of dependency package keys selected for a feature entry
+function get_entry_deps(entry) {
+    try {
+        return JSON.parse(entry.dataset.dependencies || "[]");
+    } catch (e) {
+        return [];
+    }
+}
+
+function set_entry_deps(entry, deps) {
+    entry.dataset.dependencies = JSON.stringify(deps);
+}
+
+// render the selected dependency badges for a feature entry
+function render_selected_deps(entry) {
+    const display = entry.querySelector(".selected-dependencies");
+    if (!display) return;
+    const deps = get_entry_deps(entry);
+    if (deps.length === 0) {
+        display.innerHTML = '<small class="text-muted">No dependencies selected</small>';
+    } else {
+        display.innerHTML = "";
+        for (const dep of deps) {
+            const badge = document.createElement("span");
+            badge.className = "badge text-bg-primary me-1";
+            const text = document.createElement("span");
+            text.textContent = dep;
+            badge.appendChild(text);
+            // a close symbol to remove this dependency
+            const close = document.createElement("button");
+            close.type = "button";
+            close.className = "btn-close btn-close-white ms-1 align-middle";
+            close.style.fontSize = "0.5rem";
+            close.setAttribute("aria-label", `Remove ${dep}`);
+            close.addEventListener('click', function() {
+                remove_entry_dep(entry, dep);
+            });
+            badge.appendChild(close);
+            display.appendChild(badge);
+        }
+    }
+}
+
+// remove a single dependency from a feature entry and keep the dropdown in sync
+function remove_entry_dep(entry, dep) {
+    const deps = get_entry_deps(entry).filter(d => d !== dep);
+    set_entry_deps(entry, deps);
+    // if the dropdown is open/built, uncheck the matching checkbox
+    const checkbox = entry.querySelector(`.dependency-options input[value="${dep}"]`);
+    if (checkbox) checkbox.checked = false;
+    render_selected_deps(entry);
+}
+
+// (re)build the checkbox list of every package currently in the citation
+// station, reflecting the feature entry's currently-selected dependencies.
+// Done lazily on open so the software buttons (loaded asynchronously) exist.
+function populate_dependency_options(entry, options) {
+    const selected = get_entry_deps(entry);
+    const keys = [...document.querySelectorAll(".software-button[data-key]")]
+        .map(b => b.getAttribute("data-key"))
+        .filter(Boolean)
+        .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+    options.innerHTML = "";
+    for (const key of keys) {
+        // a plain div row (not a <label>) so we control toggling explicitly and
+        // avoid the nested-label double-fire quirk; the whole row is clickable
+        const opt = document.createElement("div");
+        opt.className = "form-check dependency-option";
+        opt.style.cursor = "pointer";
+        const input = document.createElement("input");
+        input.className = "form-check-input";
+        input.type = "checkbox";
+        input.value = key;
+        if (selected.includes(key)) input.checked = true;
+        const label = document.createElement("span");
+        label.className = "form-check-label ms-1";
+        label.textContent = key;
+        opt.appendChild(input);
+        opt.appendChild(label);
+        options.appendChild(opt);
+    }
+}
+
+// build and wire up the searchable dependency dropdown for a feature entry
+function setup_dependency_selector(entry) {
+    const container = entry.querySelector(".subpackage-deps");
+    if (!container) return;
+    const select_btn = container.querySelector(".select-dependencies");
+
+    // build the (hidden) dropdown panel once
+    let panel = container.querySelector(".dependency-dropdown");
+    if (!panel) {
+        panel = document.createElement("div");
+        panel.className = "dependency-dropdown card p-2 shadow hide";
+        const search = document.createElement("input");
+        search.type = "text";
+        search.className = "form-control form-control-sm dependency-search mb-2";
+        search.placeholder = "Search packages...";
+        const options = document.createElement("div");
+        options.className = "dependency-options";
+        options.style.maxHeight = "160px";
+        options.style.overflowY = "auto";
+        panel.appendChild(search);
+        panel.appendChild(options);
+
+        // float the panel as an overlay anchored just under the "select" row so
+        // that changing the filtered list length never resizes the modal
+        const deps_row = container.querySelector(".d-flex");
+        const anchor = deps_row || container;
+        anchor.style.position = "relative";
+        panel.style.position = "absolute";
+        panel.style.top = "calc(100% + 2px)";
+        panel.style.left = "0";
+        panel.style.right = "0";
+        panel.style.zIndex = "1000";
+        anchor.appendChild(panel);
+
+        // filter the list as the user types. Toggle inline display (rather than a
+        // class) so it always wins over Bootstrap's .form-check display rule.
+        search.addEventListener('input', function() {
+            const q = this.value.trim().toLowerCase();
+            options.querySelectorAll(".dependency-option").forEach(function(opt) {
+                const label = opt.querySelector(".form-check-label");
+                const text = label ? label.textContent.toLowerCase() : "";
+                opt.style.display = (q !== "" && !text.includes(q)) ? "none" : "";
+            });
+        });
+
+        // toggle a package when its row (name included) is clicked, then sync the
+        // stored selection. Clicking the checkbox itself toggles it natively, so
+        // we only flip it ourselves when the click landed elsewhere on the row.
+        options.addEventListener('click', function(e) {
+            const row = e.target.closest(".dependency-option");
+            if (!row) return;
+            const checkbox = row.querySelector("input[type=checkbox]");
+            if (!checkbox) return;
+            if (e.target !== checkbox) checkbox.checked = !checkbox.checked;
+            const chosen = [...options.querySelectorAll("input:checked")].map(i => i.value);
+            set_entry_deps(entry, chosen);
+            render_selected_deps(entry);
+        });
+    }
+
+    if (select_btn) {
+        select_btn.addEventListener('click', function() {
+            panel.classList.toggle("hide");
+            if (!panel.classList.contains("hide")) {
+                // (re)populate from the currently-loaded package list on open
+                populate_dependency_options(entry, panel.querySelector(".dependency-options"));
+                const search = panel.querySelector(".dependency-search");
+                if (search) { search.value = ""; search.focus(); }
+            }
+        });
+    }
+
+    render_selected_deps(entry);
+}
+
 function collect_subpackages() {
     const subpackages = [];
     document.querySelectorAll("#subpackage-entries .subpackage-entry").forEach(function(entry) {
         const name = entry.querySelector(".subpackage-name").value.trim();
         const bibtexes = [...entry.querySelectorAll(".subpackage-bibtex")].map(t => t.value.trim()).filter(Boolean);
-        if (name !== "" || bibtexes.length > 0) {
-            subpackages.push({ name, bibtexes });
+        const dependencies = get_entry_deps(entry);
+        if (name !== "" || bibtexes.length > 0 || dependencies.length > 0) {
+            subpackages.push({ name, bibtexes, dependencies });
         }
     });
     return subpackages;
@@ -1532,7 +1819,7 @@ function validate_new_software_form() {
         }
 
         // perform the rest of the validation
-        let valid = form.checkValidity() && validate_all_feature_bibtexes();
+        let valid = form.checkValidity() && validate_all_features(true);
         if (valid) {
             let json = {}
 
@@ -1563,11 +1850,19 @@ function validate_new_software_form() {
             const feature_tags_out = [];
             for (const sp of subpackages) {
                 if (sp.name !== "") {
-                    const all_tags = [];
+                    // store the feature's own new BibTeX tags and its dependency
+                    // package keys separately; dependencies are resolved (and
+                    // versioned) at runtime via each package's own entry
+                    const tags = [];
                     for (const bibtex of sp.bibtexes) {
-                        all_tags.push(...Object.keys(parse_bibtex(bibtex)));
+                        tags.push(...Object.keys(parse_bibtex(bibtex)));
                     }
-                    feature_tags_out.push({ [sp.name]: all_tags });
+                    feature_tags_out.push({
+                        [sp.name]: {
+                            "tags": [...new Set(tags)],
+                            "dependencies": [...sp.dependencies]
+                        }
+                    });
                 }
             }
             json[name] = {
@@ -1609,6 +1904,9 @@ function validate_new_software_form() {
                 for (const sp of subpackages) {
                     if (sp.name !== "") {
                         copy_text += `\n## ${sp.name}`;
+                        if (sp.dependencies.length > 0) {
+                            copy_text += `\nDepends on existing package(s): ${sp.dependencies.join(", ")}`;
+                        }
                         for (const bibtex of sp.bibtexes) {
                             copy_text += `\n\`\`\`\n${bibtex}\n\`\`\``;
                         }

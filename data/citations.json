@@ -325,22 +325,22 @@
         "extra_bibtex": "@PREAMBLE{{\\providecommand{\\noopsort}[1]{}}}",
         "feature_tags": [
             {
-                "Gravitational wave selection effects": ["Barrett2018"]
+                "Gravitational wave selection effects": {"tags": ["Barrett2018"], "dependencies": []}
             },
             {
-                "STROOPWAFEL adaptive importance sampling algorithm": ["Broekgaarden2019"]
+                "STROOPWAFEL adaptive importance sampling algorithm": {"tags": ["Broekgaarden2019"], "dependencies": []}
             },
             {
-                "Integration over cosmic star formation history": ["Neijssel2019"]
+                "Integration over cosmic star formation history": {"tags": ["Neijssel2019"], "dependencies": []}
             },
             {
-                "Model of (pulsational) pair instability supernova": ["Stevenson2019"]
+                "Model of (pulsational) pair instability supernova": {"tags": ["Stevenson2019"], "dependencies": []}
             },
             {
-                "Pulsar spin and magnetic field evolution": ["Chattopadhyay2020"]
+                "Pulsar spin and magnetic field evolution": {"tags": ["Chattopadhyay2020"], "dependencies": []}
             },
             {
-                "Model of chemically homogeneous evolution": ["Riley2021"]
+                "Model of chemically homogeneous evolution": {"tags": ["Riley2021"], "dependencies": []}
             }
         ]
     },
@@ -727,16 +727,16 @@
         "custom_citation": "",
         "feature_tags": [
             {
-                "CAMELS-SAM": ["CAMELS-SAM"]
+                "CAMELS-SAM": {"tags": ["CAMELS-SAM"], "dependencies": []}
             },
             {
-                "CAMELS Photometry": ["CAMELS-Photometry"]
+                "CAMELS Photometry": {"tags": ["CAMELS-Photometry"], "dependencies": []}
             },
             {
-                "CAMELS Multifield Dataset": ["CAMELS-Multifield-Dataset"]
+                "CAMELS Multifield Dataset": {"tags": ["CAMELS-Multifield-Dataset"], "dependencies": []}
             },
             {
-                "CAMELS zoomGZ": ["CAMELS-zoomGZ"]
+                "CAMELS zoomGZ": {"tags": ["CAMELS-zoomGZ"], "dependencies": []}
             }
         ]
     },
@@ -1026,7 +1026,7 @@
         "custom_citation": "This research made use of \\textsc{Tardis}, a community-developed software package for spectral synthesis in supernovae \\citep{2014MNRAS.440..387K, kerzendorf_wolfgang_2019_2590539}. The development of \\textsc{Tardis} received support from the Google Summer of Code initiative and from ESA’s Summer of Code in Space program. \\textsc{Tardis} makes extensive use of PyNE \\url{https://pyne.io/}.",
         "feature_tags": [
             {
-                "Spectral modeling of type II supernovae": ["2019A&A...621A..29V"]
+                "Spectral modeling of type II supernovae": {"tags": ["2019A&A...621A..29V"], "dependencies": []}
             }
         ],
         "dependencies": [
@@ -1587,10 +1587,10 @@
         "custom_citation": "",
         "feature_tags": [
             {
-                "densMAP algorithm": ["NBC2020"]
+                "densMAP algorithm": {"tags": ["NBC2020"], "dependencies": []}
             },
             {
-                "Parametric UMAP algorithm": ["SMG2020"]
+                "Parametric UMAP algorithm": {"tags": ["SMG2020"], "dependencies": []}
             }
         ],
         "dependencies": [
@@ -2501,11 +2501,11 @@
         "custom_citation": "This work made use of the Gaia selection function tools from \\texttt{gaiaunlimited}.",
         "feature_tags": [
             {
-                "Subset selection function": ["Castro-Ginard+2023:2023A&A...677A..37C"],
-                "Empirical DR3 survey selection function": ["Cantat-Gaudin+2023:2023A&A...669A..55C"],
-                "Gaia scanning law (version dr2_cog3)": ["Boubert+2021:2021MNRAS.501.2954B"],
-                "Survey scanning law (DR2)": ["Boubert+2020:2020MNRAS.497.4246B"],
-                "Survey scanning law (EDR3)": ["Everall+2022:2022MNRAS.509.6205E"]
+                "Subset selection function": {"tags": ["Castro-Ginard+2023:2023A&A...677A..37C"], "dependencies": []},
+                "Empirical DR3 survey selection function": {"tags": ["Cantat-Gaudin+2023:2023A&A...669A..55C"], "dependencies": []},
+                "Gaia scanning law (version dr2_cog3)": {"tags": ["Boubert+2021:2021MNRAS.501.2954B"], "dependencies": []},
+                "Survey scanning law (DR2)": {"tags": ["Boubert+2020:2020MNRAS.497.4246B"], "dependencies": []},
+                "Survey scanning law (EDR3)": {"tags": ["Everall+2022:2022MNRAS.509.6205E"], "dependencies": []}
             }
         ],        
         "dependencies": [
@@ -3310,8 +3310,8 @@
         "custom_citation": "",
         "feature_tags": [
             {
-                "Transient signal features": ["Keitel:2018pxz"],
-                "Glitch-robust search features": ["Ashton:2018qth"]
+                "Transient signal features": {"tags": ["Keitel:2018pxz"], "dependencies": []},
+                "Glitch-robust search features": {"tags": ["Ashton:2018qth"], "dependencies": []}
             }
         ],
         "dependencies": [
