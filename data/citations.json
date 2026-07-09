@@ -432,7 +432,7 @@
         "pandas",
         "python"
     ]
-},
+    },  
     "showyourwork": {
         "tags": [
             "Luger2021"
@@ -962,6 +962,25 @@
         "attribution_link": "https://github.com/PrincetonUniversity/athena?tab=readme-ov-file",
         "zenodo_doi": "10.5281/zenodo.4455879",
         "custom_citation": ""
+    },
+    "pyerfa": {
+    "tags": [
+        "marten_van_kerkwijk_2024_14072435"
+    ],
+    "logo": "",
+    "language": [
+        "Python"
+    ],
+    "category": [
+        "General"
+    ],
+    "keywords": [],
+    "description": "PyERFA is the Python wrapper for the ERFA library (Essential Routines for Fundamental Astronomy), a C library containing key algorithms for astronomy.",
+    "link": "https://pyerfa.readthedocs.io/en/latest/",
+    "attribution_link": "https://github.com/liberfa/pyerfa#pyerfa",
+    "zenodo_doi": "10.5281/zenodo.3940698",
+    "custom_citation": "",
+    "dependencies": []
     },
     "tardis": {
         "tags": [
