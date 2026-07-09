@@ -1001,6 +1001,25 @@
         "custom_citation": "",
         "dependencies": []
     },
+    "Wolfram Language": {
+        "tags": [],
+        "logo": "img/Wolfram Language.png",
+        "language": [
+            "Wolfram Language"
+        ],
+        "category": [
+            "Computing",
+            "Data Handling",
+            "General"
+        ],
+        "keywords": [],
+        "description": "As a pioneer in computation and computational knowledge, we have pursued a long-term vision to develop the science, technology and tools to make computation an ever-more-potent force in today's world.",
+        "link": "https://www.wolfram.com",
+        "attribution_link": "https://support.wolfram.com/472",
+        "zenodo_doi": "",
+        "custom_citation": "This work made use of the \\texttt{Wolfram} product \\texttt{[INSERT PRODUCT NAME]} \\citep{INSERT BibTeX HERE}.\\footnote{{TODO}: Custom BibTeX needed! Refer to https://support.wolfram.com/472 for proper format.}",
+        "dependencies": []
+    },
     "tardis": {
         "tags": [
             "2014MNRAS.440..387K",
