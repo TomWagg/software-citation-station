@@ -982,6 +982,25 @@
     "custom_citation": "",
     "dependencies": []
     },
+    "pymultinest": {
+        "tags": [
+            "2014A&A...564A.125B"
+        ],
+        "logo": "",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Statistics"
+        ],
+        "keywords": [],
+        "description": "MultiNest is a program and a sampling technique. As a Bayesian inference technique, it allows parameter estimation and model selection. Pymultinest is a python interface to MultiNest.",
+        "link": "https://johannesbuchner.github.io/PyMultiNest/pymultinest.html",
+        "attribution_link": "https://johannesbuchner.github.io/PyMultiNest/#citing-pymultinest",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": []
+    },
     "tardis": {
         "tags": [
             "2014MNRAS.440..387K",
