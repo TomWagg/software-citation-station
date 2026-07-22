@@ -3325,6 +3325,95 @@
             "tqdm"
         ]
     },
+    "ChronoFlow": {
+    "tags": [
+        "2025ApJ...986...59V"
+    ],
+    "logo": "",
+    "language": [
+        "Python"
+    ],
+    "category": [
+        "Machine Learning",
+        "Parameter Estimation",
+        "Stars",
+        "Statistics"
+    ],
+    "keywords": [
+        "gyrochronology",
+        "normalizing flow"
+    ],
+    "description": "An empirical, probabilistic gyrochronology model that can both forward model the evolution of rotation period distributions, and generate posterior age probability distributions for any star.",
+    "link": "https://github.com/philvanlane/chronoflow",
+    "attribution_link": "https://github.com/philvanlane/chronoflow",
+    "zenodo_doi": "10.5281/zenodo.15482094",
+    "custom_citation": "",
+    "dependencies": [
+        "numpy",
+        "Zuko"
+    ]
+},
+"AstroPhot": {
+    "tags": [
+        "Stone2023"
+    ],
+    "logo": "img/AstroPhot.png",
+    "language": [
+        "Python"
+    ],
+    "category": [
+        "Data Handling",
+        "Imaging",
+        "Photometry",
+        "Stars",
+        "Statistics",
+        "Transients"
+    ],
+    "keywords": [
+        "galaxies",
+        "stars",
+        "imaging",
+        "photometry",
+        "PyTorch",
+        "JAX",
+        "multi-band",
+        "multi-epoch"
+    ],
+    "description": "AstroPhot is a fast, flexible, full featured, and differentiable astronomical image modelling tool.",
+    "link": "https://astrophot.readthedocs.io",
+    "attribution_link": "https://astrophot.readthedocs.io/en/latest/citation.html",
+    "zenodo_doi": "10.5281/zenodo.10798979",
+    "custom_citation": "",
+    "dependencies": [
+        "astropy",
+        "matplotlib",
+        "numpy",
+        "python",
+        "scipy"
+    ]
+},
+"ptemcee": {
+    "tags": [
+        "Vousden_2015",
+        "Foreman_Mackey_2013"
+    ],
+    "logo": "",
+    "language": [
+        "Python"
+    ],
+    "category": [
+        "Statistics"
+    ],
+    "keywords": [],
+    "description": "ptemcee, pronounced \"tem-cee\", is fork of Daniel Foreman-Mackey's wonderful emcee to implement parallel tempering more robustly. As far as possible, it is designed as a drop-in replacement for emcee.",
+    "link": "https://github.com/sblunt/ptemcee",
+    "attribution_link": "https://github.com/sblunt/ptemcee#attribution",
+    "zenodo_doi": "10.5281/zenodo.21444130",
+    "custom_citation": "",
+    "dependencies": [
+        "emcee"
+    ]
+},
     "Cloudy": {
         "tags": [
             "1998PASP..110..761F",
@@ -3643,7 +3732,7 @@
         "Shaikh:2023ypz",
         "Shaikh:2025tae"
     ],
-    "logo": "img/gw-eccentricity.png",
+    "logo": "",
     "language": [
         "Python"
     ],
