@@ -392,7 +392,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body" style="font-size: 0.7rem">
-                        <p class="text-muted">Add each feature/option/sub-package name and its corresponding BibTeX. Click <strong>+</strong> to add more entries.</p>
+                        <p class="text-muted">Add each feature/option/sub-package name and either its BibTeX citation(s), a dependency on package(s) already in the citation station, or both. Each feature needs <strong>at least one BibTeX entry or one dependency</strong>. Click <strong>+</strong> to add more entries.</p>
                         <div id="subpackage-entries">
                             <div class="subpackage-entry border rounded p-2 mb-2">
                                 <div class="d-flex justify-content-end mb-1">
@@ -402,14 +402,20 @@
                                     <label class="form-label">Feature/option/sub-package name</label>
                                     <input type="text" class="form-control subpackage-name" placeholder="e.g. numpy.fft" />
                                 </div>
-                                <div class="subpackage-bibtex-group">
+                                <div class="subpackage-deps mb-2">
                                     <div class="d-flex align-items-center mb-1">
-                                        <label class="form-label mb-0 me-2">BibTeX</label>
-                                        <button type="button" class="btn btn-outline-success btn-sm add-bibtex-field" style="font-size: 0.6rem"><i class="fa fa-plus"></i> add another citation for feature</button>
+                                        <label class="form-label mb-0 me-2">Dependencies</label>
+                                        <button type="button" class="btn btn-outline-primary btn-sm select-dependencies" style="font-size: 0.6rem">select</button>
                                     </div>
+                                    <div class="selected-dependencies"></div>
+                                </div>
+                                <div class="subpackage-bibtex-group">
+                                    <label class="form-label mb-1">BibTeX (only new entries - do not enter BibTeX of dependencies)</label>
                                     <textarea class="form-control subpackage-bibtex" rows="3" placeholder="Paste BibTeX here"></textarea>
                                     <div class="bibtex-feedback mb-1" style="font-size: 0.65rem"></div>
+                                    <button type="button" class="btn btn-outline-success btn-sm add-bibtex-field" style="font-size: 0.6rem"><i class="fa fa-plus"></i> add another BibTeX entry for feature</button>
                                 </div>
+                                <div class="feature-requirement-feedback text-danger mt-1" style="font-size: 0.65rem"></div>
                             </div>
                         </div>
                         <button type="button" class="btn btn-outline-primary btn-sm mt-1" id="add-subpackage-entry">
