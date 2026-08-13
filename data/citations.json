@@ -3752,6 +3752,49 @@
     "custom_citation": "",
     "dependencies": []
 },
+"Wolfram|Alpha": {
+    "tags": [
+        "Wolfram|AlphaNotebookEdition"
+    ],
+    "logo": "img/wolfram_alpha.jpeg",
+    "language": [
+        "Wolfram Language"
+    ],
+    "category": [
+        "Computing",
+        "General",
+        "Parameter Estimation",
+        "Statistics"
+    ],
+    "keywords": [],
+    "description": "Wolfram|Alpha is a computational intelligence engine that makes systematic knowledge computable, delivering answers from curated data, algorithms, models and powerful computation across many domains.",
+    "link": "https://www.wolframalpha.com",
+    "attribution_link": "https://support.wolfram.com/472#WolframAlphaNotebookEdition",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": []
+},
+    "Wolfram Mathematica": {
+    "tags": [
+        "Mathematica"
+    ],
+    "logo": "img/wolfram_mathematica.png",
+    "language": [
+        "Wolfram Language"
+    ],
+    "category": [
+        "Computing",
+        "Data Handling",
+        "General"
+    ],
+    "keywords": [],
+    "description": "Wolfram Mathematica is a comprehensive technical computing system for symbolic and numerical calculation, visualization, data analysis, programming, and interactive computational analysis.",
+    "link": "https://www.wolfram.com",
+    "attribution_link": "https://support.wolfram.com/472#Mathematica",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": []
+},
 "OverCite": {
     "tags": [
         "Shariat2026"
