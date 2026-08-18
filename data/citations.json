@@ -3856,6 +3856,31 @@
         "REBOUND"
     ]
 },
+"Wolfram Language": {
+    "tags": [
+        "WolframLanguage"
+    ],
+    "logo": "img/wolfram_language.png",
+    "language": [
+        "Wolfram Language"
+    ],
+    "category": [
+        "Computing",
+        "Data Handling",
+        "Galactic Dynamics",
+        "General",
+        "Machine Learning",
+        "Simulations",
+        "Visualisation"
+    ],
+    "keywords": [],
+    "description": "Wolfram Language is a symbolic language, deliberately designed with the breadth and unity needed to develop powerful programs quickly.",
+    "link": "https://reference.wolfram.com/language/",
+    "attribution_link": "https://www.wolfram.com/language/",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": []
+},
 "Bahamas": {
     "tags": [
         "2025arXiv250622542P"
