@@ -204,20 +204,16 @@
     "doi": "4371936"
   },
   {
-    "version": "v2.2.0.rc2",
-    "doi": "4374926"
-  },
-  {
     "version": "v2.2.0",
     "doi": "4375782"
   },
   {
-    "version": "v2.1.0",
-    "doi": "4359974"
+    "version": "v2.2.0.rc2",
+    "doi": "4374926"
   },
   {
-    "version": "v2.0-beta-1",
-    "doi": "4263171"
+    "version": "v2.1.0",
+    "doi": "4359974"
   },
   {
     "version": "v2.0-beta-4",
@@ -226,6 +222,10 @@
   {
     "version": "v2.0rc1",
     "doi": "4299243"
+  },
+  {
+    "version": "v2.0-beta-1",
+    "doi": "4263171"
   },
   {
     "version": "v2.0-beta-3",
