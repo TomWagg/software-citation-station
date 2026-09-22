@@ -3854,6 +3854,124 @@
         "emcee",
         "h5py",
         "REBOUND"
+    ],
+    "feature_tags": [
+        {
+            "rebound": {
+                "tags": [
+                    "2022RNAAS...6...66C"
+                ],
+                "dependencies": [
+                    "REBOUND"
+                ]
+            }
+        },
+        {
+            "MCMC (one temperature)": {
+                "tags": [],
+                "dependencies": [
+                    "emcee"
+                ]
+            }
+        },
+        {
+            "MCMC (multiple temperatures)": {
+                "tags": [],
+                "dependencies": [
+                    "emcee",
+                    "ptemcee"
+                ]
+            }
+        },
+        {
+            "OFTI": {
+                "tags": [
+                    "2017AJ....153..229B"
+                ],
+                "dependencies": []
+            }
+        },
+        {
+            "dynesty": {
+                "tags": [],
+                "dependencies": [
+                    "dynesty"
+                ]
+            }
+        },
+        {
+            "multinest": {
+                "tags": [],
+                "dependencies": [
+                    "pymultinest"
+                ]
+            }
+        },
+        {
+            "Hipparcos API Module": {
+                "tags": [
+                    "2020AJ....159...71N",
+                    "2007A&A...474..653V"
+                ],
+                "dependencies": []
+            }
+        },
+        {
+            "GaiaLogProb (DR2)": {
+                "tags": [
+                    "2018A&A...616A...1G"
+                ],
+                "dependencies": []
+            }
+        },
+        {
+            "GaiaLogProb (eDR3)": {
+                "tags": [
+                    "2021A&A...649A...1G"
+                ],
+                "dependencies": []
+            }
+        },
+        {
+            "GaiaLogProb (DR3)": {
+                "tags": [
+                    "2023A&A...674A...1G"
+                ],
+                "dependencies": []
+            }
+        },
+        {
+            "HGCA (Gaia eDR3)": {
+                "tags": [
+                    "2021ApJS..254...42B"
+                ],
+                "dependencies": []
+            }
+        },
+        {
+            "HGCA (Gaia DR2)": {
+                "tags": [
+                    "2018ApJS..239...31B"
+                ],
+                "dependencies": []
+            }
+        },
+        {
+            "Joint Photometric Fitting": {
+                "tags": [
+                    "2026RNAAS..10..203M"
+                ],
+                "dependencies": []
+            }
+        },
+        {
+            "XYZ Basis": {
+                "tags": [
+                    "2021RNAAS...5..162F"
+                ],
+                "dependencies": []
+            }
+        }
     ]
 },
 "xTensor": {
