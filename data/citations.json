@@ -4119,6 +4119,66 @@
     "custom_citation": "",
     "dependencies": []
 },
+"SPLAT-VO": {
+    "tags": [
+        "2014A&C.....7..108S"
+    ],
+    "logo": "img/SPLAT-VO.png",
+    "language": [
+        "Java"
+    ],
+    "category": [
+        "Spectra"
+    ],
+    "keywords": [],
+    "description": "A graphical tool for displaying, comparing, modifying and analysing astronomical spectra stored in several file formats. Spectra can be read from local files or retrieved through VO protocols.",
+    "link": "https://www.g-vo.org/pmwiki/About/SPLAT",
+    "attribution_link": "https://starlink.eao.hawaii.edu/starlink",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": [
+        "Starlink"
+    ]
+},
+"CUPID": {
+    "tags": [
+        "2007ASPC..376..425B"
+    ],
+    "logo": "",
+    "language": [
+        "C"
+    ],
+    "category": [
+        "Data Handling"
+    ],
+    "keywords": [],
+    "description": "A package of commands that allows the identification and analysis of clumps of emission within 1, 2 or 3 dimensional data arrays. It is being developed by the East Asian Observatory.",
+    "link": "https://starlink.eao.hawaii.edu/starlink/CUPID",
+    "attribution_link": "https://starlink.eao.hawaii.edu/starlink/CUPID",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": [
+        "Starlink"
+    ],
+    "feature_tags": [
+        {
+            "GaussClumps": {
+                "tags": [
+                    "1990ApJ...356..513S"
+                ],
+                "dependencies": []
+            }
+        },
+        {
+            "FellWalker": {
+                "tags": [
+                    "2015A&C....10...22B"
+                ],
+                "dependencies": []
+            }
+        }
+    ]
+},
 "Starlink": {
     "tags": [
         "2014ASPC..485..391C"
