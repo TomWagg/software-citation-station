@@ -3856,6 +3856,327 @@
         "REBOUND"
     ]
 },
+"xTensor": {
+    "tags": [
+        "doi:10.1142/9789812834300_0192"
+    ],
+    "logo": "",
+    "language": [
+        "Wolfram Language"
+    ],
+    "category": [
+        "Computing",
+        "General",
+        "Library",
+        "Mathematics"
+    ],
+    "keywords": [],
+    "description": "xTensor extends Mathematica capabilities in abstract tensor calculus, specially in General Relativity.",
+    "link": "https://xact.es/xTensor/",
+    "attribution_link": "https://xact.es/xTensor/",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": []
+},
+"cohomolo": {
+    "tags": [
+        "cohomolo"
+    ],
+    "logo": "",
+    "language": [
+        "C",
+        "GAP language"
+    ],
+    "category": [
+        "Mathematics"
+    ],
+    "keywords": [],
+    "description": "The cohomolo package may be used to perform certain cohomological calculations on a finite permutation group.",
+    "link": "https://gap-packages.github.io/cohomolo/",
+    "attribution_link": "https://gap-packages.github.io/cohomolo/",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": []
+},
+"dynesty": {
+    "tags": [
+        "2020MNRAS.493.3132S",
+        "2004AIPC..735..395S",
+        "article"
+    ],
+    "logo": "img/dynesty.png",
+    "language": [
+        "Python"
+    ],
+    "category": [
+        "Sampling"
+    ],
+    "keywords": [],
+    "description": "A Pure Python, MIT-licensed Dynamic Nested Sampling package for estimating Bayesian posteriors and evidences.",
+    "link": "https://dynesty.readthedocs.io/en/latest/index.html",
+    "attribution_link": "https://dynesty.readthedocs.io/en/latest/references.html",
+    "zenodo_doi": "10.5281/zenodo.3348367",
+    "custom_citation": "",
+    "dependencies": [],
+    "feature_tags": [
+        {
+            "DynamicNestedSampler": {
+                "tags": [
+                    "2019S&C....29..891H"
+                ],
+                "dependencies": []
+            }
+        },
+        {
+            "Single ellipsoid bound": {
+                "tags": [
+                    "2006ApJ...638L..51M"
+                ],
+                "dependencies": []
+            }
+        },
+        {
+            "Multiple ellipsoid bounds": {
+                "tags": [
+                    "2009MNRAS.398.1601F"
+                ],
+                "dependencies": []
+            }
+        },
+        {
+            "Overlapping balls/cubes": {
+                "tags": [
+                    "2016S&C....26..383B",
+                    "2019PASP..131j8005B"
+                ],
+                "dependencies": []
+            }
+        },
+        {
+            "Multivariate/Random slice sampling": {
+                "tags": [
+                    "10.1214/aos/1056562461",
+                    "2015MNRAS.450L..61H",
+                    "2015MNRAS.453.4384H"
+                ],
+                "dependencies": []
+            }
+        },
+        {
+            "Hamiltonian/Reflective slice sampling": {
+                "tags": [
+                    "10.1214/aos/1056562461",
+                    "skilling_bayesian_2012",
+                    "2013AIPC.1553..106F",
+                    "2020MNRAS.493.3132S"
+                ],
+                "dependencies": []
+            }
+        },
+        {
+            "Nested Sampling Errors": {
+                "tags": [
+                    "2008arXiv0801.3887C",
+                    "10.1214/17-BA1075",
+                    "2020MNRAS.493.3132S"
+                ],
+                "dependencies": []
+            }
+        }
+    ]
+},
+"PyCBC": {
+    "tags": [],
+    "logo": "img/PyCBC.png",
+    "language": [
+        "Python"
+    ],
+    "category": [
+        "Gravitational Waves"
+    ],
+    "keywords": [],
+    "description": "A software package used to explore astrophysical sources of gravitational waves. It contains algorithms that can detect coalescing compact binaries and measure the astrophysical parameters of sources.",
+    "link": "https://pycbc.org/",
+    "attribution_link": "https://pycbc.org/pycbc/latest/html/credit.html",
+    "zenodo_doi": "10.5281/zenodo.596388",
+    "custom_citation": "",
+    "dependencies": [],
+    "feature_tags": [
+        {
+            "Bayesian inference modules": {
+                "tags": [
+                    "2019PASP..131b4503B"
+                ],
+                "dependencies": []
+            }
+        },
+        {
+            "PyCBC search algorithm": {
+                "tags": [
+                    "2012PhRvD..85l2006A",
+                    "2005PhRvD..71f2001A",
+                    "2017ApJ...849..118N",
+                    "2014PhRvD..90h2004D"
+                ],
+                "dependencies": []
+            }
+        },
+        {
+            "Offline PyCBC search pipeline": {
+                "tags": [
+                    "2016CQGra..33u5004U"
+                ],
+                "dependencies": []
+            }
+        },
+        {
+            "PyCBC Live": {
+                "tags": [
+                    "2018PhRvD..98b4050N",
+                    "2021ApJ...923..254D"
+                ],
+                "dependencies": []
+            }
+        }
+    ]
+},
+"NEMO": {
+    "tags": [
+        "1995ASPC...77..398T"
+    ],
+    "logo": "img/NEMO.gif",
+    "language": [
+        "C",
+        "C++",
+        "Fortran"
+    ],
+    "category": [
+        "N-body"
+    ],
+    "keywords": [],
+    "description": "NEMO is an extendible Stellar Dynamics Toolbox, following an Open-Source Software model. It has various programs to create, integrate, analyze and visualize N-body and SPH like systems.",
+    "link": "https://teuben.github.io/nemo/",
+    "attribution_link": "https://teuben.github.io/nemo/",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": []
+},
+"CLASS": {
+    "tags": [
+        "2011JCAP...07..034B"
+    ],
+    "logo": "",
+    "language": [
+        "C"
+    ],
+    "category": [
+        "Simulations",
+        "Cosmology"
+    ],
+    "keywords": [],
+    "description": "Public repository of the Cosmic Linear Anisotropy Solving System.",
+    "link": "http://class-code.net/",
+    "attribution_link": "http://class-code.net/",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": []
+},
+"Miriad": {
+    "tags": [
+        "1995ASPC...77..433S"
+    ],
+    "logo": "img/Miriad.gif",
+    "language": [
+        "Fortran"
+    ],
+    "category": [
+        "Radio Astronomy"
+    ],
+    "keywords": [],
+    "description": "A radio interferometry data reduction package of particular interest to users of the Australia Telescope Compact Array (ATCA).",
+    "link": "https://www.atnf.csiro.au/computing/software/miriad/",
+    "attribution_link": "https://www.atnf.csiro.au/computing/software/miriad/",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": []
+},
+"LiE": {
+    "tags": [
+        "21d6e40eeb0c491e862bd3bd3efa136f"
+    ],
+    "logo": "",
+    "language": [
+        "C"
+    ],
+    "category": [
+        "Mathematics"
+    ],
+    "keywords": [],
+    "description": "A software package that enables mathematicians and physicists to perform computations of a Lie group theoretic nature.",
+    "link": "https://doc.sagemath.org/html/en/reference/spkg/lie.html",
+    "attribution_link": "https://doc.sagemath.org/html/en/reference/spkg/lie.html",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": []
+},
+"Starlink": {
+    "tags": [
+        "2014ASPC..485..391C"
+    ],
+    "logo": "img/Starlink.png",
+    "language": [
+        "C",
+        "Fortran"
+    ],
+    "category": [
+        "Data Handling"
+    ],
+    "keywords": [],
+    "description": "The Starlink Project was a long running UK Project supporting astronomical data processing, and is now maintained by the East Asian Observatory. The code is open source.",
+    "link": "https://starlink.eao.hawaii.edu/starlink",
+    "attribution_link": "https://starlink.eao.hawaii.edu/starlink",
+    "zenodo_doi": "",
+    "custom_citation": "The \\texttt{Starlink} software \\citep{2014ASPC..485..391C} is currently supported by the East Asian Observatory.",
+    "dependencies": []
+},
+"STILTS": {
+    "tags": [
+        "2006ASPC..351..666T"
+    ],
+    "logo": "img/STILTS.png",
+    "language": [
+        "Java"
+    ],
+    "category": [
+        "Data Handling"
+    ],
+    "keywords": [],
+    "description": "A set of command-line tools based on STIL, the Starlink Tables Infrastructure Library. It deals with the processing of tabular data. STILTS is the command-line counterpart of TOPCAT.",
+    "link": "https://www.star.bris.ac.uk/~mbt/stilts/",
+    "attribution_link": "https://www.star.bris.ac.uk/~mbt/stilts/",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": []
+},
+"MATLAB": {
+    "tags": [
+        "MATLAB"
+    ],
+    "logo": "img/MATLAB.png",
+    "language": [
+        "MATLAB"
+    ],
+    "category": [
+        "General"
+    ],
+    "keywords": [],
+    "description": "MATLAB, the language of engineers and scientists, is a programming and numeric computation environment for algorithm development, data analysis, and visualization.",
+    "link": "https://uk.mathworks.com/help/matlab/index.html",
+    "attribution_link": "https://uk.mathworks.com/matlabcentral/answers/414438-how-do-i-cite-matlab-in-a-bibliography-or-a-published-journal",
+    "zenodo_doi": "",
+    "custom_citation": "This work made use of MATLAB \\citep{MATLAB}\\footnote{TODO: Update MATLAB Bibtex entry with version used}.",
+    "dependencies": []
+},
 "Wolfram Language": {
     "tags": [
         "WolframLanguage"
