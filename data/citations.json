@@ -3819,6 +3819,25 @@
         "ADS"
     ]
 },
+"VisIt": {
+    "tags": [
+        "Childs_High_Performance_Visualization--Enabling_2012"
+    ],
+    "logo": "",
+    "language": [
+        "C"
+    ],
+    "category": [
+        "Visualisation"
+    ],
+    "keywords": [],
+    "description": "VisIt is an Open Source, interactive, scalable, visualization, animation and analysis tool.",
+    "link": "https://visit-sphinx-github-user-manual.readthedocs.io/en/develop/",
+    "attribution_link": "https://github.com/visit-dav/visit#",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": []
+},
 "orbitize!": {
     "tags": [
         "2024JOSS....9.6756B",
