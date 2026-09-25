@@ -3819,6 +3819,44 @@
         "ADS"
     ]
 },
+"HBT-HERONS": {
+    "tags": [
+        "2025MNRAS.543.1339F"
+    ],
+    "logo": "",
+    "language": [
+        "C++"
+    ],
+    "category": [
+        "N-body"
+    ],
+    "keywords": [],
+    "description": "History-based subhalo finder for dark-matter-only and hydrodynamical simulations.",
+    "link": "https://hbt-herons.strw.leidenuniv.nl/",
+    "attribution_link": "https://hbt-herons.strw.leidenuniv.nl/#citing-hbt-herons",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": []
+},
+"SOAP": {
+    "tags": [
+        "2025JOSS...10.8252M"
+    ],
+    "logo": "",
+    "language": [
+        "Python"
+    ],
+    "category": [
+        "N-body"
+    ],
+    "keywords": [],
+    "description": "MPI parallel Python code to compute properties of halos in N-body simulations",
+    "link": "https://github.com/SWIFTSIM/SOAP",
+    "attribution_link": "https://github.com/SWIFTSIM/SOAP",
+    "zenodo_doi": "",
+    "custom_citation": "",
+    "dependencies": []
+},
 "VisIt": {
     "tags": [
         "Childs_High_Performance_Visualization--Enabling_2012"
