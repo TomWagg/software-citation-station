@@ -4465,5 +4465,38 @@
         "JAX",
         "numpyro"
     ]
-}
+},
+    "McFACTS": {
+        "tags": [
+            "McFACTS_I",
+            "McFACTS_II",
+            "McFACTS_III",
+            "McFACTS_IV"
+        ],
+        "logo": "img/McFACTS.png",
+        "language": [
+            "Python"
+        ],
+        "category": [
+            "Gravitational Waves",
+            "Population Synthesis"
+        ],
+        "keywords": [
+            "AGN"
+        ],
+        "description": "A Python package that does the AGN channel for you!",
+        "link": "https://mcfacts.readthedocs.io/en/latest/",
+        "attribution_link": "https://mcfacts.readthedocs.io/en/latest/cite.html",
+        "zenodo_doi": "",
+        "custom_citation": "",
+        "dependencies": [
+            "astropy",
+            "matplotlib",
+            "numpy",
+            "pandas",
+            "python",
+            "scipy",
+            "scikit-learn"
+        ]
+    }
 }
